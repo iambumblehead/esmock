@@ -1,0 +1,36 @@
+{
+  "name": "esmock",
+  "version": "0.0.1",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "description": "esmock",
+  "author": "Chris <chris@bumblehead.com>",
+  "main": "src/esmock.js",
+  "module": "src/esmock.js",
+  "files": [
+    "src/esmock.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "keywords": [
+    "esmock"
+  ],
+  "devDependencies": {
+    "ava": "^3.15.0",
+    "esm": "^3.2.25",
+    "eslint": "^7.17.0",
+    "form-urlencoded": "^4.2.1"
+  },
+  "ava": {
+    "timeout": "2m",
+    "require": [
+      "esm"
+    ]
+  },
+  "scripts": {
+    "test": "ava",
+    "lint": "eslint src/*js spec/*js"
+  }
+}
