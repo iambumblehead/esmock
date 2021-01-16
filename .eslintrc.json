@@ -3,6 +3,7 @@
   "env": {
     "node": true
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 6,
@@ -11,6 +12,11 @@
   "globals": {
   },
   "rules": {
+    "no-unused-vars": [ "error", {
+      "vars": "all",
+      "args": "after-used",
+      "ignoreRestSiblings": false
+    }],
     "global-require": 0,
     "no-sequences": 0,
     "strict": [2, "never"],
