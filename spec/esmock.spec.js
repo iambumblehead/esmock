@@ -89,3 +89,19 @@ test('should mock module and local file at the same time', async t => {
     mainUtilNamedExportTwoValue : 'namedExportTwo'
   }));
 });
+
+test('should remove mock __esModule definition, no runtime error', async t => {
+  const main = await esmock('./local/main.js', {
+    'form-urlencoded' : o => JSON.stringify(o),
+    './local/mainUtilNamedExports.js' : {
+      mainUtilNamedExportOne : () => 'foobar',
+      __esModule : true
+    }
+  });
+
+  t.is(main(), 'main string, ' + JSON.stringify({
+    mainUtil : 'a string',
+    mainUtilNamedExportOneValue : 'foobar',
+    mainUtilNamedExportTwoValue : 'namedExportTwo'
+  }));
+});

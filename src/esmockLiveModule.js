@@ -25,7 +25,9 @@ const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
   const liveModuleDetachedKeys = Object.keys(liveModuleDetached);
   const liveModuleDetachedIsDefault = 'default' in liveModuleDetached;
 
-  delete mockDef.__esModule;
+  if ('__esModule' in mockDef)
+    delete mockDef.__esModule;
+
   liveModuleInst = Object.assign(liveModuleInst, liveModuleDetached, mockDef, {
     ['default'] : null
   });
