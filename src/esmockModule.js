@@ -71,7 +71,8 @@ module._load = (path, context, ...args) => {
   const mockModuleId = mockId + mockModulePathFull;
   const mockModuleDef = esmockCache[mockModuleId];
 
-  delete module._cache[mockModulePathFull];
+  if (mockId)
+    delete module._cache[mockModulePathFull];
 
   const liveModule = esmockModuleLoadNative(path, context, ...args);
     

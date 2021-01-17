@@ -1,6 +1,9 @@
 import test from 'ava';
-import { stub } from 'sinon';
 import esmock from '../src/esmock.js';
+
+// LOAD SINON AFTER ESMOCK TO VERIFY SINON CIRCULAR DEPENDENCY
+// NOT BROKEN BY ESMOCK MODULE._CACHE BEHAVIOUR
+import { stub } from 'sinon';
 
 test('should return un-mocked file', async t => {
   const main = await esmock('./local/main.js');
