@@ -1,4 +1,5 @@
 import test from 'ava';
+import { stub } from 'sinon';
 import esmock from '../src/esmock.js';
 
 test('should return un-mocked file', async t => {
@@ -32,7 +33,7 @@ test('should mock a module', async t => {
   t.is(main(), 'main string, mock encode');
 });
 
-test('should mock a module, twice differently', async t => {
+test('should mock a module, many times differently', async t => {
   const mainfoo = await esmock('./local/main.js', {
     'form-urlencoded' : () => 'mock encode foo'
   });
@@ -104,4 +105,16 @@ test('should remove mock __esModule definition, no runtime error', async t => {
     mainUtilNamedExportOneValue : 'foobar',
     mainUtilNamedExportTwoValue : 'namedExportTwo'
   }));
+});
+
+test('should work well with sinon', async t => {
+  const main = await esmock('./local/main.js', {
+    mainUtilNamedExportOne : stub().returns('foobar')
+  });
+
+  t.is(main(), 'main string, ' + [
+    'mainUtil=a+string',
+    'mainUtilNamedExportOneValue=namedExportOne',
+    'mainUtilNamedExportTwoValue=namedExportTwo'
+  ].join('&'));
 });

@@ -25,7 +25,8 @@
     "esm": "^3.2.25",
     "eslint": "^7.17.0",
     "form-urlencoded": "^4.2.1",
-    "babel-eslint": "^10.1.0"
+    "babel-eslint": "^10.1.0",
+    "sinon": "^9.2.0"
   },
   "ava": {
     "timeout": "2m",
