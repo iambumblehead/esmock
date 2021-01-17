@@ -16,7 +16,12 @@ const esmockPathCallee = () => {
   return stackmatch && stackmatch[1];
 };
 
+// not 'core' module or a 'node_module'
+const esmockPathFullIsLocalModule = pathFull => (
+  /[/.]/.test(pathFull) && !/\/node_modules\//.test(pathFull));
+
 export {
   esmockPathDir,
-  esmockPathCallee
+  esmockPathCallee,
+  esmockPathFullIsLocalModule
 };

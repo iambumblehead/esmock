@@ -2,7 +2,8 @@ import module from 'module';
 import resolvewith from 'resolvewithplus';
 
 import {
-  esmockPathCallee
+  esmockPathCallee,
+  esmockPathFullIsLocalModule
 } from './esmockPath.js';
 
 import {
@@ -70,14 +71,19 @@ module._load = (path, context, ...args) => {
   const mockModulePathFull = resolvewith(path, context.filename);
   const mockModuleId = mockId + mockModulePathFull;
   const mockModuleDef = esmockCache[mockModuleId];
+  const detachedModuleDef = esmockLiveModuleGetDetached(mockModulePathFull);
 
-  if (mockId)
+  // all local modules are reloaded everytime to clear any
+  // stale mock data. 'core' modules and 'node_modules' are only
+  // cleared if they are to be or have been mocked
+  if (mockId && (esmockPathFullIsLocalModule(mockModulePathFull)
+                 || (mockModuleDef || detachedModuleDef)))
     delete module._cache[mockModulePathFull];
 
   const liveModule = esmockModuleLoadNative(path, context, ...args);
     
   if (mockModuleDef) {
-    const liveModuleDetached = esmockLiveModuleGetDetached(mockModulePathFull)
+    const liveModuleDetached = detachedModuleDef
           || esmockLiveModuleSetDetached(mockModulePathFull, liveModule);
 
     const mockModule = esmockLiveModuleApply(
