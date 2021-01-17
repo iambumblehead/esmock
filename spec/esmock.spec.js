@@ -3,6 +3,7 @@ import esmock from '../src/esmock.js';
 
 // LOAD SINON AFTER ESMOCK TO VERIFY SINON CIRCULAR DEPENDENCY
 // NOT BROKEN BY ESMOCK MODULE._CACHE BEHAVIOUR
+// eslint-disable-next-line import/order
 import { stub } from 'sinon';
 
 test('should return un-mocked file', async t => {
@@ -22,7 +23,7 @@ test('should mock a local file', async t => {
       createString : () => 'test string'
     }
   });
-  
+
   t.is(typeof main, 'function');
   t.is(main(), 'main string, test string');
 });
@@ -31,7 +32,7 @@ test('should mock a module', async t => {
   const main = await esmock('./local/main.js', {
     'form-urlencoded' : () => 'mock encode'
   });
-  
+
   t.is(typeof main, 'function');
   t.is(main(), 'main string, mock encode');
 });
@@ -46,7 +47,7 @@ test('should mock a module, many times differently', async t => {
   const mainbaz = await esmock('./local/main.js', {
     'form-urlencoded' : () => 'mock encode baz'
   });
-  
+
   t.is(typeof mainfoo, 'function');
   t.is(mainfoo(), 'main string, mock encode foo');
   t.is(mainbar(), 'main string, mock encode bar');

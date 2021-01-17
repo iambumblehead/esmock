@@ -2,8 +2,6 @@ const isPlainObject = o => Boolean(
   Object.prototype.toString.call(o) === '[object Object]'
     && o.constructor && o.constructor.name === 'Object');
 
-const esmockLiveModuleStore = {};
-
 const esmockLiveModuleDetached = liveModuleInst => {
   const liveModuleIsDefault = 'default' in liveModuleInst;
   const detachedModule = Object.assign({}, liveModuleInst);
@@ -28,9 +26,15 @@ const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
   if ('__esModule' in mockDef)
     delete mockDef.__esModule;
 
-  liveModuleInst = Object.assign(liveModuleInst, liveModuleDetached, mockDef, {
-    ['default'] : null
-  });
+  // redefine rather than mutate values on liveModuleInst
+  liveModuleInst = Object.keys(liveModuleInst).reduce((inst, key) => {
+    inst[key] = null;
+    inst[key] = key in mockDef
+      ? mockDef[key]
+      : liveModuleDetached[key];
+
+    return inst;
+  }, liveModuleInst);
 
   if (!liveModuleDetachedIsDefault)
     return liveModuleInst;
@@ -50,7 +54,8 @@ const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
   // if live module default and mockdef are both object
   // copy mockdef onto default if corresponding values found there
   if (Object.keys(mockDef).every(key => key in liveModuleDetached.default)) {
-    liveModuleInst.default = Object.assign(liveModuleDetached.default, mockDef);
+    liveModuleInst.default = Object.assign(
+      {}, liveModuleDetached.default, mockDef);
 
     return liveModuleInst;
   }
@@ -58,20 +63,7 @@ const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
   return liveModuleInst;
 };
 
-const esmockLiveModuleSetDetached = (liveModulePath, liveModuleInst) => {
-  const detachedModule = esmockLiveModuleDetached(liveModuleInst);
-
-  esmockLiveModuleStore[liveModulePath] = detachedModule;
-
-  return detachedModule;
-};
-
-const esmockLiveModuleGetDetached = liveModulePath => {
-  return esmockLiveModuleStore[liveModulePath];
-};
-
 export {
-  esmockLiveModuleSetDetached,
-  esmockLiveModuleGetDetached,
+  esmockLiveModuleDetached,
   esmockLiveModuleApply
 };

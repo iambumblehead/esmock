@@ -1,13 +1,16 @@
 import {
   esmockAddMocked,
-  esmockImportedModuleSanitize
+  esmockImportedModuleSanitize,
+  esmockCacheActivePurge
 } from './esmockModule.js';
 
 const esmock = async (modulePath, mockDefs = {}) => {
   const modulePathKey = esmockAddMocked(modulePath, mockDefs);
-  const [ importedModule ] = await Promise.all([
-    import(modulePathKey)
-  ]);
+
+  // if any modules exist in module._cache when import occurs,
+  // they are returned regardless of what occurs in module._load
+  esmockCacheActivePurge();
+  const importedModule = await Promise.resolve(import(modulePathKey));
 
   return esmockImportedModuleSanitize(importedModule);
 };
