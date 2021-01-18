@@ -1,3 +1,8 @@
+import module from 'module';
+import { esmockPathDir } from './esmockPath.js';
+
+const esmockModuleLoadNative = module._load;
+
 const isPlainObject = o => Boolean(
   Object.prototype.toString.call(o) === '[object Object]'
     && o.constructor && o.constructor.name === 'Object');
@@ -19,7 +24,8 @@ const esmockLiveModuleDetached = liveModuleInst => {
 
 // tries to handle es6's 'default' boilerplate seamlessly
 // no fail proof solution for doing this -- :)
-const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
+// eslint-disable-next-line max-len
+const esmockLiveModuleApplySoft = (liveModuleInst, liveModuleDetached, mockDef) => {
   const liveModuleDetachedKeys = Object.keys(liveModuleDetached);
   const liveModuleDetachedIsDefault = 'default' in liveModuleDetached;
 
@@ -63,7 +69,22 @@ const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
   return liveModuleInst;
 };
 
+const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
+  try {
+    return esmockLiveModuleApplySoft(
+      liveModuleInst, liveModuleDetached, mockDef);
+  } catch (e) {
+    const dummyPath = `${esmockPathDir}/esmockDummy.js`;
+    const dummyInst = esmockModuleLoadNative(dummyPath);
+
+    delete module._cache[dummyInst];
+    return esmockLiveModuleApplySoft(
+      dummyInst, liveModuleDetached, mockDef);
+  }
+};
+
 export {
   esmockLiveModuleDetached,
+  esmockLiveModuleApplySoft,
   esmockLiveModuleApply
 };

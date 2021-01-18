@@ -96,7 +96,7 @@ module._load = (path, context, ...args) => {
             mockModulePathFull, esmockLiveModuleDetached(liveModule));
 
     const mockModule = esmockLiveModuleApply(
-      liveModule, liveModuleDetached, mockModuleDef, mockModulePathFull);
+      liveModule, liveModuleDetached, mockModuleDef);
 
     return mockModule;
   }
