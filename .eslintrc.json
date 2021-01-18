@@ -34,6 +34,7 @@
       }
     }],
     "camelcase": [2, {"properties": "never"}],
+    "no-underscore-dangle": 0,
     "func-names": [2, "never"],
     "newline-per-chained-call": 0,
     "max-len": [2, 80],
@@ -48,6 +49,7 @@
     "consistent-return": 0,
     "array-callback-return": 0,
     "prefer-const": 0,
+    "prefer-object-spread": 0,
     "curly": 0,
     "operator-linebreak": 0,
     "no-param-reassign": 0,

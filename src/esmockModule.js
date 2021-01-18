@@ -7,12 +7,16 @@ import {
 } from './esmockPath.js';
 
 import {
-  esmockLiveModuleSetDetached,
-  esmockLiveModuleGetDetached,
-  esmockLiveModuleApply
+  esmockLiveModuleApply,
+  esmockLiveModuleDetached
 } from './esmockLiveModule.js';
 
-const esmockCache = {};
+import {
+  esmockCache,
+  esmockCacheActiveSet,
+  esmockCacheLiveModuleDetachedSet,
+  esmockCacheLiveModuleDetachedGet
+} from './esmockCache.js';
 
 // return 'default' value with named exports alongside, because
 // esmock callee cannot do this: `filedefault as esmock('./file.js');`
@@ -41,7 +45,7 @@ const esmockAddMocked = (modulePath, mockDefs) => {
 
   Object.keys(mockDefs).reduce((cache, key) => {
     const mockedPathFull = resolvewith(key, calleePath);
-    
+
     cache[esmockCacheKey] = cache[esmockCacheKey] || [];
     cache[esmockCacheKey].push(mockedPathFull);
     cache[esmockCacheKey + mockedPathFull] = mockDefs[key];
@@ -71,20 +75,25 @@ module._load = (path, context, ...args) => {
   const mockModulePathFull = resolvewith(path, context.filename);
   const mockModuleId = mockId + mockModulePathFull;
   const mockModuleDef = esmockCache[mockModuleId];
-  const detachedModuleDef = esmockLiveModuleGetDetached(mockModulePathFull);
+  const detachedModuleDef = esmockCacheLiveModuleDetachedGet(
+    mockModulePathFull);
 
   // all local modules are reloaded everytime to clear any
   // stale mock data. 'core' modules and 'node_modules' are only
   // cleared if they are to be or have been mocked
   if (mockId && (esmockPathFullIsLocalModule(mockModulePathFull)
-                 || (mockModuleDef || detachedModuleDef)))
+                 || (mockModuleDef || detachedModuleDef))) {
     delete module._cache[mockModulePathFull];
+  }
 
   const liveModule = esmockModuleLoadNative(path, context, ...args);
-    
+
   if (mockModuleDef) {
+    esmockCacheActiveSet(mockModulePathFull);
+
     const liveModuleDetached = detachedModuleDef
-          || esmockLiveModuleSetDetached(mockModulePathFull, liveModule);
+          || esmockCacheLiveModuleDetachedSet(
+            mockModulePathFull, esmockLiveModuleDetached(liveModule));
 
     const mockModule = esmockLiveModuleApply(
       liveModule, liveModuleDetached, mockModuleDef, mockModulePathFull);
@@ -100,4 +109,4 @@ export {
   esmockNextKey,
   esmockAddMocked,
   esmockImportedModuleSanitize
-}
+};
