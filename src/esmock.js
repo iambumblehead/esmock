@@ -1,8 +1,11 @@
 import {
   esmockAddMocked,
   esmockImportedModuleSanitize,
-  esmockCacheActivePurge
 } from './esmockModule.js';
+
+import {
+  esmockCacheActivePurge
+} from './esmockCache.js';
 
 const esmock = async (modulePath, mockDefs = {}) => {
   const modulePathKey = esmockAddMocked(modulePath, mockDefs);
