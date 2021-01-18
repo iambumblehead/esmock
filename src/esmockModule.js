@@ -13,7 +13,6 @@ import {
 
 import {
   esmockCache,
-  esmockCacheActivePurge,
   esmockCacheActiveSet,
   esmockCacheLiveModuleDetachedSet,
   esmockCacheLiveModuleDetachedGet
@@ -83,8 +82,9 @@ module._load = (path, context, ...args) => {
   // stale mock data. 'core' modules and 'node_modules' are only
   // cleared if they are to be or have been mocked
   if (mockId && (esmockPathFullIsLocalModule(mockModulePathFull)
-                 || (mockModuleDef || detachedModuleDef)))
+                 || (mockModuleDef || detachedModuleDef))) {
     delete module._cache[mockModulePathFull];
+  }
 
   const liveModule = esmockModuleLoadNative(path, context, ...args);
 
@@ -108,6 +108,5 @@ export {
   esmockCache,
   esmockNextKey,
   esmockAddMocked,
-  esmockImportedModuleSanitize,
-  esmockCacheActivePurge
+  esmockImportedModuleSanitize
 };
