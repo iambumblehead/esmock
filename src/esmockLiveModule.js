@@ -73,18 +73,23 @@ const esmockLiveModuleApplySoft = (liveModuleInst, liveModuleDetached, mockDef) 
   return liveModuleInst;
 };
 
-const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
-  // try {
-  //   return esmockLiveModuleApplySoft(
-  //     liveModuleInst, liveModuleDetached, mockDef);
-  // } catch (e) {
+// eslint-disable-next-line max-len
+const esmockLiveModuleApplyESM = (liveModuleInst, liveModuleDetached, mockDef) => {
   const dummyPath = `${esmockPathDir}/esmockDummy.js`;
   esmockCachePurge(dummyPath);
   const dummyInst = esmockModuleLoadNative(dummyPath);
-  const fin = esmockLiveModuleApplySoft(
+  return esmockLiveModuleApplySoft(
     dummyInst, liveModuleDetached, mockDef);
+};
 
-  return fin;
+const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
+  try {
+    return esmockLiveModuleApplySoft(
+      liveModuleInst, liveModuleDetached, mockDef);
+  } catch (e) {
+    return esmockLiveModuleApplyESM(
+      liveModuleInst, liveModuleDetached, mockDef);
+  }
 };
 
 export {
