@@ -1,3 +1,5 @@
+import { Mutex } from 'async-mutex';
+
 import {
   esmockAddMocked,
   esmockImportedModuleSanitize,
@@ -8,16 +10,25 @@ import {
   esmockCacheActivePurge
 } from './esmockCache.js';
 
+const mutex = new Mutex();
+
 const esmock = async (modulePath, mockDefs = {}) => {
   const modulePathKey = esmockAddMocked(
     modulePath, mockDefs, esmockCachePurge);
 
-  // if any modules exist in module._cache when import occurs,
-  // they are returned regardless of what occurs in module._load
-  esmockCacheActivePurge();
-  const importedModule = await import(modulePathKey);
+  return await mutex.runExclusive(async () => {
+    // if any modules exist in module._cache when import occurs,
+    // they are returned regardless of what occurs in module._load
+    esmockCacheActivePurge();
+    const importedModule = await import(modulePathKey);
 
-  return esmockImportedModuleSanitize(importedModule);
+    const esm = esmockImportedModuleSanitize(importedModule);
+
+    // re-obtain reference to the object
+    // delete it from module before garbage collected
+
+    return esm;
+  });
 };
 
 export default esmock;
