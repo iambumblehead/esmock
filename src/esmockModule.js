@@ -2,7 +2,6 @@ import module from 'module';
 import resolvewith from 'resolvewithplus';
 
 import {
-  esmockPathCallee,
   esmockPathFullIsLocalModule
 } from './esmockPath.js';
 
@@ -36,8 +35,7 @@ const esmockImportedModuleSanitize = importedModule => {
 
 const esmockNextKey = ((key = 0) => () => ++key)();
 
-const esmockAddMocked = (modulePath, mockDefs, fn) => {
-  const calleePath = esmockPathCallee();
+const esmockAddMocked = (calleePath, modulePath, mockDefs, fn) => {
   const modulePathFull = resolvewith(modulePath, calleePath);
   const esmockCacheKey = 'file://:rootmodulepath?key=:key'
     .replace(/:rootmodulepath/, modulePathFull)
