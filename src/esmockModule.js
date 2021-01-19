@@ -36,7 +36,7 @@ const esmockImportedModuleSanitize = importedModule => {
 
 const esmockNextKey = ((key = 0) => () => ++key)();
 
-const esmockAddMocked = (modulePath, mockDefs) => {
+const esmockAddMocked = (modulePath, mockDefs, fn) => {
   const calleePath = esmockPathCallee();
   const modulePathFull = resolvewith(modulePath, calleePath);
   const esmockCacheKey = 'file://:rootmodulepath?key=:key'
@@ -49,6 +49,8 @@ const esmockAddMocked = (modulePath, mockDefs) => {
     cache[esmockCacheKey] = cache[esmockCacheKey] || [];
     cache[esmockCacheKey].push(mockedPathFull);
     cache[esmockCacheKey + mockedPathFull] = mockDefs[key];
+
+    if (typeof fn === 'function') fn(mockedPathFull);
 
     return cache;
   }, esmockCache);

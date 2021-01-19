@@ -5,10 +5,13 @@ const esmockCache = {
   liveModuleDetached : {}
 };
 
+const esmockCachePurge = pathKey => {
+  delete module._cache[pathKey];
+};
+
 const esmockCacheActivePurge = () => {
-  Object.keys(esmockCache.activeModuleIds).forEach(esmockCacheKey => {
-    delete module._cache[esmockCacheKey];
-  });
+  Object.keys(esmockCache.activeModuleIds)
+    .forEach(esmockCachePurge);
 
   esmockCache.activeModuleIds = {};
 };
@@ -27,6 +30,7 @@ const esmockCacheLiveModuleDetachedGet = liveModulePath => (
 
 export {
   esmockCache,
+  esmockCachePurge,
   esmockCacheActivePurge,
   esmockCacheActiveSet,
   esmockCacheLiveModuleDetachedSet,

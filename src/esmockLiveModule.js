@@ -1,5 +1,6 @@
 import module from 'module';
 import { esmockPathDir } from './esmockPath.js';
+import { esmockCachePurge } from './esmockCache.js';
 
 const esmockModuleLoadNative = module._load;
 
@@ -33,7 +34,10 @@ const esmockLiveModuleApplySoft = (liveModuleInst, liveModuleDetached, mockDef) 
     delete mockDef.__esModule;
 
   // redefine rather than mutate values on liveModuleInst
-  liveModuleInst = Object.keys(liveModuleInst).reduce((inst, key) => {
+  liveModuleInst = Object.keys({
+    ...liveModuleInst,
+    ...liveModuleDetached
+  }).reduce((inst, key) => {
     inst[key] = null;
     inst[key] = key in mockDef
       ? mockDef[key]
@@ -70,17 +74,17 @@ const esmockLiveModuleApplySoft = (liveModuleInst, liveModuleDetached, mockDef) 
 };
 
 const esmockLiveModuleApply = (liveModuleInst, liveModuleDetached, mockDef) => {
-  try {
-    return esmockLiveModuleApplySoft(
-      liveModuleInst, liveModuleDetached, mockDef);
-  } catch (e) {
-    const dummyPath = `${esmockPathDir}/esmockDummy.js`;
-    const dummyInst = esmockModuleLoadNative(dummyPath);
+  // try {
+  //   return esmockLiveModuleApplySoft(
+  //     liveModuleInst, liveModuleDetached, mockDef);
+  // } catch (e) {
+  const dummyPath = `${esmockPathDir}/esmockDummy.js`;
+  esmockCachePurge(dummyPath);
+  const dummyInst = esmockModuleLoadNative(dummyPath);
+  const fin = esmockLiveModuleApplySoft(
+    dummyInst, liveModuleDetached, mockDef);
 
-    delete module._cache[dummyInst];
-    return esmockLiveModuleApplySoft(
-      dummyInst, liveModuleDetached, mockDef);
-  }
+  return fin;
 };
 
 export {
