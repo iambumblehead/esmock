@@ -1,12 +1,12 @@
 import { Mutex } from 'async-mutex';
 
 import {
-  esmockPathCallee,
+  esmockPathCallee
 } from './esmockPath.js';
 
 import {
   esmockAddMocked,
-  esmockImportedModuleSanitize,
+  esmockImportedModuleSanitize
 } from './esmockModule.js';
 
 import {
