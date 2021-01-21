@@ -13,6 +13,7 @@ import {
 import {
   esmockCache,
   esmockCacheActiveSet,
+  esmockCacheIsFullPathMocked,
   esmockCacheMockDefinitionSet,
   esmockCacheMockDefinitionGet,
   esmockCacheLiveModuleDetachedSet,
@@ -77,7 +78,7 @@ const esmockModuleContextFindMockId = (context, idDefault = null) => {
   return idDefault;
 };
 
-module._load = (path, context, ...args) => {
+const esmockModuleLoad = (path, context) => {
   const mockId = esmockModuleContextFindMockId(context);
   const mockModulePathFull = esmockCacheResolvedPathGetCreate(
     context.filename, path
@@ -95,7 +96,7 @@ module._load = (path, context, ...args) => {
     delete module._cache[mockModulePathFull];
   }
 
-  const liveModule = esmockModuleLoadNative(path, context, ...args);
+  const liveModule = esmockModuleLoadNative(path, context);
 
   if (mockModuleDef) {
     esmockCacheActiveSet(mockModulePathFull);
@@ -111,6 +112,15 @@ module._load = (path, context, ...args) => {
   }
 
   return liveModule;
+};
+
+module._load = (path, context) => {
+  // do not engage custom behaviour unless module has been mocked
+  if (!esmockCacheIsFullPathMocked(context.filename)) {
+    return esmockModuleLoad(path, context);
+  }
+
+  return esmockModuleLoad(path, context);
 };
 
 export {

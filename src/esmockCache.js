@@ -5,7 +5,13 @@ const esmockCache = {
   activeModuleIds : {},
   liveModuleDetached : {},
   resolvedPaths : {},
-  mockDefinitions : {}
+  mockDefinitions : {},
+
+  // record of fullpaths with associated mocks
+  // eg, { '/path/to/mock.js': true }
+  //
+  // custom load behaviour skipped if no mock defintion for path
+  mockFullPath : {}
 };
 
 const esmockCachePurge = pathKey => {
@@ -22,9 +28,14 @@ const esmockCacheActivePurge = () => {
 const esmockCacheActiveSet = mockModulePathFull =>
   esmockCache.activeModuleIds[mockModulePathFull] = true;
 
+const esmockCacheIsFullPathMocked = mockPathFull => Boolean(
+  esmockCache.mockFullPath[mockPathFull]);
+
 // eslint-disable-next-line max-len
 const esmockCacheMockDefinitionSet = (loadKey, mockPathFull, mockKey, mockDef) => {
   const cache = esmockCache.mockDefinitions;
+
+  esmockCache.mockFullPath[mockPathFull] = true;
 
   cache[loadKey] = cache[loadKey] || [];
   cache[loadKey].push(mockPathFull);
@@ -64,6 +75,7 @@ const esmockCacheResolvedPathGet = (calleePath, localPath) => (
 export {
   esmockCache,
   esmockCachePurge,
+  esmockCacheIsFullPathMocked,
   esmockCacheMockDefinitionSet,
   esmockCacheMockDefinitionGet,
   esmockCacheActivePurge,
