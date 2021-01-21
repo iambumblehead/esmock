@@ -78,7 +78,7 @@ const esmockModuleContextFindMockId = (context, idDefault = null) => {
   return idDefault;
 };
 
-const esmockModuleLoad = (path, context) => {
+const esmockModuleLoad = (path, context, isMain) => {
   const mockId = esmockModuleContextFindMockId(context);
   const mockModulePathFull = esmockCacheResolvedPathGetCreate(
     context.filename, path
@@ -96,7 +96,7 @@ const esmockModuleLoad = (path, context) => {
     delete module._cache[mockModulePathFull];
   }
 
-  const liveModule = esmockModuleLoadNative(path, context);
+  const liveModule = esmockModuleLoadNative(path, context, isMain);
 
   if (mockModuleDef) {
     esmockCacheActiveSet(mockModulePathFull);
@@ -114,13 +114,13 @@ const esmockModuleLoad = (path, context) => {
   return liveModule;
 };
 
-module._load = (path, context) => {
+module._load = (path, context, isMain) => {
   // do not engage custom behaviour unless module has been mocked
   if (!esmockCacheIsFullPathMocked(context.filename)) {
-    return esmockModuleLoad(path, context);
+    return esmockModuleLoad(path, context, isMain);
   }
 
-  return esmockModuleLoad(path, context);
+  return esmockModuleLoad(path, context, isMain);
 };
 
 export {
