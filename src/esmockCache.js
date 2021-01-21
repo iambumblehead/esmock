@@ -1,8 +1,10 @@
 import module from 'module';
+import path from 'path';
 
 const esmockCache = {
   activeModuleIds : {},
-  liveModuleDetached : {}
+  liveModuleDetached : {},
+  resolvedPaths : {}
 };
 
 const esmockCachePurge = pathKey => {
@@ -28,11 +30,28 @@ const esmockCacheLiveModuleDetachedSet = (liveModulePath, detachedModule) => {
 const esmockCacheLiveModuleDetachedGet = liveModulePath => (
   esmockCache.liveModuleDetached[liveModulePath]);
 
+const esmockCacheResolvePathKey = (calleePath, localPath) => (
+  path.join(path.dirname(calleePath), localPath));
+
+const esmockCacheResolvedPathSet = (calleePath, localPath, resolvedPath) => {
+  esmockCache.resolvedPaths[
+    esmockCacheResolvePathKey(calleePath, localPath)
+  ] = resolvedPath;
+
+  return resolvedPath;
+};
+
+const esmockCacheResolvedPathGet = (calleePath, localPath) => (
+  esmockCache.resolvedPaths[esmockCacheResolvePathKey(calleePath, localPath)]
+);
+
 export {
   esmockCache,
   esmockCachePurge,
   esmockCacheActivePurge,
   esmockCacheActiveSet,
   esmockCacheLiveModuleDetachedSet,
-  esmockCacheLiveModuleDetachedGet
+  esmockCacheLiveModuleDetachedGet,
+  esmockCacheResolvedPathGet,
+  esmockCacheResolvedPathSet
 };

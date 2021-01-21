@@ -3,7 +3,6 @@ import esmock from '../src/esmock.js';
 
 // LOAD SINON AFTER ESMOCK TO VERIFY SINON CIRCULAR DEPENDENCY
 // NOT BROKEN BY ESMOCK MODULE._CACHE BEHAVIOUR
-// eslint-disable-next-line import/order
 import { stub } from 'sinon';
 
 test('should return un-mocked file', async t => {
