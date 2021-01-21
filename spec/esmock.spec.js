@@ -121,3 +121,19 @@ test('should work well with sinon', async t => {
     'mainUtilNamedExportTwoValue=namedExportTwo'
   ].join('&'));
 });
+
+test('should mock an mjs file', async t => {
+  const main = await esmock('./local/usesmjsModule.js', {
+    './local/exampleMJS.mjs' : () => 'first mocked'
+  });
+
+  t.is(main.verifyImportedMock(), 'first mocked');
+});
+
+test('should mock an mjs file, again', async t => {
+  const main = await esmock('./local/usesmjsModule.js', {
+    './local/exampleMJS.mjs' : () => 'second mocked'
+  });
+
+  t.is(main.verifyImportedMock(), 'second mocked');
+});
