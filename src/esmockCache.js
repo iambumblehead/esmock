@@ -4,7 +4,8 @@ import path from 'path';
 const esmockCache = {
   activeModuleIds : {},
   liveModuleDetached : {},
-  resolvedPaths : {}
+  resolvedPaths : {},
+  mockDefinitions : {}
 };
 
 const esmockCachePurge = pathKey => {
@@ -20,6 +21,21 @@ const esmockCacheActivePurge = () => {
 
 const esmockCacheActiveSet = mockModulePathFull =>
   esmockCache.activeModuleIds[mockModulePathFull] = true;
+
+// eslint-disable-next-line max-len
+const esmockCacheMockDefinitionSet = (loadKey, mockPathFull, mockKey, mockDef) => {
+  const cache = esmockCache.mockDefinitions;
+
+  cache[loadKey] = cache[loadKey] || [];
+  cache[loadKey].push(mockPathFull);
+  cache[loadKey + mockPathFull] = mockDef;
+
+  return cache;
+};
+
+const esmockCacheMockDefinitionGet = loadKeyPathFull => (
+  esmockCache.mockDefinitions[loadKeyPathFull]
+);
 
 const esmockCacheLiveModuleDetachedSet = (liveModulePath, detachedModule) => {
   esmockCache.liveModuleDetached[liveModulePath] = detachedModule;
@@ -48,6 +64,8 @@ const esmockCacheResolvedPathGet = (calleePath, localPath) => (
 export {
   esmockCache,
   esmockCachePurge,
+  esmockCacheMockDefinitionSet,
+  esmockCacheMockDefinitionGet,
   esmockCacheActivePurge,
   esmockCacheActiveSet,
   esmockCacheLiveModuleDetachedSet,
