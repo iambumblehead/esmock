@@ -14,7 +14,9 @@ import {
   esmockCache,
   esmockCacheActiveSet,
   esmockCacheLiveModuleDetachedSet,
-  esmockCacheLiveModuleDetachedGet
+  esmockCacheLiveModuleDetachedGet,
+  esmockCacheResolvedPathGet,
+  esmockCacheResolvedPathSet
 } from './esmockCache.js';
 
 // return 'default' value with named exports alongside, because
@@ -35,14 +37,21 @@ const esmockImportedModuleSanitize = importedModule => {
 
 const esmockNextKey = ((key = 0) => () => ++key)();
 
+const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
+  esmockCacheResolvedPathGet(calleePath, modulePath)
+    || esmockCacheResolvedPathSet(
+      calleePath, modulePath, resolvewith(modulePath, calleePath))
+);
+
 const esmockAddMocked = (calleePath, modulePath, mockDefs, fn) => {
-  const modulePathFull = resolvewith(modulePath, calleePath);
+  const modulePathFull = esmockCacheResolvedPathGetCreate(
+    calleePath, modulePath);
   const esmockCacheKey = 'file://:rootmodulepath?key=:key'
     .replace(/:rootmodulepath/, modulePathFull)
     .replace(/:key/, esmockNextKey());
 
   Object.keys(mockDefs).reduce((cache, key) => {
-    const mockedPathFull = resolvewith(key, calleePath);
+    const mockedPathFull = esmockCacheResolvedPathGetCreate(calleePath, key);
 
     cache[esmockCacheKey] = cache[esmockCacheKey] || [];
     cache[esmockCacheKey].push(mockedPathFull);
@@ -72,7 +81,9 @@ const esmockModuleContextFindMockId = (context, idDefault = null) => {
 
 module._load = (path, context, ...args) => {
   const mockId = esmockModuleContextFindMockId(context);
-  const mockModulePathFull = resolvewith(path, context.filename);
+  const mockModulePathFull = esmockCacheResolvedPathGetCreate(
+    context.filename, path
+  );
   const mockModuleId = mockId + mockModulePathFull;
   const mockModuleDef = esmockCache[mockModuleId];
   const detachedModuleDef = esmockCacheLiveModuleDetachedGet(
