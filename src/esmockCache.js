@@ -31,11 +31,13 @@ const esmockCacheActiveSet = mockModulePathFull =>
 const esmockCacheIsFullPathMocked = mockPathFull => Boolean(
   esmockCache.mockFullPath[mockPathFull]);
 
+const esmockCachePathFullSet = mockPathFull => {
+  esmockCache.mockFullPath[mockPathFull] = true;
+};
+
 // eslint-disable-next-line max-len
 const esmockCacheMockDefinitionSet = (loadKey, mockPathFull, mockKey, mockDef) => {
   const cache = esmockCache.mockDefinitions;
-
-  esmockCache.mockFullPath[mockPathFull] = true;
 
   cache[loadKey] = cache[loadKey] || [];
   cache[loadKey].push(mockPathFull);
@@ -83,5 +85,6 @@ export {
   esmockCacheLiveModuleDetachedSet,
   esmockCacheLiveModuleDetachedGet,
   esmockCacheResolvedPathGet,
-  esmockCacheResolvedPathSet
+  esmockCacheResolvedPathSet,
+  esmockCachePathFullSet
 };

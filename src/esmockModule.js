@@ -13,13 +13,15 @@ import {
 import {
   esmockCache,
   esmockCacheActiveSet,
+  esmockCachePurge,
   esmockCacheIsFullPathMocked,
   esmockCacheMockDefinitionSet,
   esmockCacheMockDefinitionGet,
   esmockCacheLiveModuleDetachedSet,
   esmockCacheLiveModuleDetachedGet,
   esmockCacheResolvedPathGet,
-  esmockCacheResolvedPathSet
+  esmockCacheResolvedPathSet,
+  esmockCachePathFullSet
 } from './esmockCache.js';
 
 // return 'default' value with named exports alongside, because
@@ -53,8 +55,10 @@ const esmockAddMocked = (calleePath, modulePath, mockDefs, fn) => {
     .replace(/:rootmodulepath/, modulePathFull)
     .replace(/:key/, esmockNextKey());
 
+  esmockCachePathFullSet(modulePathFull);
   Object.keys(mockDefs).forEach(key => {
     const mockedPathFull = esmockCacheResolvedPathGetCreate(calleePath, key);
+    esmockCachePathFullSet(mockedPathFull);
     esmockCacheMockDefinitionSet(
       esmockCacheKey, mockedPathFull, key, mockDefs[key]);
 
@@ -93,7 +97,7 @@ const esmockModuleLoad = (path, context, isMain) => {
   // cleared if they are to be or have been mocked
   if (mockId && (esmockPathFullIsLocalModule(mockModulePathFull)
                  || (mockModuleDef || detachedModuleDef))) {
-    delete module._cache[mockModulePathFull];
+    esmockCachePurge(mockModulePathFull);
   }
 
   const liveModule = esmockModuleLoadNative(path, context, isMain);
@@ -108,7 +112,7 @@ const esmockModuleLoad = (path, context, isMain) => {
     const mockModule = esmockLiveModuleApply(
       liveModule, liveModuleDetached, mockModuleDef);
 
-    delete module._cache[mockModulePathFull];
+    esmockCachePurge(mockModulePathFull);
 
     return mockModule;
   }
@@ -118,11 +122,11 @@ const esmockModuleLoad = (path, context, isMain) => {
 
 module._load = (path, context, isMain) => {
   // do not engage custom behaviour unless module has been mocked
-  if (!esmockCacheIsFullPathMocked(context.filename)) {
-    return esmockModuleLoad(path, context, isMain);
+  if (esmockCacheIsFullPathMocked(context.filename)) {
+    return esmockModuleLoad(path, context, isMain);  
   }
-
-  return esmockModuleLoad(path, context, isMain);
+  
+  return esmockModuleLoadNative(path, context, isMain);
 };
 
 export {
