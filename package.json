@@ -15,7 +15,23 @@
     "url": "https://github.com/iambumblehead/esmock.git"
   },
   "keywords": [
-    "esmock"
+    "esmock",
+    "es6",
+    "dependency",
+    "injection",
+    "dependency injection",
+    "mock dependency",
+    "di",
+    "inject",
+    "swap",
+    "test",
+    "mock",
+    "ava",
+    "modules",
+    "mocking",
+    "mockery",
+    "proxyquire",
+    "rewire"
   ],
   "dependencies": {
     "async-mutex": "^0.2.6",
