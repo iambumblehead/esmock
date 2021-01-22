@@ -46,9 +46,13 @@ const esmockLiveModuleApplySoft = (liveModuleInst, liveModuleDetached, mockDef) 
     return inst;
   }, liveModuleInst);
 
-  if (!liveModuleDetachedIsDefault)
+  if (!liveModuleDetachedIsDefault) {
+    // !isPlainObject only possible for commonjs definition
+    if (!isPlainObject(liveModuleInst)) {
+      return mockDef;
+    }
     return liveModuleInst;
-
+  }
   if (liveModuleDetachedKeys.length === 1) {
     liveModuleInst.default = mockDef;
 
