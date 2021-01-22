@@ -108,6 +108,8 @@ const esmockModuleLoad = (path, context, isMain) => {
     const mockModule = esmockLiveModuleApply(
       liveModule, liveModuleDetached, mockModuleDef);
 
+    delete module._cache[mockModulePathFull];
+
     return mockModule;
   }
 

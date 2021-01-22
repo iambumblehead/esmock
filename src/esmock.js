@@ -10,8 +10,7 @@ import {
 } from './esmockModule.js';
 
 import {
-  esmockCachePurge,
-  esmockCacheActivePurge
+  esmockCachePurge
 } from './esmockCache.js';
 
 const mutex = new Mutex();
@@ -25,7 +24,6 @@ const esmock = async (modulePath, mockDefs = {}) => {
 
     // if any modules exist in module._cache when import occurs,
     // they are returned regardless of what occurs in module._load
-    esmockCacheActivePurge();
     const importedModule = await import(modulePathKey);
 
     return esmockImportedModuleSanitize(importedModule);
