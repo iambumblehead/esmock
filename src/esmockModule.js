@@ -14,13 +14,13 @@ import {
   esmockCache,
   esmockCacheActiveSet,
   esmockCachePurge,
-  esmockCacheIsFullPathMocked,
   esmockCacheMockDefinitionSet,
   esmockCacheMockDefinitionGet,
   esmockCacheLiveModuleDetachedSet,
   esmockCacheLiveModuleDetachedGet,
   esmockCacheResolvedPathGet,
   esmockCacheResolvedPathSet,
+  esmockCacheResolvePathKey,
   esmockCachePathFullSet
 } from './esmockCache.js';
 
@@ -58,6 +58,10 @@ const esmockAddMocked = (calleePath, modulePath, mockDefs, fn) => {
   esmockCachePathFullSet(modulePathFull);
   Object.keys(mockDefs).forEach(key => {
     const mockedPathFull = esmockCacheResolvedPathGetCreate(calleePath, key);
+
+    esmockCachePathFullSet(
+      esmockCacheResolvePathKey(modulePathFull, key));
+
     esmockCachePathFullSet(mockedPathFull);
     esmockCacheMockDefinitionSet(
       esmockCacheKey, mockedPathFull, key, mockDefs[key]);
@@ -83,6 +87,7 @@ const esmockModuleContextFindMockId = (context, idDefault = null) => {
 };
 
 const esmockModuleLoad = (path, context, isMain) => {
+  // do not engage custom behaviour unless module has been mocked
   const mockId = esmockModuleContextFindMockId(context);
   const mockModulePathFull = esmockCacheResolvedPathGetCreate(
     context.filename, path
@@ -120,14 +125,8 @@ const esmockModuleLoad = (path, context, isMain) => {
   return liveModule;
 };
 
-module._load = (path, context, isMain) => {
-  // do not engage custom behaviour unless module has been mocked
-  if (esmockCacheIsFullPathMocked(context.filename)) {
-    return esmockModuleLoad(path, context, isMain);  
-  }
-  
-  return esmockModuleLoadNative(path, context, isMain);
-};
+module._load = (path, context, isMain) => (
+  esmockModuleLoad(path, context, isMain));
 
 export {
   esmockCache,

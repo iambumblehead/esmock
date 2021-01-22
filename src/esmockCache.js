@@ -86,5 +86,6 @@ export {
   esmockCacheLiveModuleDetachedGet,
   esmockCacheResolvedPathGet,
   esmockCacheResolvedPathSet,
+  esmockCacheResolvePathKey,
   esmockCachePathFullSet
 };
