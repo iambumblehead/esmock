@@ -1,4 +1,4 @@
-import request from 'form-urlencoded';
+import formurlencoded from 'form-urlencoded';
 import {
   mainUtilNamedExportOne,
   mainUtilNamedExportTwo
@@ -6,7 +6,7 @@ import {
 
 const mainUtil = () => 'mainUtil';
 
-const createString = () => request({
+const createString = () => formurlencoded.default({
   mainUtil : 'a string',
   mainUtilNamedExportOneValue : mainUtilNamedExportOne(),
   mainUtilNamedExportTwoValue : mainUtilNamedExportTwo()

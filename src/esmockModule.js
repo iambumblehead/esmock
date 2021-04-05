@@ -37,6 +37,8 @@ const esmockImportedModuleSanitize = importedModule => {
     }, importedModule.default);
   }
 
+  console.log('imported f', importedModule);
+  // throw new Error('--');
   return importedModule;
 };
 
@@ -126,7 +128,9 @@ const esmockModuleLoad = (path, context, isMain) => {
 };
 
 module._load = (path, context, isMain) => (
-  esmockModuleLoad(path, context, isMain));
+  context
+    ? esmockModuleLoad(path, context, isMain)
+    : esmockModuleLoadNative(path, context, isMain));
 
 export {
   esmockCache,

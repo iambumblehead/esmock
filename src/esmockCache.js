@@ -15,6 +15,7 @@ const esmockCache = {
 };
 
 const esmockCachePurge = pathKey => {
+  // console.log( pathKey,  )
   delete module._cache[pathKey];
 };
 
@@ -57,6 +58,7 @@ const esmockCacheLiveModuleDetachedSet = (liveModulePath, detachedModule) => {
 };
 
 const esmockCacheLiveModuleDetachedGet = liveModulePath => (
+  // console.log('getting', liveModulePath ),
   esmockCache.liveModuleDetached[liveModulePath]);
 
 const esmockCacheResolvePathKey = (calleePath, localPath) => (
@@ -73,6 +75,16 @@ const esmockCacheResolvedPathSet = (calleePath, localPath, resolvedPath) => {
 const esmockCacheResolvedPathGet = (calleePath, localPath) => (
   esmockCache.resolvedPaths[esmockCacheResolvePathKey(calleePath, localPath)]
 );
+
+Object.assign(global, {
+  esmockCacheMockDefinitionGet : path => {
+    console.log( esmockCache.mockDefinitions )
+    
+    console.log('GETTING', path);
+
+    return esmockCacheMockDefinitionGet(path);
+  }
+});
 
 export {
   esmockCache,

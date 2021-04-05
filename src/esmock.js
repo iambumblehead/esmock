@@ -26,6 +26,9 @@ const esmock = async (modulePath, mockDefs = {}) => {
     // they are returned regardless of what occurs in module._load
     const importedModule = await import(modulePathKey);
 
+    console.log('importedModule from root', importedModule.default);
+    // throw new Error('--');
+
     return esmockImportedModuleSanitize(importedModule);
   });
 };

@@ -1,9 +1,20 @@
 import test from 'ava';
 import esmock from '../src/esmock.js';
+import quibble from 'quibble';
 
 // LOAD SINON AFTER ESMOCK TO VERIFY SINON CIRCULAR DEPENDENCY
 // NOT BROKEN BY ESMOCK MODULE._CACHE BEHAVIOUR
-import { stub } from 'sinon';
+// import { stub } from 'sinon';
+// console.log('a =============================================');
+// import sinon from 'sinon/lib/sinon-esm.js';
+// import sinon from 'sinon';
+import sinon from 'sinon';
+// console.log('b =============================================');
+const { stub } = sinon;
+
+// console.log('=============================================');
+// console.log({ stub });
+// throw new Error('lll');
 
 test('should return un-mocked file', async t => {
   const main = await esmock('./local/main.js');
@@ -16,13 +27,15 @@ test('should return un-mocked file', async t => {
   t.is(main(), `main string, mainUtil=${mainqs}`);
 });
 
-test('should mock a local file', async t => {
+// https://stackoverflow.com/questions/18664530/how-to-create-a-simple-socket-in-node-js
+test.only('should mock a local file', async t => {
   const main = await esmock('./local/main.js', {
+  // const main = await quibble.esm('./local/main.js', {
     './local/mainUtil.js' : {
       createString : () => 'test string'
     }
   });
-
+  console.log('ooh', main );
   t.is(typeof main, 'function');
   t.is(main(), 'main string, test string');
 });

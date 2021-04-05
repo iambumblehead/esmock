@@ -7,6 +7,7 @@
   "author": "Chris <chris@bumblehead.com>",
   "main": "src/esmock.js",
   "module": "src/esmock.js",
+  "type": "module",
   "files": [
     "src/esmock.js"
   ],
@@ -35,24 +36,26 @@
   ],
   "dependencies": {
     "async-mutex": "^0.2.6",
+    "ll": "^1.2.0",
+    "quibble": "0.6.5",
     "resolvewithplus": "^0.1.1"
   },
   "devDependencies": {
-    "ava": "^3.15.0",
+    "ava": "^4.0.0-alpha.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.17.0",
     "esm": "^3.2.25",
     "form-urlencoded": "^4.2.1",
-    "sinon": "^9.2.3"
+    "quibble": "0.6.5",
+    "sinon": "^10.0.0"
   },
   "ava": {
-    "timeout": "2m",
-    "require": [
-      "esm"
-    ]
+    "timeout": "2m"
   },
   "scripts": {
-    "test": "ava",
+    "testss": "ava --node-arguments=\"--loader=quibble\"",
+    "test": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs\"",
+    "tests": "ava",
     "lint": "eslint src/*js spec/*js"
   }
 }
