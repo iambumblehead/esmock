@@ -37,12 +37,17 @@ const encode = value => String(value)
    .replace(/[!'()~*]/g, ch =>
      `%${ch.charCodeAt().toString(16).slice(-2).toUpperCase()}`);
 
+
+// export async function resolve (specifier, context, defaultResolve) {
+// }
+
 // https://nodejs.org/api/esm.html#esm_resolve_specifier_context_defaultresolve
 export async function resolve (specifier, context, defaultResolve) {
   // console.log('good', specifier, context );
   // console.log( context && context.parentUURL );
   let newspec = String( specifier );
 
+  console.log('OOOOOOOOOOOOOOO');
   if (/loadkey=/.test(context && context.parentURL)) {
     console.log('load key returns', specifier );
     return defaultResolve(specifier, context, defaultResolve);
@@ -127,6 +132,7 @@ export default global.esmockCacheMockDefinitionGet(':name');
 
 export async function getSource (url, context, defaultGetSource) {
   // console.log( 'url', url );
+  console.log('FFFFFFFFFFFFFF');
   console.log({ context });
   if (/loadkey=/.test(url)) {
     console.log( 'source here', url );

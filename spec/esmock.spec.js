@@ -1,6 +1,5 @@
 import test from 'ava';
 import esmock from '../src/esmock.js';
-import quibble from 'quibble';
 
 // LOAD SINON AFTER ESMOCK TO VERIFY SINON CIRCULAR DEPENDENCY
 // NOT BROKEN BY ESMOCK MODULE._CACHE BEHAVIOUR

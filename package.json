@@ -37,7 +37,6 @@
   "dependencies": {
     "async-mutex": "^0.2.6",
     "ll": "^1.2.0",
-    "quibble": "0.6.5",
     "resolvewithplus": "^0.1.1"
   },
   "devDependencies": {
@@ -46,7 +45,6 @@
     "eslint": "^7.17.0",
     "esm": "^3.2.25",
     "form-urlencoded": "^4.2.1",
-    "quibble": "0.6.5",
     "sinon": "^10.0.0"
   },
   "ava": {
