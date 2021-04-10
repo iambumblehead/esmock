@@ -1,10 +1,14 @@
 import path from 'path';
 import url from 'url';
 
+import esmock from './esmock.js';
+
 const urlDummy = 'file://' + path.join(
   path.dirname(url.fileURLToPath(import.meta.url)), 'esmockDummy.js');
 const tplExportNamed = 'export const :n = global.esmockCacheGet(":k").:n';
 const tplExportDefault = 'export default global.esmockCacheGet(":k").default';
+
+export default esmock;
 
 export async function resolve (specifier, context, defaultResolve) {
   const [ esmockKeyParam ] = (context.parentURL

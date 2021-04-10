@@ -8,7 +8,7 @@ import {
   esmockImportedModuleSanitize
 } from './esmockModule.js';
 
-const esmock = async (modulePath, mockDefs = {}) => {
+export default async (modulePath, mockDefs = {}) => {
   const calleePath = esmockPathCallee();
   const modulePathKey = await esmockAddMocked(
     calleePath, modulePath, mockDefs);
@@ -20,5 +20,3 @@ const esmock = async (modulePath, mockDefs = {}) => {
   // return importedModule;
   return esmockImportedModuleSanitize(importedModule);
 };
-
-export default esmock;

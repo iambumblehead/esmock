@@ -5,17 +5,15 @@
   "readmeFilename": "README.md",
   "description": "esmock",
   "author": "Chris <chris@bumblehead.com>",
-  "main": "src/esmock.js",
-  "module": "src/esmock.js",
+  "main": "src/esmockLoader.mjs",
+  "module": "src/esmockLoader.mjs",
   "type": "module",
-  "files": [
-    "src/esmock.js"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/iambumblehead/esmock.git"
   },
   "keywords": [
+    "esm",
     "esmock",
     "es6",
     "dependency",
