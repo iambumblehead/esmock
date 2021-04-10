@@ -1,19 +1,6 @@
 import test from 'ava';
 import esmock from '../src/esmock.js';
-
-// LOAD SINON AFTER ESMOCK TO VERIFY SINON CIRCULAR DEPENDENCY
-// NOT BROKEN BY ESMOCK MODULE._CACHE BEHAVIOUR
-// import { stub } from 'sinon';
-// console.log('a =============================================');
-// import sinon from 'sinon/lib/sinon-esm.js';
-// import sinon from 'sinon';
 import sinon from 'sinon';
-// console.log('b =============================================');
-const { stub } = sinon;
-
-// console.log('=============================================');
-// console.log({ stub });
-// throw new Error('lll');
 
 test('should return un-mocked file', async t => {
   const main = await esmock('./local/main.js');
@@ -26,43 +13,40 @@ test('should return un-mocked file', async t => {
   t.is(main(), `main string, mainUtil=${mainqs}`);
 });
 
-// https://stackoverflow.com/questions/18664530/how-to-create-a-simple-socket-in-node-js
-test.only('should mock a local file', async t => {
+test('should mock a local file', async t => {
   const main = await esmock('./local/main.js', {
-  // const main = await quibble.esm('./local/main.js', {
     './local/mainUtil.js' : {
       createString : () => 'test string'
     }
   });
-  console.log('ooh', main );
+
   t.is(typeof main, 'function');
   t.is(main(), 'main string, test string');
 });
 
 test('should mock a module', async t => {
-  const main = await esmock('./local/main.js', {
+  const main = await esmock('./local/mainUtil.js', {
     'form-urlencoded' : () => 'mock encode'
   });
 
   t.is(typeof main, 'function');
-  t.is(main(), 'main string, mock encode');
+  t.is(main.createString(), 'mock encode');
 });
 
 test('should mock a module, many times differently', async t => {
-  const mainfoo = await esmock('./local/main.js', {
+  const mainfoo = await esmock('./local/mainUtil.js', {
     'form-urlencoded' : () => 'mock encode foo'
   });
-  const mainbar = await esmock('./local/main.js', {
+  const mainbar = await esmock('./local/mainUtil.js', {
     'form-urlencoded' : () => 'mock encode bar'
   });
-  const mainbaz = await esmock('./local/main.js', {
+  const mainbaz = await esmock('./local/mainUtil.js', {
     'form-urlencoded' : () => 'mock encode baz'
   });
-
   t.is(typeof mainfoo, 'function');
-  t.is(mainfoo(), 'main string, mock encode foo');
-  t.is(mainbar(), 'main string, mock encode bar');
-  t.is(mainbaz(), 'main string, mock encode baz');
+  t.is(mainfoo.createString(), 'mock encode foo');
+  t.is(mainbar.createString(), 'mock encode bar');
+  t.is(mainbaz.createString(), 'mock encode baz');
 });
 
 test('should return un-mocked file (again)', async t => {
@@ -77,37 +61,38 @@ test('should return un-mocked file (again)', async t => {
 });
 
 test('should mock local file', async t => {
-  const main = await esmock('./local/main.js', {
+  const mainUtil = await esmock('./local/mainUtil.js', {
     './local/mainUtilNamedExports.js' : {
       mainUtilNamedExportOne : () => 'foobar'
     }
   });
+
   const mainqs = [
-    'a+string',
+    'mainUtil=a+string',
     'mainUtilNamedExportOneValue=foobar',
     'mainUtilNamedExportTwoValue=namedExportTwo'
   ].join('&');
 
-  t.is(main(), `main string, mainUtil=${mainqs}`);
+  t.is(mainUtil.createString(), mainqs);
 });
 
 test('should mock module and local file at the same time', async t => {
-  const main = await esmock('./local/main.js', {
+  const mainUtil = await esmock('./local/mainUtil.js', {
     'form-urlencoded' : o => JSON.stringify(o),
     './local/mainUtilNamedExports.js' : {
       mainUtilNamedExportOne : () => 'foobar'
     }
   });
 
-  t.is(main(), 'main string, ' + JSON.stringify({
+  t.is(mainUtil.createString(), JSON.stringify({
     mainUtil : 'a string',
     mainUtilNamedExportOneValue : 'foobar',
     mainUtilNamedExportTwoValue : 'namedExportTwo'
   }));
 });
 
-test('should remove mock __esModule definition, no runtime error', async t => {
-  const main = await esmock('./local/main.js', {
+test('__esModule definition, inconsequential', async t => {
+  const mainUtil = await esmock('./local/mainUtil.js', {
     'form-urlencoded' : o => JSON.stringify(o),
     './local/mainUtilNamedExports.js' : {
       mainUtilNamedExportOne : () => 'foobar',
@@ -115,7 +100,7 @@ test('should remove mock __esModule definition, no runtime error', async t => {
     }
   });
 
-  t.is(main(), 'main string, ' + JSON.stringify({
+  t.is(mainUtil.createString(), JSON.stringify({
     mainUtil : 'a string',
     mainUtilNamedExportOneValue : 'foobar',
     mainUtilNamedExportTwoValue : 'namedExportTwo'
@@ -123,13 +108,15 @@ test('should remove mock __esModule definition, no runtime error', async t => {
 });
 
 test('should work well with sinon', async t => {
-  const main = await esmock('./local/main.js', {
-    mainUtilNamedExportOne : stub().returns('foobar')
+  const mainUtil = await esmock('./local/mainUtil.js', {
+    './local/mainUtilNamedExports.js' : {
+      mainUtilNamedExportOne : sinon.stub().returns('foobar')
+    }
   });
 
-  t.is(main(), 'main string, ' + [
+  t.is(mainUtil.createString(), [
     'mainUtil=a+string',
-    'mainUtilNamedExportOneValue=namedExportOne',
+    'mainUtilNamedExportOneValue=foobar',
     'mainUtilNamedExportTwoValue=namedExportTwo'
   ].join('&'));
 });

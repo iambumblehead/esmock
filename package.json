@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "esmock",
@@ -35,25 +35,17 @@
     "rewire"
   ],
   "dependencies": {
-    "async-mutex": "^0.2.6",
-    "ll": "^1.2.0",
-    "resolvewithplus": "^0.1.1"
+    "resolvewithplus": "^0.1.2"
   },
   "devDependencies": {
-    "ava": "^4.0.0-alpha.1",
+    "ava": "^4.0.0-alpha.2",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.17.0",
-    "esm": "^3.2.25",
     "form-urlencoded": "^4.2.1",
     "sinon": "^10.0.0"
   },
-  "ava": {
-    "timeout": "2m"
-  },
   "scripts": {
-    "testss": "ava --node-arguments=\"--loader=quibble\"",
     "test": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs\"",
-    "tests": "ava",
     "lint": "eslint src/*js spec/*js"
   }
 }

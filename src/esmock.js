@@ -7,22 +7,14 @@ import {
   esmockImportedModuleSanitize
 } from './esmockModule.js';
 
-import {
-  esmockCachePurge
-} from './esmockCache.js';
-
 const esmock = async (modulePath, mockDefs = {}) => {
   const calleePath = esmockPathCallee();
-
   const modulePathKey = await esmockAddMocked(
-    calleePath, modulePath, mockDefs, esmockCachePurge);
+    calleePath, modulePath, mockDefs);
 
-  // if any modules exist in module._cache when import occurs,
-  // they are returned regardless of what occurs in module._load
   const importedModule = await import(modulePathKey);
 
-  console.log('importedModule from root', importedModule.default);
-
+  // return importedModule;
   return esmockImportedModuleSanitize(importedModule);
 };
 

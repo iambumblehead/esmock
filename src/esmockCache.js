@@ -1,65 +1,23 @@
-import module from 'module';
 import path from 'path';
 
 const esmockCache = {
-  activeModuleIds : {},
-  liveModuleDetached : {},
   resolvedPaths : {},
-  mockDefinitions : {},
+  isESM: {},
 
   // record of fullpaths with associated mocks
   // eg, { '/path/to/mock.js': true }
-  //
-  // custom load behaviour skipped if no mock defintion for path
-  mockFullPath : {}
+  mockFullPath : {},
+  mockDefs : {}
 };
-
-const esmockCachePurge = pathKey => {
-  // console.log( pathKey,  )
-  delete module._cache[pathKey];
-};
-
-const esmockCacheActivePurge = () => {
-  Object.keys(esmockCache.activeModuleIds)
-    .forEach(esmockCachePurge);
-
-  esmockCache.activeModuleIds = {};
-};
-
-const esmockCacheActiveSet = mockModulePathFull =>
-  esmockCache.activeModuleIds[mockModulePathFull] = true;
 
 const esmockCacheIsFullPathMocked = mockPathFull => Boolean(
   esmockCache.mockFullPath[mockPathFull]);
 
-const esmockCachePathFullSet = mockPathFull => {
-  esmockCache.mockFullPath[mockPathFull] = true;
-};
+const esmockCacheSet = (key, mockDef) => (
+  esmockCache.mockDefs[key] = mockDef);
 
-// eslint-disable-next-line max-len
-const esmockCacheMockDefinitionSet = (loadKey, mockPathFull, mockKey, mockDef) => {
-  const cache = esmockCache.mockDefinitions;
-
-  cache[loadKey] = cache[loadKey] || [];
-  cache[loadKey].push(mockPathFull);
-  cache[loadKey + mockPathFull] = mockDef;
-
-  return cache;
-};
-
-const esmockCacheMockDefinitionGet = loadKeyPathFull => (
-  esmockCache.mockDefinitions[loadKeyPathFull]
-);
-
-const esmockCacheLiveModuleDetachedSet = (liveModulePath, detachedModule) => {
-  esmockCache.liveModuleDetached[liveModulePath] = detachedModule;
-
-  return detachedModule;
-};
-
-const esmockCacheLiveModuleDetachedGet = liveModulePath => (
-  // console.log('getting', liveModulePath ),
-  esmockCache.liveModuleDetached[liveModulePath]);
+const esmockCacheGet = key => (
+  esmockCache.mockDefs[key]);
 
 const esmockCacheResolvePathKey = (calleePath, localPath) => (
   path.join(path.dirname(calleePath), localPath));
@@ -76,28 +34,23 @@ const esmockCacheResolvedPathGet = (calleePath, localPath) => (
   esmockCache.resolvedPaths[esmockCacheResolvePathKey(calleePath, localPath)]
 );
 
-Object.assign(global, {
-  esmockCacheMockDefinitionGet : path => {
-    console.log( esmockCache.mockDefinitions )
-    
-    console.log('GETTING', path);
+const esmockCacheResolvedPathIsESMGet = mockPathFull => (
+  esmockCache.isESM[mockPathFull]);
 
-    return esmockCacheMockDefinitionGet(path);
-  }
-});
+const esmockCacheResolvedPathIsESMSet = (mockPathFull, isesm) => (
+  esmockCache.isESM[mockPathFull] = isesm);
+
+Object.assign(global, { esmockCacheGet });
 
 export {
   esmockCache,
-  esmockCachePurge,
   esmockCacheIsFullPathMocked,
-  esmockCacheMockDefinitionSet,
-  esmockCacheMockDefinitionGet,
-  esmockCacheActivePurge,
-  esmockCacheActiveSet,
-  esmockCacheLiveModuleDetachedSet,
-  esmockCacheLiveModuleDetachedGet,
+  esmockCacheSet,
+  esmockCacheGet,
   esmockCacheResolvedPathGet,
   esmockCacheResolvedPathSet,
   esmockCacheResolvePathKey,
-  esmockCachePathFullSet
+
+  esmockCacheResolvedPathIsESMGet,
+  esmockCacheResolvedPathIsESMSet
 };
