@@ -80,9 +80,6 @@ const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
 );
 
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef) => {
-  if (!mockPathFull)
-    throw new Error('not a valid path ' + mockPathFull);
-
   const isesm = esmockModuleIsESM(mockPathFull);
   const mockDefinitionFinal = esmockModuleApply(
     await import(mockPathFull), mockDef);
@@ -108,6 +105,9 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     return mocks;
 
   const mockedPathFull = esmockCacheResolvedPathGetCreate(pathCallee, keys[0]);
+  if (!mockedPathFull) {
+    throw new Error('not a valid path ' + pathCallee + ', ' + keys[0]);
+  }
 
   mocks.push(await esmockModuleCreate(
     esmockKey,
