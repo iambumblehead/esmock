@@ -47,6 +47,8 @@ test('should mock module and local file at the same time', async t => {
 ### changelog
 
  * 0.1.0 _Apr.10.2021_
-   * adds support for native es modules
+   * adds support for native esm modules
+ * 0.2.0 _Apr.10.2021_
+   * adds support for mocking core modules such as fs and path
 
 [0]: http://www.bumblehead.com "bumblehead"
