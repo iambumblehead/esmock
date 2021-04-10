@@ -64,6 +64,11 @@ const esmockImportedModuleSanitize = importedModule => {
   return importedModule;
 };
 
+const esmockImportedModulePurge = modulePathKey => modulePathKey
+  .replace(/.*esmockModuleKeys=(.*)/, '$1')
+  .split('#')
+  .forEach(key => esmockCacheSet(key, null));
+
 const esmockNextKey = ((key = 0) => () => ++key)();
 
 // tries to return resolved path from a cache store first
@@ -134,5 +139,6 @@ export {
   esmockCache,
   esmockNextKey,
   esmockAddMocked,
+  esmockImportedModulePurge,
   esmockImportedModuleSanitize
 };

@@ -2,16 +2,12 @@ import path from 'path';
 
 const esmockCache = {
   resolvedPaths : {},
-  isESM: {},
+  isESM : {},
 
   // record of fullpaths with associated mocks
   // eg, { '/path/to/mock.js': true }
-  mockFullPath : {},
   mockDefs : {}
 };
-
-const esmockCacheIsFullPathMocked = mockPathFull => Boolean(
-  esmockCache.mockFullPath[mockPathFull]);
 
 const esmockCacheSet = (key, mockDef) => (
   esmockCache.mockDefs[key] = mockDef);
@@ -44,7 +40,6 @@ Object.assign(global, { esmockCacheGet });
 
 export {
   esmockCache,
-  esmockCacheIsFullPathMocked,
   esmockCacheSet,
   esmockCacheGet,
   esmockCacheResolvedPathGet,
