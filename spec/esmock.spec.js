@@ -136,3 +136,16 @@ test('should mock an mjs file, again', async t => {
 
   t.is(main.verifyImportedMock(), 'second mocked');
 });
+
+test('should mock core module', async t => {
+  const usesCoreModule = await esmock('./local/usesCoreModule.js', {
+    fs : {
+      existsSync : () => true,
+      readFileSync : filepath => filepath === 'checkfilepath.js'
+        ? 'success'
+        : filepath
+    }
+  });
+
+  t.is(usesCoreModule.readPath('checkfilepath.js'), 'success');
+});

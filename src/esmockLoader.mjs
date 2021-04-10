@@ -37,14 +37,13 @@ export async function resolve (specifier, context, defaultResolve) {
 export async function getSource (url, context, defaultGetSource) {
   if (/#esmockModuleKeys/gi.test(url)) // parent of mocked modules
     return defaultGetSource(url, context, defaultGetSource);
-  
+
   if (url.startsWith(urlDummy)) {
     url = url.replace(/[^#]*#/, '');
   }
 
   const exportedNames = /exportNames=/.test(url) &&
     url.replace(/.*exportNames=(.*)/, '$1').split(',');
-  
   if (exportedNames) {
     return {
       source : exportedNames.map(name => name === 'default'
