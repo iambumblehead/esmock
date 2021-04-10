@@ -76,7 +76,7 @@ const esmockNextKey = ((key = 0) => () => ++key)();
 const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
   esmockCacheResolvedPathGet(calleePath, modulePath)
     || esmockCacheResolvedPathSet(
-      calleePath, modulePath, resolvewith(modulePath, calleePath))
+      calleePath, modulePath, resolvewith(modulePath, calleePath, {esm: true}))
 );
 
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef) => {
