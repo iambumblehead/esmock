@@ -1,33 +1,22 @@
-import { Mutex } from 'async-mutex';
-
 import {
   esmockPathCallee
 } from './esmockPath.js';
 
 import {
   esmockAddMocked,
+  esmockImportedModulePurge,
   esmockImportedModuleSanitize
 } from './esmockModule.js';
 
-import {
-  esmockCachePurge
-} from './esmockCache.js';
-
-const mutex = new Mutex();
-
-const esmock = async (modulePath, mockDefs = {}) => {
+export default async (modulePath, mockDefs = {}) => {
   const calleePath = esmockPathCallee();
+  const modulePathKey = await esmockAddMocked(
+    calleePath, modulePath, mockDefs);
 
-  return await mutex.runExclusive(async () => {
-    const modulePathKey = esmockAddMocked(
-      calleePath, modulePath, mockDefs, esmockCachePurge);
+  const importedModule = await import(modulePathKey);
 
-    // if any modules exist in module._cache when import occurs,
-    // they are returned regardless of what occurs in module._load
-    const importedModule = await import(modulePathKey);
-
-    return esmockImportedModuleSanitize(importedModule);
-  });
+  esmockImportedModulePurge(modulePathKey);
+  
+  // return importedModule;
+  return esmockImportedModuleSanitize(importedModule);
 };
-
-export default esmock;
