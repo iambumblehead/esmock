@@ -3,8 +3,9 @@ esmock
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://travis-ci.org/iambumblehead/esmock.svg?branch=master)](https://travis-ci.org/iambumblehead/esmock)
 
 
-**esmock _must_ be used with "module" type and node's experimental --loader,**
-This package **must be used with "module" type packages.** Add the type to your package.json,
+**esmock _must_ be used with "module" type and node's experimental --loader.**
+
+Add them to your package.json,
 ``` json
 {
   "name": "my-module",
@@ -17,7 +18,7 @@ This package **must be used with "module" type packages.** Add the type to your 
 ```
 
 
-And use it `await esmock( './path/to/module', childmocks, globalmocks )`
+And use it `await esmock( './path/to/module.js', childmocks, globalmocks )`
 ``` javascript
 import test from 'ava';
 import esmock from 'esmock';
