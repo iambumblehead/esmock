@@ -65,7 +65,7 @@ const esmockModuleIsESM = (mockPathFull, isesm) => {
 
 // return the default value directly, so that the esmock caller
 // does not need to lookup default as in "esmockedValue.default"
-const esmockImportedModuleSanitize = importedModule => {
+const esmockModuleImportedSanitize = importedModule => {
   if ('default' in importedModule
     && !/boolean|string|number/.test(typeof importedModule.default)) {
     return Object.assign(importedModule.default, importedModule);
@@ -74,10 +74,13 @@ const esmockImportedModuleSanitize = importedModule => {
   return importedModule;
 };
 
-const esmockImportedModulePurge = modulePathKey => modulePathKey
-  .replace(/.*esmockModuleKeys=(.*)/, '$1')
-  .split('#')
-  .forEach(key => esmockCacheSet(key, null));
+const esmockModuleImportedPurge = modulePathKey => {
+  const purgeKey = key => esmockCacheSet(key, null);
+  const [ url, keys ] = modulePathKey.split('#esmockModuleKeys=');
+
+  String(keys).split('#').forEach(purgeKey);
+  String(url.split('esmockGlobals=')[1]).split('#').forEach(purgeKey);
+};
 
 const esmockNextKey = ((key = 0) => () => ++key)();
 
@@ -86,7 +89,9 @@ const esmockNextKey = ((key = 0) => () => ++key)();
 const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
   esmockCacheResolvedPathGet(calleePath, modulePath)
     || esmockCacheResolvedPathSet(
-      calleePath, modulePath, resolvewith(modulePath, calleePath, {esm: true}))
+      calleePath,
+      modulePath,
+      resolvewith(modulePath, calleePath, { esm : true }))
 );
 
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef) => {
@@ -132,16 +137,19 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     pathCallee, pathModule, esmockKey, defs, keys.slice(1), mocks);
 };
 
-const esmockAddMocked = async (calleePath, modulePath, defs) => {
+const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
   const pathModuleFull = esmockCacheResolvedPathGetCreate(
     calleePath, modulePath);
-  const esmockKey = esmockNextKey();
+  const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey();
   const esmockModuleKeys = await esmockModulesCreate(
     calleePath, pathModuleFull, esmockKey, defs, Object.keys(defs));
-  const esmockCacheKey =
-    'file://:rootmodulepath?key=:esmockKey#esmockModuleKeys=:moduleKeys'
+  const esmockGlobalKeys = await esmockModulesCreate(
+    calleePath, pathModuleFull, esmockKey, gdefs, Object.keys(gdefs));
+
+  const esmockCacheKey = `file://${pathModuleFull}?`
+    + 'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
-      .replace(/:rootmodulepath/, pathModuleFull)
+      .replace(/:esmockGlobals/, esmockGlobalKeys.join('#') || 'null')
       .replace(/:moduleKeys/, esmockModuleKeys.join('#'));
 
   return esmockCacheKey;
@@ -150,7 +158,7 @@ const esmockAddMocked = async (calleePath, modulePath, defs) => {
 export {
   esmockCache,
   esmockNextKey,
-  esmockAddMocked,
-  esmockImportedModulePurge,
-  esmockImportedModuleSanitize
+  esmockModuleMock,
+  esmockModuleImportedPurge,
+  esmockModuleImportedSanitize
 };

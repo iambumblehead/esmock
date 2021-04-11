@@ -1,11 +1,30 @@
 import request from 'form-urlencoded';
-// import m from './mainUtil.js';
+import { basename } from 'path';
+import {
+  mainUtilNamedExportOne
+} from './mainUtilNamedExports.js';
+import { readPath, readSync } from './usesCoreModule.js';
+
 import { createString } from './mainUtil.js';
+
+if (typeof basename !== 'function') {
+  throw new Error('import basename failed');
+}
 
 if (typeof request === 'undefined') {
   throw new Error('imported definition: undefined');
 };
 
+export const mainDependencyUsingCoreModuleFSReadPath = path => {
+  return readPath(path);
+};
+
+export const readTemplateFile = path => {
+  return readSync(path);
+};
+
 export default () => {
-  return 'main string, ' + createString();
+  return /mocked/.test(mainUtilNamedExportOne)
+    ? 'main string and mocked export, ' + createString()
+    : 'main string, ' + createString();
 };

@@ -33,6 +33,54 @@ test('should mock a module', async t => {
   t.is(main.createString(), 'mock encode');
 });
 
+test('should mock a module, globally', async t => {
+  const main = await esmock('./local/main.js', {
+    './local/mainUtilNamedExports.js' : {
+      mainUtilNamedExportOne : 'mocked'
+    }
+  }, {
+    'form-urlencoded' : () => 'mock encode',
+    fs : {
+      existsSync : () => true,
+      readFileSync : filepath => filepath === 'checkfilepath.js'
+        ? 'success'
+        : filepath
+    }
+  });
+
+  t.is(typeof main, 'function');
+  t.is(
+    main.mainDependencyUsingCoreModuleFSReadPath('checkfilepath.js'),
+    'success'
+  );
+  t.is(main(), 'main string and mocked export, mock encode');
+});
+
+test('should purge local and global mocks', async t => {
+  await esmock('./local/main.js', {
+    './local/mainUtilNamedExports.js' : {
+      mainUtilNamedExportOne : 'mocked'
+    }
+  }, {
+    'form-urlencoded' : () => 'mock encode',
+    fs : {
+      existsSync : () => true,
+      readFileSync : filepath => filepath === 'checkfilepath.js'
+        ? 'success'
+        : filepath
+    }
+  }, {
+    key : 999
+  });
+
+  const keys = Object
+    .keys(esmock.esmockCache.mockDefs)
+    .filter(key => /esmockKey=999/.test(key));
+
+  t.truthy(keys.length);
+  t.true(keys.every(key => esmock.esmockCache.mockDefs[key] === null));
+});
+
 test('should mock a module, many times differently', async t => {
   const mainfoo = await esmock('./local/mainUtil.js', {
     'form-urlencoded' : () => 'mock encode foo'
@@ -148,4 +196,21 @@ test('should mock core module', async t => {
   });
 
   t.is(usesCoreModule.readPath('checkfilepath.js'), 'success');
+});
+
+test('should apply third parameter "global" definitions', async t => {
+  const main = await esmock('./local/main.js', {
+    './local/mainUtil.js' : {
+      exportedFunction : () => 'foobar'
+    }
+  }, {
+    fs : {
+      readFileSync : () => {
+        return 'this value anywhere the instance imports fs, global';
+      }
+    }
+  });
+
+  const tplStr = main.readTemplateFile();
+  t.is(tplStr, 'this value anywhere the instance imports fs, global');
 });
