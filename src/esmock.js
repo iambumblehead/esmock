@@ -3,20 +3,27 @@ import {
 } from './esmockPath.js';
 
 import {
-  esmockAddMocked,
-  esmockImportedModulePurge,
-  esmockImportedModuleSanitize
+  esmockModuleMock,
+  esmockModuleImportedPurge,
+  esmockModuleImportedSanitize
 } from './esmockModule.js';
 
-export default async (modulePath, mockDefs = {}) => {
+import {
+  esmockCache
+} from './esmockCache.js';
+
+const esmock = async (modulePath, mockDefs, globalDefs, opt) => {
   const calleePath = esmockPathCallee();
-  const modulePathKey = await esmockAddMocked(
-    calleePath, modulePath, mockDefs);
+  const modulePathKey = await esmockModuleMock(
+    calleePath, modulePath, mockDefs || {}, globalDefs || {}, opt || {});
 
   const importedModule = await import(modulePathKey);
 
-  esmockImportedModulePurge(modulePathKey);
+  esmockModuleImportedPurge(modulePathKey);
   
-  // return importedModule;
-  return esmockImportedModuleSanitize(importedModule);
+  return esmockModuleImportedSanitize(importedModule);
 };
+
+esmock.esmockCache = esmockCache;
+
+export default esmock;

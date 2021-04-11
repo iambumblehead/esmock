@@ -1,9 +1,9 @@
 {
   "name": "esmock",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "description": "esmock",
+  "description": "mock esm modules for unit-tests",
   "author": "Chris <chris@bumblehead.com>",
   "main": "src/esmockLoader.mjs",
   "module": "src/esmockLoader.mjs",
