@@ -8,7 +8,7 @@ esmock
 {
   "name": "give-esmock-a-star",
   "type": "module",
-  "scripts" : {
+  "scripts": {
     "test-ava": "ava --node-arguments=\"--loader=esmock\"",
     "test-mocha": "mocha --loader=esmock"
   }
@@ -16,20 +16,20 @@ esmock
 ```
 
 
-**Use it** `await esmock( './to/module.js', childmocks, globalmocks )`
+**Use it** `await esmock('./to/module.js', childmocks, globalmocks)`
 ``` javascript
 import test from 'ava';
 import esmock from 'esmock';
 
 test('should mock modules and local files at same time', async t => {
   const main = await esmock('./local/main.js', {
-    'stringifierpackage' : o => JSON.stringify(o),
+    stringifierpackage : o => JSON.stringify(o),
     './local/util.js' : {
       exportedFunction : () => 'foobar'
     }
   });
 
-  t.is(main(), 'foobar, ' + JSON.stringify({ test: 'object' }));
+  t.is(main(), JSON.stringify({ test : 'foobar' }));
 });
 
 test('should do "global" instance mocks (third parameter)', async t => {
