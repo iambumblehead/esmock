@@ -32,7 +32,7 @@ test('should mock modules and local files at same time', async t => {
   t.is(main(), JSON.stringify({ test : 'foobar' }));
 });
 
-test('should do global instance mocks (third parameter)', async t => {
+test('should do global instance mocks —third parameter', async t => {
   const { getFile } = await esmock('./local/main.js', {}, {
     fs : {
       readFileSync : () => {
