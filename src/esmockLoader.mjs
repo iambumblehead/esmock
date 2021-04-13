@@ -2,13 +2,10 @@ import path from 'path';
 import url from 'url';
 
 import esmock from './esmock.js';
+export default esmock;
 
 const urlDummy = 'file://' + path.join(
   path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js');
-const tplExportNamed = 'export const :n = global.esmockCacheGet(":k").:n';
-const tplExportDefault = 'export default global.esmockCacheGet(":k").default';
-
-export default esmock;
 
 export async function resolve (specifier, context, defaultResolve) {
   const [ esmockKeyParam ] = (context.parentURL
@@ -57,8 +54,8 @@ export async function getSource (url, context, defaultGetSource) {
   if (exportedNames) {
     return {
       source : exportedNames.map(name => name === 'default'
-        ? tplExportDefault.replace(/:k/, url)
-        : tplExportNamed.replace(/:k/, url).replace(/:n/g, name)
+        ? `export default global.esmockCacheGet("${url}").default`
+        : `export const ${name} = global.esmockCacheGet("${url}").${name}`
       ).join('\n')
     };
   }
