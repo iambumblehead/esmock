@@ -9,8 +9,8 @@ esmock
   "name": "give-esmock-a-star",
   "type": "module",
   "scripts" : {
-    "unit-test-ava": "ava --node-arguments=\"--loader=esmock\"",
-    "unit-test-mocha": "mocha --loader=esmock"
+    "test-ava": "ava --node-arguments=\"--loader=esmock\"",
+    "test-mocha": "mocha --loader=esmock"
   }
 }
 ```
