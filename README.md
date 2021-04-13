@@ -16,14 +16,14 @@ esmock
 ```
 
 
-**Use it** `await esmock( './path/to/module.js', childmocks, globalmocks )`
+**Use it** `await esmock( './to/module.js', childmocks, globalmocks )`
 ``` javascript
 import test from 'ava';
 import esmock from 'esmock';
 
-test('should mock module and local file at the same time', async t => {
+test('should mock modules and local files at same time', async t => {
   const main = await esmock('./local/main.js', {
-    'astringifierpackage' : o => JSON.stringify(o),
+    'stringifierpackage' : o => JSON.stringify(o),
     './local/util.js' : {
       exportedFunction : () => 'foobar'
     }
@@ -36,12 +36,12 @@ test('should do "global" instance mocks (third parameter)', async t => {
   const { getFile } = await esmock('./local/main.js', {}, {
     fs : {
       readFileSync : () => {
-        return 'this anywhere your instance imports fs for readFileSync';
+        return 'anywhere the instance uses fs readFileSync';
       }
     }
   });
 
-  t.is(getFile(), 'this anywhere your instance imports fs for readFileSync');
+  t.is(getFile(), 'anywhere the instance uses fs readFileSync');
 });
 ```
 
