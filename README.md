@@ -16,7 +16,7 @@ esmock
 ```
 
 
-And use it `await esmock( './path/to/module.js', childmocks, globalmocks )`
+**Use it** `await esmock( './path/to/module.js', childmocks, globalmocks )`
 ``` javascript
 import test from 'ava';
 import esmock from 'esmock';
@@ -32,16 +32,16 @@ test('should mock module and local file at the same time', async t => {
   t.is(main(), 'foobar, ' + JSON.stringify({ test: 'object' }));
 });
 
-test('should use "global" instance mocks, the third parameter', async t => {
+test('should do "global" instance mocks (third parameter)', async t => {
   const { getFile } = await esmock('./local/main.js', {}, {
     fs : {
       readFileSync : () => {
-        return 'this value anywhere the instance imports fs, global';
+        return 'this anywhere your instance imports fs for readFileSync';
       }
     }
   });
 
-  t.is(getFile(), 'this value anywhere the instance imports fs, global');
+  t.is(getFile(), 'this anywhere your instance imports fs for readFileSync');
 });
 ```
 
