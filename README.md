@@ -48,6 +48,8 @@ test('should do global instance mocks —third parameter', async t => {
 
 ### changelog
 
+ * 0.3.3 _Apr.13.2021_
+   * added keywords to package.json, use github action to npm publish
  * 0.3.1 _Apr.12.2021_
    * simplify README
  * 0.3.0 _Apr.10.2021_
