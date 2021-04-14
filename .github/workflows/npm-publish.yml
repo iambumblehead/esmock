@@ -32,16 +32,29 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
 
-#  publish-gpr:
-#    needs: build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: actions/setup-node@v2
-#        with:
-#          node-version: 12
-#          registry-url: https://npm.pkg.github.com/
-#      - run: npm ci
-#      - run: npm publish
-#        env:
-#          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+      - name: Insert repository owner as scope into package name
+        run: |
+          node <<EOF
+          const fs = require('fs').promises;
+          fs.readFile('package.json', 'utf8').then((data) => JSON.parse(data)).then((json) => {
+            json.name = '@$(echo "$GITHUB_REPOSITORY" | sed 's/\/.\+//')/' + json.name;
+            console.info('Package name changed to %s', json.name);
+            return fs.writeFile('package.json', JSON.stringify(json), 'utf8');
+          }).catch(error => {
+            console.error(error);
+            process.exit(1);
+          });
+          EOF
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
