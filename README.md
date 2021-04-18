@@ -1,6 +1,6 @@
 esmock
 ======
-[![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://travis-ci.org/iambumblehead/esmock.svg?branch=master)](https://travis-ci.org/iambumblehead/esmock)
+[![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2]
 
 
 **esmock _must_ be used with node's experimental --loader**
@@ -48,6 +48,8 @@ test('should do global instance mocks —third parameter', async t => {
 
 ### changelog
 
+ * 0.3.5 _Apr.18.2021_
+   * added gitlab actions npm test: node 12.x, 14.x and 15.x
  * 0.3.3 _Apr.13.2021_
    * added keywords to package.json, use github action to npm publish
  * 0.3.1 _Apr.12.2021_
@@ -61,3 +63,5 @@ test('should do global instance mocks —third parameter', async t => {
 
 
 [0]: http://www.bumblehead.com "bumblehead"
+[1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
+[2]: https://github.com/iambumblehead/esmock "esmock"

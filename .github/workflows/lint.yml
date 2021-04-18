@@ -1,0 +1,21 @@
+name: nodejs-lint
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+        
+    steps:
+    - uses: actions/checkout@v2
+    - name: lint
+      uses: actions/setup-node@v2
+      with:
+        node-version: '15.x'
+    - run: npm ci
+    - run: npm run lint
