@@ -2,7 +2,6 @@ import fs from 'fs';
 import resolvewith from 'resolvewithplus';
 
 import {
-  esmockCache,
   esmockCacheSet,
   esmockCacheResolvedPathGet,
   esmockCacheResolvedPathSet,
@@ -156,8 +155,6 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
 };
 
 export {
-  esmockCache,
-  esmockNextKey,
   esmockModuleMock,
   esmockModuleImportedPurge,
   esmockModuleImportedSanitize

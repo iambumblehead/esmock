@@ -48,7 +48,7 @@ test('should do global instance mocks —third parameter', async t => {
 
 ### changelog
 
- * 0.3.4 _Apr.18.2021_
+ * 0.3.5 _Apr.18.2021_
    * added gitlab actions npm test: node 12.x, 14.x and 15.x
  * 0.3.3 _Apr.13.2021_
    * added keywords to package.json, use github action to npm publish
