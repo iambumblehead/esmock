@@ -1,4 +1,4 @@
-name: nodejs-ci
+name: nodejs-lint
 
 on:
   push:
