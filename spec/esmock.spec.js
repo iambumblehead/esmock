@@ -24,6 +24,17 @@ test('should mock a local file', async t => {
   t.is(main(), 'main string, test string');
 });
 
+test('should throw error if local file not found', async t => {
+  await t.throwsAsync(() => esmock('./local/not/found.js', {
+    './local/mainUtil.js' : {
+      createString : () => 'test string'
+    }
+  }), {
+    message : 'modulePath not found: "./local/not/found.js"'
+  });
+});
+
+
 test('should mock a module', async t => {
   const main = await esmock('./local/mainUtil.js', {
     'form-urlencoded' : () => 'mock encode'
