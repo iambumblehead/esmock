@@ -48,6 +48,8 @@ test('should do global instance mocks —third parameter', async t => {
 
 ### changelog
 
+ * 0.3.6 _Apr.19.2021_
+   * throw error if mocked module path is not found
  * 0.3.5 _Apr.18.2021_
    * added gitlab actions npm test: node 12.x, 14.x and 15.x
  * 0.3.3 _Apr.13.2021_

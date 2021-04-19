@@ -145,6 +145,10 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
   const esmockGlobalKeys = await esmockModulesCreate(
     calleePath, pathModuleFull, esmockKey, gdefs, Object.keys(gdefs));
 
+  if (pathModuleFull === null) {
+    throw new Error(`modulePath not found: "${modulePath}"`);
+  }
+    
   const esmockCacheKey = `file://${pathModuleFull}?`
     + 'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
