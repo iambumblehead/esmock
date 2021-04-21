@@ -22,9 +22,9 @@ import test from 'ava';
 import esmock from 'esmock';
 
 test('should mock modules and local files at same time', async t => {
-  const main = await esmock('./local/main.js', {
+  const main = await esmock('../src/main.js', {
     stringifierpackage : o => JSON.stringify(o),
-    './local/util.js' : {
+    '../src/util.js' : {
       exportedFunction : () => 'foobar'
     }
   });
@@ -33,7 +33,7 @@ test('should mock modules and local files at same time', async t => {
 });
 
 test('should do global instance mocks —third parameter', async t => {
-  const { getFile } = await esmock('./local/main.js', {}, {
+  const { getFile } = await esmock('../src/main.js', {}, {
     fs : {
       readFileSync : () => {
         return 'anywhere the instance uses fs readFileSync';
@@ -48,6 +48,8 @@ test('should do global instance mocks —third parameter', async t => {
 
 ### changelog
 
+ * 0.3.8 _Apr.21.2021_
+   * small change to README
  * 0.3.7 _Apr.20.2021_
    * add test, throw error if mocked module path is not found
  * 0.3.6 _Apr.19.2021_
