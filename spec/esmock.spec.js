@@ -34,6 +34,15 @@ test('should throw error if local file not found', async t => {
   });
 });
 
+test('should throw error if local definition file not found', async t => {
+  await t.throwsAsync(() => esmock('./local/not/found.js', {
+    './local/not/found.js' : {
+      createString : () => 'test string'
+    }
+  }), {
+    message : /not a valid path: \".\/local\/not\/found.js\" \(used by/
+  });
+});
 
 test('should mock a module', async t => {
   const main = await esmock('./local/mainUtil.js', {
