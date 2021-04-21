@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "mock esm modules for unit-tests",
@@ -53,6 +53,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^7.17.0",
     "form-urlencoded": "^4.2.1",
+    "import-local": "3.0.2",
     "sinon": "^10.0.0"
   },
   "scripts": {

@@ -122,7 +122,11 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
 
   const mockedPathFull = esmockCacheResolvedPathGetCreate(pathCallee, keys[0]);
   if (!mockedPathFull) {
-    throw new Error('not a valid path ' + pathCallee + ', ' + keys[0]);
+    pathCallee = pathCallee
+      .replace(/^\/\//, '')
+      .replace(process.cwd(), '.')
+      .replace(process.env.HOME, '~');
+    throw new Error(`not a valid path: "${keys[0]}" (used by ${pathCallee})`);
   }
 
   mocks.push(await esmockModuleCreate(
