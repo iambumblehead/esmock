@@ -10,7 +10,7 @@ esmock
   "type": "module",
   "scripts": {
     "test-ava": "ava --node-arguments=\"--loader=esmock\"",
-    "test-mocha": "mocha --loader=esmock"
+    "test-mocha": "mocha --loader=esmock --no-warnings"
   }
 }
 ```
@@ -43,11 +43,33 @@ test('should do global instance mocks —third parameter', async t => {
 
   t.is(getFile(), 'anywhere the instance uses fs readFileSync');
 });
+
+test('some mock definitions need a "default" namespace', async t => {
+  const { hello } = await esmock('../src/main.js', {}, {
+    '../src/hello.js' : {
+      default : {
+        world: () => 'world'
+      }
+    }
+  });
+
+  t.is(hello(), 'world');
+});
 ```
+
+
+### notes
+
+Use `--loader=esmock --no-warnings` to suppress node's warning messages.
+
+If your mock definition isn't appearing in tests, try nesting it inside a default definition.
 
 
 ### changelog
 
+ * 0.3.9 _May.05.2021_
+   * small change to README
+   * added a test, update gitlab action to use node 16.x
  * 0.3.8 _Apr.21.2021_
    * small change to README
  * 0.3.7 _Apr.20.2021_
