@@ -205,6 +205,16 @@ test('should mock an mjs file, again', async t => {
   t.is(main.verifyImportedMock(), 'second mocked');
 });
 
+test('should mock an exported constant values', async t => {
+  const main = await esmock('./local/usesmjsModule.js', {
+    './local/env.js' : {
+      TESTCONSTANT : 'hello world'
+    }
+  });
+
+  t.is(main.verifyImportedConstant(), 'hello world');
+});
+
 test('should mock core module', async t => {
   const usesCoreModule = await esmock('./local/usesCoreModule.js', {
     fs : {

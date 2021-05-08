@@ -10,7 +10,7 @@ esmock
   "type": "module",
   "scripts": {
     "test-ava": "ava --node-arguments=\"--loader=esmock\"",
-    "test-mocha": "mocha --loader=esmock"
+    "test-mocha": "mocha --loader=esmock --no-warnings"
   }
 }
 ```
@@ -24,12 +24,15 @@ import esmock from 'esmock';
 test('should mock modules and local files at same time', async t => {
   const main = await esmock('../src/main.js', {
     stringifierpackage : o => JSON.stringify(o),
+    '../src/hello.js' : {
+      default : () => 'world'
+    },
     '../src/util.js' : {
       exportedFunction : () => 'foobar'
     }
   });
 
-  t.is(main(), JSON.stringify({ test : 'foobar' }));
+  t.is(main(), JSON.stringify({ test : 'world foobar' }));
 });
 
 test('should do global instance mocks —third parameter', async t => {
@@ -48,6 +51,9 @@ test('should do global instance mocks —third parameter', async t => {
 
 ### changelog
 
+ * 0.3.9 _May.05.2021_
+   * small change to README
+   * added a test, update gitlab action to use node 16.x
  * 0.3.8 _Apr.21.2021_
    * small change to README
  * 0.3.7 _Apr.20.2021_
