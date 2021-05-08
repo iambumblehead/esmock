@@ -24,12 +24,15 @@ import esmock from 'esmock';
 test('should mock modules and local files at same time', async t => {
   const main = await esmock('../src/main.js', {
     stringifierpackage : o => JSON.stringify(o),
+    '../src/hello.js' : {
+      default : () => 'world'
+    },
     '../src/util.js' : {
       exportedFunction : () => 'foobar'
     }
   });
 
-  t.is(main(), JSON.stringify({ test : 'foobar' }));
+  t.is(main(), JSON.stringify({ test : 'world foobar' }));
 });
 
 test('should do global instance mocks —third parameter', async t => {
@@ -43,26 +46,7 @@ test('should do global instance mocks —third parameter', async t => {
 
   t.is(getFile(), 'anywhere the instance uses fs readFileSync');
 });
-
-test('some mock definitions need a "default" namespace', async t => {
-  const { hello } = await esmock('../src/main.js', {}, {
-    '../src/hello.js' : {
-      default : {
-        world: () => 'world'
-      }
-    }
-  });
-
-  t.is(hello(), 'world');
-});
 ```
-
-
-### notes
-
-Use `--loader=esmock --no-warnings` to suppress node's warning messages.
-
-If your mock definition isn't appearing in tests, try nesting it inside a default definition.
 
 
 ### changelog
