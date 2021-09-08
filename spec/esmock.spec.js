@@ -252,5 +252,5 @@ test('returns spread-imported [object Module] default export', async t => {
     }
   });
 
-  t.is( main.exportedFunction(), 'foobar');
+  t.is(main.exportedFunction(), 'foobar');
 });
