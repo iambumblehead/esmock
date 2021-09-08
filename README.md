@@ -2,11 +2,21 @@ esmock
 ======
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2]
 
+**esmock** provides simple, native ESM import mocking on a per-unit basis.
 
-**esmock _must_ be used with node's experimental --loader**
-``` json
+# Quick Start
+
+To get started, simply install `esmock`, and update your test script to include it as a loader.
+
+Note: **esmock _must_ be used with node's experimental --loader**
+
+1. Install `esmock`:
+```shell
+$ npm i -D esmock
+```
+2. Update the `test` script in your `package.json`:
+```json
 {
-  "name": "give-esmock-a-star",
   "type": "module",
   "scripts": {
     "test-ava": "ava --node-arguments=\"--loader=esmock\"",
@@ -15,36 +25,75 @@ esmock
 }
 ```
 
+# Mocking ESM Imports inside Unit Tests
 
-**Use it** `await esmock('./to/module.js', childmocks, globalmocks)`
-``` javascript
-import test from 'ava';
-import esmock from 'esmock';
+Mocking is very simple and can be done on a per-unit basis. This means that each unit in your test file can be mocked differently, to allow for mocking out various scenarios.
 
+The syntax is very simple:
+
+```javascript
+const targetModuleExports = await esmock(targetModule, childMocks, globalMocks)
+```
+
+- **`targetModule`**: The path to the module you'll be testing.
+- **`targetModuleExports`**: Anything that `targetModule` exports.
+- **`childMocks`**: Modules imported into `targetModule` that you want to mock.
+- **`globalMocks`**: **_Optional_** Modules that you always want to mock, even if they're not directly imported by `targetModule`.
+
+The `targetModuleExports` is the default export, or it can be destructured to retrieve named exports.
+```javascript
+// Grabbing the default export
+const defaultExport = await esmock('../src/my-module.js', childMocks, globalMocks)
+// Grabbing both the default export and a named export
+const { default: defaultExport, namedExport } = await esmock('../src/my-module.js', childMocks, globalMocks)
+```
+
+The `*mocks` parameters follow the below syntax:
+```javascript
+childMocks | globalMocks = {
+  'npm-pkg-name': {
+    default: __mock_value__,
+    namedExport: __mock_value__
+  },
+  '../relative/path/to/imported/file.js': {
+    default: __mock_value__,
+    namedExport: __mock_value__
+  }
+}
+```
+
+Where `__mock_value__` could be a `string`, `function`, `class`, or anything else, depending on the module/file you're importing in your target.
+
+## Example
+
+Here's an example that demonstrates mocking a named module, as well as a local JS file. In this example, we're testing the `./src/main.js` and mocking the modules and files that it imports.
+
+**./src/main.js**:
+```javascript
+import serializer from 'serializepkg';
+import someDefaultExport from './someModule.js';
+
+export default () => {
+  const json = serializer(someDefaultExport());
+  return json;
+}
+```
+
+**./tests/main.js**:
+```javascript
 test('should mock modules and local files at same time', async t => {
   const main = await esmock('../src/main.js', {
-    stringifierpackage : o => JSON.stringify(o),
-    '../src/hello.js' : {
-      default : () => 'world'
+    serializepkg: {
+      default: obj => JSON.stringify(obj)
     },
-    '../src/util.js' : {
-      exportedFunction : () => 'foobar'
+    '../src/someModule.js' : {
+      default: () => ({ foo: 'bar' })
     }
   });
 
-  t.is(main(), JSON.stringify({ test : 'world foobar' }));
-});
-
-test('should do global instance mocks —third parameter', async t => {
-  const { getFile } = await esmock('../src/main.js', {}, {
-    fs : {
-      readFileSync : () => {
-        return 'anywhere the instance uses fs readFileSync';
-      }
-    }
-  });
-
-  t.is(getFile(), 'anywhere the instance uses fs readFileSync');
+  // Because `serializepkg` is mocked as a function that calls JSON.stringify()
+  // And `someDefaultExport` is mocked as a function that returns { foo: 'bar' }
+  t.is(main(), JSON.stringify({ foo: 'bar' }));
 });
 ```
 
