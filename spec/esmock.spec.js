@@ -244,3 +244,13 @@ test('should apply third parameter "global" definitions', async t => {
   const tplStr = main.readTemplateFile();
   t.is(tplStr, 'this value anywhere the instance imports fs, global');
 });
+
+test('returns spread-imported [object Module] default export', async t => {
+  const main = await esmock('./local/usesObjectModule.js', {
+    fs : {
+      exportedFunction : () => 'foobar'
+    }
+  });
+
+  t.is(main.exportedFunction(), 'foobar');
+});

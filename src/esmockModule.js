@@ -65,9 +65,14 @@ const esmockModuleIsESM = (mockPathFull, isesm) => {
 // return the default value directly, so that the esmock caller
 // does not need to lookup default as in "esmockedValue.default"
 const esmockModuleImportedSanitize = importedModule => {
-  if ('default' in importedModule
-    && !/boolean|string|number/.test(typeof importedModule.default)) {
-    return Object.assign(importedModule.default, importedModule);
+  const importedDefault = 'default' in importedModule
+        && importedModule.default;
+  
+  if (!/boolean|string|number/.test(typeof importedDefault)) {
+    // an example of [object Module]: import * as mod from 'fs'; export mod;
+    return Object.prototype.toString.call(importedDefault) === '[object Module]'
+      ? Object.assign({}, importedDefault, importedModule)
+      : Object.assign(importedDefault, importedModule);
   }
 
   return importedModule;

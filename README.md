@@ -51,6 +51,8 @@ test('should do global instance mocks —third parameter', async t => {
 
 ### changelog
 
+ * 0.4.0 _Sep.07.2021_
+   * do not runtime error when returuning type '[object Module]' default
  * 0.3.9 _May.05.2021_
    * small change to README
    * added a test, update gitlab action to use node 16.x
