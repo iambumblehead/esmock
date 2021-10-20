@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "mock esm modules for unit-tests",
@@ -50,9 +50,9 @@
   },
   "devDependencies": {
     "ava": "^4.0.0-alpha.2",
-    "eslint": "^7.32.0",
+    "eslint": "^8.0.1",
     "form-urlencoded": "4.2.1",
-    "import-local": "3.0.2",
+    "import-local": "3.0.3",
     "sinon": "^11.1.2"
   },
   "scripts": {
