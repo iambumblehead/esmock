@@ -100,6 +100,8 @@ test('should mock modules and local files at same time', async t => {
 
 ### changelog
 
+ * 1.0.0 _Oct.27.2001_
+   * release version 1.0
  * 0.4.2 _Oct.27.2021_
    * export 'load' hook from moduleLoader, required by node v16.12.0+
  * 0.4.1 _Oct.10.2021_
