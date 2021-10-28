@@ -40,6 +40,7 @@ export async function resolve (specifier, context, defaultResolve) {
   return resolved;
 }
 
+// supported by node version less than 16.12
 export async function getSource (url, context, defaultGetSource) {
   if (/#esmockModuleKeys/gi.test(url)) // parent of mocked modules
     return defaultGetSource(url, context, defaultGetSource);
@@ -62,3 +63,29 @@ export async function getSource (url, context, defaultGetSource) {
 
   return defaultGetSource(url, context, defaultGetSource);
 }
+
+export async function load (url, context, defaultGetSource) {
+  if (/#esmockModuleKeys/gi.test(url)) // parent of mocked modules
+    return defaultGetSource(url, context, defaultGetSource);
+
+  [ url ] = url.split('?esmockGlobals=');
+  if (url.startsWith(urlDummy)) {
+    url = url.replace(/[^#]*#/, '');
+  }
+
+  const exportedNames = /exportNames=/.test(url) &&
+    url.replace(/.*exportNames=(.*)/, '$1').split(',');
+  if (exportedNames) {
+    return {
+      format : 'module',
+      source : exportedNames.map(name => name === 'default'
+        ? `export default global.esmockCacheGet("${url}").default`
+        : `export const ${name} = global.esmockCacheGet("${url}").${name}`
+      ).join('\n')
+    };
+  }
+
+  return defaultGetSource(url, context, defaultGetSource);
+}
+
+
