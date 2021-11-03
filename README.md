@@ -100,15 +100,17 @@ test('should mock modules and local files at same time', async t => {
 
 ### changelog
 
+ * 1.0.1 _Nov.02.2001_
+   * add node v17.x to testing pipelin
  * 1.0.0 _Oct.27.2001_
    * release version 1.0
  * 0.4.2 _Oct.27.2021_
    * export 'load' hook from moduleLoader, required by node v16.12.0+
  * 0.4.1 _Oct.10.2021_
    * version bump, increment devDependencies,
-   * major improvement to READE, thanks @swivelgames
+   * major improvement to README, thanks @swivelgames
  * 0.4.0 _Sep.07.2021_
-   * do not runtime error when returuning type '[object Module]' default
+   * do not runtime error when returning type '[object Module]' default
  * 0.3.9 _May.05.2021_
    * small change to README
    * added a test, update gitlab action to use node 16.x
