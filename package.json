@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "mock esm modules for unit-tests",
@@ -57,6 +57,7 @@
   },
   "scripts": {
     "test": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs\"",
+    "test-no-warn": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs --no-warnings\"",
     "lint": "eslint src/*js spec/*js"
   }
 }

@@ -66,14 +66,14 @@ export async function load (url, context, defaultGetSource) {
 
 // supported by node version less than 16.12
 const [ nodeMjr, nodeMnr ] = process.versions.node.split('.').map(Number);
-const nodelte1612 = nodeMjr < 16 || (nodeMjr === 16 && nodeMnr <= 12);
+const nodelt1612 = nodeMjr < 16 || (nodeMjr === 16 && nodeMnr < 12);
 
 async function getSource (url, context, defaultGetSource) {
   return load(url, context, defaultGetSource);
 }
 
-if (!nodelte1612) {
-  getSource = null;
-}
+// make this null node versions after 16.11 so taht warning message
+// is not printed
+if (!nodelt1612) getSource = null;
 
 export { getSource };
