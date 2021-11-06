@@ -65,6 +65,15 @@ export async function load (url, context, defaultGetSource) {
 }
 
 // supported by node version less than 16.12
-export async function getSource (url, context, defaultGetSource) {
+const [ nodeMjr, nodeMnr ] = process.versions.node.split('.').map(Number);
+const nodelte1612 = nodeMjr < 16 || (nodeMjr === 16 && nodeMnr <= 12);
+
+async function getSource (url, context, defaultGetSource) {
   return load(url, context, defaultGetSource);
 }
+
+if (!nodelte1612) {
+  getSource = null;
+}
+
+export { getSource };
