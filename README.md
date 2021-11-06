@@ -101,7 +101,8 @@ test('should mock modules and local files at same time', async t => {
 ### changelog
 
  * 1.0.1 _Nov.02.2001_
-   * add node v17.x to testing pipelin
+   * add node v17.x to testing pipeline
+   * add, make warning message go away for node 16.12.0+
  * 1.0.0 _Oct.27.2001_
    * release version 1.0
  * 0.4.2 _Oct.27.2021_
