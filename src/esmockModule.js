@@ -95,7 +95,12 @@ const esmockNextKey = ((key = 0) => () => ++key)();
 // tries to return resolved path from a cache store first
 // else, builds resolved path, stores in cache and returns
 const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
-  console.log({ modulePath, calleePath }),
+  console.log({
+    modulePath,
+    calleePath,
+    resolved : resolvewith(
+      modulePath, calleePath === '///D' ? '///D:/' : calleePath, { esm : true })
+  }),
   esmockCacheResolvedPathGet(calleePath, modulePath)
     || esmockCacheResolvedPathSet(
       calleePath,
