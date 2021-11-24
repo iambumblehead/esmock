@@ -99,7 +99,7 @@ const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
     modulePath,
     calleePath,
     resolved : resolvewith(
-      modulePath, calleePath === '///D' ? '///D:/' : calleePath, { esm : true })
+      modulePath, calleePath === '///D' ? '///D:' : calleePath, { esm : true })
   }),
   esmockCacheResolvedPathGet(calleePath, modulePath)
     || esmockCacheResolvedPathSet(
