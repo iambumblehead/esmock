@@ -51,6 +51,10 @@ const esmockModuleESMRe = /(^\s*|[}\);\n]\s*)(import\s+(['"]|(\*\s+as\s+)?[^"'\(
 const esmockModuleIsESM = (mockPathFull, isesm) => {
   isesm = esmockCacheResolvedPathIsESMGet(mockPathFull);
 
+  console.log({
+    mockPathFull,
+    isesm
+  });
   if (typeof isesm === 'boolean')
     return isesm;
 
@@ -91,6 +95,7 @@ const esmockNextKey = ((key = 0) => () => ++key)();
 // tries to return resolved path from a cache store first
 // else, builds resolved path, stores in cache and returns
 const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
+  console.log({ modulePath, calleePath }),
   esmockCacheResolvedPathGet(calleePath, modulePath)
     || esmockCacheResolvedPathSet(
       calleePath,

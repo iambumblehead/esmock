@@ -13,10 +13,6 @@ const esmockPathCallee = () => {
   const stackItem = stackList.find(esmockStringHasPathExternal);
   const stackmatch = stackItem.match(/(\/[^:]*)/);
 
-  console.log({
-    stackItem,
-    stackmatch
-  });
   return stackmatch && stackmatch[1];
 };
 
