@@ -2,7 +2,7 @@ import test from 'ava';
 import esmock from '../src/esmock.js';
 import sinon from 'sinon';
 
-test.only('should return un-mocked file', async t => {
+test('should return un-mocked file', async t => {
   const main = await esmock('./local/main.js');
   const mainqs = [
     'a+string',

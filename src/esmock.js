@@ -1,8 +1,4 @@
 import {
-  esmockPathCallee
-} from './esmockPath.js';
-
-import {
   esmockModuleMock,
   esmockModuleImportedPurge,
   esmockModuleImportedSanitize
@@ -13,7 +9,10 @@ import {
 } from './esmockCache.js';
 
 const esmock = async (modulePath, mockDefs, globalDefs, opt) => {
-  const calleePath = esmockPathCallee();
+  // this functions caller is stack item '2'
+  const calleePath = new Error().stack.split('\n')[2]
+    .replace(/^.*file:\/\//, '')
+    .replace(/:[\d]*:[\d]*.*$/, '');
   const modulePathKey = await esmockModuleMock(
     calleePath, modulePath, mockDefs || {}, globalDefs || {}, opt || {});
 
