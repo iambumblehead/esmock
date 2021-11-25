@@ -11,8 +11,9 @@ import {
 const esmock = async (modulePath, mockDefs, globalDefs, opt) => {
   // this functions caller is stack item '2'
   const calleePath = new Error().stack.split('\n')[2]
-    .replace(/^.*file:\/\//, '')
-    .replace(/:[\d]*:[\d]*.*$/, '');
+    .replace(/^.*file:\/\//, '') // rm everything before filepathfe
+    .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
+    .replace(/^.*:/, ''); // rm windows-style drive locations
   const modulePathKey = await esmockModuleMock(
     calleePath, modulePath, mockDefs || {}, globalDefs || {}, opt || {});
 
