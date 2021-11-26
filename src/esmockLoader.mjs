@@ -4,8 +4,11 @@ import url from 'url';
 import esmock from './esmock.js';
 export default esmock;
 
-const urlDummy = 'file://' + path.join(
-  path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js');
+// ex, file:///path/to/esmock,
+//     file:///c:/path/to/esmock
+const urlDummy = 'file:///' + path
+  .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
+  .replace(/\//, '');
 
 export async function resolve (specifier, context, defaultResolve) {
   const [ esmockKeyParam ] = (context.parentURL

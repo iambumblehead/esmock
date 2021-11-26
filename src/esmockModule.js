@@ -1,17 +1,26 @@
 import fs from 'fs';
+import path from 'path';
 import resolvewith from 'resolvewithplus';
 
 import {
   esmockCacheSet,
-  esmockCacheResolvedPathGet,
-  esmockCacheResolvedPathSet,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
 } from './esmockCache.js';
 
+// https://url.spec.whatwg.org/
+const pathAddProtocol = (pathFull, isFilePath) => {
+  const isCorePath = !isFilePath && resolvewith.iscoremodule(pathFull);
+  const protocol = isCorePath ? 'node:' : 'file:///';
+
+  // file:///C:/demo
+  // file://root/linux/path
+  return protocol + pathFull.replace(/^\//, '');
+};
+
 const esmockModuleApply = (definitionLive, definitionMock, definitionPath) => {
   const isDefaultNamespace = o => typeof o === 'object' && 'default' in o;
-  const isCorePath = !/\//.test(definitionPath);
+  const isCorePath = resolvewith.iscoremodule(definitionPath);
   const definition = isCorePath
     ? Object.assign({ default : definitionMock }, definitionMock)
     : Object.assign({}, definitionLive, definitionMock);
@@ -54,7 +63,7 @@ const esmockModuleIsESM = (mockPathFull, isesm) => {
   if (typeof isesm === 'boolean')
     return isesm;
 
-  isesm = /^\//.test(mockPathFull)
+  isesm = !resolvewith.iscoremodule(mockPathFull)
     && esmockModuleESMRe.test(fs.readFileSync(mockPathFull, 'utf-8'));
 
   esmockCacheResolvedPathIsESMSet(mockPathFull, isesm);
@@ -88,24 +97,12 @@ const esmockModuleImportedPurge = modulePathKey => {
 
 const esmockNextKey = ((key = 0) => () => ++key)();
 
-// tries to return resolved path from a cache store first
-// else, builds resolved path, stores in cache and returns
-const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
-  esmockCacheResolvedPathGet(calleePath, modulePath)
-    || esmockCacheResolvedPathSet(
-      calleePath,
-      modulePath,
-      resolvewith(modulePath, calleePath, { esm : true }))
-);
-
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef) => {
   const isesm = esmockModuleIsESM(mockPathFull);
-  const isCorePath = !/\//.test(mockPathFull);
   const mockDefinitionFinal = esmockModuleApply(
-    await import(mockPathFull), mockDef, mockPathFull);
+    await import(pathAddProtocol(mockPathFull)), mockDef, mockPathFull);
 
-  const mockModuleProtocol = isCorePath ? 'node:' : 'file://';
-  const mockModuleKey = `${mockModuleProtocol}${mockPathFull}?` + [
+  const mockModuleKey = `${pathAddProtocol(mockPathFull)}?` + [
     'esmockKey=' + esmockKey,
     'esmockModuleKey=' + key,
     'isesm=' + isesm,
@@ -125,13 +122,17 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
   if (!keys.length)
     return mocks;
 
-  const mockedPathFull = esmockCacheResolvedPathGetCreate(pathCallee, keys[0]);
+  let mockedPathFull = resolvewith(keys[0], pathCallee);
   if (!mockedPathFull) {
     pathCallee = pathCallee
       .replace(/^\/\//, '')
       .replace(process.cwd(), '.')
       .replace(process.env.HOME, '~');
     throw new Error(`not a valid path: "${keys[0]}" (used by ${pathCallee})`);
+  }
+
+  if (process.platform === 'win32') {
+    mockedPathFull = mockedPathFull.split(path.sep).join(path.posix.sep);
   }
 
   mocks.push(await esmockModuleCreate(
@@ -146,8 +147,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
 };
 
 const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
-  const pathModuleFull = esmockCacheResolvedPathGetCreate(
-    calleePath, modulePath);
+  const pathModuleFull = resolvewith(modulePath, calleePath);
   const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey();
   const esmockModuleKeys = await esmockModulesCreate(
     calleePath, pathModuleFull, esmockKey, defs, Object.keys(defs));
@@ -158,7 +158,7 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
     throw new Error(`modulePath not found: "${modulePath}"`);
   }
     
-  const esmockCacheKey = `file://${pathModuleFull}?`
+  const esmockCacheKey = `${pathAddProtocol(pathModuleFull, true)}?`
     + 'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
       .replace(/:esmockGlobals/, esmockGlobalKeys.join('#') || 'null')
