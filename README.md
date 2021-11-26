@@ -100,10 +100,14 @@ test('should mock modules and local files at same time', async t => {
 
 ### changelog
 
- * 1.0.1 _Nov.02.2001_
+ * 1.1.0 _Nov.25.2021_
+   * add windows-latest to testing pipeline and begin windows support
+   * removed files and functions no longer needed
+   * increment resolvewithplus package and other dependencies
+ * 1.0.1 _Nov.02.2021_
    * add node v17.x to testing pipeline
    * add, make warning message go away for node 16.12.0+
- * 1.0.0 _Oct.27.2001_
+ * 1.0.0 _Oct.27.2021_
    * release version 1.0
  * 0.4.2 _Oct.27.2021_
    * export 'load' hook from moduleLoader, required by node v16.12.0+

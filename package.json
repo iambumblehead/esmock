@@ -46,7 +46,7 @@
     "rewire"
   ],
   "dependencies": {
-    "resolvewithplus": "^0.4.1"
+    "resolvewithplus": "^0.4.2"
   },
   "devDependencies": {
     "ava": "^4.0.0-rc.1",

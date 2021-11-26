@@ -4,8 +4,6 @@ import resolvewith from 'resolvewithplus';
 
 import {
   esmockCacheSet,
-  esmockCacheResolvedPathGet,
-  esmockCacheResolvedPathSet,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
 } from './esmockCache.js';
@@ -99,14 +97,6 @@ const esmockModuleImportedPurge = modulePathKey => {
 
 const esmockNextKey = ((key = 0) => () => ++key)();
 
-// tries to return resolved path from a cache store first
-// else, builds resolved path, stores in cache and returns
-const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
-  esmockCacheResolvedPathGet(calleePath, modulePath)
-    || esmockCacheResolvedPathSet(
-      calleePath, modulePath, resolvewith(modulePath, calleePath))
-);
-
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef) => {
   const isesm = esmockModuleIsESM(mockPathFull);
   const mockDefinitionFinal = esmockModuleApply(
@@ -132,7 +122,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
   if (!keys.length)
     return mocks;
 
-  let mockedPathFull = esmockCacheResolvedPathGetCreate(pathCallee, keys[0]);
+  let mockedPathFull = resolvewith(keys[0], pathCallee);
   if (!mockedPathFull) {
     pathCallee = pathCallee
       .replace(/^\/\//, '')
@@ -157,8 +147,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
 };
 
 const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
-  const pathModuleFull = esmockCacheResolvedPathGetCreate(
-    calleePath, modulePath);
+  const pathModuleFull = resolvewith(modulePath, calleePath);
   const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey();
   const esmockModuleKeys = await esmockModulesCreate(
     calleePath, pathModuleFull, esmockKey, defs, Object.keys(defs));

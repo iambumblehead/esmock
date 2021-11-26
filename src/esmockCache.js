@@ -18,18 +18,6 @@ const esmockCacheGet = key => (
 const esmockCacheResolvePathKey = (calleePath, localPath) => (
   path.join(path.dirname(calleePath), localPath));
 
-const esmockCacheResolvedPathSet = (calleePath, localPath, resolvedPath) => {
-  esmockCache.resolvedPaths[
-    esmockCacheResolvePathKey(calleePath, localPath)
-  ] = resolvedPath;
-
-  return resolvedPath;
-};
-
-const esmockCacheResolvedPathGet = (calleePath, localPath) => (
-  esmockCache.resolvedPaths[esmockCacheResolvePathKey(calleePath, localPath)]
-);
-
 const esmockCacheResolvedPathIsESMGet = mockPathFull => (
   esmockCache.isESM[mockPathFull]);
 
@@ -42,10 +30,7 @@ export {
   esmockCache,
   esmockCacheSet,
   esmockCacheGet,
-  esmockCacheResolvedPathGet,
-  esmockCacheResolvedPathSet,
   esmockCacheResolvePathKey,
-
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
 };
