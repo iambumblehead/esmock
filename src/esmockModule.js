@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import resolvewith from 'resolvewithplus';
 
 import {
@@ -14,6 +15,8 @@ const pathAddProtocol = (pathFull, isFilePath) => {
   const isCorePath = !isFilePath && resolvewith.iscoremodule(pathFull);
   const protocol = isCorePath ? 'node:' : 'file:///';
 
+  // file:///C:/demo
+  // file://root/linux/path
   return protocol + pathFull.replace(/^\//, '');
 };
 
@@ -62,7 +65,7 @@ const esmockModuleIsESM = (mockPathFull, isesm) => {
   if (typeof isesm === 'boolean')
     return isesm;
 
-  isesm = /^\//.test(mockPathFull)
+  isesm = !resolvewith.iscoremodule(mockPathFull)
     && esmockModuleESMRe.test(fs.readFileSync(mockPathFull, 'utf-8'));
 
   esmockCacheResolvedPathIsESMSet(mockPathFull, isesm);
@@ -107,7 +110,7 @@ const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef) => {
   const isesm = esmockModuleIsESM(mockPathFull);
   const mockDefinitionFinal = esmockModuleApply(
-    await import(mockPathFull), mockDef, mockPathFull);
+    await import(pathAddProtocol(mockPathFull)), mockDef, mockPathFull);
 
   const mockModuleKey = `${pathAddProtocol(mockPathFull)}?` + [
     'esmockKey=' + esmockKey,
@@ -129,13 +132,17 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
   if (!keys.length)
     return mocks;
 
-  const mockedPathFull = esmockCacheResolvedPathGetCreate(pathCallee, keys[0]);
+  let mockedPathFull = esmockCacheResolvedPathGetCreate(pathCallee, keys[0]);
   if (!mockedPathFull) {
     pathCallee = pathCallee
       .replace(/^\/\//, '')
       .replace(process.cwd(), '.')
       .replace(process.env.HOME, '~');
     throw new Error(`not a valid path: "${keys[0]}" (used by ${pathCallee})`);
+  }
+
+  if (process.platform === 'win32') {
+    mockedPathFull = mockedPathFull.split(path.sep).join(path.posix.sep);
   }
 
   mocks.push(await esmockModuleCreate(

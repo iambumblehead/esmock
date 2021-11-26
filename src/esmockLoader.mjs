@@ -4,18 +4,15 @@ import url from 'url';
 import esmock from './esmock.js';
 export default esmock;
 
-const urlDummy = 'file://' + path.join(
-  path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js');
+// ex, file:///path/to/esmock,
+//     file:///c:/path/to/esmock
+const urlDummy = 'file:///' + path
+  .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
+  .replace(/\//, '');
 
 export async function resolve (specifier, context, defaultResolve) {
   const [ esmockKeyParam ] = (context.parentURL
     && context.parentURL.match(/esmockKey=\d*/) || []);
-
-  if (process.platform === 'win32' && specifier.includes(path.sep)) {
-    specifier = specifier.split(path.sep).join(path.posix.sep);
-    specifier = specifier.startsWith('file://')
-      ? specifier : 'file:///' + specifier;
-  }
 
   if (!esmockKeyParam)
     return defaultResolve(specifier, context, defaultResolve);
