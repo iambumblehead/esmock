@@ -11,7 +11,7 @@ import {
 
 const esmockModuleApply = (definitionLive, definitionMock, definitionPath) => {
   const isDefaultNamespace = o => typeof o === 'object' && 'default' in o;
-  const isCorePath = !/\//.test(definitionPath);
+  const isCorePath = resolvewith.iscoremodule(definitionPath);
   const definition = isCorePath
     ? Object.assign({ default : definitionMock }, definitionMock)
     : Object.assign({}, definitionLive, definitionMock);
@@ -93,14 +93,12 @@ const esmockNextKey = ((key = 0) => () => ++key)();
 const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
   esmockCacheResolvedPathGet(calleePath, modulePath)
     || esmockCacheResolvedPathSet(
-      calleePath,
-      modulePath,
-      resolvewith(modulePath, calleePath, { esm : true }))
+      calleePath, modulePath, resolvewith(modulePath, calleePath))
 );
 
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef) => {
   const isesm = esmockModuleIsESM(mockPathFull);
-  const isCorePath = !/\//.test(mockPathFull);
+  const isCorePath = resolvewith.iscoremodule(mockPathFull);
   const mockDefinitionFinal = esmockModuleApply(
     await import(mockPathFull), mockDef, mockPathFull);
 
