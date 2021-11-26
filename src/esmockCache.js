@@ -1,5 +1,3 @@
-import path from 'path';
-
 const esmockCache = {
   resolvedPaths : {},
   isESM : {},
@@ -15,9 +13,6 @@ const esmockCacheSet = (key, mockDef) => (
 const esmockCacheGet = key => (
   esmockCache.mockDefs[key]);
 
-const esmockCacheResolvePathKey = (calleePath, localPath) => (
-  path.join(path.dirname(calleePath), localPath));
-
 const esmockCacheResolvedPathIsESMGet = mockPathFull => (
   esmockCache.isESM[mockPathFull]);
 
@@ -30,7 +25,6 @@ export {
   esmockCache,
   esmockCacheSet,
   esmockCacheGet,
-  esmockCacheResolvePathKey,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
 };

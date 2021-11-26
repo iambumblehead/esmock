@@ -97,9 +97,49 @@ test('should mock modules and local files at same time', async t => {
 });
 ```
 
+## Examle, mocking await import( 'modulename' )
+
+When `esmock` loads and returns a module it deletes mocking definitions from a cache by default. Disable this behaviour when using 'await import', so that mocked definitions can be loaded during test runtime. A function can be called later to clear the cache.
+
+``` javascript
+export default async function usesAwaitImport (config) {
+  const eslint = (await import('eslint'));
+
+  return new eslint.ESLint({ baseConfig : config });
+};
+```
+
+In the test file, define an 'options' object before local and global mock definitions, `{ isPurge: false }`,
+``` javascript
+test('mocks inline `async import("name")`', async t => {
+  const writeJSConfigFile = await esmock('./local/usesAwaitImport.mjs', {
+    isPurge : false
+  }, {
+    eslint : {
+      ESLint : function (o) {
+        this.stringify = () => JSON.stringify(o);
+
+        return this;
+      }
+    }
+  });
+
+  t.is((await writeJSConfigFile('config')).stringify(), JSON.stringify({
+    baseConfig : 'config'
+  }));
+
+  // clear the cache
+  esmock.purge(writeJSConfigFile);
+});
+```
+
+If there are not many tests or if each test completes in a separate process, skipping `esmock.purge()` is OK
+
 
 ### changelog
 
+ * 1.2.0 _Nov.26.2021_
+   * add support for await import
  * 1.1.0 _Nov.25.2021_
    * add windows-latest to testing pipeline and begin windows support
    * removed files and functions no longer needed
