@@ -9,6 +9,14 @@ import {
   esmockCacheResolvedPathIsESMSet
 } from './esmockCache.js';
 
+// https://url.spec.whatwg.org/
+const pathAddProtocol = (pathFull, isFilePath) => {
+  const isCorePath = !isFilePath && resolvewith.iscoremodule(pathFull);
+  const protocol = isCorePath ? 'node:' : 'file:///';
+
+  return protocol + pathFull.replace(/^\//, '');
+};
+
 const esmockModuleApply = (definitionLive, definitionMock, definitionPath) => {
   const isDefaultNamespace = o => typeof o === 'object' && 'default' in o;
   const isCorePath = resolvewith.iscoremodule(definitionPath);
@@ -98,12 +106,10 @@ const esmockCacheResolvedPathGetCreate = (calleePath, modulePath) => (
 
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef) => {
   const isesm = esmockModuleIsESM(mockPathFull);
-  const isCorePath = resolvewith.iscoremodule(mockPathFull);
   const mockDefinitionFinal = esmockModuleApply(
     await import(mockPathFull), mockDef, mockPathFull);
 
-  const mockModuleProtocol = isCorePath ? 'node:' : 'file://';
-  const mockModuleKey = `${mockModuleProtocol}${mockPathFull}?` + [
+  const mockModuleKey = `${pathAddProtocol(mockPathFull)}?` + [
     'esmockKey=' + esmockKey,
     'esmockModuleKey=' + key,
     'isesm=' + isesm,
@@ -156,7 +162,7 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
     throw new Error(`modulePath not found: "${modulePath}"`);
   }
     
-  const esmockCacheKey = `file://${pathModuleFull}?`
+  const esmockCacheKey = `${pathAddProtocol(pathModuleFull, true)}?`
     + 'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
       .replace(/:esmockGlobals/, esmockGlobalKeys.join('#') || 'null')
