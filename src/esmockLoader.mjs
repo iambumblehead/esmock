@@ -10,7 +10,7 @@ const urlDummy = 'file:///' + path
   .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
   .replace(/\//, '');
 
-export async function resolve (specifier, context, defaultResolve) {
+const resolve = async (specifier, context, defaultResolve) => {
   const [ esmockKeyParam ] = (context.parentURL
     && context.parentURL.match(/esmockKey=\d*/) || []);
 
@@ -41,9 +41,9 @@ export async function resolve (specifier, context, defaultResolve) {
   }
 
   return resolved;
-}
+};
 
-export async function load (url, context, defaultGetSource) {
+const load = async (url, context, defaultGetSource) => {
   if (/#esmockModuleKeys/gi.test(url)) // parent of mocked modules
     return defaultGetSource(url, context, defaultGetSource);
 
@@ -65,18 +65,14 @@ export async function load (url, context, defaultGetSource) {
   }
 
   return defaultGetSource(url, context, defaultGetSource);
-}
+};
 
-// supported by node version less than 16.12
-const [ nodeMjr, nodeMnr ] = process.versions.node.split('.').map(Number);
-const nodelt1612 = nodeMjr < 16 || (nodeMjr === 16 && nodeMnr < 12);
+// node gt 16.12 require getSource, node lt 16.11 warn remove getSource
+const getSource = ' 16. 12' > process.versions.node.split('.')
+  .slice(0, 2).map(s => s.padStart(3)).join('.') && load;
 
-async function getSource (url, context, defaultGetSource) {
-  return load(url, context, defaultGetSource);
-}
-
-// make this null node versions after 16.11 so taht warning message
-// is not printed
-if (!nodelt1612) getSource = null;
-
-export { getSource };
+export {
+  load,
+  resolve,
+  getSource
+};
