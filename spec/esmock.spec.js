@@ -256,9 +256,7 @@ test('returns spread-imported [object Module] default export', async t => {
 });
 
 test('mocks inline `async import("name")`', async t => {
-  const writeJSConfigFile = await esmock('./local/usesInlineImport.mjs', {
-    isPurge : false
-  }, {
+  const writeJSConfigFile = await esmock.p('./local/usesInlineImport.mjs', {
     eslint : {
       ESLint : function (...o) {
         this.stringify = () => JSON.stringify(...o);

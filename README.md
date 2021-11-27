@@ -97,49 +97,41 @@ test('should mock modules and local files at same time', async t => {
 });
 ```
 
-## Examle, mocking await import( 'modulename' )
+## Example, mocking await import('modulename')
 
-When `esmock` loads and returns a module it deletes mocking definitions from a cache by default. Disable this behaviour when using 'await import', so that mocked definitions can be loaded during test runtime. A function can be called later to clear the cache.
+Before `esmock` returns a module, by default it deletes mocked definitions for that module. To use 'await import',  call `esmock.p( ... )` instead of `esmock( ... )` so that async imports may use mock definitions during test runtime and after the module is returned.
 
+Foe example, let's test this file using `await import('eslint')`,
 ``` javascript
 export default async function usesAwaitImport (config) {
-  const eslint = (await import('eslint'));
+  const eslint = await import('eslint');
 
-  return new eslint.ESLint({ baseConfig : config });
+  return new eslint.ESLint(config);
 };
 ```
 
-In the test file, define an 'options' object before local and global mock definitions, `{ isPurge: false }`,
+Use `esmock.p()` rather than `esmock()` to load that file,
 ``` javascript
-test('mocks inline `async import("name")`', async t => {
-  const writeJSConfigFile = await esmock('./local/usesAwaitImport.mjs', {
-    isPurge : false
-  }, {
+test('should mock module using inline async import`', async t => {
+  const usesAwaitImport = await esmock.p('./local/usesAwaitImport.mjs', {
     eslint : {
-      ESLint : function (o) {
-        this.stringify = () => JSON.stringify(o);
-
-        return this;
-      }
+      ESLint : o => o
     }
   });
 
-  t.is((await writeJSConfigFile('config')).stringify(), JSON.stringify({
-    baseConfig : 'config'
-  }));
+  t.is(await usesAwaitImport('config'), 'config');
 
-  // clear the cache
-  esmock.purge(writeJSConfigFile);
+  esmock.purge(usesAwaitImport); // esmock.purge clears the cache
 });
 ```
 
-If there are not many tests or if each test completes in a separate process, skipping `esmock.purge()` is OK
+If there are not many tests or if tests complete in separate processes, skipping `esmock.purge()` is OK (if you don't have hundreds of tests, its OK to skip)
 
 
 ### changelog
 
- * 1.2.0 _Nov.26.2021_
-   * add support for await import
+ * 1.3.0 _Nov.26.2021_
+   * add support for await import, update README
  * 1.1.0 _Nov.25.2021_
    * add windows-latest to testing pipeline and begin windows support
    * removed files and functions no longer needed
