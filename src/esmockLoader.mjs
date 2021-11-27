@@ -68,7 +68,7 @@ const load = async (url, context, defaultGetSource) => {
 };
 
 // node gt 16.12 require getSource, node lt 16.11 warn remove getSource
-const getSource = ' 16. 11' > process.versions.node.split('.')
+const getSource = ' 16. 12' > process.versions.node.split('.')
   .slice(0, 2).map(s => s.padStart(3)).join('.') && load;
 
 export {
