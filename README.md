@@ -130,6 +130,8 @@ If there are not many tests or if tests complete in separate processes, skipping
 
 ### changelog
 
+ * 1.3.1 _Nov.26.2021_
+   * add npm keywords, remove lines of code
  * 1.3.0 _Nov.26.2021_
    * add support for await import, update README
  * 1.1.0 _Nov.25.2021_
