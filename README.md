@@ -33,7 +33,7 @@ await esmock(
 );
 ```
 
-Examples show esmock used in various unit-test situations with ava,
+esmock examples, using ava for various unit-test situations
 ``` javascript
 import test from 'ava';
 import esmock from 'esmock';
