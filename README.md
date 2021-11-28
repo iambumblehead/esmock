@@ -2,7 +2,7 @@ esmock
 ======
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2]
 
-**esmock provides native ESM import mocking on a per-unit basis.** Use the examples below as a quick-start guide or find a [descriptive and more friendly esmock guide here.][0]
+**esmock provides native ESM import mocking on a per-unit basis.** Use the examples below as a quick-start guide or find a [descriptive and more friendly esmock guide here.][10]
 
 
 [10]: https://github.com/iambumblehead/esmock/wiki/How-to-use-esmock
@@ -29,8 +29,9 @@ esmock
 import test from 'ava';
 import esmock from 'esmock';
 
-test('should mock modules and local files at same time', async t => {
+test('should mock local files, packages and core modules', async t => {
   const main = await esmock('../src/main.js', {
+    fs: { readFileSync: () => 'give it a star' },
     stringifierpackage : o => JSON.stringify(o),
     '../src/hello.js' : {
       default : () => 'world'
@@ -58,15 +59,13 @@ test('should do global instance mocks —third parameter', async t => {
 test('should mock "await import()" using esmock.p', async t => {
   // when esmock.p is used, mock definitions are not deleted from cache
   const usesAwaitImport = await esmock.p('../src/awaitImportEslint.mjs', {
-    eslint : {
-      ESLint : o => o
-    }
+    eslint : { ESLint : config => config }
   });
 
-  // the cached definition is ready for when it is imported
+  // the cached definition is there when import is called
   t.is(await usesAwaitImport('config'), 'config');
 
-  // if you want to clear the cache, use esmock.purge
+  // if you wish, clear the cache using esmock.purge
   esmock.purge(usesAwaitImport);
 })
 ```
@@ -77,7 +76,7 @@ test('should mock "await import()" using esmock.p', async t => {
    <br/>
 
  * 1.3.2 _Nov.27.2021_
-   * use shorter README with link to more descriptive README
+   * use quick-start README with link to more descriptive README
  * 1.3.1 _Nov.26.2021_
    * add npm keywords, remove lines of code
  * 1.3.0 _Nov.26.2021_
