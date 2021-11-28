@@ -12,7 +12,7 @@ esmock
 
 
 
-esmock must be used with node's experimental --loader
+`esmock` must be used with node's experimental --loader
 ``` json
 {
   "name": "give-esmock-a-star",
@@ -24,7 +24,7 @@ esmock must be used with node's experimental --loader
 }
 ```
 
-esmock has the following signature
+`esmock` has the following signature
 ``` javascript
 await esmock(
   './to/module.js', // the path to the target module being tested
@@ -33,7 +33,7 @@ await esmock(
 );
 ```
 
-esmock examples, using ava for various unit-test situations
+unit-test examples, using `esmock` and `ava` for various situations
 ``` javascript
 import test from 'ava';
 import esmock from 'esmock';
