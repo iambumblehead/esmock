@@ -2,21 +2,20 @@ esmock
 ======
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2]
 
-**esmock** provides simple, native ESM import mocking on a per-unit basis.
+**esmock** is a small 20kb package that provides native ESM import mocking on a per-unit basis. Use this quick-start guide or the [description esmock guide here.][0]
 
-# Quick Start
 
-To get started, simply install `esmock`, and update your test script to include it as a loader.
+[10]: https://github.com/iambumblehead/esmock/wiki/How-to-use-esmock
+[0]: http://www.bumblehead.com "bumblehead"
+[1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
+[2]: https://github.com/iambumblehead/esmock "esmock"
 
-Note: **esmock _must_ be used with node's experimental --loader**
 
-1. Install `esmock`:
-```shell
-$ npm i -D esmock
-```
-2. Update the `test` script in your `package.json`:
-```json
+
+**esmock must be used with node's experimental --loader**
+``` json
 {
+  "name": "give-esmock-a-star",
   "type": "module",
   "scripts": {
     "test-ava": "ava --node-arguments=\"--loader=esmock\"",
@@ -25,95 +24,39 @@ $ npm i -D esmock
 }
 ```
 
-# Mocking ESM Imports inside Unit Tests
+**Use it** `await esmock('./to/module.js', childmocks, globalmocks)`
+``` javascript
+import test from 'ava';
+import esmock from 'esmock';
 
-Mocking is very simple and can be done on a per-unit basis. This means that each unit in your test file can be mocked differently, to allow for mocking out various scenarios.
-
-The syntax is very simple:
-
-```javascript
-const targetModuleExports = await esmock(targetModule, childMocks, globalMocks)
-```
-
-- **`targetModule`**: The path to the module you'll be testing.
-- **`targetModuleExports`**: Anything that `targetModule` exports.
-- **`childMocks`**: Modules imported into `targetModule` that you want to mock.
-- **`globalMocks`**: **_Optional_** Modules that you always want to mock, even if they're not directly imported by `targetModule`.
-
-The `targetModuleExports` is the default export, or it can be destructured to retrieve named exports.
-```javascript
-// Grabbing the default export
-const defaultExport = await esmock('../src/my-module.js', childMocks, globalMocks)
-// Grabbing both the default export and a named export
-const { default: defaultExport, namedExport } = await esmock('../src/my-module.js', childMocks, globalMocks)
-```
-
-The `*mocks` parameters follow the below syntax:
-```javascript
-childMocks | globalMocks = {
-  'npm-pkg-name': {
-    default: __mock_value__,
-    namedExport: __mock_value__
-  },
-  '../relative/path/to/imported/file.js': {
-    default: __mock_value__,
-    namedExport: __mock_value__
-  }
-}
-```
-
-Where `__mock_value__` could be a `string`, `function`, `class`, or anything else, depending on the module/file you're importing in your target.
-
-## Example
-
-Here's an example that demonstrates mocking a named module, as well as a local JS file. In this example, we're testing the `./src/main.js` and mocking the modules and files that it imports.
-
-**./src/main.js**:
-```javascript
-import serializer from 'serializepkg';
-import someDefaultExport from './someModule.js';
-
-export default () => {
-  const json = serializer(someDefaultExport());
-  return json;
-}
-```
-
-**./tests/main.js**:
-```javascript
 test('should mock modules and local files at same time', async t => {
   const main = await esmock('../src/main.js', {
-    serializepkg: {
-      default: obj => JSON.stringify(obj)
+    stringifierpackage : o => JSON.stringify(o),
+    '../src/hello.js' : {
+      default : () => 'world'
     },
-    '../src/someModule.js' : {
-      default: () => ({ foo: 'bar' })
+    '../src/util.js' : {
+      exportedFunction : () => 'foobar'
     }
   });
 
-  // Because `serializepkg` is mocked as a function that calls JSON.stringify()
-  // And `someDefaultExport` is mocked as a function that returns { foo: 'bar' }
-  t.is(main(), JSON.stringify({ foo: 'bar' }));
+  t.is(main(), JSON.stringify({ test : 'world foobar' }));
 });
-```
 
-## Example, mocking await import('modulename')
+test('should do global instance mocks —third parameter', async t => {
+  const { getFile } = await esmock('../src/main.js', {}, {
+    fs : {
+      readFileSync : () => {
+        return 'anywhere the instance uses fs readFileSync';
+      }
+    }
+  });
 
-Before `esmock` returns a module, by default it deletes mocked definitions for that module. To use 'await import',  call `esmock.p( ... )` instead of `esmock( ... )` so that async imports may use mock definitions during test runtime and after the module is returned.
+  t.is(getFile(), 'anywhere the instance uses fs readFileSync');
+});
 
-Foe example, let's test this file using `await import('eslint')`,
-``` javascript
-export default async function usesAwaitImport (config) {
-  const eslint = await import('eslint');
-
-  return new eslint.ESLint(config);
-};
-```
-
-Use `esmock.p()` rather than `esmock()` to load that file,
-``` javascript
-test('should mock module using inline async import`', async t => {
-  const usesAwaitImport = await esmock.p('./local/usesAwaitImport.mjs', {
+test('should mock "await import calls" using esmock.p', async t => {
+  const usesAwaitImport = await esmock.p('../src/awaitImportEslint.mjs', {
     eslint : {
       ESLint : o => o
     }
@@ -121,14 +64,15 @@ test('should mock module using inline async import`', async t => {
 
   t.is(await usesAwaitImport('config'), 'config');
 
-  esmock.purge(usesAwaitImport); // esmock.purge clears the cache
-});
+  // when esmock.p is used, esmock's internal cache is not cleared.
+  // if you want to clear it, use esmock.purge
+  esmock.purge(usesAwaitImport);
+})
 ```
-
-If there are not many tests or if tests complete in separate processes, skipping `esmock.purge()` is OK (if you don't have hundreds of tests, its OK to skip)
-
-
-### changelog
+ 
+</details>
+   <summary>changelog</summary>
+   <br/>
 
  * 1.3.1 _Nov.26.2021_
    * add npm keywords, remove lines of code
@@ -172,7 +116,4 @@ If there are not many tests or if tests complete in separate processes, skipping
  * 0.1.0 _Apr.10.2021_
    * adds support for native esm modules
 
-
-[0]: http://www.bumblehead.com "bumblehead"
-[1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
-[2]: https://github.com/iambumblehead/esmock "esmock"
+</details>
