@@ -2,7 +2,7 @@ esmock
 ======
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2]
 
-**esmock is a 20kb package providing native ESM import mocking on a per-unit basis.** Use this quick-start guide or the [description esmock guide here.][0]
+**esmock is a 20kb package providing native ESM import mocking on a per-unit basis.** Use this quick-start guide or the [descriptive and more friendly esmock guide here.][0]
 
 
 [10]: https://github.com/iambumblehead/esmock/wiki/How-to-use-esmock
