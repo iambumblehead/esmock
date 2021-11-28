@@ -12,7 +12,7 @@ esmock
 
 
 
-**esmock must be used with node's experimental --loader**
+esmock must be used with node's experimental --loader
 ``` json
 {
   "name": "give-esmock-a-star",
@@ -24,7 +24,7 @@ esmock
 }
 ```
 
-**Use it** `await esmock('./to/module.js', childmocks, globalmocks)`
+Use it `await esmock('./to/module.js', childmocks, globalmocks)`
 ``` javascript
 import test from 'ava';
 import esmock from 'esmock';
