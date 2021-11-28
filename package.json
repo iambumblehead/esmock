@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "mock es modules for unit-tests",

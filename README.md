@@ -2,7 +2,7 @@ esmock
 ======
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2]
 
-**esmock provides native ESM import mocking on a per-unit basis.** Use the examples below as a quick-start guide or find a [descriptive and more friendly esmock guide here.][10]
+**esmock provides native ESM import mocking for unit tests.** Use the examples below as a quick-start guide or use a [descriptive and more friendly esmock guide here.][10]
 
 
 [10]: https://github.com/iambumblehead/esmock/wiki/How-to-use-esmock
@@ -24,7 +24,16 @@ esmock must be used with node's experimental --loader
 }
 ```
 
-Use it `await esmock('./to/module.js', childmocks, globalmocks)`
+esmock has the following signature
+``` javascript
+await esmock(
+  './to/module.js', // the path to the target module being tested
+  { ...childmocks }, // mocked definitions imported by the target module
+  { ...globalmocks } // mocked definitions imported everywhere else
+);
+```
+
+Examples show esmock used in various unit-test situations with ava,
 ``` javascript
 import test from 'ava';
 import esmock from 'esmock';
@@ -75,6 +84,8 @@ test('should mock "await import()" using esmock.p', async t => {
    <summary>changelog</summary>
    <br/>
 
+ * 1.3.3 _Nov.28.2021_
+   * update quick-start README to include phrase 'unit test'
  * 1.3.2 _Nov.27.2021_
    * use quick-start README with link to more descriptive README
  * 1.3.1 _Nov.26.2021_
