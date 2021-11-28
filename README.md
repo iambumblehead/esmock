@@ -2,7 +2,7 @@ esmock
 ======
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2]
 
-**esmock is a 20kb package providing native ESM import mocking on a per-unit basis.** Use the examples below as a quick-start guide or find a [descriptive and more friendly esmock guide here.][0]
+**esmock provides native ESM import mocking on a per-unit basis.** Use the examples below as a quick-start guide or find a [descriptive and more friendly esmock guide here.][0]
 
 
 [10]: https://github.com/iambumblehead/esmock/wiki/How-to-use-esmock
@@ -56,16 +56,17 @@ test('should do global instance mocks —third parameter', async t => {
 });
 
 test('should mock "await import()" using esmock.p', async t => {
+  // when esmock.p is used, mock definitions are not deleted from cache
   const usesAwaitImport = await esmock.p('../src/awaitImportEslint.mjs', {
     eslint : {
       ESLint : o => o
     }
   });
 
+  // the cached definition is ready for when it is imported
   t.is(await usesAwaitImport('config'), 'config');
 
-  // when esmock.p is used, esmock's internal cache is not cleared.
-  // if you want to clear it, use esmock.purge
+  // if you want to clear the cache, use esmock.purge
   esmock.purge(usesAwaitImport);
 })
 ```
@@ -75,6 +76,8 @@ test('should mock "await import()" using esmock.p', async t => {
    <summary>changelog</summary>
    <br/>
 
+ * 1.3.2 _Nov.27.2021_
+   * use shorter README with link to more descriptive README
  * 1.3.1 _Nov.26.2021_
    * add npm keywords, remove lines of code
  * 1.3.0 _Nov.26.2021_
