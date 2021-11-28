@@ -70,7 +70,7 @@ test('should mock "await import calls" using esmock.p', async t => {
 })
 ```
  
-</details>
+<details>
    <summary>changelog</summary>
    <br/>
 
