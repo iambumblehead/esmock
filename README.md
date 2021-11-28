@@ -2,7 +2,7 @@ esmock
 ======
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2]
 
-**esmock is a 20kb package providing native ESM import mocking on a per-unit basis.** Use this quick-start guide or the [descriptive and more friendly esmock guide here.][0]
+**esmock is a 20kb package providing native ESM import mocking on a per-unit basis.** Use the examples below as a quick-start guide or find a [descriptive and more friendly esmock guide here.][0]
 
 
 [10]: https://github.com/iambumblehead/esmock/wiki/How-to-use-esmock
@@ -55,7 +55,7 @@ test('should do global instance mocks —third parameter', async t => {
   t.is(getFile(), 'anywhere the instance uses fs readFileSync');
 });
 
-test('should mock "await import calls" using esmock.p', async t => {
+test('should mock "await import()" using esmock.p', async t => {
   const usesAwaitImport = await esmock.p('../src/awaitImportEslint.mjs', {
     eslint : {
       ESLint : o => o
@@ -69,7 +69,8 @@ test('should mock "await import calls" using esmock.p', async t => {
   esmock.purge(usesAwaitImport);
 })
 ```
- 
+
+
 <details>
    <summary>changelog</summary>
    <br/>
