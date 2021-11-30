@@ -1,5 +1,4 @@
 const esmockCache = {
-  resolvedPaths : {},
   isESM : {},
 
   // record of fullpaths with associated mocks

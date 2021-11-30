@@ -8,7 +8,7 @@ export default esmock;
 //     file:///c:/path/to/esmock
 const urlDummy = 'file:///' + path
   .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
-  .replace(/\//, '');
+  .replace(/^\//, '');
 
 const resolve = async (specifier, context, defaultResolve) => {
   const [ esmockKeyParam ] = (context.parentURL
@@ -67,7 +67,7 @@ const load = async (url, context, defaultGetSource) => {
   return defaultGetSource(url, context, defaultGetSource);
 };
 
-// node gt 16.12 require getSource, node lt 16.11 warn remove getSource
+// node lt 16.12 require getSource, node gte 16.12 warn remove getSource
 const getSource = ' 16. 12' > process.versions.node.split('.')
   .slice(0, 2).map(s => s.padStart(3)).join('.') && load;
 
