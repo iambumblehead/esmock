@@ -148,7 +148,7 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
   if (pathModuleFull === null)
     throw new Error(`modulePath not found: "${modulePath}"`);
     
-  return `${pathAddProtocol(pathModuleFull, 'file:///')}?`
+  return pathAddProtocol(pathModuleFull, 'file:///') + '?'
     + 'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
       .replace(/:esmockGlobals/, esmockGlobalKeys.join('#') || 'null')
