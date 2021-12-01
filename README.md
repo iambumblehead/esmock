@@ -67,15 +67,15 @@ test('should do global instance mocks —third parameter', async t => {
 
 test('should mock "await import()" using esmock.p', async t => {
   // when esmock.p is used, mock definitions are not deleted from cache
-  const usesAwaitImport = await esmock.p('../src/awaitImportEslint.mjs', {
+  const useAwaitImport = await esmock.p('../src/awaitImportEslint.mjs', {
     eslint : { ESLint : config => config }
   });
 
   // the cached definition is there when import is called
-  t.is(await usesAwaitImport('config'), 'config');
+  t.is(await useAwaitImport('config'), 'config');
 
   // if you wish, clear the cache using esmock.purge
-  esmock.purge(usesAwaitImport);
+  esmock.purge(useAwaitImport);
 })
 ```
 
