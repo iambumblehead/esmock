@@ -74,8 +74,7 @@ test('should mock "await import()" using esmock.p', async t => {
   // the cached definition is there when import is called
   t.is(await doAwaitImport('config'), 'config');
 
-  // if you wish, clear the cache using esmock.purge
-  esmock.purge(doAwaitImport);
+  esmock.purge(doAwaitImport); // clear the cache, if you wish
 });
 ```
 
