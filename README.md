@@ -27,7 +27,7 @@ esmock
 `esmock` has the following signature
 ``` javascript
 await esmock(
-  './to/module.js', // the path to the target module being tested
+  './to/module.js', // path to the target module being tested
   { ...childmocks }, // mocked definitions imported by the target module
   { ...globalmocks } // mocked definitions imported everywhere else
 );
