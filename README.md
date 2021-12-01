@@ -84,6 +84,8 @@ test('should mock "await import()" using esmock.p', async t => {
    <summary>changelog</summary>
    <br/>
 
+ * 1.4.0 _Nov.30.2021_
+   * throw error if esmock is called without --loader=esmock
  * 1.3.3 _Nov.28.2021_
    * update quick-start README to include phrase 'unit test'
  * 1.3.2 _Nov.27.2021_
