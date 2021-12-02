@@ -3,6 +3,7 @@ import path from 'path';
 import resolvewith from 'resolvewithplus';
 
 import {
+  esmockKeySet,
   esmockCacheSet,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
@@ -148,11 +149,15 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
   if (pathModuleFull === null)
     throw new Error(`modulePath not found: "${modulePath}"`);
     
-  return pathAddProtocol(pathModuleFull, 'file:///') + '?'
+  const esmockKeyLong = pathAddProtocol(pathModuleFull, 'file:///') + '?'
     + 'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
       .replace(/:esmockGlobals/, esmockGlobalKeys.join('#') || 'null')
       .replace(/:moduleKeys/, esmockModuleKeys.join('#'));
+
+  esmockKeySet(String(esmockKey), esmockKeyLong);
+
+  return pathAddProtocol(pathModuleFull, 'file:///') + `?esmk=${esmockKey}`;
 };
 
 export {

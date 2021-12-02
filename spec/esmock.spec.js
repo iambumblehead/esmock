@@ -13,7 +13,7 @@ test('should return un-mocked file', async t => {
   t.is(main(), `main string, mainUtil=${mainqs}`);
 });
 
-test('should mock a local file', async t => {
+test.only('should mock a local file', async t => {
   const main = await esmock('./local/main.js', {
     './local/mainUtil.js' : {
       createString : () => 'test string'

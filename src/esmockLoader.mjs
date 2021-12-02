@@ -13,16 +13,18 @@ const urlDummy = 'file:///' + path
 
 const resolve = async (specifier, context, defaultResolve) => {
   const [ esmockKeyParam ] = (context.parentURL
-    && context.parentURL.match(/esmockKey=\d*/) || []);
+    && context.parentURL.match(/\?esmk=\d*/) || []);
 
   if (!esmockKeyParam)
     return defaultResolve(specifier, context, defaultResolve);
 
+  const esmockKeyLong = global.esmockKeyGet(esmockKeyParam.split('=')[1]);
+  const [ esmockKeyLongParam ] = esmockKeyLong.match(/esmockKey=\d*/);
   const resolved = defaultResolve(specifier, context, defaultResolve);
   const moduleKeyRe = new RegExp(
-    '.*(' + resolved.url + '\\?' + esmockKeyParam + '[^#]*).*');
+    '.*(' + resolved.url + '\\?' + esmockKeyLongParam + '[^#]*).*');
 
-  const moduleURLSplitKeys = context.parentURL.split('#esmockModuleKeys=');
+  const moduleURLSplitKeys = esmockKeyLong.split('#esmockModuleKeys=');
   // eslint-disable-next-line prefer-destructuring
   const moduleGlobals = moduleURLSplitKeys[0].split('?esmockGlobals=')[1];
   const moduleKeyChild = moduleKeyRe.test(moduleURLSplitKeys[1])
