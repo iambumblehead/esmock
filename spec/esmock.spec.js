@@ -263,7 +263,7 @@ test('returns spread-imported [object Module] default export', async t => {
   t.is(main.exportedFunction(), 'foobar');
 });
 
-test('mocks inline `async import("name")`', async t => {
+test.skip('mocks inline `async import("name")`', async t => {
   const writeJSConfigFile = await esmock.p('./local/usesInlineImport.mjs', {
     eslint : {
       ESLint : function (...o) {

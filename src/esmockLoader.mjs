@@ -12,23 +12,21 @@ const urlDummy = 'file:///' + path
   .replace(/^\//, '');
 
 const resolve = async (specifier, context, defaultResolve) => {
-  const [ esmockKeyParam ] = (context.parentURL
-    && context.parentURL.match(/\?esmk=\d*/) || []);
-
+  const { parentURL } = context;
+  const [ esmockKeyParamSmall ] =
+    (parentURL && parentURL.match(/\?esmk=\d*/)) || [];
+  const esmockKeyLong = esmockKeyParamSmall
+    ? global.esmockKeyGet(esmockKeyParamSmall.split('=')[1])
+    : parentURL;
+  const [ esmockKeyParam ] =
+    (esmockKeyLong && esmockKeyLong.match(/esmockKey=\d*/) || []);
+  
   if (!esmockKeyParam)
     return defaultResolve(specifier, context, defaultResolve);
 
-  const esmockKeyLong = global.esmockKeyGet(esmockKeyParam.split('=')[1]);
-  
-  const [ esmockKeyLongParam ] = (esmockKeyLong
-    && esmockKeyLong.match(/esmockKey=\d*/)) || [];
-
-  if (!esmockKeyLongParam)
-    return defaultResolve(specifier, context, defaultResolve);
-  
   const resolved = defaultResolve(specifier, context, defaultResolve);
   const moduleKeyRe = new RegExp(
-    '.*(' + resolved.url + '\\?' + esmockKeyLongParam + '[^#]*).*');
+    '.*(' + resolved.url + '\\?' + esmockKeyParam + '[^#]*).*');
 
   const moduleURLSplitKeys = esmockKeyLong.split('#esmockModuleKeys=');
   // eslint-disable-next-line prefer-destructuring
