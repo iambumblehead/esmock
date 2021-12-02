@@ -25,11 +25,11 @@ test('should mock a local file', async t => {
 });
 
 test.serial('should throw error if !esmockloader', async t => {
-  esmock.esmockloader = false;
+  global.esmockloader = false;
   await t.throwsAsync(() => esmock('./to/module.js'), {
     message : 'process must be started with --loader=esmock'
   });
-  esmock.esmockloader = true;
+  global.esmockloader = true;
 });
 
 test('should throw error if local file not found', async t => {

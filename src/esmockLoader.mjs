@@ -2,7 +2,7 @@ import path from 'path';
 import url from 'url';
 
 import esmock from './esmock.js';
-esmock.esmockloader = true;
+global.esmockloader = true;
 export default esmock;
 
 // ex, file:///path/to/esmock,

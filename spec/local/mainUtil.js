@@ -12,9 +12,12 @@ const createString = () => formurlencoded.default({
   mainUtilNamedExportTwoValue : mainUtilNamedExportTwo()
 });
 
+const causeRuntimeError = () => mainUtil()();
+
 export default mainUtil;
 
 export {
   mainUtil,
-  createString
+  createString,
+  causeRuntimeError
 };

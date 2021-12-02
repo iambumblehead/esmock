@@ -83,6 +83,8 @@ test('should mock "await import()" using esmock.p', async t => {
    <summary>changelog</summary>
    <br/>
 
+ * 1.5.0 _Dec.01.2021_
+   * resolve bug around error '--loader=esmock' detection
  * 1.4.0 _Nov.30.2021_
    * throw error if esmock is called without --loader=esmock
  * 1.3.3 _Nov.28.2021_
