@@ -263,7 +263,7 @@ test('returns spread-imported [object Module] default export', async t => {
   t.is(main.exportedFunction(), 'foobar');
 });
 
-test.skip('mocks inline `async import("name")`', async t => {
+test('mocks inline `async import("name")`', async t => {
   const writeJSConfigFile = await esmock.p('./local/usesInlineImport.mjs', {
     eslint : {
       ESLint : function (...o) {
@@ -283,7 +283,7 @@ test.skip('mocks inline `async import("name")`', async t => {
       filePath : 'filePath'
     }));
 
-  const [ , key ] = writeJSConfigFile.esmockKey.match(/esmockKey=(\d*)/);
+  const [ , key ] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/);
   const keyRe = new RegExp(`esmockKey=${key}[^d]`);
 
   const moduleKeys = Object.keys(esmock.esmockCache.mockDefs)
