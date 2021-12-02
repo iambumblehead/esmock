@@ -12,9 +12,15 @@ const urlDummy = 'file:///' + path
   .replace(/^\//, '');
 
 const resolve = async (specifier, context, defaultResolve) => {
-  const [ esmockKeyParam ] = (context.parentURL
-    && context.parentURL.match(/esmockKey=\d*/) || []);
-
+  const { parentURL } = context;
+  const [ esmockKeyParamSmall ] =
+    (parentURL && parentURL.match(/\?esmk=\d*/)) || [];
+  const esmockKeyLong = esmockKeyParamSmall
+    ? global.esmockKeyGet(esmockKeyParamSmall.split('=')[1])
+    : parentURL;
+  const [ esmockKeyParam ] =
+    (esmockKeyLong && esmockKeyLong.match(/esmockKey=\d*/) || []);
+  
   if (!esmockKeyParam)
     return defaultResolve(specifier, context, defaultResolve);
 
@@ -22,7 +28,7 @@ const resolve = async (specifier, context, defaultResolve) => {
   const moduleKeyRe = new RegExp(
     '.*(' + resolved.url + '\\?' + esmockKeyParam + '[^#]*).*');
 
-  const moduleURLSplitKeys = context.parentURL.split('#esmockModuleKeys=');
+  const moduleURLSplitKeys = esmockKeyLong.split('#esmockModuleKeys=');
   // eslint-disable-next-line prefer-destructuring
   const moduleGlobals = moduleURLSplitKeys[0].split('?esmockGlobals=')[1];
   const moduleKeyChild = moduleKeyRe.test(moduleURLSplitKeys[1])

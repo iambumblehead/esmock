@@ -283,7 +283,7 @@ test('mocks inline `async import("name")`', async t => {
       filePath : 'filePath'
     }));
 
-  const [ , key ] = writeJSConfigFile.esmockKey.match(/esmockKey=(\d*)/);
+  const [ , key ] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/);
   const keyRe = new RegExp(`esmockKey=${key}[^d]`);
 
   const moduleKeys = Object.keys(esmock.esmockCache.mockDefs)
@@ -292,4 +292,16 @@ test('mocks inline `async import("name")`', async t => {
   t.true(moduleKeys.every(mkey => esmock.esmockCache.mockDefs[mkey]));
   esmock.purge(writeJSConfigFile);
   t.true(moduleKeys.every(mkey => esmock.esmockCache.mockDefs[mkey] === null));
+});
+
+test('should have small querystring in stacktrace filename', async t => {
+  const { causeRuntimeError } = await esmock('./local/mainUtil.js');
+
+  try {
+    causeRuntimeError();
+  } catch (e) {
+    t.true(/\?esmk=\d/.test(e.stack.split('\n')[1]));
+  }
+
+  t.pass();
 });

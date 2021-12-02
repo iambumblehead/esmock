@@ -83,6 +83,8 @@ test('should mock "await import()" using esmock.p', async t => {
    <summary>changelog</summary>
    <br/>
 
+ * 1.6.0 _Dec.02.2021_
+   * reduce file url length (improve readability of stacktrace)
  * 1.5.0 _Dec.01.2021_
    * resolve bug around error '--loader=esmock' detection
  * 1.4.0 _Nov.30.2021_

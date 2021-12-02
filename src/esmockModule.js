@@ -3,6 +3,8 @@ import path from 'path';
 import resolvewith from 'resolvewithplus';
 
 import {
+  esmockKeySet,
+  esmockKeyGet,
   esmockCacheSet,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
@@ -68,7 +70,7 @@ const esmockModuleIsESM = (mockPathFull, isesm) => {
 // does not need to lookup default as in "esmockedValue.default"
 const esmockModuleImportedSanitize = (importedModule, esmockKey) => {
   const importedDefault = 'default' in importedModule && importedModule.default;
-  
+
   if (!/boolean|string|number/.test(typeof importedDefault)) {
     // an example of [object Module]: import * as mod from 'fs'; export mod;
     return Object.prototype.toString.call(importedDefault) === '[object Module]'
@@ -81,7 +83,8 @@ const esmockModuleImportedSanitize = (importedModule, esmockKey) => {
 
 const esmockModuleImportedPurge = modulePathKey => {
   const purgeKey = key => key === 'null' || esmockCacheSet(key, null);
-  const [ url, keys ] = modulePathKey.split('#esmockModuleKeys=');
+  const longKey = esmockKeyGet(modulePathKey.split('esmk=')[1]);
+  const [ url, keys ] = longKey.split('#esmockModuleKeys=');
 
   String(keys).split('#').forEach(purgeKey);
   String(url.split('esmockGlobals=')[1]).split('#').forEach(purgeKey);
@@ -148,11 +151,15 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
   if (pathModuleFull === null)
     throw new Error(`modulePath not found: "${modulePath}"`);
     
-  return pathAddProtocol(pathModuleFull, 'file:///') + '?'
+  const esmockKeyLong = pathAddProtocol(pathModuleFull, 'file:///') + '?'
     + 'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
       .replace(/:esmockGlobals/, esmockGlobalKeys.join('#') || 'null')
       .replace(/:moduleKeys/, esmockModuleKeys.join('#'));
+
+  esmockKeySet(String(esmockKey), esmockKeyLong);
+
+  return pathAddProtocol(pathModuleFull, 'file:///') + `?esmk=${esmockKey}`;
 };
 
 export {

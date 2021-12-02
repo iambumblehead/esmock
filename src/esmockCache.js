@@ -6,6 +6,12 @@ const esmockCache = {
   mockDefs : {}
 };
 
+const esmockKeySet = (key, keylong) => (
+  global.mockKeys[String(key)] = keylong);
+
+const esmockKeyGet = key => (
+  global.mockKeys[String(key)]);
+
 const esmockCacheSet = (key, mockDef) => (
   esmockCache.mockDefs[key] = mockDef);
 
@@ -18,12 +24,18 @@ const esmockCacheResolvedPathIsESMGet = mockPathFull => (
 const esmockCacheResolvedPathIsESMSet = (mockPathFull, isesm) => (
   esmockCache.isESM[mockPathFull] = isesm);
 
-Object.assign(global, { esmockCacheGet });
+Object.assign(global, {
+  esmockCacheGet,
+  esmockKeyGet,
+  mockKeys : {}
+});
 
 export {
   esmockCache,
   esmockCacheSet,
   esmockCacheGet,
+  esmockKeySet,
+  esmockKeyGet,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
 };
