@@ -293,3 +293,15 @@ test('mocks inline `async import("name")`', async t => {
   esmock.purge(writeJSConfigFile);
   t.true(moduleKeys.every(mkey => esmock.esmockCache.mockDefs[mkey] === null));
 });
+
+test('should have small querystring in stacktrace filename', async t => {
+  const { causeRuntimeError } = await esmock('./local/mainUtil.js');
+
+  try {
+    causeRuntimeError();
+  } catch (e) {
+    t.true(/\?esmk=\d/.test(e.stack.split('\n')[1]));
+  }
+
+  t.pass();
+});
