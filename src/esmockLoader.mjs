@@ -19,7 +19,13 @@ const resolve = async (specifier, context, defaultResolve) => {
     return defaultResolve(specifier, context, defaultResolve);
 
   const esmockKeyLong = global.esmockKeyGet(esmockKeyParam.split('=')[1]);
-  const [ esmockKeyLongParam ] = esmockKeyLong.match(/esmockKey=\d*/);
+  
+  const [ esmockKeyLongParam ] = (esmockKeyLong
+    && esmockKeyLong.match(/esmockKey=\d*/)) || [];
+
+  if (!esmockKeyLongParam)
+    return defaultResolve(specifier, context, defaultResolve);
+  
   const resolved = defaultResolve(specifier, context, defaultResolve);
   const moduleKeyRe = new RegExp(
     '.*(' + resolved.url + '\\?' + esmockKeyLongParam + '[^#]*).*');
