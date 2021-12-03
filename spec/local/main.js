@@ -5,7 +5,10 @@ import {
 } from './mainUtilNamedExports.js';
 import { readPath, readSync } from './usesCoreModule.js';
 
-import { createString } from './mainUtil.js';
+import {
+  createString,
+  causeRuntimeError
+} from './mainUtil.js';
 
 if (typeof basename !== 'function') {
   throw new Error('import basename failed');
@@ -22,6 +25,9 @@ export const mainDependencyUsingCoreModuleFSReadPath = path => {
 export const readTemplateFile = path => {
   return readSync(path);
 };
+
+export const causeRuntimeErrorFromImportedFile = () => (
+  causeRuntimeError());
 
 export default () => {
   return /mocked/.test(mainUtilNamedExportOne)

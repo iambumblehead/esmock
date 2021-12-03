@@ -1,8 +1,13 @@
+import process from 'process';
 import path from 'path';
 import url from 'url';
 
 import esmock from './esmock.js';
-global.esmockloader = true;
+
+if (process.execArgv.some(args => (
+  args.startsWith('--loader=') && args.includes('esmock'))))
+  global.esmockloader = true;
+
 export default esmock;
 
 // ex, file:///path/to/esmock,

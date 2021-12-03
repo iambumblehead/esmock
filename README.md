@@ -4,8 +4,7 @@ esmock
 
 **esmock provides native ESM import mocking for unit tests.** Use the examples below as a quick-start guide or use a [descriptive and more friendly esmock guide here.][10]
 
-
-[10]: https://github.com/iambumblehead/esmock/wiki/How-to-use-esmock
+[10]: https://github.com/iambumblehead/esmock/wiki
 [0]: http://www.bumblehead.com "bumblehead"
 [1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
 [2]: https://github.com/iambumblehead/esmock "esmock"
@@ -27,8 +26,8 @@ esmock
 `esmock` has the following signature
 ``` javascript
 await esmock(
-  './to/module.js', // path to the target module being tested
-  { ...childmocks }, // mocked definitions imported by the target module
+  './to/module.js', // path to target module being tested
+  { ...childmocks }, // mocked definitions imported by target module
   { ...globalmocks } // mocked definitions imported everywhere else
 );
 ```
@@ -66,12 +65,12 @@ test('should do global instance mocks —third parameter', async t => {
 });
 
 test('should mock "await import()" using esmock.p', async t => {
-  // when esmock.p is used, mock definitions are not deleted from cache
-  const doAwaitImport = await esmock.p('../src/awaitImportEslint.mjs', {
+  // using esmock.p, mock definitions are not deleted from cache
+  const doAwaitImport = await esmock.p('../src/awaitImportLint.js', {
     eslint : { ESLint : config => config }
   });
 
-  // the cached definition is there when import is called
+  // cached mock definition is there when import is called
   t.is(await doAwaitImport('config'), 'config');
 
   esmock.purge(doAwaitImport); // clear the cache, if you wish
@@ -83,10 +82,14 @@ test('should mock "await import()" using esmock.p', async t => {
    <summary>changelog</summary>
    <br/>
 
+ * 1.6.1 _Dec.03.2021_
+   * adds test verifying deep stacktrace has small path file:///
+   * resolve bug, '--loader=esmoc' not-found error not thrown
+   * small README edits, update link to wiki (use Home as default)
  * 1.6.0 _Dec.02.2021_
    * reduce file url length (improve readability of stacktrace)
  * 1.5.0 _Dec.01.2021_
-   * resolve bug around error '--loader=esmock' detection
+   * resolve bug around error '--loader=esmock' detectionw
  * 1.4.0 _Nov.30.2021_
    * throw error if esmock is called without --loader=esmock
  * 1.3.3 _Nov.28.2021_
