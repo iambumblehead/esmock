@@ -305,3 +305,25 @@ test('should have small querystring in stacktrace filename', async t => {
 
   t.pass();
 });
+
+test('should have small querystring in stacktrace filename, deep', async t => {
+  const {
+    causeRuntimeErrorFromImportedFile
+  } = await esmock('./local/main.js', {}, {
+    './local/mainUtil.js' : {
+      causeRuntimeError : () => {
+        t.nonexistantmethod();
+      }
+    }
+  });
+
+  try {
+    causeRuntimeErrorFromImportedFile();
+  } catch (e) {
+    t.true(
+      e.stack.split('\n')
+        .every(line => !line.includes('?') || /\?esmk=\d/.test(line)));
+  }
+
+  t.pass();
+});
