@@ -38,14 +38,11 @@ unit-test examples, using `esmock` and `ava` for various situations
 import test from 'ava';
 import esmock from 'esmock';
 
-test('should mock local files, packages and core modules', async t => {
+test('should mock local files and packages', async t => {
   const main = await esmock('../src/main.js', {
-    fs: { readFileSync: () => 'give it a star' },
     stringifierpackage : o => JSON.stringify(o),
     '../src/hello.js' : {
-      default : () => 'world'
-    },
-    '../src/util.js' : {
+      default : () => 'world',
       exportedFunction : () => 'foobar'
     }
   });
@@ -64,7 +61,7 @@ test('should do global instance mocks —third parameter', async t => {
 });
 
 test('should mock "await import()" using esmock.p', async t => {
-  // using esmock.p, mock definitions are not deleted from cache
+  // using esmock.p, mock definitions are kept in cache
   const doAwaitImport = await esmock.p('../awaitImportLint.js', {
     eslint : { ESLint : cfg => cfg }
   });
@@ -73,5 +70,23 @@ test('should mock "await import()" using esmock.p', async t => {
   t.is(await doAwaitImport('cfg'), 'cfg');
 
   esmock.purge(doAwaitImport); // clear cache, if you wish
+});
+
+test('should merge "default" value, when safe', async t => {
+  const main = await esmock('../src/main.js');
+
+  // use the form you prefer in your test
+  t.is(main(), main.default());
+});
+
+test('should mock "default" value, when safe', async t => {
+  const mainA = await esmock('../src/exportsMain.js', {
+    '../src/main.js' : () => 'mocked main'
+  });
+  const mainB = await esmock('../src/exportsMain.js', {
+    '../src/main.js' : { default : () => 'mocked main' }
+  });
+
+  t.is(mainA(), mainB());
 });
 ```

@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.6.3 _Dec.04.2021_
+   * adds more examples to README
  * 1.6.2 _Dec.04.2021_
    * adds uvu tests and example command to README
  * 1.6.1 _Dec.03.2021_
