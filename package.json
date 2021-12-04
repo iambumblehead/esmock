@@ -60,6 +60,6 @@
     "test-uvu": "node --no-warnings --loader=./src/esmockLoader.mjs ./node_modules/uvu/bin.js ./spec/uvu/",
     "test": "npm run test-ava && npm run test-uvu",
     "test-no-warn": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs --no-warnings\"",
-    "lint": "eslint src/*js spec/*js"
+    "lint": "eslint src/*js spec"
   }
 }

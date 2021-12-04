@@ -71,7 +71,7 @@ test('should mock a module', async () => {
   assert.is(main.createString(), 'mock encode');
 });
 
-test('should mock a module, globally', async t => {
+test('should mock a module, globally', async () => {
   const main = await esmock('../local/main.js', {
     '../local/mainUtilNamedExports.js' : {
       mainUtilNamedExportOne : 'mocked'
