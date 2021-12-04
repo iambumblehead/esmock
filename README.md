@@ -2,7 +2,7 @@ esmock
 ======
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2]
 
-**esmock provides native ESM import mocking for unit tests.** Use the examples below as a quick-start guide or use a [descriptive and more friendly esmock guide here.][10]
+**esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide or use the [descriptive and friendly esmock guide here.][10]
 
 [10]: https://github.com/iambumblehead/esmock/wiki
 [0]: http://www.bumblehead.com "bumblehead"
@@ -17,6 +17,7 @@ esmock
   "name": "give-esmock-a-star",
   "type": "module",
   "scripts": {
+    "test-uvu": "node --loader=esmock ./node_modules/uvu/bin.js ./spec/",
     "test-ava": "ava --node-arguments=\"--loader=esmock\"",
     "test-mocha": "mocha --loader=esmock --no-warnings"
   }
@@ -27,8 +28,8 @@ esmock
 ``` javascript
 await esmock(
   './to/module.js', // path to target module being tested
-  { ...childmocks }, // mocked definitions imported by target module
-  { ...globalmocks } // mocked definitions imported everywhere else
+  { ...childmocks }, // mock definitions imported by target module
+  { ...globalmocks } // mock definitions imported everywhere else
 );
 ```
 
@@ -55,87 +56,22 @@ test('should mock local files, packages and core modules', async t => {
 test('should do global instance mocks —third parameter', async t => {
   const { getFile } = await esmock('../src/main.js', {}, {
     fs : {
-      readFileSync : () => {
-        return 'anywhere the instance uses fs readFileSync';
-      }
+      readFileSync : () => 'returns this globally';
     }
   });
 
-  t.is(getFile(), 'anywhere the instance uses fs readFileSync');
+  t.is(getFile(), 'returns this globally');
 });
 
 test('should mock "await import()" using esmock.p', async t => {
   // using esmock.p, mock definitions are not deleted from cache
-  const doAwaitImport = await esmock.p('../src/awaitImportLint.js', {
-    eslint : { ESLint : config => config }
+  const doAwaitImport = await esmock.p('../awaitImportLint.js', {
+    eslint : { ESLint : cfg => cfg }
   });
 
   // cached mock definition is there when import is called
-  t.is(await doAwaitImport('config'), 'config');
+  t.is(await doAwaitImport('cfg'), 'cfg');
 
-  esmock.purge(doAwaitImport); // clear the cache, if you wish
+  esmock.purge(doAwaitImport); // clear cache, if you wish
 });
 ```
-
-
-<details>
-   <summary>changelog</summary>
-   <br/>
-
- * 1.6.1 _Dec.03.2021_
-   * adds test verifying deep stacktrace has small path file:///
-   * resolve bug, '--loader=esmoc' not-found error not thrown
-   * small README edits, update link to wiki (use Home as default)
- * 1.6.0 _Dec.02.2021_
-   * reduce file url length (improve readability of stacktrace)
- * 1.5.0 _Dec.01.2021_
-   * resolve bug around error '--loader=esmock' detection
- * 1.4.0 _Nov.30.2021_
-   * throw error if esmock is called without --loader=esmock
- * 1.3.3 _Nov.28.2021_
-   * update quick-start README to include phrase 'unit test'
- * 1.3.2 _Nov.27.2021_
-   * use quick-start README with link to more descriptive README
- * 1.3.1 _Nov.26.2021_
-   * add npm keywords, remove lines of code
- * 1.3.0 _Nov.26.2021_
-   * add support for await import, update README
- * 1.1.0 _Nov.25.2021_
-   * add windows-latest to testing pipeline and begin windows support
-   * removed files and functions no longer needed
-   * increment resolvewithplus package and other dependencies
- * 1.0.1 _Nov.02.2021_
-   * add node v17.x to testing pipeline
-   * add, make warning message go away for node 16.12.0+
- * 1.0.0 _Oct.27.2021_
-   * release version 1.0
- * 0.4.2 _Oct.27.2021_
-   * export 'load' hook from moduleLoader, required by node v16.12.0+
- * 0.4.1 _Oct.10.2021_
-   * version bump, increment devDependencies,
-   * major improvement to README, thanks @swivelgames
- * 0.4.0 _Sep.07.2021_
-   * do not runtime error when returning type '[object Module]' default
- * 0.3.9 _May.05.2021_
-   * small change to README
-   * added a test, update gitlab action to use node 16.x
- * 0.3.8 _Apr.21.2021_
-   * small change to README
- * 0.3.7 _Apr.20.2021_
-   * add test, throw error if mocked module path is not found
- * 0.3.6 _Apr.19.2021_
-   * throw error if mocked module path is not found
- * 0.3.5 _Apr.18.2021_
-   * added gitlab actions npm test: node 12.x, 14.x and 15.x
- * 0.3.3 _Apr.13.2021_
-   * added keywords to package.json, use github action to npm publish
- * 0.3.1 _Apr.12.2021_
-   * simplify README
- * 0.3.0 _Apr.10.2021_
-   * adds support for mocking modules 'globally' for the instance
- * 0.2.0 _Apr.10.2021_
-   * adds support for mocking core modules such as fs and path
- * 0.1.0 _Apr.10.2021_
-   * adds support for native esm modules
-
-</details>
