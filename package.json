@@ -49,13 +49,16 @@
     "resolvewithplus": "^0.4.2"
   },
   "devDependencies": {
+    "uvu": "0.5.2",
     "ava": "^4.0.0-rc.1",
     "eslint": "^8.0.1",
     "form-urlencoded": "4.2.1",
     "sinon": "^12.0.1"
   },
   "scripts": {
-    "test": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs\"",
+    "test-ava": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs\" ./spec/ava/*spec.js",
+    "test-uvu": "node --no-warnings --loader=./src/esmockLoader.mjs ./node_modules/uvu/bin.js ./spec/uvu/",
+    "test": "npm run test-ava && npm run test-uvu",
     "test-no-warn": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs --no-warnings\"",
     "lint": "eslint src/*js spec/*js"
   }
