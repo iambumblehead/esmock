@@ -327,3 +327,18 @@ test('should have small querystring in stacktrace filename, deep', async t => {
 
   t.pass();
 });
+
+test.only('should merge "default" value, when safe', async t => {
+  const main = await esmock('../local/main.js');
+
+  t.is(main(), main.default());
+
+  const mockMainA = await esmock('../local/exportsMain.js', {
+    '../local/main.js' : () => 'mocked main'
+  });
+  const mockMainB = await esmock('../local/exportsMain.js', {
+    '../local/main.js' : { default : () => 'mocked main' }
+  });
+
+  t.is(mockMainA(), mockMainB());
+});
