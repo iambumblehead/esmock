@@ -1,4 +1,4 @@
-esmock｜イイ・エス・モク
+esmock イイ・エス・モク
 ========================
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock)
 
