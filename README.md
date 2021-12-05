@@ -1,6 +1,6 @@
 esmock
 ======
-[![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock)
+[![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock) [![downloads](https://badgen.now.sh/npm/dm/esmock)](https://npmjs.org/package/esmock)
 
 **esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide or use the [descriptive and friendly esmock guide here.][10]
 
@@ -66,7 +66,7 @@ test('should mock "await import()" using esmock.p', async t => {
     eslint : { ESLint : cfg => cfg }
   });
 
-  // cached mock definition is there when import is called
+  // mock definition is there, in cache, when import is called
   t.is(await doAwaitImport('cfg'), 'cfg');
 
   esmock.purge(doAwaitImport); // clear cache, if you wish
@@ -75,11 +75,10 @@ test('should mock "await import()" using esmock.p', async t => {
 test('should merge "default" value, when safe', async t => {
   const main = await esmock('../src/main.js');
 
-  // use the form you prefer in your test
-  t.is(main(), main.default());
+  t.is(main(), main.default()); // use the form you prefer
 });
 
-test('should mock to "default" value, when safe', async t => {
+test('should define "default" implicily, when safe', async t => {
   const mainA = await esmock('../src/exportsMain.js', {
     '../src/main.js' : () => 'mocked main' // short-hand, smaller
   });
