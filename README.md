@@ -66,7 +66,7 @@ test('should mock "await import()" using esmock.p', async t => {
     eslint : { ESLint : cfg => cfg }
   });
 
-  // cached mock definition is there when import is called
+  // mock definition is there, in cache, when import is called
   t.is(await doAwaitImport('cfg'), 'cfg');
 
   esmock.purge(doAwaitImport); // clear cache, if you wish
@@ -75,8 +75,7 @@ test('should mock "await import()" using esmock.p', async t => {
 test('should merge "default" value, when safe', async t => {
   const main = await esmock('../src/main.js');
 
-  // use the form you prefer in your test
-  t.is(main(), main.default());
+  t.is(main(), main.default()); // use the form you prefer
 });
 
 test('should define "default" implicily, when safe', async t => {
