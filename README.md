@@ -1,6 +1,6 @@
 esmock
 ======
-[![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock)
+[![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock) [![downloads](https://badgen.now.sh/npm/dm/esmock)](https://npmjs.org/package/esmock)
 
 **esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide or use the [descriptive and friendly esmock guide here.][10]
 
@@ -79,7 +79,7 @@ test('should merge "default" value, when safe', async t => {
   t.is(main(), main.default());
 });
 
-test('should mock to "default" value, when safe', async t => {
+test('should mock to "default" implicily, when safe', async t => {
   const mainA = await esmock('../src/exportsMain.js', {
     '../src/main.js' : () => 'mocked main' // short-hand, smaller
   });
