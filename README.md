@@ -79,9 +79,9 @@ test('should merge "default" value, when safe', async t => {
   t.is(main(), main.default());
 });
 
-test('should mock "default" value, when safe', async t => {
+test('should mock to "default" value, when safe', async t => {
   const mainA = await esmock('../src/exportsMain.js', {
-    '../src/main.js' : () => 'mocked main'
+    '../src/main.js' : () => 'mocked main' // short-hand, smaller
   });
   const mainB = await esmock('../src/exportsMain.js', {
     '../src/main.js' : { default : () => 'mocked main' }
