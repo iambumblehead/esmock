@@ -2,7 +2,6 @@ esmock
 ======
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock)
 
-
 **esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide or use the [descriptive and friendly esmock guide here.][10]
 
 [10]: https://github.com/iambumblehead/esmock/wiki
@@ -34,14 +33,14 @@ await esmock(
 );
 ```
 
-unit-test examples, using `esmock` and `ava` for various situations
+`esmock` demonstrated with `ava` unit test examples
 ``` javascript
 import test from 'ava';
 import esmock from 'esmock';
 
 test('should mock local files and packages', async t => {
   const main = await esmock('../src/main.js', {
-    stringifierpackage : o => JSON.stringify(o),
+    stringifierpackage : JSON.stringify,
     '../src/hello.js' : {
       default : () => 'world',
       exportedFunction : () => 'foobar'
