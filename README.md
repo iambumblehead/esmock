@@ -29,7 +29,7 @@ esmock
 await esmock(
   './to/module.js', // path to target module being tested
   { ...childmocks }, // mock definitions imported by target module
-  { ...globalmocks } // mock definitions imported everywhere else
+  { ...globalmocks } // mock definitions imported everywhere
 );
 ```
 
