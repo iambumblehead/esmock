@@ -50,7 +50,7 @@ test('should mock local files and packages', async t => {
   t.is(main(), JSON.stringify({ test : 'world foobar' }));
 });
 
-test('should do global instance mocks —third parameter', async t => {
+test('should do global instance mocks —third param', async t => {
   const { getFile } = await esmock('../src/main.js', {}, {
     fs : {
       readFileSync : () => 'returns this globally';
@@ -78,7 +78,7 @@ test('should merge "default" value, when safe', async t => {
   t.is(main(), main.default()); // use the form you prefer
 });
 
-test('should define "default" implicily, when safe', async t => {
+test('should use implicit "default"', async t => {
   const mainA = await esmock('../src/exportsMain.js', {
     '../src/main.js' : () => 'mocked main' // short-hand, smaller
   });
