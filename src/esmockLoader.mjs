@@ -4,9 +4,8 @@ import url from 'url';
 
 import esmock from './esmock.js';
 
-if (process.execArgv.some(args => (
-  args.startsWith('--loader=') && args.includes('esmock'))))
-  global.esmockloader = true;
+global.esmockloader = global.esmockloader || process.execArgv.some(args => (
+  args.startsWith('--loader=') && args.includes('esmock')));
 
 export default esmock;
 
@@ -16,6 +15,14 @@ const urlDummy = 'file:///' + path
   .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
   .replace(/^\//, '');
 
+const esMockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
+const esmockModuleKeysRe = /#esmockModuleKeys/;
+const exportNamesRe = /.*exportNames=(.*)/;
+const esmockKeyRe = /esmockKey=\d*/;
+const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
+const withHashRe = /[^#]*#/;
+const isesmRe = /isesm=true/;
+
 const resolve = async (specifier, context, defaultResolve) => {
   const { parentURL } = context;
   const [ esmockKeyParamSmall ] =
@@ -24,8 +31,8 @@ const resolve = async (specifier, context, defaultResolve) => {
     ? global.esmockKeyGet(esmockKeyParamSmall.split('=')[1])
     : parentURL;
   const [ esmockKeyParam ] =
-    (esmockKeyLong && esmockKeyLong.match(/esmockKey=\d*/) || []);
-  
+    (esmockKeyLong && esmockKeyLong.match(esmockKeyRe) || []);
+
   if (!esmockKeyParam)
     return defaultResolve(specifier, context, defaultResolve);
 
@@ -33,17 +40,16 @@ const resolve = async (specifier, context, defaultResolve) => {
   const moduleKeyRe = new RegExp(
     '.*(' + resolved.url + '\\?' + esmockKeyParam + '[^#]*).*');
 
-  const moduleURLSplitKeys = esmockKeyLong.split('#esmockModuleKeys=');
-  // eslint-disable-next-line prefer-destructuring
-  const moduleGlobals = moduleURLSplitKeys[0].split('?esmockGlobals=')[1];
-  const moduleKeyChild = moduleKeyRe.test(moduleURLSplitKeys[1])
-        && moduleURLSplitKeys[1].replace(moduleKeyRe, '$1');
+  const [ keyUrl, keys ] = esmockKeyLong.split(esmockModuleKeysRe);
+  const moduleGlobals = keyUrl.replace(esMockGlobalsAndBeforeRe, '');
+  const moduleKeyChild = moduleKeyRe.test(keys)
+        && keys.replace(moduleKeyRe, '$1');
   const moduleKeyGlobal = moduleKeyRe.test(moduleGlobals)
         && moduleGlobals.replace(moduleKeyRe, '$1');
 
   const moduleKey = moduleKeyChild || moduleKeyGlobal;
   if (moduleKey) {
-    resolved.url = /isesm=true/.test(moduleKey)
+    resolved.url = isesmRe.test(moduleKey)
       ? moduleKey
       : urlDummy + '#' + moduleKey;
   } else if (moduleGlobals && moduleGlobals !== 'null') {
@@ -56,17 +62,17 @@ const resolve = async (specifier, context, defaultResolve) => {
 };
 
 const load = async (url, context, defaultGetSource) => {
-  if (/#esmockModuleKeys/gi.test(url)) // parent of mocked modules
+  if (esmockModuleKeysRe.test(url)) // parent of mocked modules
     return defaultGetSource(url, context, defaultGetSource);
 
-  [ url ] = url.split('?esmockGlobals=');
+  url = url.replace(esmockGlobalsAndAfterRe, '');
   if (url.startsWith(urlDummy)) {
-    url = url.replace(/[^#]*#/, '');
+    url = url.replace(withHashRe, '');
   }
 
-  const exportedNames = /exportNames=/.test(url) &&
-    url.replace(/.*exportNames=(.*)/, '$1').split(',');
-  if (exportedNames) {
+  const exportedNames = exportNamesRe.test(url) &&
+    url.replace(exportNamesRe, '$1').split(',');
+  if (exportedNames.length) {
     return {
       format : 'module',
       source : exportedNames.map(name => name === 'default'
