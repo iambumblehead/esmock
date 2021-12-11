@@ -72,7 +72,7 @@ const load = async (url, context, defaultGetSource) => {
   }
 
   const exportedNames = exportNamesRe.test(url) &&
-        url.replace(exportNamesRe, '$1').split(',');
+    url.replace(exportNamesRe, '$1').split(',');
   if (exportedNames.length) {
     return {
       format : 'module',
