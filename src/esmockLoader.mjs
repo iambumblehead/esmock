@@ -25,6 +25,8 @@ const resolve = async (specifier, context, defaultResolve) => {
     : parentURL;
   const [ esmockKeyParam ] =
     (esmockKeyLong && esmockKeyLong.match(/esmockKey=\d*/) || []);
+
+
   
   if (!esmockKeyParam)
     return defaultResolve(specifier, context, defaultResolve);
@@ -34,8 +36,7 @@ const resolve = async (specifier, context, defaultResolve) => {
     '.*(' + resolved.url + '\\?' + esmockKeyParam + '[^#]*).*');
 
   const moduleURLSplitKeys = esmockKeyLong.split('#esmockModuleKeys=');
-  // eslint-disable-next-line prefer-destructuring
-  const moduleGlobals = moduleURLSplitKeys[0].split('?esmockGlobals=')[1];
+  const moduleGlobals = moduleURLSplitKeys[0].replace(/.*\?esmockGlobals=/, '');
   const moduleKeyChild = moduleKeyRe.test(moduleURLSplitKeys[1])
         && moduleURLSplitKeys[1].replace(moduleKeyRe, '$1');
   const moduleKeyGlobal = moduleKeyRe.test(moduleGlobals)
