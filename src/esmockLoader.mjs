@@ -4,9 +4,8 @@ import url from 'url';
 
 import esmock from './esmock.js';
 
-if (process.execArgv.some(args => (
-  args.startsWith('--loader=') && args.includes('esmock'))))
-  global.esmockloader = true;
+global.esmockloader = global.esmockloader || process.execArgv.some(args => (
+  args.startsWith('--loader=') && args.includes('esmock')));
 
 export default esmock;
 
