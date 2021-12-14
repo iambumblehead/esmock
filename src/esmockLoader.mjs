@@ -19,7 +19,6 @@ const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
 const esMockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
 const esmockModuleKeysRe = /#esmockModuleKeys/;
 const exportNamesRe = /.*exportNames=(.*)/;
-const whitespaceRe = /%20/g;
 const esmockKeyRe = /esmockKey=\d*/;
 const withHashRe = /[^#]*#/;
 const isesmRe = /isesm=true/;
@@ -38,7 +37,7 @@ const resolve = async (specifier, context, defaultResolve) => {
     return defaultResolve(specifier, context, defaultResolve);
 
   const resolved = defaultResolve(specifier, context, defaultResolve);
-  const resolvedurl = resolved.url.replace(whitespaceRe, ' ');
+  const resolvedurl = decodeURI(resolved.url);
   const moduleKeyRe = new RegExp(
     '.*(' + resolvedurl + '\\?' + esmockKeyParam + '[^#]*).*');
 
