@@ -15,11 +15,12 @@ const urlDummy = 'file:///' + path
   .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
   .replace(/^\//, '');
 
+const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
 const esMockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
 const esmockModuleKeysRe = /#esmockModuleKeys/;
 const exportNamesRe = /.*exportNames=(.*)/;
+const whitespaceRe = /%20/g;
 const esmockKeyRe = /esmockKey=\d*/;
-const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
 const withHashRe = /[^#]*#/;
 const isesmRe = /isesm=true/;
 
@@ -37,8 +38,9 @@ const resolve = async (specifier, context, defaultResolve) => {
     return defaultResolve(specifier, context, defaultResolve);
 
   const resolved = defaultResolve(specifier, context, defaultResolve);
+  const resolvedurl = resolved.url.replace(whitespaceRe, ' ');
   const moduleKeyRe = new RegExp(
-    '.*(' + resolved.url + '\\?' + esmockKeyParam + '[^#]*).*');
+    '.*(' + resolvedurl + '\\?' + esmockKeyParam + '[^#]*).*');
 
   const [ keyUrl, keys ] = esmockKeyLong.split(esmockModuleKeysRe);
   const moduleGlobals = keyUrl.replace(esMockGlobalsAndBeforeRe, '');
