@@ -342,3 +342,13 @@ test('should merge "default" value, when safe', async t => {
 
   t.is(mockMainA(), mockMainB());
 });
+
+test('should not error when mocked file has space in path', async t => {
+  const main = await esmock('../local/main.js', {
+    '../local/space in path/wild-file.js' : {
+      default : 'tamed'
+    }
+  });
+
+  t.is(main.wild, 'tamed');
+});

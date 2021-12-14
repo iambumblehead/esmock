@@ -5,6 +5,8 @@ import {
 } from './mainUtilNamedExports.js';
 import { readPath, readSync } from './usesCoreModule.js';
 
+import wildfile from './space in path/wild-file.js';
+
 import {
   createString,
   causeRuntimeError
@@ -34,3 +36,5 @@ export default () => {
     ? 'main string and mocked export, ' + createString()
     : 'main string, ' + createString();
 };
+
+export const wild = wildfile;

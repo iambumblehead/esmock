@@ -1,5 +1,8 @@
 # changelog
 
+ * 1.7.0 _Dec.13.2021_
+   * re-use predefined regexps (faster)
+   * resolve encoded whitespace bug at module loader
  * 1.6.5 _Dec.06.2021_
    * add size and downloads badges to README
    * edits to README

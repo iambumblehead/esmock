@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "1.6.6",
+  "version": "1.7.0",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
@@ -46,7 +46,7 @@
     "rewire"
   ],
   "dependencies": {
-    "resolvewithplus": "^0.4.2"
+    "resolvewithplus": "^0.5.1"
   },
   "devDependencies": {
     "uvu": "0.5.2",
@@ -56,7 +56,7 @@
     "sinon": "^12.0.1"
   },
   "scripts": {
-    "test-ava": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs\" ./spec/ava/*spec.js",
+    "test-ava": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs\" ./spec/ava/*.spec.js",
     "test-uvu": "node --no-warnings --loader=./src/esmockLoader.mjs ./node_modules/uvu/bin.js ./spec/uvu/",
     "test": "npm run test-ava && npm run test-uvu",
     "test-no-warn": "ava --node-arguments=\"--loader=./src/esmockLoader.mjs --no-warnings\"",
