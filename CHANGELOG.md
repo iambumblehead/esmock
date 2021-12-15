@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.7.1 _Dec.15.2021_
+   * increment resolvewithplus, better tests
  * 1.7.0 _Dec.13.2021_
    * re-use predefined regexps (faster)
    * resolve encoded whitespace bug at module loader
