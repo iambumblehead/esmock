@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.7.2 _Dec.15.2021_
+   * remove README at npm package
  * 1.7.1 _Dec.15.2021_
    * increment resolvewithplus, better tests
  * 1.7.0 _Dec.13.2021_
