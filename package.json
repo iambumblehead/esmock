@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
@@ -13,8 +13,7 @@
     "url": "https://github.com/iambumblehead/esmock.git"
   },
   "files": [
-    "src",
-    "README.md"
+    "src"
   ],
   "keywords": [
     "esm",
