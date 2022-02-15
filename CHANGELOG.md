@@ -1,7 +1,11 @@
 # changelog
 
+ * 1.7.4 _Feb.15.2022_
+   * increment resolvewithplus to handle stringy esm export, used by 'got'
+ * 1.7.3 _Feb.02.2022_
+   * increment resolvewithplus to handle array esm export, used by 'yargs'
  * 1.7.2 _Dec.15.2021_
-   * remove README at npm package
+   * remove README at npm packagew
  * 1.7.1 _Dec.15.2021_
    * increment resolvewithplus, better tests
  * 1.7.0 _Dec.13.2021_

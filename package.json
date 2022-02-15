@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
@@ -45,7 +45,7 @@
     "rewire"
   ],
   "dependencies": {
-    "resolvewithplus": "^0.7.0"
+    "resolvewithplus": "^0.8.0"
   },
   "devDependencies": {
     "uvu": "0.5.2",
