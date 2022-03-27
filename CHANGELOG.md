@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.7.5 _Mar.27.2022_
+   * use async default resolver, returned by node v17.8.0+
  * 1.7.4 _Feb.15.2022_
    * increment resolvewithplus to handle stringy esm export, used by 'got'
  * 1.7.3 _Feb.02.2022_
