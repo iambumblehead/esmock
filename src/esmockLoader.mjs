@@ -36,7 +36,7 @@ const resolve = async (specifier, context, defaultResolve) => {
   if (!esmockKeyParam)
     return defaultResolve(specifier, context, defaultResolve);
 
-  const resolved = defaultResolve(specifier, context, defaultResolve);
+  const resolved = await defaultResolve(specifier, context, defaultResolve);
   const resolvedurl = decodeURI(resolved.url);
   const moduleKeyRe = new RegExp(
     '.*(' + resolvedurl + '\\?' + esmockKeyParam + '[^#]*).*');
