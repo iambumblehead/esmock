@@ -12,6 +12,12 @@
     "type": "git",
     "url": "https://github.com/iambumblehead/esmock.git"
   },
+  "contributors": [
+    {
+      "name": "Swivelgames",
+      "email": "swivelgames@gmail.com"
+    }
+  ],
   "files": [
     "src"
   ],
