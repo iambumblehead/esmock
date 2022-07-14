@@ -4,8 +4,15 @@ import url from 'url';
 
 import esmock from './esmock.js';
 
-global.esmockloader = global.esmockloader || process.execArgv.some(args => (
-  args.startsWith('--loader=') && args.includes('esmock')));
+global.esmockloader = global.esmockloader || (
+  process.execArgv.some(
+    args => (args.startsWith('--loader=') && args.includes('esmock'))
+  )
+) || (
+  /--(experimental-)?loader=(["']*)esmock\1(?:\s+\S*)?$/.test(
+    process.env.NODE_OPTIONS
+  )
+);
 
 export default esmock;
 
