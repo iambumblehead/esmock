@@ -1,7 +1,8 @@
 # changelog
 
  * 1.7.6 _Jul.13.2022_
-   * add NODE_OPTIONS support, from @swivelgames
+   * use npx script commands, credit @swivelgames
+   * add NODE_OPTIONS support, credit @swivelgames
  * 1.7.5 _Mar.27.2022_
    * use async default resolver, returned by node v17.8.0+
  * 1.7.4 _Feb.15.2022_
