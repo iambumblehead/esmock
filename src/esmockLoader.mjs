@@ -23,7 +23,7 @@ const urlDummy = 'file:///' + path
   .replace(/^\//, '');
 
 const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
-const esMockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
+const esmockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
 const esmockModuleKeysRe = /#esmockModuleKeys/;
 const exportNamesRe = /.*exportNames=(.*)/;
 const esmockKeyRe = /esmockKey=\d*/;
@@ -49,7 +49,7 @@ const resolve = async (specifier, context, defaultResolve) => {
     '.*(' + resolvedurl + '\\?' + esmockKeyParam + '[^#]*).*');
 
   const [ keyUrl, keys ] = esmockKeyLong.split(esmockModuleKeysRe);
-  const moduleGlobals = keyUrl.replace(esMockGlobalsAndBeforeRe, '');
+  const moduleGlobals = keyUrl.replace(esmockGlobalsAndBeforeRe, '');
   const moduleKeyChild = moduleKeyRe.test(keys)
         && keys.replace(moduleKeyRe, '$1');
   const moduleKeyGlobal = moduleKeyRe.test(moduleGlobals)
@@ -83,6 +83,8 @@ const load = async (url, context, defaultGetSource) => {
   if (exportedNames.length) {
     return {
       format : 'module',
+      shortCircuit : true,
+      responseURL : url.replace(/\s+/g,'%20'),
       source : exportedNames.map(name => name === 'default'
         ? `export default global.esmockCacheGet("${url}").default`
         : `export const ${name} = global.esmockCacheGet("${url}").${name}`
