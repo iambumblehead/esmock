@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
@@ -12,6 +12,12 @@
     "type": "git",
     "url": "https://github.com/iambumblehead/esmock.git"
   },
+  "contributors": [
+    {
+      "name": "Swivelgames",
+      "email": "swivelgames@gmail.com"
+    }
+  ],
   "files": [
     "src"
   ],
