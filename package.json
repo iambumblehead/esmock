@@ -51,14 +51,15 @@
     "uvu": "0.5.3",
     "ava": "^4.0.1",
     "eslint": "^8.12.0",
+    "esmock": "file:.",
     "form-urlencoded": "4.2.1",
     "sinon": "^12.0.1"
   },
   "scripts": {
-    "test-ava": "npx ava --node-arguments=\"--loader=./src/esmockLoader.mjs\" ./spec/ava/*.spec.js",
-    "test-uvu": "node --no-warnings --loader=./src/esmockLoader.mjs ./node_modules/uvu/bin.js ./spec/uvu/",
+    "test-ava": "npx ava --node-arguments=\"--loader=esmock\" ./spec/ava/*.spec.js",
+    "test-uvu": "node --no-warnings --loader=esmock ./node_modules/uvu/bin.js ./spec/uvu/",
     "test": "npm run test-ava && npm run test-uvu",
-    "test-no-warn": "npx ava --node-arguments=\"--loader=./src/esmockLoader.mjs --no-warnings\"",
+    "test-no-warn": "npx ava --node-arguments=\"--loader=esmock --no-warnings\"",
     "lint": "npx eslint src/*js spec"
   }
 }
