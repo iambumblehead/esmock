@@ -9,7 +9,7 @@ global.esmockloader = global.esmockloader || (
     args => (args.startsWith('--loader=') && args.includes('esmock'))
   )
 ) || (
-  /--(experimental-)?loader=(["']*)esmock\1(?:\s+\S*)?$/.test(
+  /(?:^|\s)?--(?:experimental-)?loader=(["']*)esmock\1(?:\s|$)/.test(
     process.env.NODE_OPTIONS
   )
 );
