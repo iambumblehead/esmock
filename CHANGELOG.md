@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.7.7 _Jul.14.2022_
+   * support node v18.6.0 loader changes, credit @swivelgames
  * 1.7.6 _Jul.13.2022_
    * use npx script commands, credit @swivelgames
    * add NODE_OPTIONS support, credit @swivelgames
