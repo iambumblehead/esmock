@@ -18,6 +18,7 @@ esmock
   "type": "module",
   "scripts": {
     "test": "node --loader=esmock --test",
+    "test-tap": "tap --node-arg=\"--loader=esmock\"",
     "test-uvu": "node --loader=esmock ./node_modules/uvu/bin.js ./spec/",
     "test-ava": "ava --node-arguments=\"--loader=esmock\"",
     "test-mocha": "mocha --loader=esmock --no-warnings"
