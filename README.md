@@ -17,7 +17,7 @@ esmock
   "name": "give-esmock-a-star",
   "type": "module",
   "scripts": {
-    "test": "node --loader=esmock --test ./spec/",
+    "test": "node --loader=esmock --test",
     "test-uvu": "node --loader=esmock ./node_modules/uvu/bin.js ./spec/",
     "test-ava": "ava --node-arguments=\"--loader=esmock\"",
     "test-mocha": "mocha --loader=esmock --no-warnings"
