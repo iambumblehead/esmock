@@ -6,7 +6,7 @@ import esmock from '../../src/esmock.js';
 // on 'global' but use a process linked variable instead
 test('should not error when esmock used with ava.only', {
   only : true
-},async t => {
+}, async () => {
   await esmock('../local/mainUtil.js', {
     'form-urlencoded' : () => 'mock encode'
   });
