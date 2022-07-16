@@ -63,9 +63,10 @@
   },
   "scripts": {
     "test-node": "node --no-warnings --loader=esmock --test ./spec/node/",
+    "test-node18": "(node --version | grep v18) && npm run test-node",
     "test-ava": "npx ava --node-arguments=\"--loader=esmock\" ./spec/ava/*.spec.js",
     "test-uvu": "node --no-warnings --loader=esmock ./node_modules/uvu/bin.js ./spec/uvu/",
-    "test": "npm run test-node && npm run test-ava && npm run test-uvu",
+    "test": "npm run test-node18 && npm run test-ava && npm run test-uvu",
     "test-no-warn": "npx ava --node-arguments=\"--loader=esmock --no-warnings\"",
     "lint": "npx eslint src/*js spec"
   }
