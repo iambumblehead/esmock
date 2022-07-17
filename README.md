@@ -25,9 +25,9 @@
   "type": "module",
   "scripts": {
     "test": "node --loader=esmock --test",
-    "test-tap": "tap --node-arg=\"--loader=esmock\"",
-    "test-uvu": "node --loader=esmock ./node_modules/uvu/bin.js ./spec/",
-    "test-ava": "ava --node-arguments=\"--loader=esmock\"",
+    "test-tap": "NODE_OPTIONS='--loader=esmock' tap",
+    "test-uvu": "NODE_OPTIONS='--loader=esmock' uvu ./spec/",
+    "test-ava": "NODE_OPTIONS='--loader=esmock' ava",
     "test-mocha": "mocha --loader=esmock"
   }
 }
