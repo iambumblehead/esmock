@@ -69,9 +69,9 @@ const resolve = async (specifier, context, defaultResolve) => {
   return resolved;
 };
 
-const load = async (url, context, defaultGetSource) => {
+const load = async (url, context, nextLoad) => {
   if (esmockModuleKeysRe.test(url)) // parent of mocked modules
-    return defaultGetSource(url, context, defaultGetSource);
+    return nextLoad(url, context, nextLoad);
 
   url = url.replace(esmockGlobalsAndAfterRe, '');
   if (url.startsWith(urlDummy)) {
@@ -84,7 +84,7 @@ const load = async (url, context, defaultGetSource) => {
     return {
       format : 'module',
       shortCircuit : true,
-      responseURL : url.replace(/\s+/g,'%20'),
+      responseURL : encodeURI(url),
       source : exportedNames.map(name => name === 'default'
         ? `export default global.esmockCacheGet("${url}").default`
         : `export const ${name} = global.esmockCacheGet("${url}").${name}`
@@ -92,7 +92,7 @@ const load = async (url, context, defaultGetSource) => {
     };
   }
 
-  return defaultGetSource(url, context, defaultGetSource);
+  return nextLoad(url, context, nextLoad);
 };
 
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource

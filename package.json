@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "1.7.7",
+  "version": "1.7.8",
   "license": "MIT",
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
@@ -59,12 +59,17 @@
     "eslint": "^8.12.0",
     "esmock": "file:.",
     "form-urlencoded": "4.2.1",
+    "run-script-os": "^1.1.6",
     "sinon": "^12.0.1"
   },
   "scripts": {
+    "test-node": "node --no-warnings --loader=esmock --test ./spec/node/",
+    "test-node18": "if (node -v | grep v18); then npm run test-node; fi;",
     "test-ava": "npx ava --node-arguments=\"--loader=esmock\" ./spec/ava/*.spec.js",
-    "test-uvu": "node --no-warnings --loader=esmock ./node_modules/uvu/bin.js ./spec/uvu/",
-    "test": "npm run test-ava && npm run test-uvu",
+    "test-uvu": "node --loader=esmock ./node_modules/uvu/bin.js ./spec/uvu/",
+    "test:default": "npm run test-node18 && npm run test-ava && npm run test-uvu",
+    "test:windows": "npm run test-ava && npm run test-uvu",
+    "test": "run-script-os",
     "test-no-warn": "npx ava --node-arguments=\"--loader=esmock --no-warnings\"",
     "lint": "npx eslint src/*js spec"
   }

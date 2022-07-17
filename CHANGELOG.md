@@ -1,5 +1,8 @@
 # changelog
 
+ * 1.7.8 _Jul.16.2022_
+   * add tests using the node native test-runner
+   * update README to use node native test-runner
  * 1.7.7 _Jul.14.2022_
    * support node v18.6.0 loader changes, credit @swivelgames
  * 1.7.6 _Jul.13.2022_
@@ -12,7 +15,7 @@
  * 1.7.3 _Feb.02.2022_
    * increment resolvewithplus to handle array esm export, used by 'yargs'
  * 1.7.2 _Dec.15.2021_
-   * remove README at npm packagew
+   * remove README at npm package
  * 1.7.1 _Dec.15.2021_
    * increment resolvewithplus, better tests
  * 1.7.0 _Dec.13.2021_
