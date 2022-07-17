@@ -328,6 +328,29 @@ test('should have small querystring in stacktrace filename, deep', async t => {
   t.pass();
 });
 
+test('should have small querystring in stacktrace filename, deep2', async t => {
+  const causeDeepErrorParent =
+    await esmock('../local/causeDeepErrorParent.js', {}, {
+      '../local/causeDeepErrorGrandChild.js' : {
+        what : 'now'
+      }
+    });
+
+  try {
+    causeDeepErrorParent();
+  } catch (e) {
+    // newer versions auto-strip querystring from subsequent paths
+    if (' 18.  2' < process.versions.node.split('.')
+      .slice(0, 2).map(s => s.padStart(3)).join('.')) {
+      t.true(
+        e.stack.split('\n')
+          .every(line => !line.includes('?') || /\?esmk=\d/.test(line)));
+    }
+  }
+
+  t.pass();
+});
+
 test('should merge "default" value, when safe', async t => {
   const main = await esmock('../local/main.js');
 
