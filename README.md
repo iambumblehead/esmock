@@ -41,7 +41,7 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
-`esmock` example tests
+`esmock` examples
 ``` javascript
 import test from 'node:test';
 import assert from 'node:assert/strict';
