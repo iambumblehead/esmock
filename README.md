@@ -33,7 +33,7 @@
 }
 ```
 
-`esmock` has the following signature
+`esmock` has the below signature
 ``` javascript
 await esmock(
   './to/module.js', // path to target module being tested
