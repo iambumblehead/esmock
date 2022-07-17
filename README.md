@@ -4,7 +4,7 @@
 +██╔═══██╗██╔═════╝██╔══██╔══██╗██╔═══██╗██╔════╝██║  ██╔╝
 +████████║╚██████╗ ██║  ██║  ██║██║   ██║██║     ██████╔╝
 +██╔═════╝ ╚════██╗██║  ██║  ██║██║   ██║██║     ██╔══██╗
-+╚███████╗███████╔╝██║  ██║  ██║╚██████╔╝╚██████╗██║  ╚██╗ 
++╚███████╗███████╔╝██║  ██║  ██║╚██████╔╝╚██████╗██║  ╚██╗
 + ╚══════╝╚══════╝ ╚═╝  ╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚═╝   ╚═╝
 ```
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock) [![downloads](https://badgen.now.sh/npm/dm/esmock)](https://npmjs.org/package/esmock)
@@ -18,7 +18,7 @@
 
 
 
-`esmock` must be used with node's --loader
+`esmock` is used with node's --loader
 ``` json
 {
   "name": "give-esmock-a-star",
@@ -26,7 +26,7 @@
   "scripts": {
     "test": "node --loader=esmock --test",
     "test-tap": "NODE_OPTIONS=--loader=esmock tap",
-    "test-uvu": "NODE_OPTIONS=--loader=esmock uvu ./spec/",
+    "test-uvu": "NODE_OPTIONS=--loader=esmock uvu spec",
     "test-ava": "NODE_OPTIONS=--loader=esmock ava",
     "test-mocha": "mocha --loader=esmock"
   }
@@ -41,7 +41,7 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
-`esmock` demonstrated with unit test examples
+`esmock` used by example tests
 ``` javascript
 import test from 'node:test';
 import assert from 'node:assert/strict';
