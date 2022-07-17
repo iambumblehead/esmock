@@ -66,7 +66,7 @@
     "test-node": "node --no-warnings --loader=esmock --test ./spec/node/",
     "test-node18": "if (node -v | grep v18); then npm run test-node; fi;",
     "test-ava": "npx ava --node-arguments=\"--loader=esmock\" ./spec/ava/*.spec.js",
-    "test-uvu": "NODE_OPTIONS='--loader=esmock' uvu ./spec/uvu/",
+    "test-uvu": "node --loader=esmock ./node_modules/uvu/bin.js ./spec/uvu/",
     "test:default": "npm run test-node18 && npm run test-ava && npm run test-uvu",
     "test:windows": "npm run test-ava && npm run test-uvu",
     "test": "run-script-os",
