@@ -43,82 +43,65 @@ await esmock(
 
 `esmock` examples
 ``` javascript
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import esmock from 'esmock';
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import esmock from 'esmock'
 
 test('should mock local files and packages', async () => {
   const main = await esmock('../src/main.js', {
-    stringifierpackage : JSON.stringify,
-    '../src/hello.js' : {
-      default : () => 'world',
-      exportedFunction : () => 'foo'
+    stringifierpackage: JSON.stringify,
+    '../src/hello.js': {
+      default: () => 'world',
+      exportedFunction: () => 'foo'
     }
-  });
+  })
 
-  assert.strictEqual(main(), JSON.stringify({ test : 'world foo' }));
-});
+  assert.strictEqual(main(), JSON.stringify({ test: 'world foo' }))
+})
 
 test('should do global instance mocks —third param', async () => {
   const { getFile } = await esmock('../src/main.js', {}, {
-    fs : {
-      readFileSync : () => 'returns this globally';
+    fs: {
+      readFileSync: () => 'returns this globally'
     }
-  });
+  })
 
-  assert.strictEqual(getFile(), 'returns this globally');
-});
+  assert.strictEqual(getFile(), 'returns this globally')
+})
 
 test('should mock "await import()" using esmock.p', async () => {
   // using esmock.p, mock definitions are kept in cache
   const doAwaitImport = await esmock.p('../awaitImportLint.js', {
-    eslint : { ESLint : cfg => cfg }
-  });
+    eslint: { ESLint: cfg => cfg }
+  })
 
   // mock definition is returned from cache, when import is called
-  assert.strictEqual(await doAwaitImport('cfg'), 'cfg');
+  assert.strictEqual(await doAwaitImport('cfg'), 'cfg')
 
   // test-runners usually end the test process or thread, othrwise,
   // call purge as demonstrated below to free memory
-  esmock.purge(doAwaitImport);
-});
-
-test('should merge "default" value, when safe', async () => {
-  const main = await esmock('../src/main.js');
-
-  assert.strictEqual(main(), main.default());
-});
-
-test('should use implicit "default"', async () => {
-  const mainA = await esmock('../src/exportsMain.js', {
-    '../src/main.js' : () => 'mocked main' // short-hand, smaller
-  });
-  const mainB = await esmock('../src/exportsMain.js', {
-    '../src/main.js' : { default : () => 'mocked main' }
-  });
-
-  assert.strictEqual(mainA(), mainB());
-});
+  esmock.purge(doAwaitImport)
+})
 
 // a "partial mock" merges the new and original definitions
 test('should suppport partial mocks', async () => {
   const pathWrapStrict = await esmock('../src/pathWrap.js', {
-    path : { dirname : () => '/path/to/file'; }
-  });
+    path: { dirname: () => '/path/to/file' }
+  })
 
-  // an error, because the mock doesn't define path.basename
+  // an error, because path.basename was not defined
   await assert.rejects(async () => pathWrapStrict.basename('/dog.png'), {
-    name : 'TypeError',
-    message : 'path.basename is not a function'
-  });
+    name: 'TypeError',
+    message: 'path.basename is not a function'
+  })
 
   // use esmock.px to get "partial mocks"
   const pathWrapStrict = await esmock.px('../src/pathWrap.js', {
-    path : { dirname : () => '/path/to/file'; }
-  });
+    path: { dirname: () => '/home/' }
+  })
 
-  // no error, because the "partial mock" includes original path.basename
-  assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png');
-  assert.deepEqual(pathWrapPartial.dirname(), '/path/to/file');
+  // no error, because "core" path.basename is merged into the mock
+  assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png')
+  assert.deepEqual(pathWrapPartial.dirname(), '/home/')
 })
 ```
