@@ -52,11 +52,11 @@ test('should mock local files and packages', async () => {
     stringifierpackage : JSON.stringify,
     '../src/hello.js' : {
       default : () => 'world',
-      exportedFunction : () => 'foobar'
+      exportedFunction : () => 'foo'
     }
   });
 
-  assert.strictEqual(main(), JSON.stringify({ test : 'world foobar' }));
+  assert.strictEqual(main(), JSON.stringify({ test : 'world foo' }));
 });
 
 test('should do global instance mocks —third param', async () => {
@@ -75,10 +75,12 @@ test('should mock "await import()" using esmock.p', async () => {
     eslint : { ESLint : cfg => cfg }
   });
 
-  // mock definition is there, in cache, when import is called
+  // mock definition is returned from cache, when import is called
   assert.strictEqual(await doAwaitImport('cfg'), 'cfg');
 
-  esmock.purge(doAwaitImport); // clear cache, if you wish
+  // test-runners usually end the test process or thread, othrwise,
+  // call purge as demonstrated below to free memory
+  esmock.purge(doAwaitImport);
 });
 
 test('should merge "default" value, when safe', async () => {
@@ -97,4 +99,26 @@ test('should use implicit "default"', async () => {
 
   assert.strictEqual(mainA(), mainB());
 });
+
+// a "partial mock" merges the new and original definitions
+test('should suppport partial mocks', async () => {
+  const pathWrapStrict = await esmock('../src/pathWrap.js', {
+    path : { dirname : () => '/path/to/file'; }
+  });
+
+  // an error, because the mock doesn't define path.basename
+  await assert.rejects(async () => pathWrapStrict.basename('/dog.png'), {
+    name : 'TypeError',
+    message : 'path.basename is not a function'
+  });
+
+  // use esmock.px to get "partial mocks"
+  const pathWrapStrict = await esmock.px('../src/pathWrap.js', {
+    path : { dirname : () => '/path/to/file'; }
+  });
+
+  // no error, because a "partial mock" includes un-mocked path.basename
+  assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png');
+  assert.deepEqual(pathWrapPartial.dirname(), '/path/to/file');
+})
 ```

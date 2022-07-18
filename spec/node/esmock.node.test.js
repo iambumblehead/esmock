@@ -372,3 +372,20 @@ test('should strict mock by default, partial mock optional', async () => {
   assert.strictEqual(
     true, wildfilenamedexports.every(e => mainpartialwildexports.includes(e)));
 });
+
+test('should strict mock by default, partial mock optional', async () => {
+  const pathWrapStrict = await esmock('../local/pathWrap.js', {
+    path : { dirname : '/path/to/file' }
+  });
+  const pathWrapPartial = await esmock.px('../local/pathWrap.js', {
+    path : { dirname : '/path/to/file' }
+  });
+
+  await assert.rejects(async () => pathWrapStrict.basename('/filename.js'), {
+    name : 'TypeError',
+    message : 'path.basename is not a function'
+  });
+
+  // assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png');
+  assert.deepEqual(typeof pathWrapPartial.basename, 'function');
+});
