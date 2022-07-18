@@ -1,13 +1,10 @@
-import fs from 'fs';
 import path from 'path';
 import resolvewith from 'resolvewithplus';
 
 import {
   esmockKeySet,
   esmockKeyGet,
-  esmockCacheSet,
-  esmockCacheResolvedPathIsESMGet,
-  esmockCacheResolvedPathIsESMSet
+  esmockCacheSet
 } from './esmockCache.js';
 
 const isObj = o => typeof o === 'object' && o;
@@ -57,25 +54,6 @@ const esmockModuleApply = (definitionLive, definitionMock, definitionPath) => {
   return definition;
 };
 
-// eslint-disable-next-line max-len
-const esmockModuleESMRe = /(^\s*|[}\);\n]\s*)(import\s+(['"]|(\*\s+as\s+)?[^"'\(\)\n;]+\s+from\s+['"]|\{)|export\s+\*\s+from\s+["']|export\s+(\{|default|function|class|var|const|let|async\s+function))/;
-
-// tries to return resolved value from a cache first
-// else, builds value, stores in cache and returns
-const esmockModuleIsESM = (mockPathFull, isesm) => {
-  isesm = esmockCacheResolvedPathIsESMGet(mockPathFull);
-
-  if (typeof isesm === 'boolean')
-    return isesm;
-
-  isesm = !resolvewith.iscoremodule(mockPathFull)
-    && esmockModuleESMRe.test(fs.readFileSync(mockPathFull, 'utf-8'));
-
-  esmockCacheResolvedPathIsESMSet(mockPathFull, isesm);
-
-  return isesm;
-};
-
 // return the default value directly, so that the esmock caller
 // does not need to lookup default as in "esmockedValue.default"
 const esmockModuleImportedSanitize = (importedModule, esmockKey) => {
@@ -104,7 +82,7 @@ const esmockNextKey = ((key = 0) => () => ++key)();
 
 // eslint-disable-next-line max-len
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef, opt) => {
-  const isesm = esmockModuleIsESM(mockPathFull);
+  const iscore = resolvewith.iscoremodule(mockPathFull);
   const originalDefinition = opt.partial
     ? await import(pathAddProtocol(mockPathFull)) : null;
   const mockDefinitionFinal = esmockModuleApply(
@@ -113,7 +91,7 @@ const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef, opt) =>
   const mockModuleKey = `${pathAddProtocol(mockPathFull)}?` + [
     'esmockKey=' + esmockKey,
     'esmockModuleKey=' + key,
-    'isesm=' + isesm,
+    'iscore=' + iscore,
     mockExportNames ? 'exportNames=' + mockExportNames : 'exportNone'
   ].join('&');
 

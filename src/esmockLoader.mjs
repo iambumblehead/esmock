@@ -24,7 +24,7 @@ const esmockModuleKeysRe = /#esmockModuleKeys/;
 const exportNamesRe = /.*exportNames=(.*)/;
 const esmockKeyRe = /esmockKey=\d*/;
 const withHashRe = /[^#]*#/;
-const isesmRe = /isesm=true/;
+const iscoreRe = /iscore=true/;
 
 const resolve = async (specifier, context, defaultResolve) => {
   const { parentURL } = context;
@@ -53,9 +53,9 @@ const resolve = async (specifier, context, defaultResolve) => {
 
   const moduleKey = moduleKeyChild || moduleKeyGlobal;
   if (moduleKey) {
-    resolved.url = isesmRe.test(moduleKey)
-      ? moduleKey
-      : urlDummy + '#' + moduleKey;
+    resolved.url = iscoreRe.test(moduleKey)
+      ? urlDummy + '#' + moduleKey
+      : moduleKey;
   } else if (moduleGlobals && moduleGlobals !== 'null') {
     if (!resolved.url.startsWith('node:')) {
       resolved.url += '?esmockGlobals=' + moduleGlobals;
