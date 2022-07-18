@@ -14,7 +14,7 @@ test('should return un-mocked file', async t => {
 });
 
 test('should mock a local file', async t => {
-  const main = await esmock('../local/main.js', {
+  const main = await esmock.px('../local/main.js', {
     '../local/mainUtil.js' : {
       createString : () => 'test string'
     }
@@ -137,7 +137,7 @@ test('should return un-mocked file (again)', async t => {
 });
 
 test('should mock local file', async t => {
-  const mainUtil = await esmock('../local/mainUtil.js', {
+  const mainUtil = await esmock.px('../local/mainUtil.js', {
     '../local/mainUtilNamedExports.js' : {
       mainUtilNamedExportOne : () => 'foobar'
     }
@@ -153,7 +153,7 @@ test('should mock local file', async t => {
 });
 
 test('should mock module and local file at the same time', async t => {
-  const mainUtil = await esmock('../local/mainUtil.js', {
+  const mainUtil = await esmock.px('../local/mainUtil.js', {
     'form-urlencoded' : o => JSON.stringify(o),
     '../local/mainUtilNamedExports.js' : {
       mainUtilNamedExportOne : () => 'foobar'
@@ -168,7 +168,7 @@ test('should mock module and local file at the same time', async t => {
 });
 
 test('__esModule definition, inconsequential', async t => {
-  const mainUtil = await esmock('../local/mainUtil.js', {
+  const mainUtil = await esmock.px('../local/mainUtil.js', {
     'form-urlencoded' : o => JSON.stringify(o),
     '../local/mainUtilNamedExports.js' : {
       mainUtilNamedExportOne : () => 'foobar',
@@ -184,7 +184,7 @@ test('__esModule definition, inconsequential', async t => {
 });
 
 test('should work well with sinon', async t => {
-  const mainUtil = await esmock('../local/mainUtil.js', {
+  const mainUtil = await esmock.px('../local/mainUtil.js', {
     '../local/mainUtilNamedExports.js' : {
       mainUtilNamedExportOne : sinon.stub().returns('foobar')
     }
@@ -237,7 +237,7 @@ test('should mock core module', async t => {
 });
 
 test('should apply third parameter "global" definitions', async t => {
-  const main = await esmock('../local/main.js', {
+  const main = await esmock.px('../local/main.js', {
     '../local/mainUtil.js' : {
       exportedFunction : () => 'foobar'
     }
@@ -309,7 +309,7 @@ test('should have small querystring in stacktrace filename', async t => {
 test('should have small querystring in stacktrace filename, deep', async t => {
   const {
     causeRuntimeErrorFromImportedFile
-  } = await esmock('../local/main.js', {}, {
+  } = await esmock.px('../local/main.js', {}, {
     '../local/mainUtil.js' : {
       causeRuntimeError : () => {
         t.nonexistantmethod();
@@ -330,7 +330,7 @@ test('should have small querystring in stacktrace filename, deep', async t => {
 
 test('should have small querystring in stacktrace filename, deep2', async t => {
   const causeDeepErrorParent =
-    await esmock('../local/causeDeepErrorParent.js', {}, {
+    await esmock.px('../local/causeDeepErrorParent.js', {}, {
       '../local/causeDeepErrorGrandChild.js' : {
         what : 'now'
       }
