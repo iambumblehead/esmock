@@ -1,7 +1,9 @@
 # changelog
 
- * 1.8.0 _Jul.18.2022_
+ * 1.8.1 _Jul.18.2022_
    * use strict-mocking behaviour by default, "partial mock" is optional
+   * remove regexp detection of esm file type
+   * remove reading of mock files for strict mock
  * 1.7.8 _Jul.16.2022_
    * add tests using the node native test-runner
    * update README to use node native test-runner
