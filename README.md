@@ -77,6 +77,7 @@ test('should mock "await import()" using esmock.p', async () => {
 
   // mock definition is returned from cache, when import is called
   assert.strictEqual(await doAwaitImport('cfg'), 'cfg')
+  // a bit more info are found in the descriptive guide
 })
 
 // a "partial mock" merges the new and original definitions
@@ -91,12 +92,12 @@ test('should suppport partial mocks', async () => {
     message: 'path.basename is not a function'
   })
 
-  // use esmock.px to get a "partial mock"
+  // use esmock.px to create a "partial mock"
   const pathWrapPartial = await esmock.px('../src/pathWrap.js', {
     path: { dirname: () => '/home/' }
   })
 
-  // no error, because "core" path.basename is merged into the mock
+  // no error, because "core" path.basename was merged into the mock
   assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png')
   assert.deepEqual(pathWrapPartial.dirname(), '/home/')
 })
