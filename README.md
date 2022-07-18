@@ -81,18 +81,18 @@ test('should mock "await import()" using esmock.p', async () => {
 
 // a "partial mock" merges the new and original definitions
 test('should suppport partial mocks', async () => {
-  const pathWrapStrict = await esmock('../src/pathWrap.js', {
+  const pathWrap = await esmock('../src/pathWrap.js', {
     path: { dirname: () => '/path/to/file' }
   })
 
   // an error, because path.basename was not defined
-  await assert.rejects(async () => pathWrapStrict.basename('/dog.png'), {
+  await assert.rejects(async () => pathWrap.basename('/dog.png'), {
     name: 'TypeError',
     message: 'path.basename is not a function'
   })
 
   // use esmock.px to get a "partial mock"
-  const pathWrapStrict = await esmock.px('../src/pathWrap.js', {
+  const pathWrapPartial = await esmock.px('../src/pathWrap.js', {
     path: { dirname: () => '/home/' }
   })
 
