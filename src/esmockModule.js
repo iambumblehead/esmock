@@ -10,50 +10,49 @@ import {
   esmockCacheResolvedPathIsESMSet
 } from './esmockCache.js';
 
+const isObj = o => typeof o === 'object' && o;
+const isObjOrFnRe = /^(object|function)$/;
+const isObjOrFn = o => isObjOrFnRe.test(typeof o) && o;
+const isDefaultDefined = o => isObj(o) && 'default' in o;
+
 // https://url.spec.whatwg.org/, eg, file:///C:/demo file://root/linux/path
 const pathAddProtocol = (pathFull, protocol) => (
   (protocol || (resolvewith.iscoremodule(pathFull) ? 'node:' : 'file:///'))
     + pathFull.replace(/^\//, ''));
 
+const esmockModuleMergeDefault = (defaultLive, defaultMock, merged)  => {
+  const defaultLiveIsObj = isObj(defaultLive);
+  const defaultMockIsObj = isObj(defaultMock);
+
+  if (defaultLiveIsObj && defaultMockIsObj) {
+    merged = Object.assign({}, defaultLive, defaultMock);
+  } else if (defaultMock) {
+    merged = defaultMock;
+  } else if (defaultLiveIsObj) {
+    merged = Object.assign({}, defaultLive);
+  } else if (defaultLive) {
+    merged = defaultLive;
+  }
+
+  return merged;
+};
+
 const esmockModuleApply = (definitionLive, definitionMock, definitionPath) => {
-  const isDefaultNamespace = o => typeof o === 'object' && o && 'default' in o;
   const isCorePath = resolvewith.iscoremodule(definitionPath);
-  const definition = isCorePath
-    ? Object.assign({ default : definitionMock }, definitionMock)
-    : Object.assign({}, definitionLive || {}, definitionMock);
-  const isDefaultLive = isDefaultNamespace(definitionLive);
-  const isDefaultMock = isDefaultNamespace(definitionMock);
-  const isDefault = isDefaultNamespace(definition);
+  const definitionDefault = esmockModuleMergeDefault(
+    isDefaultDefined(definitionLive) && definitionLive.default,
+    isDefaultDefined(definitionMock) ? definitionMock.default : definitionMock);
+  const definition = Object.assign({}, definitionLive || {}, {
+    default : definitionDefault
+  }, definitionMock);
 
-  // no names 'default' or otherwise exported at mock
-  const mockNameIsNotExported = typeof definitionMock !== 'object'
-    && Object.keys(definitionMock).length === 0;
-
-  // live module exports only a 'default' value. mock defines
-  // single value that is not 'default'
-  const liveExportsDefaultOnly = isDefaultLive && !isDefaultMock
-    && Object.keys(definitionLive).length === 1;
-
-  // if safe, an extra default definition is added for compatibility
-  // babel-generated dist cjs files often import this way,
+  // if safe, an extra default definition is added for compatibility,
+  // because babel-generated dist cjs files often import in this way,
+  // note: core modules do not define "default.default"
   //   import package from 'package';
   //   package.default(); <- extra default definition
-  if (!definitionLive && mockNameIsNotExported) {
-    definition.default = definitionMock;
-    if (definitionMock && /object|function/.test(typeof definitionMock)
-      && !definitionMock.default) {
-      definition.default.default = definitionMock;
-    }
-  }
-
-  if ((mockNameIsNotExported || liveExportsDefaultOnly) && isDefault) {
-    if (isDefaultNamespace(definition.default)) {
-      definition.default = definitionMock;
-      definition.default.default = definitionMock;
-    } else {
-      definition.default = definitionMock;
-    }
-  }
+  if (!isCorePath && isObjOrFn(definition.default))
+    definition.default.default = definition.default;
 
   return definition;
 };

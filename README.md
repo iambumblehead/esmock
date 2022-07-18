@@ -117,7 +117,7 @@ test('should suppport partial mocks', async () => {
     path : { dirname : () => '/path/to/file'; }
   });
 
-  // no error, because a "partial mock" includes un-mocked path.basename
+  // no error, because the "partial mock" includes original path.basename
   assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png');
   assert.deepEqual(pathWrapPartial.dirname(), '/path/to/file');
 })

@@ -386,6 +386,5 @@ test('should strict mock by default, partial mock optional', async () => {
     message : 'path.basename is not a function'
   });
 
-  // assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png');
-  assert.deepEqual(typeof pathWrapPartial.basename, 'function');
+  assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png');
 });
