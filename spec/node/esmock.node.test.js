@@ -348,3 +348,27 @@ test('should not error when mocked file has space in path', async () => {
   assert.strictEqual(main.wild, 'tamed');
 });
 
+test('should strict mock by default, partial mock optional', async () => {
+  const wildfile = await import('../local/space in path/wild-file.js');
+  const mainstrict = await esmock('../local/main.js', {
+    '../local/space in path/wild-file.js' : {
+      default : 'tamed',
+      namedexport : 'namedexport'
+    }
+  });
+  const mainpartial = await esmock.px('../local/main.js', {
+    '../local/space in path/wild-file.js' : {
+      default : 'tamed',
+      namedexport : 'namedexport'
+    }
+  });
+  const wildfilenamedexports = Object.keys(wildfile)
+    .filter(n => n !== 'default');
+  const mainstrictwildexports = Object.keys(mainstrict.wildexports);
+  const mainpartialwildexports = Object.keys(mainpartial.wildexports);
+
+  assert.strictEqual(
+    true, wildfilenamedexports.every(e => !mainstrictwildexports.includes(e)));
+  assert.strictEqual(
+    true, wildfilenamedexports.every(e => mainpartialwildexports.includes(e)));
+});
