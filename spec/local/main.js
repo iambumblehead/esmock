@@ -5,7 +5,7 @@ import {
 } from './mainUtilNamedExports.js';
 import { readPath, readSync } from './usesCoreModule.js';
 
-import wildfile from './space in path/wild-file.js';
+import wildfile, * as wildfileexports from './space in path/wild-file.js';
 
 import {
   createString,
@@ -36,5 +36,7 @@ export default () => {
     ? 'main string and mocked export, ' + createString()
     : 'main string, ' + createString();
 };
+
+export const wildexports = wildfileexports;
 
 export const wild = wildfile;

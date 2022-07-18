@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.8.0 _Jul.18.2022_
+   * use strict-mocking behaviour by default, "partial mock" is optional
  * 1.7.8 _Jul.16.2022_
    * add tests using the node native test-runner
    * update README to use node native test-runner

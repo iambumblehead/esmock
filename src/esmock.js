@@ -28,6 +28,9 @@ const esmock = async (modulePath, mockDefs, globalDefs, opt = {}, err) => {
   return esmockModuleImportedSanitize(importedModule, modulePathKey);
 };
 
+esmock.px = async (modulePath, mockDefs, globalDefs) => (
+  esmock(modulePath, mockDefs, globalDefs, { partial : true }, new Error()));
+
 esmock.p = async (modulePath, mockDefs, globalDefs) => (
   esmock(modulePath, mockDefs, globalDefs, { purge : false }, new Error()));
 
