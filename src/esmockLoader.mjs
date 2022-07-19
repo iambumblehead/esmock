@@ -23,7 +23,10 @@ const esmockKeyRe = /esmockKey=\d*/;
 const withHashRe = /[^#]*#/;
 const isesmRe = /isesm=true/;
 
-const resolve = async (specifier, context, defaultResolve) => {
+const isNodeLT1612 = ' 16. 12' > process.versions.node.split('.')
+  .slice(0, 2).map(s => s.padStart(3)).join('.');
+
+const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context;
   const [ esmockKeyParamSmall ] =
     (parentURL && parentURL.match(/\?esmk=\d*/)) || [];
@@ -33,10 +36,13 @@ const resolve = async (specifier, context, defaultResolve) => {
   const [ esmockKeyParam ] =
     (esmockKeyLong && esmockKeyLong.match(esmockKeyRe) || []);
 
-  if (!esmockKeyParam)
-    return defaultResolve(specifier, context, defaultResolve);
+  const resolved = isNodeLT1612
+    ? await nextResolve(specifier, context, nextResolve)
+    : await nextResolve(specifier);
 
-  const resolved = await defaultResolve(specifier, context, defaultResolve);
+  if (!esmockKeyParam)
+    return resolved;
+
   const resolvedurl = decodeURI(resolved.url);
   const moduleKeyRe = new RegExp(
     '.*(' + resolvedurl + '\\?' + esmockKeyParam + '[^#]*).*');
@@ -64,7 +70,9 @@ const resolve = async (specifier, context, defaultResolve) => {
 
 const load = async (url, context, nextLoad) => {
   if (esmockModuleKeysRe.test(url)) // parent of mocked modules
-    return nextLoad(url, context, nextLoad);
+    return isNodeLT1612
+      ? nextLoad(url, context, nextLoad)
+      : nextLoad(url);
 
   url = url.replace(esmockGlobalsAndAfterRe, '');
   if (url.startsWith(urlDummy)) {
@@ -85,7 +93,9 @@ const load = async (url, context, nextLoad) => {
     };
   }
 
-  return nextLoad(url, context, nextLoad);
+  return isNodeLT1612
+    ? nextLoad(url, context, nextLoad)
+    : nextLoad(url);
 };
 
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
