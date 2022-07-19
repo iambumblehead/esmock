@@ -33,6 +33,7 @@ const resolve = async (specifier, context, nextResolve) => {
   const [ esmockKeyParam ] =
     (esmockKeyLong && esmockKeyLong.match(esmockKeyRe) || []);
 
+  console.log(specifier, context);
   // new versions of node: when multiple loaders are used and context
   // is passed to nextResolve, the process crashes in a recursive call
   // see: /esmock/issues/#48
