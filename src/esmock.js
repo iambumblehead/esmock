@@ -21,9 +21,7 @@ const esmock = async (modulePath, mockDefs, globalDefs, opt = {}, err) => {
   const modulePathKey = await esmockModuleMock(
     calleePath, modulePath, mockDefs || {}, globalDefs || {}, opt);
 
-  // throw new Error('MODULEPATHKEYCON:REMOVE' + modulePathKey);
   const importedModule = await import(modulePathKey);
-  // throw new Error('MODULEPATHKEYCON:RESOLVED' + modulePathKey);
 
   if (opt.purge !== false)
     esmockModuleImportedPurge(modulePathKey);
