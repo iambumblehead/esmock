@@ -70,7 +70,7 @@ const resolve = async (specifier, context, nextResolve) => {
 
 const load = async (url, context, nextLoad) => {
   if (esmockModuleKeysRe.test(url)) // parent of mocked modules
-    return nextLoad(url);
+    return nextLoad(url, context);
 
   url = url.replace(esmockGlobalsAndAfterRe, '');
   if (url.startsWith(urlDummy)) {
@@ -91,7 +91,7 @@ const load = async (url, context, nextLoad) => {
     };
   }
 
-  return nextLoad(url);
+  return nextLoad(url, context);
 };
 
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
