@@ -1,5 +1,9 @@
 # changelog
 
+ * 1.8.1 _Jul.19.2022_
+   * resolve recursive load hook crash when using esmock with other loader
+   * add basic typescript
+   * add example and tests showing how to use with ts loader
  * 1.8.0 _Jul.18.2022_
    * use strict-mocking behaviour by default, "partial mock" is optional
  * 1.7.8 _Jul.16.2022_

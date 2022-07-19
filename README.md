@@ -28,7 +28,8 @@
     "test-tap": "NODE_OPTIONS=--loader=esmock tap",
     "test-uvu": "NODE_OPTIONS=--loader=esmock uvu spec",
     "test-ava": "NODE_OPTIONS=--loader=esmock ava",
-    "test-mocha": "mocha --loader=esmock"
+    "test-mocha": "mocha --loader=esmock",
+    "test-ts": "node --loader=ts-node/esm --loader=esmock --test *ts"
   }
 }
 ```
