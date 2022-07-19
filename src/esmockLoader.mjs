@@ -37,7 +37,7 @@ const resolve = async (specifier, context, nextResolve) => {
     (esmockKeyLong && esmockKeyLong.match(esmockKeyRe) || []);
 
   const resolved = isNodeLT184
-    ? await nextResolve(specifier, context, nextResolve)
+    ? await nextResolve(specifier, context)
     : await nextResolve(specifier);
 
   if (!esmockKeyParam)
