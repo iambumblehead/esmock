@@ -8,6 +8,7 @@
   "main": "src/esmockLoader.mjs",
   "module": "src/esmockLoader.mjs",
   "type": "module",
+  "types": "src/esmock.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/iambumblehead/esmock.git"
