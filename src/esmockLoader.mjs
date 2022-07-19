@@ -40,9 +40,6 @@ const resolve = async (specifier, context, nextResolve) => {
     ? await nextResolve(specifier, context, nextResolve)
     : await nextResolve(specifier);
 
-  if (!/(main.test.ts|Loader|node:|esmock|resolvewith)/.test(resolved.url)) {
-    // throw new Error(resolved.url)
-  }
   if (!esmockKeyParam)
     return resolved;
 
