@@ -23,9 +23,6 @@ const esmockKeyRe = /esmockKey=\d*/;
 const withHashRe = /[^#]*#/;
 const isesmRe = /isesm=true/;
 
-const isNodeLT184 = ' 18.  4' > process.versions.node.split('.')
-  .slice(0, 2).map(s => s.padStart(3)).join('.');
-
 const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context;
   const [ esmockKeyParamSmall ] =
@@ -36,9 +33,15 @@ const resolve = async (specifier, context, nextResolve) => {
   const [ esmockKeyParam ] =
     (esmockKeyLong && esmockKeyLong.match(esmockKeyRe) || []);
 
-  const resolved = isNodeLT184
-    ? await nextResolve(specifier, context)
-    : await nextResolve(specifier);
+  // new versions of node: when multiple loaders are used and context
+  // is passed to nextResolve, the process crashes in a recursive call
+  // see: /esmock/issues/#48
+  //
+  // old versions of node: if context.parentURL is defined, and context
+  // is not passed to nextResolve, the tests fail
+  const resolved = context.conditions.slice(-1)[0] === 'node-addons'
+    ? await nextResolve(specifier)
+    : await nextResolve(specifier, context);
 
   if (!esmockKeyParam)
     return resolved;
