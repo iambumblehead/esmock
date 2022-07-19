@@ -23,7 +23,7 @@ const esmockKeyRe = /esmockKey=\d*/;
 const withHashRe = /[^#]*#/;
 const isesmRe = /isesm=true/;
 
-const isNodeLT1612 = ' 16. 12' > process.versions.node.split('.')
+const isNodeLT184 = ' 18.  4' > process.versions.node.split('.')
   .slice(0, 2).map(s => s.padStart(3)).join('.');
 
 const resolve = async (specifier, context, nextResolve) => {
@@ -36,7 +36,7 @@ const resolve = async (specifier, context, nextResolve) => {
   const [ esmockKeyParam ] =
     (esmockKeyLong && esmockKeyLong.match(esmockKeyRe) || []);
 
-  const resolved = isNodeLT1612
+  const resolved = isNodeLT184
     ? await nextResolve(specifier, context, nextResolve)
     : await nextResolve(specifier);
 
@@ -70,7 +70,7 @@ const resolve = async (specifier, context, nextResolve) => {
 
 const load = async (url, context, nextLoad) => {
   if (esmockModuleKeysRe.test(url)) // parent of mocked modules
-    return isNodeLT1612
+    return isNodeLT184
       ? nextLoad(url, context, nextLoad)
       : nextLoad(url);
 
@@ -93,7 +93,7 @@ const load = async (url, context, nextLoad) => {
     };
   }
 
-  return isNodeLT1612
+  return isNodeLT184
     ? nextLoad(url, context, nextLoad)
     : nextLoad(url);
 };
