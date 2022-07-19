@@ -40,8 +40,12 @@ const resolve = async (specifier, context, nextResolve) => {
   //
   // old versions of node: if context.parentURL is defined, and context
   // is not passed to nextResolve, the tests fail
+  //
+  // later versions of node v16 include 'node-addons'
   const resolved = context.conditions.slice(-1)[0] === 'node-addons'
-    ? await nextResolve(specifier)
+    ? ((context.importAssertions && context.parentURL)
+      ? await nextResolve(specifier)
+      : await nextResolve(specifier))
     : (context.parentURL
       ? await nextResolve(specifier, context)
       : await nextResolve(specifier));
