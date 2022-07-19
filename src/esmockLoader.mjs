@@ -41,7 +41,9 @@ const resolve = async (specifier, context, nextResolve) => {
   // is not passed to nextResolve, the tests fail
   const resolved = context.conditions.slice(-1)[0] === 'node-addons'
     ? await nextResolve(specifier)
-    : await nextResolve(specifier, context);
+    : (context.parentURL
+      ? await nextResolve(specifier, context)
+      : await nextResolve(specifier));
 
   if (!esmockKeyParam)
     return resolved;
