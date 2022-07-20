@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.8.2 _Jul.19.2022_
+   * improved support for symlinked paths, credit @swivelgames
  * 1.8.1 _Jul.19.2022_
    * resolve recursive load hook crash when using esmock with other loader
    * add basic typescript support, using ts-node/esm
