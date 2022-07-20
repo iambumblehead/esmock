@@ -15,10 +15,18 @@ const isObjOrFnRe = /^(object|function)$/;
 const isObjOrFn = o => isObjOrFnRe.test(typeof o) && o;
 const isDefaultDefined = o => isObj(o) && 'default' in o;
 
-// https://url.spec.whatwg.org/, eg, file:///C:/demo file://root/linux/path
-const pathAddProtocol = (pathFull, protocol) => (
-  (protocol || (resolvewith.iscoremodule(pathFull) ? 'node:' : 'file:///'))
-    + pathFull.replace(/^\//, ''));
+const FILE_PROTOCOL = 'file:///';
+
+// https://url.spec.whatwg.org/, eg, file:///C:/demo file:///root/linux/path
+const pathAddProtocol = (pathFull, protocol) => {
+  if (!protocol)
+    protocol = !resolvewith.iscoremodule(pathFull) ? FILE_PROTOCOL : 'node:';
+  if (protocol.includes(FILE_PROTOCOL))
+    pathFull = fs.realpathSync.native(pathFull);
+  if (process.platform === 'win32')
+    pathFull = pathFull.split(path.sep).join(path.posix.sep);
+  return `${protocol}${pathFull.replace(/^\//, '')}`;
+}
 
 const esmockModuleMergeDefault = (defaultLive, defaultMock, merged)  => {
   const defaultLiveIsObj = isObj(defaultLive);
@@ -165,7 +173,7 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
   if (pathModuleFull === null)
     throw new Error(`modulePath not found: "${modulePath}"`);
 
-  const esmockKeyLong = pathAddProtocol(pathModuleFull, 'file:///') + '?'
+  const esmockKeyLong = pathAddProtocol(pathModuleFull, FILE_PROTOCOL) + '?'
     + 'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
       .replace(/:esmockGlobals/, esmockGlobalKeys.join('#') || 'null')
@@ -173,7 +181,7 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
 
   esmockKeySet(String(esmockKey), esmockKeyLong);
 
-  return pathAddProtocol(pathModuleFull, 'file:///') + `?esmk=${esmockKey}`;
+  return pathAddProtocol(pathModuleFull, FILE_PROTOCOL) + `?esmk=${esmockKey}`;
 };
 
 export {
