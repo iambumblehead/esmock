@@ -23,6 +23,8 @@ const pathAddProtocol = (pathFull, protocol) => {
     protocol = !resolvewith.iscoremodule(pathFull) ? FILE_PROTOCOL : 'node:';
   if (protocol.includes(FILE_PROTOCOL))
     pathFull = fs.realpathSync.native(pathFull);
+  if (process.platform === 'win32')
+    pathFull = pathFull.split(path.sep).join(path.posix.sep);
   return `${protocol}${pathFull.replace(/^\//, '')}`;
 }
 
