@@ -3,16 +3,9 @@ import path from 'path';
 import url from 'url';
 
 import esmock from './esmock.js';
+import esmockIsLoader from './esmockIsLoader.js';
 
-global.esmockloader = global.esmockloader || (
-  process.execArgv.some(
-    args => (args.startsWith('--loader=') && args.includes('esmock'))
-  )
-) || (
-  /(?:^|\s)?--(?:experimental-)?loader=(["']*)esmock\1(?:\s|$)/.test(
-    process.env.NODE_OPTIONS
-  )
-);
+global.esmockloader = esmockIsLoader;
 
 export default esmock;
 
@@ -30,7 +23,7 @@ const esmockKeyRe = /esmockKey=\d*/;
 const withHashRe = /[^#]*#/;
 const isesmRe = /isesm=true/;
 
-const resolve = async (specifier, context, defaultResolve) => {
+const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context;
   const [ esmockKeyParamSmall ] =
     (parentURL && parentURL.match(/\?esmk=\d*/)) || [];
@@ -40,10 +33,25 @@ const resolve = async (specifier, context, defaultResolve) => {
   const [ esmockKeyParam ] =
     (esmockKeyLong && esmockKeyLong.match(esmockKeyRe) || []);
 
-  if (!esmockKeyParam)
-    return defaultResolve(specifier, context, defaultResolve);
+  // new versions of node: when multiple loaders are used and context
+  // is passed to nextResolve, the process crashes in a recursive call
+  // see: /esmock/issues/#48
+  //
+  // old versions of node: if context.parentURL is defined, and context
+  // is not passed to nextResolve, the tests fail
+  //
+  // later versions of node v16 include 'node-addons'
+  const resolved = context.conditions.slice(-1)[0] === 'node-addons'
+    ? ((context.importAssertions && context.parentURL)
+      ? await nextResolve(specifier, context)
+      : await nextResolve(specifier))
+    : (context.parentURL
+      ? await nextResolve(specifier, context)
+      : await nextResolve(specifier));
 
-  const resolved = await defaultResolve(specifier, context, defaultResolve);
+  if (!esmockKeyParam)
+    return resolved;
+
   const resolvedurl = decodeURI(resolved.url);
   const moduleKeyRe = new RegExp(
     '.*(' + resolvedurl + '\\?' + esmockKeyParam + '[^#]*).*');
@@ -71,7 +79,7 @@ const resolve = async (specifier, context, defaultResolve) => {
 
 const load = async (url, context, nextLoad) => {
   if (esmockModuleKeysRe.test(url)) // parent of mocked modules
-    return nextLoad(url, context, nextLoad);
+    return nextLoad(url, context);
 
   url = url.replace(esmockGlobalsAndAfterRe, '');
   if (url.startsWith(urlDummy)) {
@@ -92,7 +100,7 @@ const load = async (url, context, nextLoad) => {
     };
   }
 
-  return nextLoad(url, context, nextLoad);
+  return nextLoad(url, context);
 };
 
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
