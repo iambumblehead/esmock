@@ -1,5 +1,12 @@
 {
+  "name": "esmock-tests",
   "type": "module",
+  "license": "ISC",
+  "description": "various esmock unit tests",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
   "dependencies": {
     "esmock": "file:..",
     "ts-node": "^10.9.1",
