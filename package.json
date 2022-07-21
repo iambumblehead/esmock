@@ -56,6 +56,6 @@
   },
   "scripts": {
     "lint": "npx eslint . --ext .js,.mjs",
-    "test": "npm run lint; cd tests; npm install; npm test"
+    "test": "cd tests && npm install && npm test"
   }
 }
