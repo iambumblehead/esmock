@@ -52,7 +52,7 @@
     "rewire"
   ],
   "dependencies": {
-    "resolvewithplus": "^0.8.0"
+    "resolvewithplus": "^0.8.2"
   },
   "devDependencies": {
     "uvu": "0.5.3",
