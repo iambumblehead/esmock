@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "license": "ISC",
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
@@ -52,7 +52,7 @@
     "rewire"
   ],
   "dependencies": {
-    "resolvewithplus": "^0.8.2"
+    "resolvewithplus": "^0.8.4"
   },
   "scripts": {
     "mini:esmock": "npx esbuild ./src/esmock.js --minify --allow-overwrite --outfile=./src/esmock.js",
