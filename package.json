@@ -55,6 +55,15 @@
     "resolvewithplus": "^0.8.2"
   },
   "scripts": {
+    "mini:esmock": "npx esbuild ./src/esmock.js --minify --allow-overwrite --outfile=./src/esmock.js",
+    "mini:esmockCache": "npx esbuild ./src/esmockCache.js --minify --allow-overwrite --outfile=./src/esmockCache.js",
+    "mini:esmockIsLoader": "npx esbuild ./src/esmockIsLoader.js --minify --allow-overwrite --outfile=./src/esmockIsLoader.js",
+    "mini:esmockLoader": "npx esbuild ./src/esmockLoader.mjs --minify --allow-overwrite --outfile=./src/esmockLoader.mjs",
+    "mini:esmockModule": "npx esbuild ./src/esmockModule.js --minify --allow-overwrite --outfile=./src/esmockModule.js",
+    "mini-o": "npm run mini:esmock && npm run mini:esmockCache && npm run mini:esmockIsLoader && npm run mini:esmockModule",
+    "mini": "npx run glob-cmd src/*",
+    "test-ci": "npm run mini && npm run test",
+    "prepublishOnly": "npm run test-ci; npm pkg delete scripts",
     "lint": "npx eslint . --ext .js,.mjs",
     "test": "cd tests && npm install && npm test"
   }
