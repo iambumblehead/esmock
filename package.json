@@ -5,8 +5,8 @@
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
   "author": "chris <chris@bumblehead.com>",
-  "main": "src/esmockLoader.mjs",
-  "module": "src/esmockLoader.mjs",
+  "main": "src/esmockLoader.js",
+  "module": "src/esmockLoader.js",
   "type": "module",
   "types": "src/esmock.d.ts",
   "repository": {
@@ -54,15 +54,15 @@
   "dependencies": {
     "resolvewithplus": "^0.8.4"
   },
+  "devDependencies": {
+    "run-script-os": "^1.1.6"
+  },
   "scripts": {
-    "mini:esmock": "npx esbuild ./src/esmock.js --minify --allow-overwrite --outfile=./src/esmock.js",
-    "mini:esmockCache": "npx esbuild ./src/esmockCache.js --minify --allow-overwrite --outfile=./src/esmockCache.js",
-    "mini:esmockIsLoader": "npx esbuild ./src/esmockIsLoader.js --minify --allow-overwrite --outfile=./src/esmockIsLoader.js",
-    "mini:esmockLoader": "npx esbuild ./src/esmockLoader.mjs --minify --allow-overwrite --outfile=./src/esmockLoader.mjs",
-    "mini:esmockModule": "npx esbuild ./src/esmockModule.js --minify --allow-overwrite --outfile=./src/esmockModule.js",
-    "mini": "npm run mini:esmock && npm run mini:esmockCache && npm run mini:esmockIsLoader && npm run mini:esmockModule && npm run mini:esmockLoader",
+    "mini:default": "npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
+    "mini:win32": "cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
+    "mini": "run-script-os",
     "test-ci": "npm run mini && npm run test",
-    "prepublishOnly": "npm run test-ci; npm pkg delete scripts",
+    "prepublishOnly": "npm run test-ci; npm pkg delete scripts devDependencies",
     "lint": "npx eslint . --ext .js,.mjs",
     "test": "cd tests && npm install && npm test"
   }
