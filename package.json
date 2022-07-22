@@ -65,7 +65,7 @@
     "old:esmockModule": "npx esbuild ./src/esmockModule.js --minify --allow-overwrite --outfile=./src/esmockModule.js",
     "old": "npm run mini:esmock && npm run mini:esmockCache && npm run mini:esmockIsLoader && npm run mini:esmockModule && npm run mini:esmockLoader",
     "mini:default": "npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
-    "mini:win32": "cd src && for %f in (.\*) do (npx esbuild %f --minify --allow-overwrite --outfile=%f)",
+    "mini:win32": "cd src && for %f in (.\\*) do (npx esbuild %f --minify --allow-overwrite --outfile=%f)",
     "mini": "run-script-os",
     "test-ci": "npm run mini && npm run test",
     "prepublishOnly": "npm run test-ci; npm pkg delete scripts",
