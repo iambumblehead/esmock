@@ -60,7 +60,7 @@
     "mini:esmockIsLoader": "npx esbuild ./src/esmockIsLoader.js --minify --allow-overwrite --outfile=./src/esmockIsLoader.js",
     "mini:esmockLoader": "npx esbuild ./src/esmockLoader.mjs --minify --allow-overwrite --outfile=./src/esmockLoader.mjs",
     "mini:esmockModule": "npx esbuild ./src/esmockModule.js --minify --allow-overwrite --outfile=./src/esmockModule.js",
-    "mini": "npm run mini:esmock && npm run mini:esmockCache && npm run mini:esmockIsLoader && npm run mini:esmockModule",
+    "mini": "npm run mini:esmock && npm run mini:esmockCache && npm run mini:esmockIsLoader && npm run mini:esmockModule && npm mini:esmockLoader",
     "test-ci": "npm run mini && npm run test",
     "prepublishOnly": "npm run test-ci; npm pkg delete scripts",
     "lint": "npx eslint . --ext .js,.mjs",
