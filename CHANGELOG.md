@@ -1,5 +1,9 @@
 # changelog
 
+ * 1.8.3 _Jul.21.2022_
+   * minify sources and dependency, ~13kB smaller
+   * require newest resolvewithplus package, resolving minification error
+   * move tests to subdirectory and begin organizing them better
  * 1.8.2 _Jul.19.2022_
    * improved support for symlinked paths, credit @swivelgames
  * 1.8.1 _Jul.19.2022_
