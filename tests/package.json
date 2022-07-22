@@ -1,0 +1,33 @@
+{
+  "name": "esmock-tests",
+  "type": "module",
+  "license": "ISC",
+  "description": "various esmock unit tests",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "esmock": "file:..",
+    "ts-node": "^10.9.1",
+    "uvu": "0.5.3",
+    "ava": "^4.0.1",
+    "eslint": "^8.12.0",
+    "ts-node": "^10.9.1",
+    "form-urlencoded": "4.2.1",
+    "run-script-os": "^1.1.6",
+    "sinon": "^12.0.1"
+  },
+  "scripts": {
+    "test-node-esbuildts": "node --loader=@esbuild-kit/esm-loader --loader=esmock --test ./tests-nodets/*ts",
+    "test-ava": "npx ava --node-arguments=\"--loader=esmock\" ./tests-ava/*.spec.js",
+    "test-uvu": "node --loader=esmock ./node_modules/uvu/bin.js ./tests-uvu/",
+    "test-node": "node --no-warnings --loader=esmock --test ./tests-node/",
+    "test-node-ts": "node --loader=ts-node/esm --loader=esmock --test ./tests-tsnode/*ts",
+    "test-node18": "npm run test-node && npm run test-node-ts",
+    "test-nodeis18": "if (node -v | grep v18); then npm run test-node18; fi;",
+    "test:default": "npm run test-nodeis18 && npm run test-ava && npm run test-uvu",
+    "test:windows": "npm run test-ava && npm run test-uvu",
+    "test": "npm install && run-script-os"
+  }
+}
