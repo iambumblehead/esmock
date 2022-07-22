@@ -1,6 +1,6 @@
 # changelog
 
- * 1.8.3 _Jul.21.2022_
+ * 1.8.4 _Jul.21.2022_
    * minify sources and dependency, ~13kB smaller
    * require newest resolvewithplus package, resolving minification error
    * move tests to subdirectory and begin organizing them better
