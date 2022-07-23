@@ -17,7 +17,10 @@
     "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "note": "windows18 test should be improved for finding node version",
+    "mini:default": "cd .. && npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
+    "mini:win32": "cd .. && cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
+    "mini": "run-script-os",
+    
     "install:esmock": "cd .. && npm install",
     "install:test-ava": "cd tests-ava && npm install",
     "install:test-uvu": "cd tests-uvu && npm install",
@@ -30,25 +33,6 @@
     "test:test-node": "check-node-version --node '>= 18.0.0' && cd tests-node && npm test",
     "test:test-nodets": "check-node-version --node '>= 18.0.0' && cd tests-nodets && npm test",
     "test:all": "npm-run-all test:test*",
-    "test:all-ci": "cd .. && npm run mini && cd tests && npm run test:all",
-
-    "mini": "cd .. && npm run"
-    "mini:default": "npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
-    "mini:win32": "cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
-    "mini": "run-script-os",
-    "test-ci": "npm run mini && npm run test",
-
-    "nopostinstall": "npm ru",
-    
-    "test-node-esbuildts": "node --loader=@esbuild-kit/esm-loader --loader=esmock --test ./tests-nodets/*ts",
-    "test-ava": "npx ava --node-arguments=\"--loader=esmock\" ./tests-ava/*.spec.js",
-    "test-uvu": "node --loader=esmock ./node_modules/uvu/bin.js ./tests-uvu/",
-    "test-node": "node --no-warnings --loader=esmock --test ./tests-node/",
-    "test-node-ts": "node --loader=ts-node/esm --loader=esmock --test ./tests-tsnode/*ts",
-    "test-node18": "npm run test-node && npm run test-node-ts",
-    "test-nodeis18": "if (node -v | grep v18); then npm run test-node18; fi;",
-    "test:default": "npm run test-nodeis18 && npm run test-ava && npm run test-uvu",
-    "test:windows": "npm run test-ava && npm run test-uvu",
-    "test": "npm install && run-script-os"
+    "test:all-ci": "npm run mini && npm run test:all"
   }
 }

@@ -54,16 +54,10 @@
   "dependencies": {
     "resolvewithplus": "^0.8.4"
   },
-  "devDependencies": {
-    "run-script-os": "^1.1.6"
-  },
   "scripts": {
-    "mini:default": "npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
-    "mini:win32": "cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
-    "mini": "run-script-os",
-    "test-ci": "npm run mini && npm run test",
+    "test": "cd tests && npm run test:all",
+    "test-ci": "cd tests && npm run test:all-ci",
     "prepublishOnly": "npm run test-ci; npm pkg delete scripts devDependencies",
-    "lint": "npx eslint . --ext .js,.mjs",
-    "test": "cd tests && npm install && npm test"
+    "lint": "npx eslint . --ext .js,.mjs"
   }
 }
