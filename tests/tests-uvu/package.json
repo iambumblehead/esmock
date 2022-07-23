@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "description": "esmock unit tests, uvu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "uvu": "^0.5.6",
+    "esmock": "file:..",
+    "sinon": "file:../node_modules/sinon",
+    "eslint": "file:../node_modules/eslint",
+    "form-urlencoded": "file:../node_modules/form-urlencoded",
+    "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
+  },
+  "scripts": {
+    "test": "node --loader=esmock ./node_modules/uvu/bin.js"
+  }
+}

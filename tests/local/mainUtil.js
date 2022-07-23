@@ -1,4 +1,5 @@
 import formurlencoded from 'form-urlencoded';
+import babelGeneratedDoubleDefault from 'babelGeneratedDoubleDefault';
 import {
   mainUtilNamedExportOne,
   mainUtilNamedExportTwo
@@ -6,11 +7,14 @@ import {
 
 const mainUtil = () => 'mainUtil';
 
-const createString = () => formurlencoded.default({
+const createString = () => formurlencoded({
   mainUtil : 'a string',
   mainUtilNamedExportOneValue : mainUtilNamedExportOne(),
   mainUtilNamedExportTwoValue : mainUtilNamedExportTwo()
 });
+
+const callBabelGeneratedDoubleDefault = o => (
+  babelGeneratedDoubleDefault.default(o));
 
 const causeRuntimeError = () => mainUtil()();
 
@@ -19,5 +23,6 @@ export default mainUtil;
 export {
   mainUtil,
   createString,
-  causeRuntimeError
+  causeRuntimeError,
+  callBabelGeneratedDoubleDefault
 };

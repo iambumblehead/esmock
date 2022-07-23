@@ -9,7 +9,7 @@ import {
 } from './esmockCache.js';
 
 const esmock = async (modulePath, mockDefs, globalDefs, opt = {}, err) => {
-  const calleePath = (err || new Error()).stack.split('\n')[2]
+  const calleePath = (err || new Error).stack.split('\n')[2]
     .replace(/^.*file:\/\//, '') // rm every before filepath
     .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
     .replace(/^.*:/, '') // rm windows-style drive location
@@ -30,10 +30,10 @@ const esmock = async (modulePath, mockDefs, globalDefs, opt = {}, err) => {
 };
 
 esmock.px = async (modulePath, mockDefs, globalDefs) => (
-  esmock(modulePath, mockDefs, globalDefs, { partial : true }, new Error()));
+  esmock(modulePath, mockDefs, globalDefs, { partial : true }, new Error));
 
 esmock.p = async (modulePath, mockDefs, globalDefs) => (
-  esmock(modulePath, mockDefs, globalDefs, { purge : false }, new Error()));
+  esmock(modulePath, mockDefs, globalDefs, { purge : false }, new Error));
 
 esmock.purge = mockModule => {
   if (mockModule && /object|function/.test(typeof mockModule)
