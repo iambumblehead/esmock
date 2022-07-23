@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'assert';
-import esmock from '../../src/esmock.js';
+import esmock from 'esmock';
 
 test('should mock ts when using node-ts', { only : true }, async () => {
   const main = await esmock('../local/main.ts', {

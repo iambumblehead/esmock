@@ -1,5 +1,4 @@
 {
-  "name": "esmock-tests",
   "type": "module",
   "license": "ISC",
   "description": "various esmock unit tests",
@@ -7,18 +6,40 @@
     "type": "git",
     "url": "https://github.com/iambumblehead/esmock.git"
   },
+  "main": "package.json.esmock.export.js",
   "dependencies": {
-    "esmock": "file:..",
-    "ts-node": "^10.9.1",
-    "uvu": "0.5.3",
-    "ava": "^4.0.1",
     "eslint": "^8.12.0",
-    "ts-node": "^10.9.1",
-    "form-urlencoded": "4.2.1",
+    "sinon": "^12.0.1",
+    "form-urlencoded": "^6.0.7",
     "run-script-os": "^1.1.6",
-    "sinon": "^12.0.1"
+    "check-node-version": "^4.2.1",
+    "npm-run-all": "^4.1.5",
+    "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault"
   },
   "scripts": {
+    "note": "windows18 test should be improved for finding node version",
+    "install:esmock": "cd .. && npm install",
+    "install:test-ava": "cd tests-ava && npm install",
+    "install:test-uvu": "cd tests-uvu && npm install",
+    "install:test-node": "cd tests-node && npm install",
+    "install:test-nodets": "cd tests-nodets && npm install",
+    "install:all": "npm-run-all install:test*",
+
+    "test:test-ava": "cd tests-ava && npm test",
+    "test:test-uvu": "cd tests-uvu && npm test",
+    "test:test-node": "check-node-version --node '>= 18.0.0' && cd tests-node && npm test",
+    "test:test-nodets": "check-node-version --node '>= 18.0.0' && cd tests-nodets && npm test",
+    "test:all": "npm-run-all test:test*",
+    "test:all-ci": "cd .. && npm run mini && cd tests && npm run test:all",
+
+    "mini": "cd .. && npm run"
+    "mini:default": "npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
+    "mini:win32": "cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
+    "mini": "run-script-os",
+    "test-ci": "npm run mini && npm run test",
+
+    "nopostinstall": "npm ru",
+    
     "test-node-esbuildts": "node --loader=@esbuild-kit/esm-loader --loader=esmock --test ./tests-nodets/*ts",
     "test-ava": "npx ava --node-arguments=\"--loader=esmock\" ./tests-ava/*.spec.js",
     "test-uvu": "node --loader=esmock ./node_modules/uvu/bin.js ./tests-uvu/",

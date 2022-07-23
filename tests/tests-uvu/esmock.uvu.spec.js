@@ -1,8 +1,7 @@
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import sinon from 'sinon';
-
-import esmock from '../../src/esmock.js';
+import esmock from 'esmock';
 
 test('should return un-mocked file', async () => {
   const main = await esmock('../local/main.js');
@@ -179,18 +178,14 @@ test('should mock module and local file at the same time', async () => {
 
 test('__esModule definition, inconsequential', async () => {
   const mainUtil = await esmock.px('../local/mainUtil.js', {
-    'form-urlencoded' : o => JSON.stringify(o),
+    'babelGeneratedDoubleDefault' : o => o,
     '../local/mainUtilNamedExports.js' : {
       mainUtilNamedExportOne : () => 'foobar',
       __esModule : true
     }
   });
 
-  assert.is(mainUtil.createString(), JSON.stringify({
-    mainUtil : 'a string',
-    mainUtilNamedExportOneValue : 'foobar',
-    mainUtilNamedExportTwoValue : 'namedExportTwo'
-  }));
+  assert.is(mainUtil.callBabelGeneratedDoubleDefault('mocked'), 'mocked');
 });
 
 test('should work well with sinon', async () => {

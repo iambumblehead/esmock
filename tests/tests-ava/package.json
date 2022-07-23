@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "description": "esmock unit tests, ava",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "ava": "^4.3.1",
+    "esmock": "file:..",
+    "sinon": "file:../node_modules/sinon",
+    "eslint": "file:../node_modules/eslint",
+    "form-urlencoded": "file:../node_modules/form-urlencoded",
+    "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
+  },
+  "scripts": {
+    "test": "ava --node-arguments=\"--loader=esmock\""
+  }
+}
