@@ -14,7 +14,7 @@ const createString = () => formurlencoded({
 });
 
 const callBabelGeneratedDoubleDefault = o => (
-  babelGeneratedDoubleDefault.default(o) );
+  babelGeneratedDoubleDefault.default(o));
 
 const causeRuntimeError = () => mainUtil()();
 

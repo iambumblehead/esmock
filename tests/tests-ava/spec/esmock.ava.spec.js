@@ -42,8 +42,8 @@ test('should throw error if local file not found', async t => {
     name : 'Error'
   });
 
-  t.true( err.message.startsWith(
-    'modulePath not found: "../../local/not/found.js"' ) );
+  t.true(err.message.startsWith(
+    'modulePath not found: "../../local/not/found.js"'));
 });
 
 test('should throw error if local definition file not found', async t => {
@@ -56,8 +56,8 @@ test('should throw error if local definition file not found', async t => {
     name : 'Error'
   });
 
-  t.true( err.message.startsWith(
-    'not a valid path: "../../local/not/found.js"' ) );
+  t.true(err.message.startsWith(
+    'not a valid path: "../../local/not/found.js"'));
 });
 
 test('should mock a module', async t => {
