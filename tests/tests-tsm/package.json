@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "description": "esmock unit tests, tsm with node native runner",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "tsm": "^2.2.2",
+    "esmock": "file:..",
+    "sinon": "file:../node_modules/sinon",
+    "eslint": "file:../node_modules/eslint",
+    "form-urlencoded": "file:../node_modules/form-urlencoded",
+    "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
+  },
+  "scripts": {
+    "test": "node --loader=tsm --loader=esmock --test *test.ts"
+  }
+}
