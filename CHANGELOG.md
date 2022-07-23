@@ -1,5 +1,11 @@
 # changelog
 
+ * 1.8.5 _Jul.23.2022_
+   * adds typescript and node-native runner tests [for windows CI](https://github.com/iambumblehead/esmock/pull/80)
+   * renames esmockLoader.mjs to esmockLoader.js
+   * adds runner-specific test folders for tests
+   * removes dependency on old version of form-urlencoded
+   * adds tsm unit-test [and example](https://github.com/iambumblehead/esmock/pull/81)
  * 1.8.4 _Jul.21.2022_
    * minify sources and dependency, ~13kB smaller
    * require newest resolvewithplus package, resolving minification error
