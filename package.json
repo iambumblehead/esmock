@@ -1,6 +1,6 @@
 {
   "name": "esmock",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "license": "ISC",
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
