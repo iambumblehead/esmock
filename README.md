@@ -25,11 +25,12 @@
   "type": "module",
   "scripts": {
     "test": "node --loader=esmock --test",
-    "test-tap": "NODE_OPTIONS=--loader=esmock tap",
-    "test-uvu": "NODE_OPTIONS=--loader=esmock uvu spec",
-    "test-ava": "NODE_OPTIONS=--loader=esmock ava",
     "test-mocha": "mocha --loader=esmock",
-    "test-ts": "node --loader=ts-node/esm --loader=esmock --test *ts"
+    "test-tap": "NODE_OPTIONS=--loader=esmock tap",
+    "test-ava": "NODE_OPTIONS=--loader=esmock ava",
+    "test-uvu": "NODE_OPTIONS=--loader=esmock uvu spec",
+    "test-tsm": "node --loader=tsm --loader=esmock --test *ts",
+    "test-ts-node": "node --loader=ts-node/esm --loader=esmock --test *ts"
   }
 }
 ```
