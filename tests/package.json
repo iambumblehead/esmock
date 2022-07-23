@@ -27,6 +27,7 @@
     "install:test-node": "cd tests-node && npm install",
     "install:test-nodets": "cd tests-nodets && npm install",
     "install:all": "npm-run-all install:test*",
+    "postinstall": "npm run install:all",
 
     "test:test-ava": "cd tests-ava && npm test",
     "test:test-uvu": "cd tests-uvu && npm test",

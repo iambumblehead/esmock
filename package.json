@@ -57,7 +57,7 @@
   "scripts": {
     "test": "cd tests && npm run test:all",
     "lint": "npx eslint . --ext .js,.mjs",
-    "test-ci": "cd tests && npm run install:all && npm run test:all-ci",
+    "test-ci": "cd tests && npm install && npm run test:all-ci",
     "mini:pkg": "npm pkg delete scripts devDependencies",
     "prepublishOnly": "npm run lint && npm run test-ci && npm run mini:pkg"
   }
