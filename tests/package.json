@@ -20,6 +20,7 @@
     "mini:default": "cd .. && npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
     "mini:win32": "cd .. && cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
     "mini": "run-script-os",
+    "isnode18": "check-node-version --node '>= 18.0.0'",
     "install:esmock": "cd .. && npm install",
     "install:test-ava": "cd tests-ava && npm install",
     "install:test-uvu": "cd tests-uvu && npm install",
@@ -28,8 +29,8 @@
     "install:all": "npm install && npm-run-all install:test*",
     "test:test-ava": "cd tests-ava && npm test",
     "test:test-uvu": "cd tests-uvu && npm test",
-    "test:test-node": "check-node-version --node '>= 18.0.0' && cd tests-node && npm test",
-    "test:test-nodets": "check-node-version --node '>= 18.0.0' && cd tests-nodets && npm test",
+    "test:test-node": "npm run isnode18 && cd tests-node && npm test || true",
+    "test:test-nodets": "npm run isnode18 && cd tests-nodets && npm test || true",
     "test:all": "npm-run-all test:test*",
     "test:all-ci": "npm run mini && npm run test:all"
   }
