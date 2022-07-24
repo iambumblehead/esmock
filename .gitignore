@@ -3,3 +3,4 @@ tests/node_modules
 README.html
 .tern-port
 package-lock.json
+coverage
