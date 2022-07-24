@@ -34,7 +34,8 @@
     "test:test-tsm": "npm run isnode18 && cd tests-tsm && npm test || true",
     "test:test-node": "npm run isnode18 && cd tests-node && npm test || true",
     "test:test-nodets": "npm run isnode18 && cd tests-nodets && npm test || true",
-    "test:all-cover": "c8 npm-run-all test:test*",
+    "test:all": "npm-run-all test:test*",
+    "test:all-cover": "c8 npm run test:all",
     "test:all-ci": "npm run mini && npm run test:all"
   }
 }
