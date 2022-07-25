@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.8.7 _Jul.24.2022_
+   * remove c8 from dependencies, move to devDependencies
  * 1.8.6 _Jul.24.2022_
    * adds jest-light-runner example and unit-tests
  * 1.8.5 _Jul.23.2022_
