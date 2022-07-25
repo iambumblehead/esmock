@@ -1,5 +1,5 @@
 import {getNotifier} from './notific.js';
 
-export function callNotifier () {
-  return getNotifier();
+export default function callNotifier () {
+  return getNotifier().publish();
 }

@@ -1,15 +1,16 @@
-import { PublishCommand /*, SNSClient*/ } from '@aws-sdk/client-sns';
+import { EventEmitter } from 'events';
 
 class NotificationsSupport {
   async publish (/* op, info, result */) {
-    const command = new PublishCommand();
-
-    return command;
+    const emitter = new EventEmitter();
+    return emitter.emit('foo');
   }
 }
 
-export function getNotifier (ctx) {
-  new NotificationsSupport;
-
-  return ctx;
+export function getNotifier () {
+  return new NotificationsSupport();
 }
+
+// without this, esmock complains:
+// "Cannot add property default, object is not extensible"
+export default {};
