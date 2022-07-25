@@ -15,7 +15,7 @@ test.only('should something', async t => {
     })
   });
 
-  console.log()
+  console.log(mockedIndex.callNotifier());
 });
 
 test('should return un-mocked file', async t => {
