@@ -15,6 +15,7 @@ test.only('should something', async t => {
     })
   });
 
+  t.true(true);
   console.log(mockedIndex.callNotifier());
 });
 
