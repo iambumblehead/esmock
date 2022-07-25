@@ -2,21 +2,20 @@ import test from 'ava';
 import esmock from 'esmock';
 import sinon from 'sinon';
 
-test.only('should something', async t => {
-  const mockedIndex = await esmock.px('../../src/classNotAConstructor.js', {
+test.only('should mock class with no default export', async t => {
+  const mockedIndex = await esmock.px('../../local/classNotAConstructor.js', {
     '../../local/notific.js' : await esmock.px('../../local/notific.js', {
-      '@aws-sdk/client-sns' : {
-        SNSClient : class {
-          send (cmd) {
-            return cmd;
+      'events' : {
+        EventEmitter : class {
+          emit () {
+            return 'mocked';
           }
         }
       }
     })
   });
 
-  t.true(true);
-  console.log(mockedIndex.callNotifier());
+  t.is(await mockedIndex(), 'mocked');
 });
 
 test('should return un-mocked file', async t => {
