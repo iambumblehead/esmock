@@ -40,3 +40,5 @@ export default () => {
 export const wildexports = wildfileexports;
 
 export const wild = wildfile;
+
+export const pathbasenamewrap = n => basename(n);

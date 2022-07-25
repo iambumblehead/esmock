@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.8.6 _Jul.24.2022_
+   * adds jest-light-runner example and unit-tests
  * 1.8.5 _Jul.23.2022_
    * adds typescript and node-native runner tests [for windows CI](https://github.com/iambumblehead/esmock/pull/80)
    * renames esmockLoader.mjs to esmockLoader.js
