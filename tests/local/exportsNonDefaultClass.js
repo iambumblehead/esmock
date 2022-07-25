@@ -1,4 +1,3 @@
-//import { PublishCommand /*, SNSClient*/ } from '@aws-sdk/client-sns';
 import { basename } from './pathWrap.js';
 
 class NotificationsSupport {
