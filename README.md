@@ -9,13 +9,13 @@
 ```
 [![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Build Status](https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock) [![downloads](https://badgen.now.sh/npm/dm/esmock)](https://npmjs.org/package/esmock)
 
-**esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide or use the [descriptive and friendly esmock guide here.][10]
+**esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][10] or browse [esmock's test runner examples.][3]
 
 [10]: https://github.com/iambumblehead/esmock/wiki
 [0]: http://www.bumblehead.com "bumblehead"
 [1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
 [2]: https://github.com/iambumblehead/esmock "esmock"
-
+[3]: https://github.com/iambumblehead/esmock/tree/master/tests "tests"
 
 
 `esmock` is used with node's --loader
@@ -30,8 +30,12 @@
     "test-ava": "NODE_OPTIONS=--loader=esmock ava",
     "test-uvu": "NODE_OPTIONS=--loader=esmock uvu spec",
     "test-tsm": "node --loader=tsm --loader=esmock --test *ts",
-    "test-ts-node": "node --loader=ts-node/esm --loader=esmock --test *ts"
-  }
+    "test-ts-node": "node --loader=ts-node/esm --loader=esmock --test *ts",
+    "test": "NODE_OPTIONS='--loader=esmock' jest"
+  },
+  "jest": {
+    "runner": "jest-light-runner"
+  },
 }
 ```
 
