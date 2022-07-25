@@ -59,8 +59,7 @@ const esmockModuleApply = (definitionLive, definitionMock, definitionPath) => {
   // note: core modules do not define "default.default"
   //   import package from 'package';
   //   package.default(); <- extra default definition
-  // if (!isCorePath && Object.isExtensible(definition.default))
-  if (!isCorePath && isObjOrFn(definition.default))
+  if (!isCorePath && Object.isExtensible(definition.default))
     definition.default.default = definition.default;
 
   return definition;

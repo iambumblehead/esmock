@@ -2,13 +2,15 @@
 import { basename } from './pathWrap.js';
 
 class NotificationsSupport {
-  async publish (/* op, info, result */) {
+  async publish () {
     return basename('/published/file');
   }
 }
 
-export function getNotifier () {
-  const note = new NotificationsSupport;
+export class getNotifier {
+  async publish () {
+    const note = new NotificationsSupport;
 
-  return note.publish();
+    return await note.publish();
+  }
 }
