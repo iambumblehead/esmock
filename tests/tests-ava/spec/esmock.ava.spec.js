@@ -2,6 +2,19 @@ import test from 'ava';
 import esmock from 'esmock';
 import sinon from 'sinon';
 
+test('should not error when handling non-extnsible object', async t => {
+  const mockedIndex = await esmock.px('../../local/importsNonDefaultClass.js', {
+    '../../local/exportsNonDefaultClass.js' : await esmock.px(
+      '../../local/exportsNonDefaultClass.js', {
+        '../../local/pathWrap.js' : {
+          basename : () => 'mocked basename'
+        }
+      })
+  });
+
+  t.is(await mockedIndex.callNotifier(), 'mocked basename');
+});
+
 test('should return un-mocked file', async t => {
   const main = await esmock('../../local/main.js');
   const mainqs = [

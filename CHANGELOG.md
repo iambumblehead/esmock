@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.8.9 _Jul.25.2022_
+   * resolve error, do not define default on extensible objects, credit @tripodsan
  * 1.8.8 _Jul.24.2022_
    * add node v14 test pipeline, credit @aladdin-add
    * resolve node v14 loader-originating runtime error

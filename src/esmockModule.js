@@ -11,8 +11,6 @@ import {
 } from './esmockCache.js';
 
 const isObj = o => typeof o === 'object' && o;
-const isObjOrFnRe = /^(object|function)$/;
-const isObjOrFn = o => isObjOrFnRe.test(typeof o) && o;
 const isDefaultDefined = o => isObj(o) && 'default' in o;
 
 const FILE_PROTOCOL = 'file:///';
@@ -59,7 +57,7 @@ const esmockModuleApply = (definitionLive, definitionMock, definitionPath) => {
   // note: core modules do not define "default.default"
   //   import package from 'package';
   //   package.default(); <- extra default definition
-  if (!isCorePath && isObjOrFn(definition.default))
+  if (!isCorePath && Object.isExtensible(definition.default))
     definition.default.default = definition.default;
 
   return definition;
