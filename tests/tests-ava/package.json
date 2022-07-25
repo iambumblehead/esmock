@@ -8,6 +8,7 @@
   "dependencies": {
     "ava": "^4.3.1",
     "esmock": "file:..",
+    "@aws-sdk/client-sns": "file:../node_modules/@aws-sdk/client-sns",
     "sinon": "file:../node_modules/sinon",
     "eslint": "file:../node_modules/eslint",
     "form-urlencoded": "file:../node_modules/form-urlencoded",

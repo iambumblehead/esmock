@@ -2,6 +2,22 @@ import test from 'ava';
 import esmock from 'esmock';
 import sinon from 'sinon';
 
+test.only('should something', async t => {
+  const mockedIndex = await esmock.px('../../src/classNotAConstructor.js', {
+    '../../local/notific.js' : await esmock.px('../../local/notific.js', {
+      '@aws-sdk/client-sns' : {
+        SNSClient : class {
+          send (cmd) {
+            return cmd;
+          }
+        }
+      }
+    })
+  });
+
+  console.log()
+});
+
 test('should return un-mocked file', async t => {
   const main = await esmock('../../local/main.js');
   const mainqs = [

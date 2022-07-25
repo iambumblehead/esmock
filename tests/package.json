@@ -10,6 +10,7 @@
   "dependencies": {
     "eslint": "^8.12.0",
     "sinon": "^12.0.1",
+    "@aws-sdk/client-sns": "3.130.0",
     "form-urlencoded": "^6.0.7",
     "run-script-os": "^1.1.6",
     "check-node-version": "^4.2.1",
