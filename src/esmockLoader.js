@@ -15,6 +15,9 @@ const urlDummy = 'file:///' + path
   .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
   .replace(/^\//, '');
 
+const isLT1612 = ' 16. 12' > process.versions.node.split('.')
+  .slice(0, 2).map(s => s.padStart(3)).join('.');
+
 const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
 const esmockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
 const esmockModuleKeysRe = /#esmockModuleKeys/;
@@ -42,7 +45,7 @@ const resolve = async (specifier, context, nextResolve) => {
   //
   // later versions of node v16 include 'node-addons'
   const resolved = context.conditions.slice(-1)[0] === 'node-addons'
-    ? ((context.importAssertions && context.parentURL)
+    ? (((context.importAssertions && context.parentURL) || isLT1612)
       ? await nextResolve(specifier, context)
       : await nextResolve(specifier))
     : (context.parentURL
@@ -104,8 +107,7 @@ const load = async (url, context, nextLoad) => {
 };
 
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
-const getSource = ' 16. 12' > process.versions.node.split('.')
-  .slice(0, 2).map(s => s.padStart(3)).join('.') && load;
+const getSource = isLT1612 && load;
 
 export {
   load,
