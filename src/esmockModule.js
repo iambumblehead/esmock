@@ -11,8 +11,6 @@ import {
 } from './esmockCache.js';
 
 const isObj = o => typeof o === 'object' && o;
-const isObjOrFnRe = /^(object|function)$/;
-const isObjOrFn = o => isObjOrFnRe.test(typeof o) && o;
 const isDefaultDefined = o => isObj(o) && 'default' in o;
 
 const FILE_PROTOCOL = 'file:///';
