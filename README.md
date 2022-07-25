@@ -31,7 +31,7 @@
     "test-uvu": "NODE_OPTIONS=--loader=esmock uvu spec",
     "test-tsm": "node --loader=tsm --loader=esmock --test *ts",
     "test-ts-node": "node --loader=ts-node/esm --loader=esmock --test *ts",
-    "test": "NODE_OPTIONS='--loader=esmock' jest"
+    "test-jest": "NODE_OPTIONS='--loader=esmock' jest"
   },
   "jest": {
     "runner": "jest-light-runner"
