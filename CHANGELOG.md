@@ -1,5 +1,8 @@
 # changelog
 
+ * 1.8.8 _Jul.24.2022_
+   * add node v14 test pipeline, credit @aladdin-add
+   * resolve node v14 loader-originating runtime error
  * 1.8.7 _Jul.24.2022_
    * remove c8 from dependencies, move to devDependencies
  * 1.8.6 _Jul.24.2022_
