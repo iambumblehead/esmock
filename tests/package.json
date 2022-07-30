@@ -37,6 +37,6 @@
     "test:test-nodets": "npm run isnode18 && cd tests-nodets && npm test || true",
     "test:all": "npm-run-all test:test*",
     "test:all-cover": "c8 --src=../src/* npm run test:all",
-    "test:all-ci": "npm run mini && npm run test:all"
+    "test:all-ci": "node --version && npm run mini && npm run test:all"
   }
 }
