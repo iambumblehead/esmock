@@ -1,5 +1,12 @@
 # changelog
 
+ * 1.9.0 _Jul.30.2022_
+   * support for modules using stringy exports.import rules
+   * add live coverage badge to show, for example, 98% coverage
+   * add linting for README examples
+   * improve unit-test for mocking non-extansible objects
+   * improve node-version definition of `isLT1612` per review @aladdin-add
+   * use smaller and specific condition for calling nextResolve at loader
  * 1.8.9 _Jul.25.2022_
    * resolve error, do not define default on extensible objects, credit @tripodsan
  * 1.8.8 _Jul.24.2022_

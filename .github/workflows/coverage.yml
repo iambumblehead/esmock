@@ -41,14 +41,14 @@ jobs:
         echo $BRANCH_NAME
         # process.env.BRANCH = 'pull_27';
         echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
-    - if: ${{ matrix.node-version == '18.x' }}
+    - if: ${{ github.ref == 'refs/heads/master' }}
       name: Create the Badge
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
         gistID: 166d927bd0089d7bfdee4e98a537712c
         filename: esmock__${{ env.BRANCH }}.json
-        label: Test Coverage
+        label: coverage
         message: ${{ env.COVERAGE }}
-        color: green
+        color: "#44CC11"
         namedLogo: node
