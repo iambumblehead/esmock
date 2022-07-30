@@ -3,6 +3,21 @@ import esmock from 'esmock';
 import sinon from 'sinon';
 
 test('should not error when handling non-extnsible object', async t => {
+  // if esmock tries to simulate babel and define default.default
+  // runtime error may occur if non-extensible is defined there
+  await esmock.px('../../local/importsNonDefaultClass.js', {
+    '../../local/exportsNonDefaultClass.js' : {
+      getNotifier : {
+        default : class getNotifier {
+          publish = () => 'mocked basename';
+        }
+      }
+    }
+  });
+
+  // this error can also occur when an esmocked module is used to
+  // mock antother module, where esmock defined default.default on the first
+  // module and tried to define again from the outer module
   const mockedIndex = await esmock.px('../../local/importsNonDefaultClass.js', {
     '../../local/exportsNonDefaultClass.js' : await esmock.px(
       '../../local/exportsNonDefaultClass.js', {
