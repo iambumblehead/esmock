@@ -56,7 +56,7 @@
     "curly": 0,
     "operator-linebreak": 0,
     "no-param-reassign": 0,
-    "key-spacing": [2, {"beforeColon": true}],
+    "key-spacing": [2],
     "implicit-arrow-linebreak": 0,
     "no-shadow": [0, "warn", {
         "allow": [ "err" ]

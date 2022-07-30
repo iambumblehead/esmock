@@ -49,7 +49,7 @@ const esmockModuleApply = (definitionLive, definitionMock, definitionPath) => {
     isDefaultDefined(definitionLive) && definitionLive.default,
     isDefaultDefined(definitionMock) ? definitionMock.default : definitionMock);
   const definition = Object.assign({}, definitionLive || {}, {
-    default : definitionDefault
+    default: definitionDefault
   }, definitionMock);
 
   // if safe, an extra default definition is added for compatibility,

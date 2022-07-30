@@ -8,9 +8,9 @@ import {
 const mainUtil = () => 'mainUtil';
 
 const createString = () => formurlencoded({
-  mainUtil : 'a string',
-  mainUtilNamedExportOneValue : mainUtilNamedExportOne(),
-  mainUtilNamedExportTwoValue : mainUtilNamedExportTwo()
+  mainUtil: 'a string',
+  mainUtilNamedExportOneValue: mainUtilNamedExportOne(),
+  mainUtilNamedExportTwoValue: mainUtilNamedExportTwo()
 });
 
 const callBabelGeneratedDoubleDefault = o => (

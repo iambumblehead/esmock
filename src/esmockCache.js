@@ -1,9 +1,9 @@
 const esmockCache = {
-  isESM : {},
+  isESM: {},
 
   // record of fullpaths with associated mocks
   // eg, { '/path/to/mock.js': true }
-  mockDefs : {}
+  mockDefs: {}
 };
 
 const esmockKeySet = (key, keylong) => (
@@ -27,7 +27,7 @@ const esmockCacheResolvedPathIsESMSet = (mockPathFull, isesm) => (
 Object.assign(global, {
   esmockCacheGet,
   esmockKeyGet,
-  mockKeys : {}
+  mockKeys: {}
 });
 
 export {

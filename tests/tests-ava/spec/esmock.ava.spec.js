@@ -6,9 +6,9 @@ test('should not error when handling non-extnsible object', async t => {
   // if esmock tries to simulate babel and define default.default
   // runtime error may occur if non-extensible is defined there
   await esmock.px('../../local/importsNonDefaultClass.js', {
-    '../../local/exportsNonDefaultClass.js' : {
-      getNotifier : {
-        default : class getNotifier {
+    '../../local/exportsNonDefaultClass.js': {
+      getNotifier: {
+        default: class getNotifier {
           publish = () => 'mocked basename';
         }
       }
@@ -19,10 +19,10 @@ test('should not error when handling non-extnsible object', async t => {
   // mock antother module, where esmock defined default.default on the first
   // module and tried to define again from the outer module
   const mockedIndex = await esmock.px('../../local/importsNonDefaultClass.js', {
-    '../../local/exportsNonDefaultClass.js' : await esmock.px(
+    '../../local/exportsNonDefaultClass.js': await esmock.px(
       '../../local/exportsNonDefaultClass.js', {
-        '../../local/pathWrap.js' : {
-          basename : () => 'mocked basename'
+        '../../local/pathWrap.js': {
+          basename: () => 'mocked basename'
         }
       })
   });
@@ -43,8 +43,8 @@ test('should return un-mocked file', async t => {
 
 test('should mock a local file', async t => {
   const main = await esmock.px('../../local/main.js', {
-    '../../local/mainUtil.js' : {
-      createString : () => 'test string'
+    '../../local/mainUtil.js': {
+      createString: () => 'test string'
     }
   });
 
@@ -55,19 +55,19 @@ test('should mock a local file', async t => {
 test.serial('should throw error if !esmockloader', async t => {
   global.esmockloader = false;
   await t.throwsAsync(() => esmock('./to/module.js'), {
-    message : 'process must be started with --loader=esmock'
+    message: 'process must be started with --loader=esmock'
   });
   global.esmockloader = true;
 });
 
 test('should throw error if local file not found', async t => {
   const err = await t.throwsAsync(() => esmock('../../local/not/found.js', {
-    '../../local/mainUtil.js' : {
-      createString : () => 'test string'
+    '../../local/mainUtil.js': {
+      createString: () => 'test string'
     }
   }), {
-    instanceOf : Error,
-    name : 'Error'
+    instanceOf: Error,
+    name: 'Error'
   });
 
   t.true(err.message.startsWith(
@@ -76,12 +76,12 @@ test('should throw error if local file not found', async t => {
 
 test('should throw error if local definition file not found', async t => {
   const err = await t.throwsAsync(() => esmock('../../local/not/found.js', {
-    '../../local/not/found.js' : {
-      createString : () => 'test string'
+    '../../local/not/found.js': {
+      createString: () => 'test string'
     }
   }), {
-    instanceOf : Error,
-    name : 'Error'
+    instanceOf: Error,
+    name: 'Error'
   });
 
   t.true(err.message.startsWith(
@@ -90,7 +90,7 @@ test('should throw error if local definition file not found', async t => {
 
 test('should mock a module', async t => {
   const main = await esmock('../../local/mainUtil.js', {
-    'form-urlencoded' : () => 'mock encode'
+    'form-urlencoded': () => 'mock encode'
   });
 
   t.is(typeof main, 'function');
@@ -99,14 +99,14 @@ test('should mock a module', async t => {
 
 test('should mock a module, globally', async t => {
   const main = await esmock('../../local/main.js', {
-    '../../local/mainUtilNamedExports.js' : {
-      mainUtilNamedExportOne : 'mocked'
+    '../../local/mainUtilNamedExports.js': {
+      mainUtilNamedExportOne: 'mocked'
     }
   }, {
-    'form-urlencoded' : () => 'mock encode',
-    fs : {
-      existsSync : () => true,
-      readFileSync : filepath => filepath === 'checkfilepath.js'
+    'form-urlencoded': () => 'mock encode',
+    fs: {
+      existsSync: () => true,
+      readFileSync: filepath => filepath === 'checkfilepath.js'
         ? 'success'
         : filepath
     }
@@ -122,19 +122,19 @@ test('should mock a module, globally', async t => {
 
 test('should purge local and global mocks', async t => {
   await esmock('../../local/main.js', {
-    '../../local/mainUtilNamedExports.js' : {
-      mainUtilNamedExportOne : 'mocked'
+    '../../local/mainUtilNamedExports.js': {
+      mainUtilNamedExportOne: 'mocked'
     }
   }, {
-    'form-urlencoded' : () => 'mock encode',
-    fs : {
-      existsSync : () => true,
-      readFileSync : filepath => filepath === 'checkfilepath.js'
+    'form-urlencoded': () => 'mock encode',
+    fs: {
+      existsSync: () => true,
+      readFileSync: filepath => filepath === 'checkfilepath.js'
         ? 'success'
         : filepath
     }
   }, {
-    key : 999
+    key: 999
   });
 
   const keys = Object
@@ -147,13 +147,13 @@ test('should purge local and global mocks', async t => {
 
 test('should mock a module, many times differently', async t => {
   const mainfoo = await esmock('../../local/mainUtil.js', {
-    'form-urlencoded' : () => 'mock encode foo'
+    'form-urlencoded': () => 'mock encode foo'
   });
   const mainbar = await esmock('../../local/mainUtil.js', {
-    'form-urlencoded' : () => 'mock encode bar'
+    'form-urlencoded': () => 'mock encode bar'
   });
   const mainbaz = await esmock('../../local/mainUtil.js', {
-    'form-urlencoded' : () => 'mock encode baz'
+    'form-urlencoded': () => 'mock encode baz'
   });
   t.is(typeof mainfoo, 'function');
   t.is(mainfoo.createString(), 'mock encode foo');
@@ -174,8 +174,8 @@ test('should return un-mocked file (again)', async t => {
 
 test('should mock local file', async t => {
   const mainUtil = await esmock.px('../../local/mainUtil.js', {
-    '../../local/mainUtilNamedExports.js' : {
-      mainUtilNamedExportOne : () => 'foobar'
+    '../../local/mainUtilNamedExports.js': {
+      mainUtilNamedExportOne: () => 'foobar'
     }
   });
 
@@ -190,25 +190,25 @@ test('should mock local file', async t => {
 
 test('should mock module and local file at the same time', async t => {
   const mainUtil = await esmock.px('../../local/mainUtil.js', {
-    'form-urlencoded' : o => JSON.stringify(o),
-    '../../local/mainUtilNamedExports.js' : {
-      mainUtilNamedExportOne : () => 'foobar'
+    'form-urlencoded': o => JSON.stringify(o),
+    '../../local/mainUtilNamedExports.js': {
+      mainUtilNamedExportOne: () => 'foobar'
     }
   });
 
   t.is(mainUtil.createString(), JSON.stringify({
-    mainUtil : 'a string',
-    mainUtilNamedExportOneValue : 'foobar',
-    mainUtilNamedExportTwoValue : 'namedExportTwo'
+    mainUtil: 'a string',
+    mainUtilNamedExportOneValue: 'foobar',
+    mainUtilNamedExportTwoValue: 'namedExportTwo'
   }));
 });
 
 test('__esModule definition, inconsequential', async t => {
   const mainUtil = await esmock.px('../../local/mainUtil.js', {
-    'babelGeneratedDoubleDefault' : o => o,
-    '../../local/mainUtilNamedExports.js' : {
-      mainUtilNamedExportOne : () => 'foobar',
-      __esModule : true
+    'babelGeneratedDoubleDefault': o => o,
+    '../../local/mainUtilNamedExports.js': {
+      mainUtilNamedExportOne: () => 'foobar',
+      __esModule: true
     }
   });
 
@@ -217,8 +217,8 @@ test('__esModule definition, inconsequential', async t => {
 
 test('should work well with sinon', async t => {
   const mainUtil = await esmock.px('../../local/mainUtil.js', {
-    '../../local/mainUtilNamedExports.js' : {
-      mainUtilNamedExportOne : sinon.stub().returns('foobar')
+    '../../local/mainUtilNamedExports.js': {
+      mainUtilNamedExportOne: sinon.stub().returns('foobar')
     }
   });
 
@@ -231,7 +231,7 @@ test('should work well with sinon', async t => {
 
 test('should mock an mjs file', async t => {
   const main = await esmock('../../local/usesmjsModule.js', {
-    '../../local/exampleMJS.mjs' : () => 'first mocked'
+    '../../local/exampleMJS.mjs': () => 'first mocked'
   });
 
   t.is(main.verifyImportedMock(), 'first mocked');
@@ -239,7 +239,7 @@ test('should mock an mjs file', async t => {
 
 test('should mock an mjs file, again', async t => {
   const main = await esmock('../../local/usesmjsModule.js', {
-    '../../local/exampleMJS.mjs' : () => 'second mocked'
+    '../../local/exampleMJS.mjs': () => 'second mocked'
   });
 
   t.is(main.verifyImportedMock(), 'second mocked');
@@ -247,8 +247,8 @@ test('should mock an mjs file, again', async t => {
 
 test('should mock an exported constant values', async t => {
   const main = await esmock('../../local/usesmjsModule.js', {
-    '../../local/env.js' : {
-      TESTCONSTANT : 'hello world'
+    '../../local/env.js': {
+      TESTCONSTANT: 'hello world'
     }
   });
 
@@ -257,9 +257,9 @@ test('should mock an exported constant values', async t => {
 
 test('should mock core module', async t => {
   const usesCoreModule = await esmock('../../local/usesCoreModule.js', {
-    fs : {
-      existsSync : () => true,
-      readFileSync : filepath => filepath === 'checkfilepath.js'
+    fs: {
+      existsSync: () => true,
+      readFileSync: filepath => filepath === 'checkfilepath.js'
         ? 'success'
         : filepath
     }
@@ -270,12 +270,12 @@ test('should mock core module', async t => {
 
 test('should apply third parameter "global" definitions', async t => {
   const main = await esmock.px('../../local/main.js', {
-    '../../local/mainUtil.js' : {
-      exportedFunction : () => 'foobar'
+    '../../local/mainUtil.js': {
+      exportedFunction: () => 'foobar'
     }
   }, {
-    fs : {
-      readFileSync : () => {
+    fs: {
+      readFileSync: () => {
         return 'this value anywhere the instance imports fs, global';
       }
     }
@@ -287,8 +287,8 @@ test('should apply third parameter "global" definitions', async t => {
 
 test('returns spread-imported [object Module] default export', async t => {
   const main = await esmock('../../local/usesObjectModule.js', {
-    fs : {
-      exportedFunction : () => 'foobar'
+    fs: {
+      exportedFunction: () => 'foobar'
     }
   });
 
@@ -297,8 +297,8 @@ test('returns spread-imported [object Module] default export', async t => {
 
 test('mocks inline `async import("name")`', async t => {
   const writeJSConfigFile = await esmock.p('../../local/usesInlineImport.mjs', {
-    eslint : {
-      ESLint : function (...o) {
+    eslint: {
+      ESLint: function (...o) {
         this.stringify = () => JSON.stringify(...o);
 
         return this;
@@ -309,10 +309,10 @@ test('mocks inline `async import("name")`', async t => {
   t.is(
     (await writeJSConfigFile('config', 'filePath')).stringify(),
     JSON.stringify({
-      baseConfig : 'config',
-      fix : true,
-      useEslintrc : false,
-      filePath : 'filePath'
+      baseConfig: 'config',
+      fix: true,
+      useEslintrc: false,
+      filePath: 'filePath'
     }));
 
   const [ , key ] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/);
@@ -342,8 +342,8 @@ test('should have small querystring in stacktrace filename, deep', async t => {
   const {
     causeRuntimeErrorFromImportedFile
   } = await esmock.px('../../local/main.js', {}, {
-    '../../local/mainUtil.js' : {
-      causeRuntimeError : () => {
+    '../../local/mainUtil.js': {
+      causeRuntimeError: () => {
         t.nonexistantmethod();
       }
     }
@@ -363,8 +363,8 @@ test('should have small querystring in stacktrace filename, deep', async t => {
 test('should have small querystring in stacktrace filename, deep2', async t => {
   const causeDeepErrorParent =
     await esmock.px('../../local/causeDeepErrorParent.js', {}, {
-      '../../local/causeDeepErrorGrandChild.js' : {
-        what : 'now'
+      '../../local/causeDeepErrorGrandChild.js': {
+        what: 'now'
       }
     });
 
@@ -389,10 +389,10 @@ test('should merge "default" value, when safe', async t => {
   t.is(main(), main.default());
 
   const mockMainA = await esmock('../../local/exportsMain.js', {
-    '../../local/main.js' : () => 'mocked main'
+    '../../local/main.js': () => 'mocked main'
   });
   const mockMainB = await esmock('../../local/exportsMain.js', {
-    '../../local/main.js' : { default : () => 'mocked main' }
+    '../../local/main.js': { default: () => 'mocked main' }
   });
 
   t.is(mockMainA(), mockMainB());
@@ -400,8 +400,8 @@ test('should merge "default" value, when safe', async t => {
 
 test('should not error when mocked file has space in path', async t => {
   const main = await esmock('../../local/main.js', {
-    '../../local/space in path/wild-file.js' : {
-      default : 'tamed'
+    '../../local/space in path/wild-file.js': {
+      default: 'tamed'
     }
   });
 

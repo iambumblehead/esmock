@@ -91,10 +91,10 @@ const load = async (url, context, nextLoad) => {
     url.replace(exportNamesRe, '$1').split(',');
   if (exportedNames.length) {
     return {
-      format : 'module',
-      shortCircuit : true,
-      responseURL : encodeURI(url),
-      source : exportedNames.map(name => name === 'default'
+      format: 'module',
+      shortCircuit: true,
+      responseURL: encodeURI(url),
+      source: exportedNames.map(name => name === 'default'
         ? `export default global.esmockCacheGet("${url}").default`
         : `export const ${name} = global.esmockCacheGet("${url}").${name}`
       ).join('\n')
