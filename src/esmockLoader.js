@@ -46,7 +46,7 @@ const resolve = async (specifier, context, nextResolve) => {
   // is not passed to nextResolve, the tests fail
   //
   // later versions of node v16 include 'node-addons'
-  const resolved = (isLT1612 || context.parentURL)
+  const resolved = (isLT1612 && context.parentURL)
     ? await nextResolve(specifier, context)
     : await nextResolve(specifier);
   // const resolved = context.conditions.slice(-1)[0] === 'node-addons'
