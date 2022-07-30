@@ -17,8 +17,8 @@
     "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "mini:default": "cd .. && npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
-    "mini:win32": "cd .. && cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
+    "mini:default": "cd .. && esbuild ./src/*js --minify --allow-overwrite --outdir=src",
+    "mini:win32": "cd .. && cd src && forfiles /m \"*.js\" /c \"cmd /c esbuild @file --minify --allow-overwrite --outfile=@file\"",
     "mini": "run-script-os",
     "isnode18": "check-node-version --node 18",
     "install:esmock": "cd .. && npm install",
