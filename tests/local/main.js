@@ -18,7 +18,7 @@ if (typeof basename !== 'function') {
 
 if (typeof request === 'undefined') {
   throw new Error('imported definition: undefined');
-};
+}
 
 export const mainDependencyUsingCoreModuleFSReadPath = path => {
   return readPath(path);

@@ -41,7 +41,7 @@ test('should throw error if local definition file not found', async () => {
       createString : () => 'test string'
     }
   }), {
-    message : /not a valid path: \"..\/local\/not\/found.js\" \(used by/
+    message : /not a valid path: "..\/local\/not\/found.js" \(used by/
   });
 });
 

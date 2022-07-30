@@ -1,7 +1,11 @@
 {
   "plugins": [],
+  "extends": [
+    "eslint:recommended"
+  ],  
   "env": {
-    "node": true
+    "node": true,
+    "jest": true
   },
   "parserOptions": {
     "sourceType": "module",

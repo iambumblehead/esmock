@@ -45,7 +45,7 @@ test('should throw error if local file not found', async () => {
     });
   } catch (e) {
     assert.is(e.message, 'modulePath not found: "../local/not/found.js"');
-  };
+  }
 });
 
 test('should throw error if local definition file not found', async () => {
@@ -58,7 +58,7 @@ test('should throw error if local definition file not found', async () => {
   } catch (e) {
     assert.ok(e.message.startsWith(
       'not a valid path: "../local/not/found.js" (used by'));
-  };
+  }
 });
 
 test('should mock a module', async () => {
