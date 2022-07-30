@@ -15,8 +15,8 @@ const urlDummy = 'file:///' + path
   .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
   .replace(/^\//, '');
 
-const isLT1612 = ' 16. 12' > process.versions.node.split('.')
-  .slice(0, 2).map(s => s.padStart(3)).join('.');
+const [ major, minor ] = process.versions.node.split('.').map(it => +it);
+const isLT1612 = major < 16 || (major === 16 && minor < 12);
 
 const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
 const esmockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
