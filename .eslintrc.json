@@ -1,7 +1,8 @@
 {
   "plugins": [],
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:markdown/recommended"    
   ],  
   "env": {
     "node": true,
