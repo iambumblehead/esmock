@@ -52,7 +52,7 @@
     "rewire"
   ],
   "dependencies": {
-    "resolvewithplus": "^0.8.4"
+    "resolvewithplus": "^0.8.5"
   },
   "devDependencies": {
     "c8": "^7.12.0"
