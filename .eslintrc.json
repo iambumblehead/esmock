@@ -1,7 +1,11 @@
 {
   "plugins": [],
+  "extends": [
+    "eslint:recommended"
+  ],  
   "env": {
-    "node": true
+    "node": true,
+    "jest": true
   },
   "parserOptions": {
     "sourceType": "module",
@@ -41,6 +45,7 @@
     "no-mixed-operators": 0,
     "no-plusplus": 0,
     "no-console": 0,
+    "semi": [2, "never"],
     "nonblock-statement-body-position": 0,
     "arrow-parens": [2, "as-needed"],
     "space-before-function-paren": [2, "always"],
@@ -52,7 +57,7 @@
     "curly": 0,
     "operator-linebreak": 0,
     "no-param-reassign": 0,
-    "key-spacing": [2, {"beforeColon": true}],
+    "key-spacing": [2],
     "implicit-arrow-linebreak": 0,
     "no-shadow": [0, "warn", {
         "allow": [ "err" ]

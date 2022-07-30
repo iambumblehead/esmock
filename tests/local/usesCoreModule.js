@@ -1,9 +1,9 @@
-import fs from 'fs';
+import fs from 'fs'
 
 export const readPath = path => (
-  fs.existsSync(path) && fs.readFileSync(path));
+  fs.existsSync(path) && fs.readFileSync(path))
 
 export const readSync = path => (
-  fs.readFileSync(path));
+  fs.readFileSync(path))
 
-export const checkNothing = () => false;
+export const checkNothing = () => false

@@ -1,5 +1,5 @@
-import {getNotifier} from './exportsNonDefaultClass.js';
+import {getNotifier} from './exportsNonDefaultClass.js'
 
 export async function callNotifier () {
-  return (new getNotifier()).publish();
+  return (new getNotifier()).publish()
 }
