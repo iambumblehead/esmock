@@ -17,6 +17,7 @@ const urlDummy = 'file:///' + path
 
 const [ major, minor ] = process.versions.node.split('.').map(it => +it);
 const isLT1612 = major < 16 || (major === 16 && minor < 12);
+// const isLT1615 = major < 16 || (major === 16 && minor < 15);
 
 const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
 const esmockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
