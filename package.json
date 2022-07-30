@@ -55,8 +55,9 @@
     "resolvewithplus": "^0.8.5"
   },
   "devDependencies": {
-    "eslint": "^8.12.0",
-    "c8": "^7.12.0"
+    "c8": "^7.12.0",
+    "eslint": "^8.20.0",
+    "eslint-plugin-markdown": "^3.0.0"
   },
   "scripts": {
     "test:install": "cd tests && npm run install:all",
