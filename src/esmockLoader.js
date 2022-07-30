@@ -51,18 +51,18 @@ const resolve = async (specifier, context, nextResolve) => {
   //          (context.importAssertions && context.conditions.slice(-1)[0] === 'node-addons') )
   //    ? await nextResolve(specifier, context)
   //    : await nextResolve(specifier);
-  const resolved = (context.conditions.slice(-1)[0] === 'node-addons' &&
-    ((context.importAssertions && context.parentURL) || isLT1612)) || context.parentURL
-      ? await nextResolve(specifier, context)
-      : await nextResolve(specifier);
+  // const resolved = (context.conditions.slice(-1)[0] === 'node-addons' &&
+  //   ((context.importAssertions && context.parentURL) || isLT1612)) || context.parentURL
+  //     ? await nextResolve(specifier, context)
+  //     : await nextResolve(specifier);
 
-  // const resolved = context.conditions.slice(-1)[0] === 'node-addons'
-  //   ? (((context.importAssertions && context.parentURL) || isLT1612)
-  //     ? await nextResolve(specifier, context)
-  //     : await nextResolve(specifier))
-  //   : (context.parentURL
-  //     ? await nextResolve(specifier, context)
-  //     : await nextResolve(specifier));
+  const resolved = context.conditions.slice(-1)[0] === 'node-addons'
+    ? (((context.importAssertions && context.parentURL) || isLT1612)
+      ? await nextResolve(specifier, context)
+      : await nextResolve(specifier))
+    : (context.parentURL
+      ? await nextResolve(specifier, context)
+      : await nextResolve(specifier));
 
   if (!esmockKeyParam)
     return resolved;
