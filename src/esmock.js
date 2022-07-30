@@ -2,45 +2,45 @@ import {
   esmockModuleMock,
   esmockModuleImportedPurge,
   esmockModuleImportedSanitize
-} from './esmockModule.js';
+} from './esmockModule.js'
 
 import {
   esmockCache
-} from './esmockCache.js';
+} from './esmockCache.js'
 
 const esmock = async (modulePath, mockDefs, globalDefs, opt = {}, err) => {
   const calleePath = (err || new Error).stack.split('\n')[2]
     .replace(/^.*file:\/\//, '') // rm every before filepath
     .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
     .replace(/^.*:/, '') // rm windows-style drive location
-    .replace(/.*at [^(]*\(/, ''); // rm ' at TestContext.<anonymous> ('
+    .replace(/.*at [^(]*\(/, '') // rm ' at TestContext.<anonymous> ('
 
   if (!global.esmockloader)
-    throw new Error('process must be started with --loader=esmock');
+    throw new Error('process must be started with --loader=esmock')
 
   const modulePathKey = await esmockModuleMock(
-    calleePath, modulePath, mockDefs || {}, globalDefs || {}, opt);
+    calleePath, modulePath, mockDefs || {}, globalDefs || {}, opt)
 
-  const importedModule = await import(modulePathKey);
+  const importedModule = await import(modulePathKey)
 
   if (opt.purge !== false)
-    esmockModuleImportedPurge(modulePathKey);
+    esmockModuleImportedPurge(modulePathKey)
 
-  return esmockModuleImportedSanitize(importedModule, modulePathKey);
-};
+  return esmockModuleImportedSanitize(importedModule, modulePathKey)
+}
 
 esmock.px = async (modulePath, mockDefs, globalDefs) => (
-  esmock(modulePath, mockDefs, globalDefs, { partial: true }, new Error));
+  esmock(modulePath, mockDefs, globalDefs, { partial: true }, new Error))
 
 esmock.p = async (modulePath, mockDefs, globalDefs) => (
-  esmock(modulePath, mockDefs, globalDefs, { purge: false }, new Error));
+  esmock(modulePath, mockDefs, globalDefs, { purge: false }, new Error))
 
 esmock.purge = mockModule => {
   if (mockModule && /object|function/.test(typeof mockModule)
       && 'esmockKey' in mockModule)
-    esmockModuleImportedPurge(mockModule.esmockKey);
-};
+    esmockModuleImportedPurge(mockModule.esmockKey)
+}
 
-esmock.esmockCache = esmockCache;
+esmock.esmockCache = esmockCache
 
-export default esmock;
+export default esmock

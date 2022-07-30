@@ -1,10 +1,10 @@
-import scheduleFunction from './exampleMJS.mjs';
-import { TESTCONSTANT } from './env.js';
+import scheduleFunction from './exampleMJS.mjs'
+import { TESTCONSTANT } from './env.js'
 
 export function verifyImportedMock () {
-  return scheduleFunction();
+  return scheduleFunction()
 }
 
 export function verifyImportedConstant () {
-  return TESTCONSTANT;
+  return TESTCONSTANT
 }

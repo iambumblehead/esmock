@@ -1,5 +1,5 @@
-import causeDeepErrorGrandChild from './causeDeepErrorGrandChild.js';
+import causeDeepErrorGrandChild from './causeDeepErrorGrandChild.js'
 
 export const cause = () => {
-  causeDeepErrorGrandChild();
-};
+  causeDeepErrorGrandChild()
+}

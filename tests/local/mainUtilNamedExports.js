@@ -1,8 +1,8 @@
-const mainUtilNamedExportOne = () => 'namedExportOne';
+const mainUtilNamedExportOne = () => 'namedExportOne'
 
-const mainUtilNamedExportTwo = () => 'namedExportTwo';
+const mainUtilNamedExportTwo = () => 'namedExportTwo'
 
 export {
   mainUtilNamedExportOne,
   mainUtilNamedExportTwo
-};
+}

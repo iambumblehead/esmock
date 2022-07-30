@@ -1,3 +1,3 @@
-import * as objectModule from 'fs';
+import * as objectModule from 'fs'
 
-export default objectModule;
+export default objectModule

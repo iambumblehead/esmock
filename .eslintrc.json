@@ -45,6 +45,7 @@
     "no-mixed-operators": 0,
     "no-plusplus": 0,
     "no-console": 0,
+    "semi": [2, "never"],
     "nonblock-statement-body-position": 0,
     "arrow-parens": [2, "as-needed"],
     "space-before-function-paren": [2, "always"],

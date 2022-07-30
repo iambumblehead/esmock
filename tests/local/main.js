@@ -1,44 +1,44 @@
-import request from 'form-urlencoded';
-import { basename } from 'path';
+import request from 'form-urlencoded'
+import { basename } from 'path'
 import {
   mainUtilNamedExportOne
-} from './mainUtilNamedExports.js';
-import { readPath, readSync } from './usesCoreModule.js';
+} from './mainUtilNamedExports.js'
+import { readPath, readSync } from './usesCoreModule.js'
 
-import wildfile, * as wildfileexports from './space in path/wild-file.js';
+import wildfile, * as wildfileexports from './space in path/wild-file.js'
 
 import {
   createString,
   causeRuntimeError
-} from './mainUtil.js';
+} from './mainUtil.js'
 
 if (typeof basename !== 'function') {
-  throw new Error('import basename failed');
+  throw new Error('import basename failed')
 }
 
 if (typeof request === 'undefined') {
-  throw new Error('imported definition: undefined');
+  throw new Error('imported definition: undefined')
 }
 
 export const mainDependencyUsingCoreModuleFSReadPath = path => {
-  return readPath(path);
-};
+  return readPath(path)
+}
 
 export const readTemplateFile = path => {
-  return readSync(path);
-};
+  return readSync(path)
+}
 
 export const causeRuntimeErrorFromImportedFile = () => (
-  causeRuntimeError());
+  causeRuntimeError())
 
 export default () => {
   return /mocked/.test(mainUtilNamedExportOne)
     ? 'main string and mocked export, ' + createString()
-    : 'main string, ' + createString();
-};
+    : 'main string, ' + createString()
+}
 
-export const wildexports = wildfileexports;
+export const wildexports = wildfileexports
 
-export const wild = wildfile;
+export const wild = wildfile
 
-export const pathbasenamewrap = n => basename(n);
+export const pathbasenamewrap = n => basename(n)
