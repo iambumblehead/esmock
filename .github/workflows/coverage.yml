@@ -50,5 +50,5 @@ jobs:
         filename: esmock__${{ env.BRANCH }}.json
         label: Test Coverage
         message: ${{ env.COVERAGE }}
-        color: green
+        color: "#44CC11"
         namedLogo: node
