@@ -15,10 +15,10 @@ const urlDummy = 'file:///' + path
   .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
   .replace(/^\//, '');
 
-const [ major, minor ] = process.versions.node.split('.').map(it => +it);
-const isLT1612 = major < 16 || (major === 16 && minor < 12);
-//const isLT1612 = ' 16. 12' > process.versions.node.split('.')
-//  .slice(0, 2).map(s => s.padStart(3)).join('.');
+// const [ major, minor ] = process.versions.node.split('.').map(it => +it);
+// const isLT1612 = major < 16 || (major === 16 && minor < 12);
+const isLT1612 = ' 16. 12' > process.versions.node.split('.')
+  .slice(0, 2).map(s => s.padStart(3)).join('.');
 
 const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
 const esmockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
@@ -46,16 +46,16 @@ const resolve = async (specifier, context, nextResolve) => {
   // is not passed to nextResolve, the tests fail
   //
   // later versions of node v16 include 'node-addons'
-  // const resolved = (isLT1612 || context.parentURL)
-  //   ? await nextResolve(specifier, context)
-  //   : await nextResolve(specifier);
-  const resolved = context.conditions.slice(-1)[0] === 'node-addons'
-    ? (((context.importAssertions && context.parentURL) || isLT1612)
-      ? await nextResolve(specifier, context)
-      : await nextResolve(specifier))
-    : (context.parentURL
-      ? await nextResolve(specifier, context)
-      : await nextResolve(specifier));
+  const resolved = (isLT1612 || context.parentURL)
+    ? await nextResolve(specifier, context)
+    : await nextResolve(specifier);
+  // const resolved = context.conditions.slice(-1)[0] === 'node-addons'
+  //   ? (((context.importAssertions && context.parentURL) || isLT1612)
+  //     ? await nextResolve(specifier, context)
+  //     : await nextResolve(specifier))
+  //   : (context.parentURL
+  //     ? await nextResolve(specifier, context)
+  //     : await nextResolve(specifier));
 
   if (!esmockKeyParam)
     return resolved;
