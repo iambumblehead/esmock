@@ -48,7 +48,7 @@ jobs:
         auth: ${{ secrets.GIST_SECRET }}
         gistID: 166d927bd0089d7bfdee4e98a537712c
         filename: esmock__${{ env.BRANCH }}.json
-        label: Test Coverage
+        label: coverage
         message: ${{ env.COVERAGE }}
         color: "#44CC11"
         namedLogo: node
