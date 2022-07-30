@@ -26,4 +26,29 @@ jobs:
     - run: npm install -g npm@latest
     - run: npm install
     - run: npm run build --if-present
-    - run: npm run test-cover
+    - run: |
+        { PER=$(npm run test-cover | tee /dev/fd/3 | grep -oP "All\ files[^\d]*(\d\d?\.?\d?\d?)" | grep -oP "(\d\d?\.?\d?\d?)$"); } 3>&1
+        echo "COVERAGE=$PER" >> $GITHUB_ENV
+                # var REF = 'refs/pull/27/merge.json';
+        REF=${{ github.ref }}
+        # console.log('github.ref: ' + REF);
+        echo "github.ref: $REF"
+        # var PATHS = REF.split('/');
+        IFS='/' read -ra PATHS <<< "$REF"
+        # var BRANCH_NAME = PATHS[1] + '_' + PATHS[2];
+        BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+        # console.log(BRANCH_NAME); // 'pull_27'
+        echo $BRANCH_NAME
+        # process.env.BRANCH = 'pull_27';
+        echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+    - if: ${{ matrix.node-version == '18.x' }}
+      name: Create the Badge
+      uses: schneegans/dynamic-badges-action@v1.4.0
+      with:
+        auth: ${{ secrets.GIST_SECRET }}
+        gistID: 166d927bd0089d7bfdee4e98a537712c
+        filename: esmock__${{ env.BRANCH }}.json
+        label: Test Coverage
+        message: ${{ env.COVERAGE }}
+        color: green
+        namedLogo: node
