@@ -28,7 +28,7 @@
     "install:test-node": "cd tests-node && npm install",
     "install:test-jest": "cd tests-jest && npm install",
     "install:test-nodets": "cd tests-nodets && npm install",
-    "install:all": "npm install && npm-run-all install:test*",
+    "install:all": "node --version && npm install && npm-run-all install:test*",
     "test:test-ava": "cd tests-ava && npm test",
     "test:test-uvu": "cd tests-uvu && npm test",
     "test:test-tsm": "npm run isnode18 && cd tests-tsm && npm test || true",

@@ -17,7 +17,6 @@ const urlDummy = 'file:///' + path
 
 const [ major, minor ] = process.versions.node.split('.').map(it => +it);
 const isLT1612 = major < 16 || (major === 16 && minor < 12);
-// const isLT1615 = major < 16 || (major === 16 && minor < 15);
 
 const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/;
 const esmockGlobalsAndBeforeRe = /.*\?esmockGlobals=/;
@@ -50,13 +49,6 @@ const resolve = async (specifier, context, nextResolve) => {
       || (context.importAssertions || isLT1612))
     ? await nextResolve(specifier, context)
     : await nextResolve(specifier);
-  // const resolved = context.conditions.slice(-1)[0] === 'node-addons'
-  //   ? (((context.importAssertions && context.parentURL) || isLT1612)
-  //     ? await nextResolve(specifier, context)
-  //     : await nextResolve(specifier))
-  //   : (context.parentURL
-  //     ? await nextResolve(specifier, context)
-  //     : await nextResolve(specifier));
 
   if (!esmockKeyParam)
     return resolved;
