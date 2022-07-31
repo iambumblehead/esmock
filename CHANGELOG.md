@@ -1,5 +1,9 @@
 # changelog
 
+ * 1.9.1 _Jul.31.2022_
+   * use package.json exports definition, compatible with newest typescript
+   * add note to README about problems handling some export expressions
+   * use shields.io npm badge, add "%" to coverage badge, eg "98.8%"
  * 1.9.0 _Jul.30.2022_
    * support for modules using stringy exports.import rules
    * add live coverage badge to show, for example, 98% coverage

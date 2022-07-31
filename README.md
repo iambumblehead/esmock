@@ -7,7 +7,7 @@
 +╚███████╗███████╔╝██║  ██║  ██║╚██████╔╝╚██████╗██║  ╚██╗
 + ╚══════╝╚══════╝ ╚═╝  ╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚═╝   ╚═╝
 ```
-[![npm version](https://badge.fury.io/js/esmock.svg)](https://badge.fury.io/js/esmock) [![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iambumblehead/166d927bd0089d7bfdee4e98a537712c/raw/esmock__heads_master.json)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock) [![downloads](https://badgen.now.sh/npm/dm/esmock)](https://npmjs.org/package/esmock)
+![npm](https://img.shields.io/npm/v/esmock) [![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iambumblehead/166d927bd0089d7bfdee4e98a537712c/raw/esmock__heads_master.json)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock) [![downloads](https://badgen.now.sh/npm/dm/esmock)](https://npmjs.org/package/esmock)
 
 **esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][10] or browse [esmock's test runner examples.][3]
 
@@ -47,7 +47,7 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
-_note: `esmock` is [unable to mock some export expressions.][20]_ `esmock` is improving in this area. [See the wiki][20] for more details.
+_note: `esmock` is [unable to mock some package.json export expressions][20]_ and is improving in this area. [See the wiki][20] for details.
 
 [20]: https://github.com/iambumblehead/esmock/wiki#user-content-problems-module-resolution
 
