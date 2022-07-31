@@ -46,7 +46,7 @@ const resolve = async (specifier, context, nextResolve) => {
   // later versions of node v16 include 'node-addons'
   const resolved = context.parentURL && (
     context.conditions.slice(-1)[0] === 'node-addons'
-      || (context.importAssertions || isLT1612))
+      || context.importAssertions || isLT1612)
     ? await nextResolve(specifier, context)
     : await nextResolve(specifier)
 

@@ -28,7 +28,7 @@ jobs:
     - run: npm run build --if-present
     - run: |
         { PER=$(npm run test-cover | tee /dev/fd/3 | grep -oP "All\ files[^\d]*(\d\d?\.?\d?\d?)" | grep -oP "(\d\d?\.?\d?\d?)$"); } 3>&1
-        echo "COVERAGE=$PER" >> $GITHUB_ENV
+        echo "COVERAGE=$PER%" >> $GITHUB_ENV
                 # var REF = 'refs/pull/27/merge.json';
         REF=${{ github.ref }}
         # console.log('github.ref: ' + REF);

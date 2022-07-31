@@ -47,6 +47,11 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
+_note: `esmock` is [unable to mock some export expressions.][20]_ `esmock` is improving in this area. [See the wiki][20] for more details.
+
+[20]: https://github.com/iambumblehead/esmock/wiki#user-content-problems-module-resolution
+
+
 `esmock` examples
 ``` javascript
 import test from 'node:test'
