@@ -47,7 +47,7 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
-_note: `esmock` is unable [unable to mock some modules.][20]_ `esmock` is improving in this area and if you encounter a module that isn't mocked, please report that and, if possible, submit a demonstration PR with a failing test case. [See the wiki][20] for more details.
+_note: `esmock` is [unable to mock some export expressions.][20]_ `esmock` is improving in this area and if you encounter a module that isn't mocked, please report that and, if possible, submit a demonstration PR with a failing test case. [See the wiki][20] for more details.
 
 [20]: https://github.com/iambumblehead/esmock/wiki#problems-module-resolution
 
