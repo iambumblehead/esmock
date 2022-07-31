@@ -47,7 +47,7 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
-_note: `esmock` is [unable to mock some package.json export expressions][20]_ and is improving in this area. [See the wiki][20] for details.
+_note: `esmock` is unable to mock some modules,_ due to missing support for some [package.json export expressions][20] This area is improving [--see the wiki][20] for details.
 
 [20]: https://github.com/iambumblehead/esmock/wiki#user-content-problems-module-resolution
 
