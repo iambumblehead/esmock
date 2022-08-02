@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.9.2 _Aug.02.2022_
+   * restore [exports main,](https://github.com/iambumblehead/esmock/pull/107) credit @tripodsan
  * 1.9.1 _Jul.31.2022_
    * use package.json exports definition, compatible with newest typescript
    * add note to README about problems handling some export expressions
