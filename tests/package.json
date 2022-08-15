@@ -8,8 +8,8 @@
   },
   "main": "package.json.esmock.export.js",
   "exports": {
-    "types": "../src/esmock.d.ts",
-    "import": "../src/esmockLoader.js"
+    "types": "./package.json.esmock.export.d.ts",
+    "import": "./package.json.esmock.export.js"
   },  
   "dependencies": {
     "pg": "^8.7.3",
