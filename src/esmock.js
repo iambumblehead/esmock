@@ -11,14 +11,11 @@ import {
 } from './esmockCache.js'
 
 const esmock = async (modulePath, mockDefs, globalDefs, opt = {}, err) => {
-  const calleePath = (err || new Error).stack.split('\n')[2]
+  const calleePath = (opt.parent || (err || new Error).stack.split('\n')[2])
     .replace(/^.*file:\/\//, '') // rm every before filepath
     .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
     .replace(/^.*:/, '') // rm windows-style drive location
     .replace(/.*at [^(]*\(/, '') // rm ' at TestContext.<anonymous> ('
-
-  if (opt.parent)
-    modulePath = fileURLToPath(new URL("../index.js", opt.parent))
 
   if (!global.esmockloader)
     throw new Error('process must be started with --loader=esmock')
