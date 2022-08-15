@@ -18,7 +18,9 @@ const FILE_PROTOCOL = 'file:///'
 // https://url.spec.whatwg.org/, eg, file:///C:/demo file:///root/linux/path
 const pathAddProtocol = (pathFull, protocol) => {
   if (!protocol)
-    protocol = !resolvewith.iscoremodule(pathFull) ? FILE_PROTOCOL : 'node:'
+    protocol = /^node:/.test(pathFull)
+      ? ''
+      : !resolvewith.iscoremodule(pathFull) ? FILE_PROTOCOL : 'node:'
   if (protocol.includes(FILE_PROTOCOL))
     pathFull = fs.realpathSync.native(pathFull)
   if (process.platform === 'win32')
@@ -171,8 +173,8 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
   if (pathModuleFull === null)
     throw new Error(`modulePath not found: "${modulePath}"`)
 
-  const esmockKeyLong = pathAddProtocol(pathModuleFull, FILE_PROTOCOL) + '?'
-    + 'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
+  const esmockKeyLong = pathAddProtocol(pathModuleFull, FILE_PROTOCOL) + '?' +
+    'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
       .replace(/:esmockGlobals/, esmockGlobalKeys.join('#') || 'null')
       .replace(/:moduleKeys/, esmockModuleKeys.join('#'))
