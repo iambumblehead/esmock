@@ -25,6 +25,14 @@ test('should mock a local file', async () => {
   assert.strictEqual(main(), 'main string, test string')
 })
 
+test('should mock core modules prefixed with node:', async () => {
+  const pathWrap = await esmock('../local/pathWrap.js', {
+    'node:path': { dirname: () => '/mocked/dirname' }
+  })
+
+  assert.deepEqual(pathWrap.nodedirname('/dog.png'), '/mocked/dirname')
+})
+
 test('should throw error if local file not found', async () => {
   await assert.rejects(() => esmock('../local/not/found.js', {
     '../local/mainUtil.js': {
