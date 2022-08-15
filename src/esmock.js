@@ -1,5 +1,3 @@
-import { fileURLToPath } from 'url'
-
 import {
   esmockModuleMock,
   esmockModuleImportedPurge,
