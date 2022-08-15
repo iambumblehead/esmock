@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'url'
 
 import {
   esmockModuleMock,
@@ -18,7 +18,7 @@ const esmock = async (modulePath, mockDefs, globalDefs, opt = {}, err) => {
     .replace(/.*at [^(]*\(/, '') // rm ' at TestContext.<anonymous> ('
 
   if (opt.parent)
-    modulePath = fileURLToPath(new URL("../index.js", opt.parent));
+    modulePath = fileURLToPath(new URL("../index.js", opt.parent))
 
   if (!global.esmockloader)
     throw new Error('process must be started with --loader=esmock')
