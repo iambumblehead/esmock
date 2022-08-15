@@ -1,6 +1,8 @@
 # changelog
 
- * 1.9.5
+ * 1.9.6 _Aug.19.2022_
+   * support parent url to facilitate sourcemap usage, [113](https://github.com/iambumblehead/esmock/issues/113)
+ * 1.9.5 _Aug.19.2022_
    * support cjs packges that define [main relative directory only](https://github.com/iambumblehead/esmock/issues/119)
  * 1.9.4 _Aug.15.2022_
    * support core modules [w/ node: prefix](https://github.com/iambumblehead/resolvewithplus/pull/27), credit @gmahomarf
