@@ -21,7 +21,7 @@
     "mini:win32": "cd .. && cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
     "mini": "run-script-os",
     "isnode18": "check-node-version --node 18",
-    "isnodelt18": "check-node-version --node '<= 18.6.0'",
+    "isnodelt18": "check-node-version --node '<= 18'",
     "install:esmock": "cd .. && npm install",
     "install:test-ava": "cd tests-ava && npm install",
     "install:test-uvu": "cd tests-uvu && npm install",
