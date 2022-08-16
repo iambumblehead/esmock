@@ -14,6 +14,6 @@
     "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "test": "node --loader=tsm --loader=esmock --test *test.ts"
+    "test": "node --loader=tsm --loader=esmock --test esmock.node-tsm.test.ts"
   }
 }
