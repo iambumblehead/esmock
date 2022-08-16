@@ -164,7 +164,6 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
 
 const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
   const pathModuleFull = resolvewith(modulePath, calleePath)
-  console.log({ modulePath, calleePath, pathModuleFull })
   const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey()
   const esmockModuleKeys = await esmockModulesCreate(
     calleePath, pathModuleFull, esmockKey, defs, Object.keys(defs), 0, opt)
