@@ -40,6 +40,7 @@
     "test:node18-test-node": "cd tests-node && npm test",
     "test:node18-test-jest": "cd tests-jest && npm test",
     "test:node18-test-nodets": "cd tests-nodets && npm test",
+    "test:node18-test-source-map": "cd tests-source-map && npm test",
     "test:node18:all": "npm run isnodelt18 || npm-run-all test:node18-test*",
     "test:all": "npm-run-all test:test* && npm run test:node18:all",
     "test:all-cover": "c8 --src=../src/* npm run test:all",
