@@ -38,7 +38,10 @@
     "test:node18-test-node": "cd tests-node && npm test",
     "test:node18-test-jest": "cd tests-jest && npm test",
     "test:node18-test-nodets": "cd tests-nodets && npm test",
-    "test:node18:all": "npm run isnodelt18 || npm-run-all test:node18-test*",
+    "test:node18:all:default": "npm run isnodelt18 || npm-run-all test:node18-test*",
+    "test:node18:all:win32": "npm run isnodelt18 || cd .. && cd .. && npm-run-all test:node18-test*",
+    "test:node18:all": "run-script-os",
+    "test:node18:allr1": "npm run isnodelt18 || npm-run-all test:node18-test*",
     "test:all": "npm-run-all test:test* && npm run test:node18:all",
     "test:all-cover": "c8 --src=../src/* npm run test:all",
     "test:all-ci": "npm run mini && npm run test:all"
