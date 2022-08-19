@@ -1,2 +1,3 @@
-declare function esmock(path: string, localmock?: any, globalmock?: any, opts?: any): any;
+import esmock from "../src/esmock.js";
+
 export default esmock;

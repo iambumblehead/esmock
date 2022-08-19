@@ -8,8 +8,21 @@ import {
   esmockCache
 } from './esmockCache.js'
 
-const esmock = async (modulePath, mockDefs, globalDefs, opt = {}, err) => {
-  const calleePath = (opt.parent || (err || new Error).stack.split('\n')[2])
+const argsToObj = args => {
+  // Distinguish between the two overloads; see esmock.d.ts.
+  let modulePath, parent, mockDefs, globalDefs, opt
+  if (typeof args[1] === "string") {
+    [ modulePath, parent, mockDefs, globalDefs, opt ] = args
+  } else {
+    [ modulePath, mockDefs, globalDefs, opt ] = args
+  }
+  return { modulePath, parent, mockDefs, globalDefs, opt }
+}
+
+const _esmock = async (argsObj, err) => {
+  const { modulePath, parent, mockDefs, globalDefs, opt = {} } = argsObj
+
+  const calleePath = (parent || err.stack.split('\n')[2])
     .replace(/^.*file:\/\//, '') // rm every before filepath
     .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
     .replace(/^.*:/, '') // rm windows-style drive location
@@ -29,11 +42,19 @@ const esmock = async (modulePath, mockDefs, globalDefs, opt = {}, err) => {
   return esmockModuleImportedSanitize(importedModule, modulePathKey)
 }
 
-esmock.px = async (modulePath, mockDefs, globalDefs, opt) => esmock(
-  modulePath, mockDefs, globalDefs, { ...opt, partial: true }, new Error)
+const esmock = async (...args) => _esmock(argsToObj(args), new Error)
 
-esmock.p = async (modulePath, mockDefs, globalDefs, opt) => esmock(
-  modulePath, mockDefs, globalDefs, { ...opt, purge: false }, new Error)
+esmock.px = async (...args) => {
+  const argsObj = argsToObj(args)
+  argsObj.opt = { ...argsObj.opt, partial: true }
+  return _esmock(argsObj, new Error)
+}
+
+esmock.p = async (...args) => {
+  const argsObj = argsToObj(args)
+  argsObj.opt = { ...argsObj.opt, purge: false }
+  return _esmock(argsObj, new Error)
+}
 
 esmock.purge = mockModule => {
   if (mockModule && /object|function/.test(typeof mockModule)
