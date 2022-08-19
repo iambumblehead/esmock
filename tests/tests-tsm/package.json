@@ -8,6 +8,7 @@
   "dependencies": {
     "tsm": "^2.2.2",
     "esmock": "file:..",
+    "pg": "file:../node_modules/pg",
     "sinon": "file:../node_modules/sinon",
     "eslint": "file:../node_modules/eslint",
     "form-urlencoded": "file:../node_modules/form-urlencoded",

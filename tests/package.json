@@ -8,6 +8,7 @@
   },
   "main": "package.json.esmock.export.js",
   "dependencies": {
+    "pg": "^8.7.3",
     "eslint": "^8.12.0",
     "sinon": "^12.0.1",
     "form-urlencoded": "^6.0.7",
