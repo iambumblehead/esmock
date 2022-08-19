@@ -14,8 +14,8 @@ test('should mock ts when using node-ts', async () => {
 });
 
 test('should mock pg', async () => {
-  const main = await esmock('../local/main-pg.ts', {
-    pg: {
+  const main = await esmock('../local/main.ts', {
+    'pg': {
       Pool: (config:any) => {
          return 'mocked pool'
       }
