@@ -15,10 +15,15 @@
  * @param opt
  * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
  */
-declare function esmock(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: Record<string, any>): any;
-declare function esmock(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: Record<string, any>): any;
+declare function esmock(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
+declare function esmock(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
 
 declare namespace esmock {
+  interface Options {
+    partial?: boolean | undefined;
+    purge?: boolean | undefined;
+  }
+
   /**
    * Mocks imports for the module specified by {@link modulePath}.
    *
@@ -37,8 +42,8 @@ declare namespace esmock {
    * @param opt
    * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
    */
-  function px(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: Record<string, any>): any;
-  function px(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: Record<string, any>): any;
+  function px(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
+  function px(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
 
   /**
    * Mocks dynamic imports for the module specified by {@link modulePath}.
@@ -57,8 +62,8 @@ declare namespace esmock {
    * @param opt
    * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
    */
-  function p(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: Record<string, any>): any;
-  function p(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: Record<string, any>): any;
+  function p(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
+  function p(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
 
   /**
    * Unregisters a dynamic mock created by {@link esmock.p}.
