@@ -1,0 +1,23 @@
+{
+    "extends": "@tsconfig/node14/tsconfig.json",
+    "compilerOptions": {
+        "module": "Node16",
+        "moduleResolution": "Node16",
+        "rootDir": "src",
+        "outDir": "dist",
+        "declarationDir": "dist",
+        "declaration": true,
+        "stripInternal": true,
+        "sourceMap": true,
+
+        "allowUnusedLabels": false,
+        "allowUnreachableCode": false,
+        "exactOptionalPropertyTypes": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "importsNotUsedAsValues": "error"
+    },
+    "exclude": ["dist"]
+}
