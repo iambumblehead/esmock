@@ -1,7 +1,20 @@
+import path from 'path'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import esmock from '../../src/esmock.js'
 import sinon from 'sinon'
+
+test('should mock a subpath', async () => {
+  const localpackagepath = path.resolve('../local/')
+  const { subpathfunctionWrap } = await esmock(
+    '../local/subpathimporter.js', localpackagepath, {
+      '#sub': {
+        subpathfunction: () => 'subpathMOCK'
+      }
+    })
+
+  assert.strictEqual(subpathfunctionWrap(), 'subpathMOCK')
+})
 
 test('should return un-mocked file', async () => {
   const main = await esmock('../local/main.js')

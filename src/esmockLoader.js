@@ -20,10 +20,10 @@ const isLT1612 = major < 16 || (major === 16 && minor < 12)
 
 const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/
 const esmockGlobalsAndBeforeRe = /.*\?esmockGlobals=/
-const esmockModuleKeysRe = /#esmockModuleKeys/
+const esmockModuleKeysRe = /#-#esmockModuleKeys/
 const exportNamesRe = /.*exportNames=(.*)/
 const esmockKeyRe = /esmockKey=\d*/
-const withHashRe = /[^#]*#/
+const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 
 const resolve = async (specifier, context, nextResolve) => {
@@ -55,7 +55,7 @@ const resolve = async (specifier, context, nextResolve) => {
 
   const resolvedurl = decodeURI(resolved.url)
   const moduleKeyRe = new RegExp(
-    '.*(' + resolvedurl + '\\?' + esmockKeyParam + '[^#]*).*')
+    '.*(' + resolvedurl + '\\?' + esmockKeyParam + '(?:(?!#-#).)*).*')
 
   const [ keyUrl, keys ] = esmockKeyLong.split(esmockModuleKeysRe)
   const moduleGlobals = keyUrl.replace(esmockGlobalsAndBeforeRe, '')
@@ -68,7 +68,7 @@ const resolve = async (specifier, context, nextResolve) => {
   if (moduleKey) {
     resolved.url = isesmRe.test(moduleKey)
       ? moduleKey
-      : urlDummy + '#' + moduleKey
+      : urlDummy + '#-#' + moduleKey
   } else if (moduleGlobals && moduleGlobals !== 'null') {
     if (!resolved.url.startsWith('node:')) {
       resolved.url += '?esmockGlobals=' + moduleGlobals

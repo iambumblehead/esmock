@@ -47,11 +47,6 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
-_note: `esmock` is unable to mock some modules,_ due to missing support for some [package.json export expressions.][20] This area is improving [—see the wiki][20] for details.
-
-[20]: https://github.com/iambumblehead/esmock/wiki#user-content-problems-module-resolution
-
-
 `esmock` examples
 ``` javascript
 import test from 'node:test'
@@ -59,15 +54,16 @@ import assert from 'node:assert/strict'
 import esmock from 'esmock'
 
 test('should mock local files and packages', async () => {
-  const main = await esmock('../src/main.js', {
+  const stringy = await esmock('../src/stringy.js', {
     stringifierpackage: JSON.stringify,
+    '#icons': { kasa: '☂' },
     '../src/hello.js': {
       default: () => 'world',
-      exportedFunction: () => 'foo'
+      exportedFunction: () => ({ icon: 'kasa' })
     }
   })
 
-  assert.strictEqual(main(), JSON.stringify({ test: 'world foo' }))
+  assert.strictEqual(stringy(), JSON.stringify({ kasa: 'world ☂' }))
 })
 
 test('should do global instance mocks —third param', async () => {
