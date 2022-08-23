@@ -10,7 +10,10 @@
   "exports": {
     "types": "./package.json.esmock.export.d.ts",
     "import": "./package.json.esmock.export.js"
-  },  
+  },
+  "imports": {
+    "#sub": "./local/subpath.js"
+  },
   "dependencies": {
     "pg": "^8.7.3",
     "eslint": "^8.12.0",

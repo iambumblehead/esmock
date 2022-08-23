@@ -1,7 +1,7 @@
 {
   "name": "esmock",
   "type": "module",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "license": "ISC",
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
@@ -54,7 +54,7 @@
     "rewire"
   ],
   "dependencies": {
-    "resolvewithplus": "^0.8.9"
+    "resolvewithplus": "iambumblehead/resolvewithplus"
   },
   "devDependencies": {
     "c8": "^7.12.0",

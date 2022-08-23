@@ -102,10 +102,10 @@ const esmockModuleImportedSanitize = (importedModule, esmockKey) => {
 const esmockModuleImportedPurge = modulePathKey => {
   const purgeKey = key => key === 'null' || esmockCacheSet(key, null)
   const longKey = esmockKeyGet(modulePathKey.split('esmk=')[1])
-  const [ url, keys ] = longKey.split('#esmockModuleKeys=')
+  const [ url, keys ] = longKey.split('#-#esmockModuleKeys=')
 
-  String(keys).split('#').forEach(purgeKey)
-  String(url.split('esmockGlobals=')[1]).split('#').forEach(purgeKey)
+  String(keys).split('#-#').forEach(purgeKey)
+  String(url.split('esmockGlobals=')[1]).split('#-#').forEach(purgeKey)
 }
 
 const esmockNextKey = ((key = 0) => () => ++key)()
@@ -174,10 +174,10 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
     throw new Error(`modulePath not found: "${modulePath}"`)
 
   const esmockKeyLong = pathAddProtocol(pathModuleFull, FILE_PROTOCOL) + '?' +
-    'key=:esmockKey?esmockGlobals=:esmockGlobals#esmockModuleKeys=:moduleKeys'
+    'key=:esmockKey?esmockGlobals=:esmockGlobals#-#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
-      .replace(/:esmockGlobals/, esmockGlobalKeys.join('#') || 'null')
-      .replace(/:moduleKeys/, esmockModuleKeys.join('#'))
+      .replace(/:esmockGlobals/, esmockGlobalKeys.join('#-#') || 'null')
+      .replace(/:moduleKeys/, esmockModuleKeys.join('#-#'))
 
   esmockKeySet(String(esmockKey), esmockKeyLong)
 
