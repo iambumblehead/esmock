@@ -3,6 +3,7 @@
  * 1.9.6 _Aug.24.2022_
    * support parent url to facilitate sourcemap usage, [113](https://github.com/iambumblehead/esmock/issues/113)
    * support import subpaths, eg `import: { '#sub': './path.js' }`
+   * drop support for node 12 and remove node 12 ci pipeline
  * 1.9.5 _Aug.19.2022_
    * support cjs packges that define [main relative directory only](https://github.com/iambumblehead/esmock/issues/119)
  * 1.9.4 _Aug.15.2022_
