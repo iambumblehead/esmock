@@ -54,7 +54,7 @@
     "rewire"
   ],
   "dependencies": {
-    "resolvewithplus": "iambumblehead/resolvewithplus"
+    "resolvewithplus": "^0.9.0"
   },
   "devDependencies": {
     "c8": "^7.12.0",

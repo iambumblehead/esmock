@@ -59,15 +59,16 @@ import assert from 'node:assert/strict'
 import esmock from 'esmock'
 
 test('should mock local files and packages', async () => {
-  const main = await esmock('../src/main.js', {
+  const stringy = await esmock('../src/stringy.js', {
     stringifierpackage: JSON.stringify,
+    '#icons': { kasa: '☂' },
     '../src/hello.js': {
       default: () => 'world',
-      exportedFunction: () => 'foo'
+      exportedFunction: () => ({ icon: 'kasa' })
     }
   })
 
-  assert.strictEqual(main(), JSON.stringify({ test: 'world foo' }))
+  assert.strictEqual(stringy(), JSON.stringify({ kasa: 'world ☂' }))
 })
 
 test('should do global instance mocks —third param', async () => {
