@@ -15,7 +15,7 @@ test('should mock package, even when package is not installed', async () => {
 
   assert.strictEqual(component()[0], 'svg')
 })
-/*
+
 test('should mock a subpath', async () => {
   const localpackagepath = path.resolve('../local/')
   const { subpathfunctionWrap } = await esmock(
@@ -421,4 +421,3 @@ test('should strict mock by default, partial mock optional', async () => {
 
   assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png')
 })
-*/
