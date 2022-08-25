@@ -2,7 +2,7 @@ import test from 'ava'
 import esmock from 'esmock'
 import sinon from 'sinon'
 
-test('should not error when handling non-extnsible object', async t => {
+test('should not error when handling non-extensible object', async t => {
   // if esmock tries to simulate babel and define default.default
   // runtime error may occur if non-extensible is defined there
   await esmock.px('../../local/importsNonDefaultClass.js', {
