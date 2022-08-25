@@ -1,19 +1,11 @@
 import process from 'process'
-import path from 'path'
-import url from 'url'
-
 import esmock from './esmock.js'
 import esmockIsLoader from './esmockIsLoader.js'
+import urlDummy from './esmockDummy.js'
 
 global.esmockloader = esmockIsLoader
 
 export default esmock
-
-// ex, file:///path/to/esmock,
-//     file:///c:/path/to/esmock
-const urlDummy = 'file:///' + path
-  .join(path.dirname(url.fileURLToPath(import.meta.url)), 'esmock.js')
-  .replace(/^\//, '')
 
 const [ major, minor ] = process.versions.node.split('.').map(it => +it)
 const isLT1612 = major < 16 || (major === 16 && minor < 12)
