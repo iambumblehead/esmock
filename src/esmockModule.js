@@ -12,7 +12,7 @@ import {
 
 const isObj = o => typeof o === 'object' && o
 const isDefaultDefined = o => isObj(o) && 'default' in o
-
+const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 const FILE_PROTOCOL = 'file:///'
 
 // https://url.spec.whatwg.org/, eg, file:///C:/demo file:///root/linux/path
@@ -21,9 +21,9 @@ const pathAddProtocol = (pathFull, protocol) => {
     protocol = /^node:/.test(pathFull)
       ? ''
       : !resolvewith.iscoremodule(pathFull) ? FILE_PROTOCOL : 'node:'
-  if (protocol.includes(FILE_PROTOCOL))
+  if (protocol.includes(FILE_PROTOCOL) && isDirPathRe.test(pathFull))
     pathFull = fs.realpathSync.native(pathFull)
-  if (process.platform === 'win32')
+  if (process.platform === 'win32' && isDirPathRe.test(pathFull))
     pathFull = pathFull.split(path.sep).join(path.posix.sep)
   return `${protocol}${pathFull.replace(/^\//, '')}`
 }
@@ -77,6 +77,7 @@ const esmockModuleIsESM = (mockPathFull, isesm) => {
     return isesm
 
   isesm = !resolvewith.iscoremodule(mockPathFull)
+    && isDirPathRe.test(mockPathFull)
     && esmockModuleESMRe.test(fs.readFileSync(mockPathFull, 'utf-8'))
 
   esmockCacheResolvedPathIsESMSet(mockPathFull, isesm)
@@ -122,6 +123,7 @@ const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef, opt) =>
     'esmockKey=' + esmockKey,
     'esmockModuleKey=' + key,
     'isesm=' + isesm,
+    opt.isfound ? 'found' : 'notfound=' + key,
     mockExportNames ? 'exportNames=' + mockExportNames : 'exportNone'
   ].join('&')
 
@@ -139,7 +141,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     return mocks
 
   let mockedPathFull = resolvewith(keys[0], pathCallee)
-  if (!mockedPathFull) {
+  if (!mockedPathFull && opt.isPackageNotFoundError !== false) {
     pathCallee = pathCallee
       .replace(/^\/\//, '')
       .replace(process.cwd(), '.')
@@ -147,15 +149,15 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     throw new Error(`not a valid path: "${keys[0]}" (used by ${pathCallee})`)
   }
 
-  if (process.platform === 'win32')
+  if (mockedPathFull && process.platform === 'win32')
     mockedPathFull = mockedPathFull.split(path.sep).join(path.posix.sep)
 
   mocks.push(await esmockModuleCreate(
     esmockKey,
     keys[0],
-    mockedPathFull,
+    mockedPathFull || keys[0],
     defs[keys[0]],
-    opt
+    Object.assign({ isfound: Boolean(mockedPathFull) }, opt)
   ))
 
   return esmockModulesCreate(
