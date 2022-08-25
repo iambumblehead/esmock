@@ -123,6 +123,7 @@ const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef, opt) =>
     'esmockKey=' + esmockKey,
     'esmockModuleKey=' + key,
     'isesm=' + isesm,
+    opt.isfound ? 'found' : 'notfound=' + key,
     mockExportNames ? 'exportNames=' + mockExportNames : 'exportNone'
   ].join('&')
 
@@ -140,8 +141,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     return mocks
 
   let mockedPathFull = resolvewith(keys[0], pathCallee)
-      || (opt.isErrorPackageNotFound === false && keys[0])
-  if (!mockedPathFull) {
+  if (!mockedPathFull && opt.isPackageNotFoundError !== false) {
     pathCallee = pathCallee
       .replace(/^\/\//, '')
       .replace(process.cwd(), '.')
@@ -155,9 +155,9 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
   mocks.push(await esmockModuleCreate(
     esmockKey,
     keys[0],
-    mockedPathFull,
+    mockedPathFull || keys[0],
     defs[keys[0]],
-    opt
+    Object.assign({ isfound: Boolean(mockedPathFull) }, opt)
   ))
 
   return esmockModulesCreate(

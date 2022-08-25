@@ -5,12 +5,24 @@ import esmock from '../../src/esmock.js'
 import sinon from 'sinon'
 
 test('should mock package, even when package is not installed', async () => {
+  const component = await esmock(`../local/notinstalledVueComponent.js`, {
+    vue: {
+      h: (...args) => args
+    }
+  }, {}, {
+    isPackageNotFoundError: false
+  })
+
+  assert.strictEqual(component()[0], 'svg')
+})
+
+test('should mock package, even when package is not installed', async () => {
   const component = await esmock(`../local/notinstalledVueComponent.js`, {}, {
     vue: {
       h: (...args) => args
     }
   }, {
-    isErrorPackageNotFound: false
+    isPackageNotFoundError: false
   })
 
   assert.strictEqual(component()[0], 'svg')
@@ -421,3 +433,4 @@ test('should strict mock by default, partial mock optional', async () => {
 
   assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png')
 })
+
