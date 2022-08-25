@@ -149,7 +149,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     throw new Error(`not a valid path: "${keys[0]}" (used by ${pathCallee})`)
   }
 
-  if (process.platform === 'win32')
+  if (mockedPathFull && process.platform === 'win32')
     mockedPathFull = mockedPathFull.split(path.sep).join(path.posix.sep)
 
   mocks.push(await esmockModuleCreate(
