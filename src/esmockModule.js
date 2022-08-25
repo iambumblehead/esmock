@@ -12,7 +12,7 @@ import {
 
 const isObj = o => typeof o === 'object' && o
 const isDefaultDefined = o => isObj(o) && 'default' in o
-
+const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/;
 const FILE_PROTOCOL = 'file:///'
 
 // https://url.spec.whatwg.org/, eg, file:///C:/demo file:///root/linux/path
@@ -21,9 +21,9 @@ const pathAddProtocol = (pathFull, protocol) => {
     protocol = /^node:/.test(pathFull)
       ? ''
       : !resolvewith.iscoremodule(pathFull) ? FILE_PROTOCOL : 'node:'
-  if (protocol.includes(FILE_PROTOCOL))
+  if (protocol.includes(FILE_PROTOCOL) && isDirPathRe.test(pathFull))
     pathFull = fs.realpathSync.native(pathFull)
-  if (process.platform === 'win32')
+  if (process.platform === 'win32' && isDirPathRe.test(pathFull))
     pathFull = pathFull.split(path.sep).join(path.posix.sep)
   return `${protocol}${pathFull.replace(/^\//, '')}`
 }
@@ -77,6 +77,7 @@ const esmockModuleIsESM = (mockPathFull, isesm) => {
     return isesm
 
   isesm = !resolvewith.iscoremodule(mockPathFull)
+    && isDirPathRe.test(mockPathFull)
     && esmockModuleESMRe.test(fs.readFileSync(mockPathFull, 'utf-8'))
 
   esmockCacheResolvedPathIsESMSet(mockPathFull, isesm)
@@ -139,6 +140,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     return mocks
 
   let mockedPathFull = resolvewith(keys[0], pathCallee)
+      || (opt.isErrorPackageNotFound === false && keys[0])
   if (!mockedPathFull) {
     pathCallee = pathCallee
       .replace(/^\/\//, '')

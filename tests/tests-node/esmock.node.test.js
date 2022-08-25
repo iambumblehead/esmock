@@ -4,6 +4,18 @@ import assert from 'node:assert/strict'
 import esmock from '../../src/esmock.js'
 import sinon from 'sinon'
 
+test('should mock package, even when package is not installed', async () => {
+  const component = await esmock(`../local/notinstalledVueComponent.js`, {}, {
+    vue: {
+      h: (...args) => args
+    }
+  }, {
+    isErrorPackageNotFound: false
+  })
+
+  assert.strictEqual(component()[0], 'svg')
+})
+/*
 test('should mock a subpath', async () => {
   const localpackagepath = path.resolve('../local/')
   const { subpathfunctionWrap } = await esmock(
@@ -409,3 +421,4 @@ test('should strict mock by default, partial mock optional', async () => {
 
   assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png')
 })
+*/
