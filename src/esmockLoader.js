@@ -42,13 +42,10 @@ const resolve = async (specifier, context, nextResolve) => {
     ? global.esmockKeyGet(esmockKeyParamSmall.split('=')[1])
     : parentURL
 
-  const [ esmockKeyParam ] = String(esmockKeyLong).match(esmockKeyRe) || []
-  if (!esmockKeyParam)
+  if (!esmockKeyRe.test(esmockKeyLong))
     return nextResolveCall(nextResolve, specifier, context)
-  // if (!esmockKeyRe.test(esmockKeyLong))
-  //   return nextResolveCall(nextResolve, specifier, context)
 
-  // const [ esmockKeyParam ] = esmockKeyLong.match(esmockKeyRe)
+  const [ esmockKeyParam ] = String(esmockKeyLong).match(esmockKeyRe)
   const [ keyUrl, keys ] = esmockKeyLong.split(esmockModuleKeysRe)
   const moduleGlobals = keyUrl && keyUrl.replace(esmockGlobalsAndBeforeRe, '')
   // do not call 'nextResolve' for notfound modules
