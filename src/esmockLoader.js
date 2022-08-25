@@ -36,6 +36,12 @@ const resolve = async (specifier, context, nextResolve) => {
   const [ esmockKeyParam ] =
     (esmockKeyLong && esmockKeyLong.match(esmockKeyRe) || [])
 
+  if (esmockKeyLong && esmockKeyLong.includes('file:///vue')) {
+    return {
+      shortCircuit: true,
+      url: urlDummy + '#-#' + 'vue'
+    }
+  }
   // new versions of node: when multiple loaders are used and context
   // is passed to nextResolve, the process crashes in a recursive call
   // see: /esmock/issues/#48
@@ -85,6 +91,11 @@ const load = async (url, context, nextLoad) => {
   url = url.replace(esmockGlobalsAndAfterRe, '')
   if (url.startsWith(urlDummy)) {
     url = url.replace(withHashRe, '')
+  }
+
+  if (url === 'vue') {
+    url = 'file:///vue?esmockKey=1&esmockModuleKey=vue'
+      + '&isesm=false&exportNames=default,h'
   }
 
   const exportedNames = exportNamesRe.test(url) &&
