@@ -1,5 +1,7 @@
 # changelog
 
+ * 1.9.7 _Aug.25.2022_
+   * support mocking specifiers that [aren't found in filesystem](https://github.com/iambumblehead/esmock/issues/126)
  * 1.9.6 _Aug.24.2022_
    * support parent url to facilitate sourcemap usage, [113](https://github.com/iambumblehead/esmock/issues/113)
    * support import subpaths, eg `import: { '#sub': './path.js' }`
