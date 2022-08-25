@@ -12,7 +12,7 @@ import {
 
 const isObj = o => typeof o === 'object' && o
 const isDefaultDefined = o => isObj(o) && 'default' in o
-const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/;
+const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 const FILE_PROTOCOL = 'file:///'
 
 // https://url.spec.whatwg.org/, eg, file:///C:/demo file:///root/linux/path
