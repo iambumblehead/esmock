@@ -1,5 +1,4 @@
 import fs from 'fs'
-import path from 'path'
 import resolvewith from 'resolvewithplus'
 
 import {
@@ -13,20 +12,6 @@ import {
 const isObj = o => typeof o === 'object' && o
 const isDefaultDefined = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
-const FILE_PROTOCOL = 'file:///'
-
-// https://url.spec.whatwg.org/, eg, file:///C:/demo file:///root/linux/path
-const pathAddProtocol = (pathFull, protocol) => {
-  if (!protocol)
-    protocol = /^node:/.test(pathFull)
-      ? ''
-      : !resolvewith.iscoremodule(pathFull) ? FILE_PROTOCOL : 'node:'
-  if (protocol.includes(FILE_PROTOCOL) && isDirPathRe.test(pathFull))
-    pathFull = fs.realpathSync.native(pathFull)
-  if (process.platform === 'win32' && isDirPathRe.test(pathFull))
-    pathFull = pathFull.split(path.sep).join(path.posix.sep)
-  return `${protocol}${pathFull.replace(/^\//, '')}`
-}
 
 const esmockModuleMergeDefault = (defaultLive, defaultMock, merged)  => {
   const defaultLiveIsObj = isObj(defaultLive)
@@ -114,16 +99,15 @@ const esmockNextKey = ((key = 0) => () => ++key)()
 // eslint-disable-next-line max-len
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef, opt) => {
   const isesm = esmockModuleIsESM(mockPathFull)
-  const originalDefinition = opt.partial
-    ? await import(pathAddProtocol(mockPathFull)) : null
+  const originalDefinition = opt.partial ? await import(mockPathFull) : null
   const mockDefinitionFinal = esmockModuleApply(
     originalDefinition, mockDef, mockPathFull)
   const mockExportNames = Object.keys(mockDefinitionFinal).sort().join()
-  const mockModuleKey = `${pathAddProtocol(mockPathFull)}?` + [
+  const mockModuleKey = `${mockPathFull}?` + [
     'esmockKey=' + esmockKey,
     'esmockModuleKey=' + key,
     'isesm=' + isesm,
-    opt.isfound ? 'found' : 'notfound=' + key,
+    opt.isfound === false ? 'notfound=' + key : 'found',
     mockExportNames ? 'exportNames=' + mockExportNames : 'exportNone'
   ].join('&')
 
@@ -141,7 +125,12 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     return mocks
 
   let mockedPathFull = resolvewith(keys[0], pathCallee)
-  if (!mockedPathFull && opt.isPackageNotFoundError !== false) {
+  if (!mockedPathFull && opt.isPackageNotFoundError === false) {
+    mockedPathFull = 'file:///' + keys[0]
+    opt = Object.assign({ isfound: false }, opt)
+  }
+
+  if (!mockedPathFull) {
     pathCallee = pathCallee
       .replace(/^\/\//, '')
       .replace(process.cwd(), '.')
@@ -149,16 +138,8 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     throw new Error(`not a valid path: "${keys[0]}" (used by ${pathCallee})`)
   }
 
-  if (mockedPathFull && process.platform === 'win32')
-    mockedPathFull = mockedPathFull.split(path.sep).join(path.posix.sep)
-
   mocks.push(await esmockModuleCreate(
-    esmockKey,
-    keys[0],
-    mockedPathFull || keys[0],
-    defs[keys[0]],
-    Object.assign({ isfound: Boolean(mockedPathFull) }, opt)
-  ))
+    esmockKey, keys[0], mockedPathFull, defs[keys[0]], opt))
 
   return esmockModulesCreate(
     pathCallee, pathModule, esmockKey, defs, keys.slice(1), mocks, opt)
@@ -175,7 +156,7 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
   if (pathModuleFull === null)
     throw new Error(`modulePath not found: "${modulePath}"`)
 
-  const esmockKeyLong = pathAddProtocol(pathModuleFull, FILE_PROTOCOL) + '?' +
+  const esmockKeyLong = pathModuleFull + '?' +
     'key=:esmockKey?esmockGlobals=:esmockGlobals#-#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
       .replace(/:esmockGlobals/, esmockGlobalKeys.join('#-#') || 'null')
@@ -183,7 +164,7 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
 
   esmockKeySet(String(esmockKey), esmockKeyLong)
 
-  return pathAddProtocol(pathModuleFull, FILE_PROTOCOL) + `?esmk=${esmockKey}`
+  return pathModuleFull + `?esmk=${esmockKey}`
 }
 
 export {
