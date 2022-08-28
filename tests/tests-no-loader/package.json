@@ -6,10 +6,13 @@
     "url": "https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "esmock": "file:.."
+    "esmock": "file:..",
+    "npm-run-all": "^4.1.5"
   },
   "scripts": {
-    "test1": "node --test",
-    "test": "npm run test1"
+    "test-1": "node --test esmock.noloader.test.js",
+    "test-2": "node --loader esmock --test esmock.loader.test.js",
+    "test-3": "node --loader=esmock --test esmock.loader.test.js",
+    "test": "npm-run-all test-*"
   }
 }

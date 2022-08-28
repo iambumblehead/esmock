@@ -1,4 +1,4 @@
-const isloaderRe = /--(experimental-)?loader=(["']*)esmock/
+const isloaderRe = /--(experimental-)?loader[=\s,"']*esmock/
 
 export default (pr = process) =>
   isloaderRe.test(pr.execArgv) ||
