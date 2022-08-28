@@ -71,7 +71,7 @@
     "no-return-assign": 0,
     "no-use-before-define": [2, "nofunc"],
     "no-nested-ternary": 0,
-    "array-bracket-spacing": [2, "always"],
+    "array-bracket-spacing": [2, "never"],
     "prefer-destructuring": 2,
     "class-methods-use-this": 0,
     "no-confusing-arrow": 0

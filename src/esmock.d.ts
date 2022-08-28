@@ -22,6 +22,8 @@ declare namespace esmock {
   interface Options {
     partial?: boolean | undefined;
     purge?: boolean | undefined;
+    isPackageNotFoundError?: boolean | undefined;
+    parent?: string | undefined;
   }
 
   /**

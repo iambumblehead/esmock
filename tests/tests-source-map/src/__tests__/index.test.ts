@@ -28,3 +28,16 @@ test("using relative path", async (t) => {
     const getHostname: typeof indexType.getHostname = indexModule.getHostname;
     t.is(getHostname(), expectedHostname);
 });
+
+test("using opt.parent", async (t) => {
+    const indexModule = await esmock("../index.js", {
+        os: {
+            hostname: () => expectedHostname,
+        },
+    }, undefined, {
+        parent: import.meta.url
+    });
+
+    const getHostname: typeof indexType.getHostname = indexModule.getHostname;
+    t.is(getHostname(), expectedHostname);
+});
