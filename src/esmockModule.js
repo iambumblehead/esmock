@@ -88,7 +88,7 @@ const esmockModuleImportedSanitize = (importedModule, esmockKey) => {
 const esmockModuleImportedPurge = modulePathKey => {
   const purgeKey = key => key === 'null' || esmockCacheSet(key, null)
   const longKey = esmockKeyGet(modulePathKey.split('esmk=')[1])
-  const [ url, keys ] = longKey.split('#-#esmockModuleKeys=')
+  const [url, keys] = longKey.split('#-#esmockModuleKeys=')
 
   String(keys).split('#-#').forEach(purgeKey)
   String(url.split('esmockGlobals=')[1]).split('#-#').forEach(purgeKey)

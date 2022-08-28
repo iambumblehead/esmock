@@ -10,21 +10,24 @@ import {
   esmockCache
 } from './esmockCache.js'
 
-const argsToObj = args => {
-  // Distinguish between the two overloads; see esmock.d.ts.
-  let modulePath, parent, mockDefs, globalDefs, opt
-  if (typeof args[1] === "string") {
-    [ modulePath, parent, mockDefs, globalDefs, opt ] = args
-  } else {
-    [ modulePath, mockDefs, globalDefs, opt ] = args
-  }
-  return { modulePath, parent, mockDefs, globalDefs, opt }
+// this function normalizes different "overloaded" args signatures, returning
+// one predictable args list. ex,
+//   [modulepath, mockdefs, globaldefs, opts]
+//     -> [modulepath, mockdefs, globaldefs, opts]
+//   [modulepath, parent, mockdefs, globaldefs, opts]
+//     -> [modulepath, mockdefs, globaldefs, { ...opts, parent }]
+const argsnormal = (args, argsextra, parent) => {
+  parent = typeof args[1] === 'string' && args[1]
+  args = parent ? [args[0], ...args.slice(2)] : args
+  args[3] = { parent, ...args[3], ...(argsextra && argsextra[0]) }
+  args[4] = (argsextra && argsextra[1]) || args[4]
+
+  return args
 }
 
-const _esmock = async (argsObj, err) => {
-  const { modulePath, parent, mockDefs, globalDefs, opt = {} } = argsObj
-
-  const calleePath = (parent || err.stack.split('\n')[2])
+const esmock = async (...args) => {
+  const [modulePath, mockDefs, globalDefs, opt = {}, err] = argsnormal(args)
+  const calleePath = (opt.parent || (err || new Error).stack.split('\n')[2])
     .replace(/^.*file:\/\//, '') // rm every before filepath
     .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
     .replace(/^.*:/, '') // rm windows-style drive location
@@ -44,19 +47,11 @@ const _esmock = async (argsObj, err) => {
   return esmockModuleImportedSanitize(importedModule, modulePathKey)
 }
 
-const esmock = async (...args) => _esmock(argsToObj(args), new Error)
+esmock.px = async (...args) => (
+  esmock(...argsnormal(args, [{ partial: true }, new Error])))
 
-esmock.px = async (...args) => {
-  const argsObj = argsToObj(args)
-  argsObj.opt = { ...argsObj.opt, partial: true }
-  return _esmock(argsObj, new Error)
-}
-
-esmock.p = async (...args) => {
-  const argsObj = argsToObj(args)
-  argsObj.opt = { ...argsObj.opt, purge: false }
-  return _esmock(argsObj, new Error)
-}
+esmock.p = async (...args) => (
+  esmock(...argsnormal(args, [{ purge: false }, new Error])))
 
 esmock.purge = mockModule => {
   if (mockModule && /object|function/.test(typeof mockModule)
