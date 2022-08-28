@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "description": "esmock unit tests, no loader should error",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "esmock": "file:.."
+  },
+  "scripts": {
+    "test1": "node --test",
+    "test": "npm run test1"
+  }
+}
