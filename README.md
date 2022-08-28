@@ -53,17 +53,20 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import esmock from 'esmock'
 
-test('should mock local files and packages', async () => {
-  const stringy = await esmock('../src/stringy.js', {
-    stringifierpackage: JSON.stringify,
-    '#icons': { kasa: '☂' },
-    '../src/hello.js': {
-      default: () => 'world',
-      exportedFunction: () => ({ icon: 'kasa' })
+test('should mock packages and local files', async () => {
+  const cookup = await esmock('../src/cookup.js', {
+    addpkg: (a, b) => a + b,
+    '#icon': {
+      coffee: '☕',
+      bacon: '🥓'
+    },
+    '../src/breakfast.js': {
+      default: () => ['coffee', 'bacon'],
+      addSalt: meal => meal + '🧂'
     }
   })
 
-  assert.strictEqual(stringy(), JSON.stringify({ kasa: 'world ☂' }))
+  assert.strictEqual(cookup('breakfast'), '☕🥓🧂')
 })
 
 test('should do global instance mocks —third param', async () => {
@@ -84,7 +87,7 @@ test('should mock "await import()" using esmock.p', async () => {
 
   // mock definition is returned from cache, when import is called
   assert.strictEqual(await doAwaitImport('cfg'), 'cfg')
-  // a bit more info are found in the descriptive guide
+  // a bit more info are found in the wiki guide
 })
 
 // a "partial mock" merges the new and original definitions
