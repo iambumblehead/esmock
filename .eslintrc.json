@@ -1,5 +1,6 @@
 {
   "plugins": [],
+  "ignorePatterns": ["dist"],
   "extends": [
     "eslint:recommended",
     "plugin:markdown/recommended"    
