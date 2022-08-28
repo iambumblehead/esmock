@@ -17,7 +17,7 @@
  * 1.9.5 _Aug.19.2022_
    * support cjs packges that define [main relative directory only](https://github.com/iambumblehead/esmock/issues/119)
  * 1.9.4 _Aug.15.2022_
-   * support core modules [w/ node: prefix](https://github.com/iambumblehead/resolvewithplus/pull/27), credit @gmahomarfw
+   * support core modules [w/ node: prefix](https://github.com/iambumblehead/resolvewithplus/pull/27), credit @gmahomarf
  * 1.9.3 _Aug.13.2022_
    * [corrected esmock.d.ts](https://github.com/iambumblehead/esmock/pull/111) errors credit @jakebailey
  * 1.9.2 _Aug.02.2022_
