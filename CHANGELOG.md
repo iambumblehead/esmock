@@ -5,10 +5,11 @@
    * [use latest resolvewithplus](https://github.com/iambumblehead/esmock/pull/130) and remove many lines of code needed for the older variant
    * [use one regexp to detect --loader esmock](https://github.com/iambumblehead/esmock/pull/131) and make unit-testing around this easier
    * [update the first example in the README](https://github.com/iambumblehead/esmock/pull/132) to be smaller and more interesting
-   * [support multiple --loader calls](https://github.com/iambumblehead/esmock/pull/134)  --loader esmock and --loader=esmock. added unit-tests
+   * [support multiple --loader calls,](https://github.com/iambumblehead/esmock/pull/134)  --loader esmock and --loader=esmock. added unit-tests
    * [update typescript types file](https://github.com/iambumblehead/esmock/pull/135) to include `parent` and `isPackageNotFoundError` options
+   * give credit to @cawa-93 for showing me [how to mock specifier](https://github.com/iambumblehead/esmock/issues/126) that aren't found in the filesystem
  * 1.9.7 _Aug.25.2022_
-   * support mocking specifiers that [aren't found in filesystem](https://github.com/iambumblehead/esmock/issues/126)
+   * support mocking specifiers that [aren't found in filesystem,](https://github.com/iambumblehead/esmock/issues/126) credit @cawa-93
  * 1.9.6 _Aug.24.2022_
    * support parent url to facilitate sourcemap usage, [113](https://github.com/iambumblehead/esmock/issues/113)
    * support import subpaths, eg `import: { '#sub': './path.js' }`
@@ -16,7 +17,7 @@
  * 1.9.5 _Aug.19.2022_
    * support cjs packges that define [main relative directory only](https://github.com/iambumblehead/esmock/issues/119)
  * 1.9.4 _Aug.15.2022_
-   * support core modules [w/ node: prefix](https://github.com/iambumblehead/resolvewithplus/pull/27), credit @gmahomarf
+   * support core modules [w/ node: prefix](https://github.com/iambumblehead/resolvewithplus/pull/27), credit @gmahomarfw
  * 1.9.3 _Aug.13.2022_
    * [corrected esmock.d.ts](https://github.com/iambumblehead/esmock/pull/111) errors credit @jakebailey
  * 1.9.2 _Aug.02.2022_
