@@ -1,5 +1,12 @@
 # changelog
 
+ * 1.9.8 _Aug.28.2022_
+   * [use latest node v18](https://github.com/iambumblehead/esmock/pull/130) for ci-tests, a bug in the ava package prevented this
+   * [use latest resolvewithplus](https://github.com/iambumblehead/esmock/pull/130) and remove many lines of code needed for the older variant
+   * [use one regexp to detect --loader esmock](https://github.com/iambumblehead/esmock/pull/131) and make unit-testing around this easier
+   * [update the first example in the README](https://github.com/iambumblehead/esmock/pull/132) to be smaller and more interesting
+   * [support multiple --loader calls](https://github.com/iambumblehead/esmock/pull/134)  --loader esmock and --loader=esmock. added unit-tests
+   * [update typescript types file](https://github.com/iambumblehead/esmock/pull/135) to include `parent` and `isPackageNotFoundError` options
  * 1.9.7 _Aug.25.2022_
    * support mocking specifiers that [aren't found in filesystem](https://github.com/iambumblehead/esmock/issues/126)
  * 1.9.6 _Aug.24.2022_
