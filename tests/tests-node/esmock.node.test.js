@@ -322,7 +322,7 @@ test('mocks inline `async import("name")`', async () => {
       filePath: 'filePath'
     }))
 
-  const [ , key ] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/)
+  const [, key] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/)
   const keyRe = new RegExp(`esmockKey=${key}[^d]`)
 
   const moduleKeys = Object.keys(esmock.esmockCache.mockDefs)

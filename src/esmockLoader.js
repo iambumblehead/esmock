@@ -4,7 +4,7 @@ import urlDummy from './esmockDummy.js'
 
 export default esmock
 
-const [ major, minor ] = process.versions.node.split('.').map(it => +it)
+const [major, minor] = process.versions.node.split('.').map(it => +it)
 const isLT1612 = major < 16 || (major === 16 && minor < 12)
 
 const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/
@@ -33,7 +33,7 @@ const nextResolveCall = async (nextResolve, specifier, context) => (
 
 const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context
-  const [ esmockKeyParamSmall ] =
+  const [esmockKeyParamSmall] =
     (parentURL && parentURL.match(/\?esmk=\d*/)) || []
   const esmockKeyLong = esmockKeyParamSmall
     ? global.esmockKeyGet(esmockKeyParamSmall.split('=')[1])
@@ -42,8 +42,8 @@ const resolve = async (specifier, context, nextResolve) => {
   if (!esmockKeyRe.test(esmockKeyLong))
     return nextResolveCall(nextResolve, specifier, context)
 
-  const [ esmockKeyParam ] = String(esmockKeyLong).match(esmockKeyRe)
-  const [ keyUrl, keys ] = esmockKeyLong.split(esmockModuleKeysRe)
+  const [esmockKeyParam] = String(esmockKeyLong).match(esmockKeyRe)
+  const [keyUrl, keys] = esmockKeyLong.split(esmockModuleKeysRe)
   const moduleGlobals = keyUrl && keyUrl.replace(esmockGlobalsAndBeforeRe, '')
   // do not call 'nextResolve' for notfound modules
   if (esmockKeyLong.includes(`notfound=${specifier}`)) {

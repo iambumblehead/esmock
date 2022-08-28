@@ -18,7 +18,7 @@ import {
 //     -> [modulepath, mockdefs, globaldefs, { ...opts, parent }]
 const argsnormal = (args, argsextra, parent) => {
   parent = typeof args[1] === 'string' && args[1]
-  args = typeof parent === 'string' ? [args[0], ...args.slice(2)] : args
+  args = parent ? [args[0], ...args.slice(2)] : args
   args[3] = { parent, ...args[3], ...(argsextra && argsextra[0]) }
   args[4] = (argsextra && argsextra[1]) || args[4]
 
