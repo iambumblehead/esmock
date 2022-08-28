@@ -1,9 +1,9 @@
 import process from 'process'
 import esmock from './esmock.js'
-import esmockIsLoader from './esmockIsLoader.js'
+//import esmockIsLoader from './esmockIsLoader.js'
 import urlDummy from './esmockDummy.js'
 
-global.esmockloader = esmockIsLoader
+//global.esmockloader = esmockIsLoader
 
 export default esmock
 

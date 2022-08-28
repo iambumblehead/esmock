@@ -1,3 +1,5 @@
+import esmockIsLoader from './esmockIsLoader.js'
+
 import {
   esmockModuleMock,
   esmockModuleImportedPurge,
@@ -28,7 +30,7 @@ const _esmock = async (argsObj, err) => {
     .replace(/^.*:/, '') // rm windows-style drive location
     .replace(/.*at [^(]*\(/, '') // rm ' at TestContext.<anonymous> ('
 
-  if (!global.esmockloader)
+  if (!esmockIsLoader())
     throw new Error('process must be started with --loader=esmock')
 
   const modulePathKey = await esmockModuleMock(

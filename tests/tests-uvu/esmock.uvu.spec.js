@@ -24,18 +24,6 @@ test('should mock a local file', async () => {
   assert.is(main(), 'main string, test string')
 })
 
-test('should throw error if !esmockloader', async () => {
-  setTimeout(async () => {
-    global.esmockloader = false
-    try {
-      await esmock('./to/module.js')
-    } catch (e) {
-      assert.is(e.message, 'process must be started with --loader=esmock')
-    }
-    global.esmockloader = true
-  }, 500)
-})
-
 test('should throw error if local file not found', async () => {
   try {
     await esmock('../local/not/found.js', {
