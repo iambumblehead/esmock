@@ -1,5 +1,5 @@
 import test from "ava";
-import esmock from "esmock";
+import esmock from "esmock/strict";
 import { fileURLToPath } from "url";
 
 import type * as indexType from "../index.js";

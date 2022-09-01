@@ -8,8 +8,18 @@
   },
   "main": "package.json.esmock.export.js",
   "exports": {
-    "types": "./package.json.esmock.export.d.ts",
-    "import": "./package.json.esmock.export.js"
+    ".": {
+      "types": "./package.json.esmock.export.d.ts",
+      "import": "./package.json.esmock.export.js"
+    },
+    "./strict": {
+      "types": "./package.json.esmock.export.d.ts",
+      "import": "./package.json.esmock.export.strict.js"
+    },
+    "./partial": {
+      "types": "./package.json.esmock.export.d.ts",
+      "import": "./package.json.esmock.export.partial.js"
+    }
   },
   "imports": {
     "#sub": "./local/subpath.js"

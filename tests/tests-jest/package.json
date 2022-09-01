@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "description": "esmock unit tests, tsm with node native runner",
+  "description": "esmock unit tests, jest with jest-light-runner",
   "repository": {
     "type": "git",
     "url": "https://github.com/iambumblehead/esmock.git"

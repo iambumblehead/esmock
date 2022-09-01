@@ -1,4 +1,4 @@
-import esmock from 'esmock'
+import esmock from 'esmock/strict'
 
 test('should mock modules when using jest', async () => {
   const main = await esmock('../../local/main.js', {

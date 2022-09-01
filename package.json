@@ -8,8 +8,18 @@
   "author": "chris <chris@bumblehead.com>",
   "main": "./src/esmockLoader.js",
   "exports": {
-    "types": "./src/esmock.d.ts",
-    "import": "./src/esmockLoader.js"
+    ".": {
+      "types": "./src/esmock.d.ts",
+      "import": "./src/esmockLoader.js"
+    },
+    "./strict": {
+      "types": "./src/esmock.d.ts",
+      "import": "./src/esmockStrict.js"
+    },
+    "./partial": {
+      "types": "./src/esmock.d.ts",
+      "import": "./src/esmockPartial.js"
+    }
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'assert'
-import esmock from '../../src/esmock.js'
+import esmock from 'esmock/strict'
 
 // this error can occur when sources do not define 'esmockloader'
 // on 'global' but use a process linked variable instead
