@@ -17,7 +17,6 @@
 [2]: https://github.com/iambumblehead/esmock "esmock"
 [3]: https://github.com/iambumblehead/esmock/tree/master/tests "tests"
 
-
 `esmock` is used with node's --loader
 ``` json
 {
@@ -47,7 +46,7 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
-**`esmock` requires one to choose and import a specific variant, either "esmock/strict" or "esmock/partial".** The strict variant gives un-modified mock definitions. The partial variant gives mock definitions that are merged with the original module definitions. Both variants are demonstrated in the last test below,
+**`esmock` requires one to choose and import a specific variant, either "esmock/strict" or "esmock/partial".** The strict variant gives un-modified mock definitions. The partial variant gives mock definitions that are merged with the original module definitions. Both variants are demonstrated in tests below. [See the esmock guide][10] for more details.
 ``` javascript
 import test from 'node:test'
 import assert from 'node:assert/strict'
@@ -92,8 +91,8 @@ test('should mock "await import()" using esmock.p', async () => {
   // a bit more info are found in the wiki guide
 })
 
-// a "partial mock" merges the new and original definitions
 test('should suppport strict and partial mocking', async () => {
+  // a "strict mock" uses the mock definition only
   const pathWrapStrict = await esmockStrict('../src/pathWrap.js', {
     path: { dirname: () => '/home/' }
   })
@@ -104,6 +103,7 @@ test('should suppport strict and partial mocking', async () => {
     message: 'path.basename is not a function'
   })
 
+  // a "partial mock" merges the new and original definitions
   const pathWrapPartial = await esmockPartial('../src/pathWrap.js', {
     path: { dirname: () => '/home/' }
   })
