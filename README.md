@@ -93,7 +93,7 @@ test('should mock "await import()" using esmock.p', async () => {
 })
 
 // a "partial mock" merges the new and original definitions
-test('should suppport partial mocks', async () => {
+test('should suppport strict and partial mocking', async () => {
   const pathWrap = await esmockStrict('../src/pathWrap.js', {
     path: { dirname: () => '/home/' }
   })
