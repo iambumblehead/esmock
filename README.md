@@ -47,7 +47,7 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
-**`esmock` requires one to choose and import a specific variant, either "esmock/strict" or "esmock/partial".** The strict variant gives un-modified mock definitions. The partial variant gives mock definitions that are merged with the original module definitions. Both variants are demonstrated below,
+**`esmock` requires one to choose and import a specific variant, either "esmock/strict" or "esmock/partial".** The strict variant gives un-modified mock definitions. The partial variant gives mock definitions that are merged with the original module definitions. Both variants are demonstrated in the final test below,
 ``` javascript
 import test from 'node:test'
 import assert from 'node:assert/strict'
