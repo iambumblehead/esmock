@@ -65,12 +65,9 @@ import esmockStrict from 'esmock/strict'
 import esmockPartial from 'esmock/partial'
 
 test('should suppport strict and partial mocking', async () => {
-  const dogpathStrict = await esmockStrict('./dogpath.js', {
-    path: { dirname: () => '/image/' }
-  })
-  const dogpathPartial = await esmockPartial('./dogpath.js', {
-    path: { dirname: () => '/image/' }
-  })
+  const mocks = { path: { dirname: () => '/image/' } }
+  const dogpathStrict = await esmockStrict('./dogpath.js', mocks)
+  const dogpathPartial = await esmockPartial('./dogpath.js', mocks)
 
   // error, because path.join was not defined
   await assert.rejects(async () => dogpathStrict(), {
