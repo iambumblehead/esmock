@@ -47,11 +47,47 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
+
+`esmock` requires one to choose and import a specific variant, either "strict" or "partial". The strict variant gives un-modified mock definitions. The partial variant gives mock definitions that are merged with the original module definitions. Both variants are demonstrated below,
+
+_./dogpath.js_
+``` javascript
+import path from 'path'
+
+export default () => path.join(path.dirname('/path/cat'), 'dog')
+```
+
+_./dogpath.test.js_
+``` javascript
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import esmockStrict from 'esmock/strict'
+import esmockPartial from 'esmock/partial'
+
+test('should suppport strict and partial mocking', async () => {
+  const dogpathStrict = await esmockStrict('./dogpath.js', {
+    path: { dirname: () => '/image/' }
+  })
+  const dogpathPartial = await esmockPartial('./dogpath.js', {
+    path: { dirname: () => '/image/' }
+  })
+
+  // error, because path.join was not defined
+  await assert.rejects(async () => dogpathStrict(), {
+    name: 'TypeError',
+    message: 'path.join is not a function'
+  })
+
+  // no error, because "core" path.join was merged into the mock
+  assert.deepEqual(dogpathPartial(), '/image/dog')
+})
+```
+
 `esmock` examples
 ``` javascript
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import esmock from 'esmock'
+import esmock from 'esmock/partial'
 
 test('should mock packages and local files', async () => {
   const cookup = await esmock('../src/cookup.js', {
@@ -88,27 +124,5 @@ test('should mock "await import()" using esmock.p', async () => {
   // mock definition is returned from cache, when import is called
   assert.strictEqual(await doAwaitImport('cfg'), 'cfg')
   // a bit more info are found in the wiki guide
-})
-
-// a "partial mock" merges the new and original definitions
-test('should suppport partial mocks', async () => {
-  const pathWrap = await esmock('../src/pathWrap.js', {
-    path: { dirname: () => '/path/to/file' }
-  })
-
-  // an error, because path.basename was not defined
-  await assert.rejects(async () => pathWrap.basename('/dog.png'), {
-    name: 'TypeError',
-    message: 'path.basename is not a function'
-  })
-
-  // use esmock.px to create a "partial mock"
-  const pathWrapPartial = await esmock.px('../src/pathWrap.js', {
-    path: { dirname: () => '/home/' }
-  })
-
-  // no error, because "core" path.basename was merged into the mock
-  assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png')
-  assert.deepEqual(pathWrapPartial.dirname(), '/home/')
 })
 ```
