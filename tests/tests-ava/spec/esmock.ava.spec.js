@@ -18,14 +18,15 @@ test('should not error when handling non-extensible object', async t => {
   // this error can also occur when an esmocked module is used to
   // mock antother module, where esmock defined default.default on the first
   // module and tried to define again from the outer module
-  const mockedIndex = await esmock.partial('../../local/importsNonDefaultClass.js', {
-    '../../local/exportsNonDefaultClass.js': await esmock.partial(
-      '../../local/exportsNonDefaultClass.js', {
-        '../../local/pathWrap.js': {
-          basename: () => 'mocked basename'
-        }
-      })
-  })
+  const mockedIndex = await esmock.partial(
+    '../../local/importsNonDefaultClass.js', {
+      '../../local/exportsNonDefaultClass.js': await esmock.partial(
+        '../../local/exportsNonDefaultClass.js', {
+          '../../local/pathWrap.js': {
+            basename: () => 'mocked basename'
+          }
+        })
+    })
 
   t.is(await mockedIndex.callNotifier(), 'mocked basename')
 })

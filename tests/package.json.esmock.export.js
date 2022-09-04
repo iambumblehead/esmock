@@ -1,4 +1,5 @@
-export {default, load, resolve, getSource} from '../src/esmockLoader.js'
+export * from '../src/esmockLoader.js'
+export {default} from '../src/esmockLoader.js'
 
 // this file is used in tandem with two other things,
 //

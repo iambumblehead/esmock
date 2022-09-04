@@ -33,11 +33,17 @@ const esmock = async (...args) => {
   return esmockModuleImportedSanitize(importedModule, modulePathKey)
 }
 
-esmock.partial = async (...args) => esmock(
-  ...esmockArgs(args, { partial: true }, new Error))
+const strict = async (...args) => esmock(
+  ...esmockArgs(args, { partial: false }, new Error))
+strict.p = async (...args) => esmock(
+  ...esmockArgs(args, { partial: false, purge: false }, new Error))
 
-esmock.p = async (...args) => esmock(
-  ...esmockArgs(args, { purge: false }, new Error))
+const partial = async (...args) => esmock(
+  ...esmockArgs(args, { partial: true }, new Error))
+partial.p = async (...args) => esmock(
+  ...esmockArgs(args, { partial: true, purge: false }, new Error))
+
+Object.assign(esmock, strict, { strict, partial })
 
 esmock.purge = mockModule => {
   if (mockModule && /object|function/.test(typeof mockModule)
@@ -47,4 +53,4 @@ esmock.purge = mockModule => {
 
 esmock.esmockCache = esmockCache
 
-export default esmock
+export {esmock as default, partial, strict}

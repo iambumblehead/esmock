@@ -1,8 +1,7 @@
 import process from 'process'
-import esmock from './esmock.js'
+export * from './esmock.js'
+export {default} from './esmock.js'
 import urlDummy from './esmockDummy.js'
-
-export default esmock
 
 const [major, minor] = process.versions.node.split('.').map(it => +it)
 const isLT1612 = major < 16 || (major === 16 && minor < 12)
