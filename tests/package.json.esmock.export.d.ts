@@ -1,3 +1,2 @@
-import esmock from "../src/esmock.js";
-
-export default esmock;
+export * from '../src/esmock.js'
+export {default} from '../src/esmock.js'
