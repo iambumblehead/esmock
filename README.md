@@ -102,8 +102,8 @@ test('should suppport partial mocks', async () => {
     message: 'path.basename is not a function'
   })
 
-  // use esmock.px to create a "partial mock"
-  const pathWrapPartial = await esmock.px('../src/pathWrap.js', {
+  // use esmock.partial to create a "partial mock"
+  const pathWrapPartial = await esmock.partial('../src/pathWrap.js', {
     path: { dirname: () => '/home/' }
   })
 
