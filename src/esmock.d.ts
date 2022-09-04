@@ -1,20 +1,3 @@
-type esmockArgs = [
-  modulePath: string,
-  mockDefs?: Record<string, any>,
-  globalDefs?: Record<string, any>,
-  opt?: esmock.Options
-];
-
-type esmockArgsParent = [
-  modulePath: string,
-  parent: string,
-  mockDefs?: Record<string, any>,
-  globalDefs?: Record<string, any>,
-  opt?: esmock.Options
-];
-
-// function processPerson(...args: PersonArgs) {}
-
 /**
  * Mocks imports for the module specified by {@link modulePath}.
  *
@@ -32,14 +15,9 @@ type esmockArgsParent = [
  * @param opt
  * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
  */
-declare function esmock(...args: esmockArgsParent): any;
-declare function esmock(...args: esmockArgs): any;
-/*
-declare function partial(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
-declare function partial(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
-declare function strict(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
-declare function strict(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
-*/
+declare function esmock(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
+declare function esmock(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
+
 declare namespace esmock {
   interface Options {
     partial?: boolean | undefined;
@@ -66,11 +44,11 @@ declare namespace esmock {
    * @param opt
    * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
    */
-  function partial(...args: esmockArgsParent): any;
-  function partial(...args: esmockArgs): any;
+  function partial(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
+  function partial(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
 
-  function strict(...args: esmockArgsParent): any;
-  function strict(...args: esmockArgs): any;
+  function strict(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
+  function strict(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
     
   /**
    * Mocks dynamic imports for the module specified by {@link modulePath}.
@@ -89,8 +67,8 @@ declare namespace esmock {
    * @param opt
    * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
    */
-  function p(...args: esmockArgsParent): any;
-  function p(...args: esmockArgs): any;
+  function p(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
+  function p(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;    
 
   /**
    * Unregisters a dynamic mock created by {@link esmock.p}.
