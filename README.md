@@ -95,7 +95,7 @@ test('should support "strict" mocking, at esmock.strict', async () => {
     path: { dirname: () => '/path/to/file' }
   })
 
-  // an error, because the path mock did not define path.basename
+  // error, because the "path" mock above does not define path.basename
   await assert.rejects(async () => pathWrapper.basename('/dog.png'), {
     name: 'TypeError',
     message: 'path.basename is not a function'
