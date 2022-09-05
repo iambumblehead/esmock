@@ -17,7 +17,6 @@
 [2]: https://github.com/iambumblehead/esmock "esmock"
 [3]: https://github.com/iambumblehead/esmock/tree/master/tests "tests"
 
-
 `esmock` is used with node's --loader
 ``` json
 {
@@ -90,23 +89,14 @@ test('should mock "await import()" using esmock.p', async () => {
   // a bit more info are found in the wiki guide
 })
 
-
-test('should suppport "strict" mocking', async () => {
-  // by default, mock definitions are merged w/ original module definitions
-  const pathWrap = await esmock('../src/pathWrap.js', {
-    path: { dirname: () => '/home/' }
-  })
-
-  // no error, because "core" path.basename was merged into the mock
-  assert.deepEqual(pathWrap.basename('/dog.png'), 'dog.png')
-  assert.deepEqual(pathWrap.dirname(), '/home/')
-
-  const pathWrapStrict = await esmock.strict('../src/pathWrap.js', {
+test('should support "strict" mocking, at esmock.strict', async () => {
+  // strict mock definitions are not merged w/ original module definitions
+  const pathWrapper = await esmock.strict('../src/pathWrapper.js', {
     path: { dirname: () => '/path/to/file' }
   })
 
   // an error, because the path mock did not define path.basename
-  await assert.rejects(async () => pathWrapStrict.basename('/dog.png'), {
+  await assert.rejects(async () => pathWrapper.basename('/dog.png'), {
     name: 'TypeError',
     message: 'path.basename is not a function'
   })
