@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.0.0 _Sep.06.2022_
+   * [export both 'partial' and 'strict'](https://github.com/iambumblehead/esmock/pull/140) variants of esmock
  * 1.9.8 _Aug.28.2022_
    * [use latest node v18](https://github.com/iambumblehead/esmock/pull/130) for ci-tests, a bug in the ava package prevented this
    * [use latest resolvewithplus](https://github.com/iambumblehead/esmock/pull/130) and remove many lines of code needed for the older variant
