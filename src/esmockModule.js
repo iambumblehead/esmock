@@ -126,7 +126,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     return mocks
 
   let mockedPathFull = resolvewith(keys[0], pathCallee)
-  if (!mockedPathFull && opt.isPackageNotFoundError === false) {
+  if (!mockedPathFull && opt.isModuleNotFoundError === false) {
     mockedPathFull = 'file:///' + keys[0]
     opt = Object.assign({ isfound: false }, opt)
   }

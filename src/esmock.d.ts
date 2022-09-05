@@ -23,7 +23,7 @@ declare namespace esmock {
   interface Options {
     strict?: boolean | undefined;
     purge?: boolean | undefined;
-    isPackageNotFoundError?: boolean | undefined;
+    isModuleNotFoundError?: boolean | undefined;
     parent?: string | undefined;
   }
 

@@ -10,7 +10,7 @@ test('should mock package, even when package is not installed', async () => {
       h: (...args) => args
     }
   }, {}, {
-    isPackageNotFoundError: false
+    isModuleNotFoundError: false
   })
 
   assert.strictEqual(component()[0], 'svg')
@@ -22,7 +22,7 @@ test('should mock package, even when package is not installed', async () => {
       h: (...args) => args
     }
   }, {
-    isPackageNotFoundError: false
+    isModuleNotFoundError: false
   })
 
   assert.strictEqual(component()[0], 'svg')
