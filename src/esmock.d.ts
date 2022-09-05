@@ -1,7 +1,8 @@
 /**
  * Mocks imports for the module specified by {@link modulePath}.
  *
- * The provided mocks replace the imported modules _fully_.
+ * By default, mock definitions are merged with the original module definitions.
+ * To disable the default behaviour, Use esmock.strict.
  *
  * @param modulePath The module whose imports will be mocked.
  * @param parent A URL to resolve specifiers relative to; typically `import.meta.url`.
@@ -20,35 +21,10 @@ declare function esmock(modulePath: string, mockDefs?: Record<string, any>, glob
 
 declare namespace esmock {
   interface Options {
-    partial?: boolean | undefined;
+    strict?: boolean | undefined;
     purge?: boolean | undefined;
     isPackageNotFoundError?: boolean | undefined;
     parent?: string | undefined;
-  }
-
-  /**
-   * Mocks imports for the module specified by {@link modulePath}.
-   *
-   * This "partial" variant gives mock definitions that are merged with the
-   * original module definitions.
-   *
-   * @param modulePath The module whose imports will be mocked.
-   * @param parent A URL to resolve specifiers relative to; typically `import.meta.url`.
-   *               If not specified, it will be inferred via the stack, which may not work
-   *               if source maps are in use.
-   * @param mockDefs A mapping of import specifiers to mocked module objects; these mocks will
-   *                 only be used for imports resolved in the module specified by {@link modulePath}.
-   * @param globalDefs A mapping of import specifiers to mocked module objects; these mocks will
-   *                   apply to imports within the module specified by {@link modulePath}, as well
-   *                   as any transitively imported modules.
-   * @param opt
-   * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
-   */
-  function partial(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
-  function partial(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
-  export namespace partial {
-    function p(modulePath: string, parent: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
-    function p(modulePath: string, mockDefs?: Record<string, any>, globalDefs?: Record<string, any>, opt?: esmock.Options): any;
   }
 
   /**
@@ -104,4 +80,4 @@ declare namespace esmock {
 }
 
 export default esmock;
-export { esmock as partial, esmock as strict };
+export { esmock as strict };

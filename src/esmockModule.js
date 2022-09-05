@@ -99,7 +99,7 @@ const esmockNextKey = ((key = 0) => () => ++key)()
 // eslint-disable-next-line max-len
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef, opt) => {
   const isesm = esmockModuleIsESM(mockPathFull)
-  const originalDefinition = opt.partial ? await import(mockPathFull) : null
+  const originalDefinition = opt.strict || await import(mockPathFull)
   const mockDefinitionFinal = esmockModuleApply(
     originalDefinition, mockDef, mockPathFull)
   const mockExportNames = Object.keys(mockDefinitionFinal).sort().join()
