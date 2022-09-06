@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import esmock, { partial, strict } from 'esmock'
+import esmock, { strict } from 'esmock'
 
 const isPassingPartial = async esmockPartial => {
   const main = await esmockPartial('../local/main.js', {
@@ -27,10 +27,8 @@ const isPassingStrict = async esmockStrict => {
 }
 
 test('should export esmock partial', async () => {
-  await isPassingPartial(partial)
-  await isPassingPartial(partial.p)
-  await isPassingPartial(esmock.partial)
-  await isPassingPartial(esmock.partial.p)
+  await isPassingPartial(esmock)
+  await isPassingPartial(esmock.p)
 })
 
 test('should export esmock strict', async () => {
@@ -38,6 +36,4 @@ test('should export esmock strict', async () => {
   await isPassingStrict(strict.p)
   await isPassingStrict(esmock.strict)
   await isPassingStrict(esmock.strict.p)
-  await isPassingStrict(esmock)
-  await isPassingStrict(esmock.p)
 })

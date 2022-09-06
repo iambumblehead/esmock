@@ -99,7 +99,8 @@ const esmockNextKey = ((key = 0) => () => ++key)()
 // eslint-disable-next-line max-len
 const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef, opt) => {
   const isesm = esmockModuleIsESM(mockPathFull)
-  const originalDefinition = opt.partial ? await import(mockPathFull) : null
+  const originalDefinition = opt.strict || opt.isfound === false
+    || await import(mockPathFull)
   const mockDefinitionFinal = esmockModuleApply(
     originalDefinition, mockDef, mockPathFull)
   const mockExportNames = Object.keys(mockDefinitionFinal).sort().join()
@@ -125,7 +126,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     return mocks
 
   let mockedPathFull = resolvewith(keys[0], pathCallee)
-  if (!mockedPathFull && opt.isPackageNotFoundError === false) {
+  if (!mockedPathFull && opt.isModuleNotFoundError === false) {
     mockedPathFull = 'file:///' + keys[0]
     opt = Object.assign({ isfound: false }, opt)
   }

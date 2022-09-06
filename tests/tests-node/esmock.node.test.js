@@ -10,7 +10,7 @@ test('should mock package, even when package is not installed', async () => {
       h: (...args) => args
     }
   }, {}, {
-    isPackageNotFoundError: false
+    isModuleNotFoundError: false
   })
 
   assert.strictEqual(component()[0], 'svg')
@@ -22,7 +22,7 @@ test('should mock package, even when package is not installed', async () => {
       h: (...args) => args
     }
   }, {
-    isPackageNotFoundError: false
+    isModuleNotFoundError: false
   })
 
   assert.strictEqual(component()[0], 'svg')
@@ -52,7 +52,7 @@ test('should return un-mocked file', async () => {
 })
 
 test('should mock a local file', async () => {
-  const main = await esmock.partial('../local/main.js', {
+  const main = await esmock('../local/main.js', {
     '../local/mainUtil.js': {
       createString: () => 'test string'
     }
@@ -175,7 +175,7 @@ test('should return un-mocked file (again)', async () => {
 })
 
 test('should mock local file', async () => {
-  const mainUtil = await esmock.partial('../local/mainUtil.js', {
+  const mainUtil = await esmock('../local/mainUtil.js', {
     '../local/mainUtilNamedExports.js': {
       mainUtilNamedExportOne: () => 'foobar'
     }
@@ -191,7 +191,7 @@ test('should mock local file', async () => {
 })
 
 test('should mock module and local file at the same time', async () => {
-  const mainUtil = await esmock.partial('../local/mainUtil.js', {
+  const mainUtil = await esmock('../local/mainUtil.js', {
     'form-urlencoded': o => JSON.stringify(o),
     '../local/mainUtilNamedExports.js': {
       mainUtilNamedExportOne: () => 'foobar'
@@ -206,7 +206,7 @@ test('should mock module and local file at the same time', async () => {
 })
 
 test('__esModule definition, inconsequential', async () => {
-  const mainUtil = await esmock.partial('../local/mainUtil.js', {
+  const mainUtil = await esmock('../local/mainUtil.js', {
     'form-urlencoded': o => JSON.stringify(o),
     '../local/mainUtilNamedExports.js': {
       mainUtilNamedExportOne: () => 'foobar',
@@ -222,7 +222,7 @@ test('__esModule definition, inconsequential', async () => {
 })
 
 test('should work well with sinon', async () => {
-  const mainUtil = await esmock.partial('../local/mainUtil.js', {
+  const mainUtil = await esmock('../local/mainUtil.js', {
     '../local/mainUtilNamedExports.js': {
       mainUtilNamedExportOne: sinon.stub().returns('foobar')
     }
@@ -275,7 +275,7 @@ test('should mock core module', async () => {
 })
 
 test('should apply third parameter "global" definitions', async () => {
-  const main = await esmock.partial('../local/main.js', {
+  const main = await esmock('../local/main.js', {
     '../local/mainUtil.js': {
       exportedFunction: () => 'foobar'
     }
@@ -349,7 +349,7 @@ test('should have small querystring in stacktrace filename', async () => {
 test('should have small querystring in stacktrace filename, deep', async () => {
   const {
     causeRuntimeErrorFromImportedFile
-  } = await esmock.partial('../local/main.js', {}, {
+  } = await esmock('../local/main.js', {}, {
     '../local/mainUtil.js': {
       causeRuntimeError: () => {
         assert.nonexistantmethod()
@@ -395,13 +395,13 @@ test('should not error when mocked file has space in path', async () => {
 
 test('should strict mock by default, partial mock optional', async () => {
   const wildfile = await import('../local/space in path/wild-file.js')
-  const mainstrict = await esmock('../local/main.js', {
+  const mainstrict = await esmock.strict('../local/main.js', {
     '../local/space in path/wild-file.js': {
       default: 'tamed',
       namedexport: 'namedexport'
     }
   })
-  const mainpartial = await esmock.partial('../local/main.js', {
+  const mainpartial = await esmock('../local/main.js', {
     '../local/space in path/wild-file.js': {
       default: 'tamed',
       namedexport: 'namedexport'
@@ -419,10 +419,10 @@ test('should strict mock by default, partial mock optional', async () => {
 })
 
 test('should strict mock by default, partial mock optional', async () => {
-  const pathWrapStrict = await esmock('../local/pathWrap.js', {
+  const pathWrapStrict = await esmock.strict('../local/pathWrap.js', {
     path: { dirname: '/path/to/file' }
   })
-  const pathWrapPartial = await esmock.partial('../local/pathWrap.js', {
+  const pathWrapPartial = await esmock('../local/pathWrap.js', {
     path: { dirname: '/path/to/file' }
   })
 

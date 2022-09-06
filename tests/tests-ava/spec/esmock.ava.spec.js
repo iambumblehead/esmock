@@ -5,7 +5,7 @@ import sinon from 'sinon'
 test('should not error when handling non-extensible object', async t => {
   // if esmock tries to simulate babel and define default.default
   // runtime error may occur if non-extensible is defined there
-  await esmock.partial('../../local/importsNonDefaultClass.js', {
+  await esmock('../../local/importsNonDefaultClass.js', {
     '../../local/exportsNonDefaultClass.js': {
       getNotifier: {
         default: class getNotifier {
@@ -18,9 +18,9 @@ test('should not error when handling non-extensible object', async t => {
   // this error can also occur when an esmocked module is used to
   // mock antother module, where esmock defined default.default on the first
   // module and tried to define again from the outer module
-  const mockedIndex = await esmock.partial(
+  const mockedIndex = await esmock(
     '../../local/importsNonDefaultClass.js', {
-      '../../local/exportsNonDefaultClass.js': await esmock.partial(
+      '../../local/exportsNonDefaultClass.js': await esmock(
         '../../local/exportsNonDefaultClass.js', {
           '../../local/pathWrap.js': {
             basename: () => 'mocked basename'
@@ -43,7 +43,7 @@ test('should return un-mocked file', async t => {
 })
 
 test('should mock a local file', async t => {
-  const main = await esmock.partial('../../local/main.js', {
+  const main = await esmock('../../local/main.js', {
     '../../local/mainUtil.js': {
       createString: () => 'test string'
     }
@@ -166,7 +166,7 @@ test('should return un-mocked file (again)', async t => {
 })
 
 test('should mock local file', async t => {
-  const mainUtil = await esmock.partial('../../local/mainUtil.js', {
+  const mainUtil = await esmock('../../local/mainUtil.js', {
     '../../local/mainUtilNamedExports.js': {
       mainUtilNamedExportOne: () => 'foobar'
     }
@@ -182,7 +182,7 @@ test('should mock local file', async t => {
 })
 
 test('should mock module and local file at the same time', async t => {
-  const mainUtil = await esmock.partial('../../local/mainUtil.js', {
+  const mainUtil = await esmock('../../local/mainUtil.js', {
     'form-urlencoded': o => JSON.stringify(o),
     '../../local/mainUtilNamedExports.js': {
       mainUtilNamedExportOne: () => 'foobar'
@@ -197,7 +197,7 @@ test('should mock module and local file at the same time', async t => {
 })
 
 test('__esModule definition, inconsequential', async t => {
-  const mainUtil = await esmock.partial('../../local/mainUtil.js', {
+  const mainUtil = await esmock('../../local/mainUtil.js', {
     'babelGeneratedDoubleDefault': o => o,
     '../../local/mainUtilNamedExports.js': {
       mainUtilNamedExportOne: () => 'foobar',
@@ -209,7 +209,7 @@ test('__esModule definition, inconsequential', async t => {
 })
 
 test('should work well with sinon', async t => {
-  const mainUtil = await esmock.partial('../../local/mainUtil.js', {
+  const mainUtil = await esmock('../../local/mainUtil.js', {
     '../../local/mainUtilNamedExports.js': {
       mainUtilNamedExportOne: sinon.stub().returns('foobar')
     }
@@ -262,7 +262,7 @@ test('should mock core module', async t => {
 })
 
 test('should apply third parameter "global" definitions', async t => {
-  const main = await esmock.partial('../../local/main.js', {
+  const main = await esmock('../../local/main.js', {
     '../../local/mainUtil.js': {
       exportedFunction: () => 'foobar'
     }
@@ -334,7 +334,7 @@ test('should have small querystring in stacktrace filename', async t => {
 test('should have small querystring in stacktrace filename, deep', async t => {
   const {
     causeRuntimeErrorFromImportedFile
-  } = await esmock.partial('../../local/main.js', {}, {
+  } = await esmock('../../local/main.js', {}, {
     '../../local/mainUtil.js': {
       causeRuntimeError: () => {
         t.nonexistantmethod()
@@ -355,7 +355,7 @@ test('should have small querystring in stacktrace filename, deep', async t => {
 
 test('should have small querystring in stacktrace filename, deep2', async t => {
   const causeDeepErrorParent =
-    await esmock.partial('../../local/causeDeepErrorParent.js', {}, {
+    await esmock('../../local/causeDeepErrorParent.js', {}, {
       '../../local/causeDeepErrorGrandChild.js': {
         what: 'now'
       }

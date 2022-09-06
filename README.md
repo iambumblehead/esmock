@@ -17,7 +17,6 @@
 [2]: https://github.com/iambumblehead/esmock "esmock"
 [3]: https://github.com/iambumblehead/esmock/tree/master/tests "tests"
 
-
 `esmock` is used with node's --loader
 ``` json
 {
@@ -90,25 +89,16 @@ test('should mock "await import()" using esmock.p', async () => {
   // a bit more info are found in the wiki guide
 })
 
-// a "partial mock" merges the new and original definitions
-test('should suppport partial mocks', async () => {
-  const pathWrap = await esmock('../src/pathWrap.js', {
+test('should support "strict" mocking, at esmock.strict', async () => {
+  // strict mock definitions are not merged w/ original module definitions
+  const pathWrapper = await esmock.strict('../src/pathWrapper.js', {
     path: { dirname: () => '/path/to/file' }
   })
 
-  // an error, because path.basename was not defined
-  await assert.rejects(async () => pathWrap.basename('/dog.png'), {
+  // error, because the "path" mock above does not define path.basename
+  await assert.rejects(async () => pathWrapper.basename('/dog.png'), {
     name: 'TypeError',
     message: 'path.basename is not a function'
   })
-
-  // use esmock.partial to create a "partial mock"
-  const pathWrapPartial = await esmock.partial('../src/pathWrap.js', {
-    path: { dirname: () => '/home/' }
-  })
-
-  // no error, because "core" path.basename was merged into the mock
-  assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png')
-  assert.deepEqual(pathWrapPartial.dirname(), '/home/')
 })
 ```
