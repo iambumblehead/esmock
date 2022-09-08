@@ -31,7 +31,7 @@ Object.assign(global, {
 })
 
 export {
-  esmockCache,
+  esmockCache as default,
   esmockCacheSet,
   esmockCacheGet,
   esmockKeySet,

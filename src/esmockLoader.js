@@ -89,7 +89,7 @@ const load = async (url, context, nextLoad) => {
   if (url.startsWith(urlDummy)) {
     url = url.replace(withHashRe, '')
     if (notfoundRe.test(url))
-      url = url.replace(urlDummy, `file:///${(url.match(notfoundRe) || [])[1]}`)
+      url = url.replace(urlDummy, `file:///${url.match(notfoundRe)[1]}`)
   }
 
   const exportedNames = exportNamesRe.test(url) &&
