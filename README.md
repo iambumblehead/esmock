@@ -34,7 +34,7 @@
   },
   "jest": {
     "runner": "jest-light-runner"
-  },
+  }
 }
 ```
 
@@ -70,12 +70,10 @@ test('should mock packages and local files', async () => {
 
 test('should do global instance mocks —third param', async () => {
   const { getFile } = await esmock('../src/main.js', {}, {
-    fs: {
-      readFileSync: () => 'returns this globally'
-    }
+    fs: { readFileSync: () => 'returns this 🌎 globally' }
   })
 
-  assert.strictEqual(getFile(), 'returns this globally')
+  assert.strictEqual(getFile(), 'returns this 🌎 globally')
 })
 
 test('should mock "await import()" using esmock.p', async () => {
@@ -95,7 +93,7 @@ test('should support "strict" mocking, at esmock.strict', async () => {
     path: { dirname: () => '/path/to/file' }
   })
 
-  // error, because the "path" mock above does not define path.basename
+  // error, because "path" mock above does not define path.basename
   await assert.rejects(async () => pathWrapper.basename('/dog.png'), {
     name: 'TypeError',
     message: 'path.basename is not a function'

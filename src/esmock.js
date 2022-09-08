@@ -1,4 +1,5 @@
 import esmockIsLoader from './esmockIsLoader.js'
+import esmockCache from './esmockCache.js'
 import esmockArgs from './esmockArgs.js'
 
 import {
@@ -6,10 +7,6 @@ import {
   esmockModuleImportedPurge,
   esmockModuleImportedSanitize
 } from './esmockModule.js'
-
-import {
-  esmockCache
-} from './esmockCache.js'
 
 const esmock = async (...args) => {
   const [modulePath, mockDefs, globalDefs, opt = {}, err] = esmockArgs(args)

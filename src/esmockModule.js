@@ -75,14 +75,13 @@ const esmockModuleIsESM = (mockPathFull, isesm) => {
 const esmockModuleImportedSanitize = (importedModule, esmockKey) => {
   const importedDefault = 'default' in importedModule && importedModule.default
 
-  if (!/boolean|string|number/.test(typeof importedDefault)) {
-    // an example of [object Module]: import * as mod from 'fs'; export mod;
-    return Object.prototype.toString.call(importedDefault) === '[object Module]'
-      ? Object.assign({}, importedDefault, importedModule, { esmockKey })
-      : Object.assign(importedDefault, importedModule, { esmockKey })
-  }
-
-  return importedModule
+  if (/boolean|string|number/.test(typeof importedDefault))
+    return importedModule
+  
+  // an example of [object Module]: import * as mod from 'fs'; export mod;
+  return Object.isExtensible(importedDefault)
+    ? Object.assign(importedDefault, importedModule, { esmockKey })
+    : Object.assign({}, importedDefault, importedModule, { esmockKey })
 }
 
 const esmockModuleImportedPurge = modulePathKey => {
@@ -118,46 +117,46 @@ const esmockModuleCreate = async (esmockKey, key, mockPathFull, mockDef, opt) =>
 }
 
 // eslint-disable-next-line max-len
-const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys, mocks, opt) => {
+const esmockModulesCreate = async (parent, moduleFileURL, esmockKey, defs, keys, mocks, opt) => {
   keys = keys || Object.keys(defs)
   mocks = mocks || []
 
   if (!keys.length)
     return mocks
 
-  let mockedPathFull = resolvewith(keys[0], pathCallee)
+  let mockedPathFull = resolvewith(keys[0], parent)
   if (!mockedPathFull && opt.isModuleNotFoundError === false) {
     mockedPathFull = 'file:///' + keys[0]
     opt = Object.assign({ isfound: false }, opt)
   }
 
   if (!mockedPathFull) {
-    pathCallee = pathCallee
+    parent = parent
       .replace(/^\/\//, '')
       .replace(process.cwd(), '.')
       .replace(process.env.HOME, '~')
-    throw new Error(`not a valid path: "${keys[0]}" (used by ${pathCallee})`)
+    throw new Error(`invalid moduleId: "${keys[0]}" (used by ${parent})`)
   }
 
   mocks.push(await esmockModuleCreate(
     esmockKey, keys[0], mockedPathFull, defs[keys[0]], opt))
 
   return esmockModulesCreate(
-    pathCallee, pathModule, esmockKey, defs, keys.slice(1), mocks, opt)
+    parent, moduleFileURL, esmockKey, defs, keys.slice(1), mocks, opt)
 }
 
-const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
-  const pathModuleFull = resolvewith(modulePath, calleePath)
+const esmockModuleMock = async (parent, moduleId, defs, gdefs, opt) => {
+  const moduleFileURL = resolvewith(moduleId, parent)
   const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey()
   const esmockModuleKeys = await esmockModulesCreate(
-    calleePath, pathModuleFull, esmockKey, defs, Object.keys(defs), 0, opt)
+    parent, moduleFileURL, esmockKey, defs, Object.keys(defs), 0, opt)
   const esmockGlobalKeys = await esmockModulesCreate(
-    calleePath, pathModuleFull, esmockKey, gdefs, Object.keys(gdefs), 0, opt)
+    parent, moduleFileURL, esmockKey, gdefs, Object.keys(gdefs), 0, opt)
 
-  if (pathModuleFull === null)
-    throw new Error(`modulePath not found: "${modulePath}"`)
+  if (moduleFileURL === null)
+    throw new Error(`invalid moduleId: "${moduleId}"`)
 
-  const esmockKeyLong = pathModuleFull + '?' +
+  const esmockKeyLong = moduleFileURL + '?' +
     'key=:esmockKey?esmockGlobals=:esmockGlobals#-#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
       .replace(/:esmockGlobals/, esmockGlobalKeys.join('#-#') || 'null')
@@ -165,7 +164,7 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
 
   esmockKeySet(String(esmockKey), esmockKeyLong)
 
-  return pathModuleFull + `?esmk=${esmockKey}`
+  return moduleFileURL + `?esmk=${esmockKey}`
 }
 
 export {

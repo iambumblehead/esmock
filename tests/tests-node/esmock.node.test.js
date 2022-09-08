@@ -76,7 +76,7 @@ test('should throw error if local file not found', async () => {
       createString: () => 'test string'
     }
   }), {
-    message: 'modulePath not found: "../local/not/found.js"'
+    message: 'invalid moduleId: "../local/not/found.js"'
   })
 })
 
@@ -86,7 +86,7 @@ test('should throw error if local definition file not found', async () => {
       createString: () => 'test string'
     }
   }), {
-    message: /not a valid path: "..\/local\/not\/found.js" \(used by/
+    message: /invalid moduleId: "..\/local\/not\/found.js" \(used by/
   })
 })
 
@@ -393,7 +393,7 @@ test('should not error when mocked file has space in path', async () => {
   assert.strictEqual(main.wild, 'tamed')
 })
 
-test('should strict mock by default, partial mock optional', async () => {
+test('should partial mock by default, strict mock optional', async () => {
   const wildfile = await import('../local/space in path/wild-file.js')
   const mainstrict = await esmock.strict('../local/main.js', {
     '../local/space in path/wild-file.js': {
@@ -418,7 +418,7 @@ test('should strict mock by default, partial mock optional', async () => {
     true, wildfilenamedexports.every(e => mainpartialwildexports.includes(e)))
 })
 
-test('should strict mock by default, partial mock optional', async () => {
+test('should throw error when strict mock definition not found', async () => {
   const pathWrapStrict = await esmock.strict('../local/pathWrap.js', {
     path: { dirname: '/path/to/file' }
   })
