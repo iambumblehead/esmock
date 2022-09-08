@@ -75,14 +75,13 @@ const esmockModuleIsESM = (mockPathFull, isesm) => {
 const esmockModuleImportedSanitize = (importedModule, esmockKey) => {
   const importedDefault = 'default' in importedModule && importedModule.default
 
-  if (!/boolean|string|number/.test(typeof importedDefault)) {
-    // an example of [object Module]: import * as mod from 'fs'; export mod;
-    return Object.prototype.toString.call(importedDefault) === '[object Module]'
-      ? Object.assign({}, importedDefault, importedModule, { esmockKey })
-      : Object.assign(importedDefault, importedModule, { esmockKey })
-  }
-
-  return importedModule
+  if (/boolean|string|number/.test(typeof importedDefault))
+    return importedModule
+  
+  // an example of [object Module]: import * as mod from 'fs'; export mod;
+  return Object.isExtensible(importedDefault)
+    ? Object.assign(importedDefault, importedModule, { esmockKey })
+    : Object.assign({}, importedDefault, importedModule, { esmockKey })
 }
 
 const esmockModuleImportedPurge = modulePathKey => {
