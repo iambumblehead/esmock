@@ -1,6 +1,4 @@
 import process from 'process'
-export * from './esmock.js'
-export {default} from './esmock.js'
 import urlDummy from './esmockDummy.js'
 
 const [major, minor] = process.versions.node.split('.').map(it => +it)
@@ -112,8 +110,6 @@ const load = async (url, context, nextLoad) => {
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
 const getSource = isLT1612 && load
 
-export {
-  load,
-  resolve,
-  getSource
-}
+export * from './esmock.js'
+export {default} from './esmock.js'
+export {load, resolve, getSource}
