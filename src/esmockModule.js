@@ -136,7 +136,7 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
       .replace(/^\/\//, '')
       .replace(process.cwd(), '.')
       .replace(process.env.HOME, '~')
-    throw new Error(`not a valid path: "${keys[0]}" (used by ${pathCallee})`)
+    throw new Error(`invalid moduleId: "${keys[0]}" (used by ${pathCallee})`)
   }
 
   mocks.push(await esmockModuleCreate(
@@ -146,8 +146,8 @@ const esmockModulesCreate = async (pathCallee, pathModule, esmockKey, defs, keys
     pathCallee, pathModule, esmockKey, defs, keys.slice(1), mocks, opt)
 }
 
-const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
-  const pathModuleFull = resolvewith(modulePath, calleePath)
+const esmockModuleMock = async (calleePath, moduleId, defs, gdefs, opt) => {
+  const pathModuleFull = resolvewith(moduleId, calleePath)
   const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey()
   const esmockModuleKeys = await esmockModulesCreate(
     calleePath, pathModuleFull, esmockKey, defs, Object.keys(defs), 0, opt)
@@ -155,7 +155,7 @@ const esmockModuleMock = async (calleePath, modulePath, defs, gdefs, opt) => {
     calleePath, pathModuleFull, esmockKey, gdefs, Object.keys(gdefs), 0, opt)
 
   if (pathModuleFull === null)
-    throw new Error(`modulePath not found: "${modulePath}"`)
+    throw new Error(`invalid moduleId: "${moduleId}"`)
 
   const esmockKeyLong = pathModuleFull + '?' +
     'key=:esmockKey?esmockGlobals=:esmockGlobals#-#esmockModuleKeys=:moduleKeys'

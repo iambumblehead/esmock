@@ -76,7 +76,7 @@ test('should throw error if local file not found', async () => {
       createString: () => 'test string'
     }
   }), {
-    message: 'modulePath not found: "../local/not/found.js"'
+    message: 'invalid moduleId: "../local/not/found.js"'
   })
 })
 
@@ -86,7 +86,7 @@ test('should throw error if local definition file not found', async () => {
       createString: () => 'test string'
     }
   }), {
-    message: /not a valid path: "..\/local\/not\/found.js" \(used by/
+    message: /invalid moduleId: "..\/local\/not\/found.js" \(used by/
   })
 })
 
