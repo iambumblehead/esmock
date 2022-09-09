@@ -85,7 +85,7 @@ test('should mock "await import()" using esmock.p', async () => {
 })
 
 test('should support "strict" mocking, at esmock.strict', async () => {
-  // strict mock definitions aren't merged w/ original module definitions
+  // replace original module definitions and do not merge them
   const pathWrapper = await esmock.strict('../src/pathWrapper.js', {
     path: { dirname: () => '/path/to/file' }
   })
