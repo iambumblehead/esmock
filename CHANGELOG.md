@@ -4,6 +4,7 @@
    * [use shared moduleId not found error message](https://github.com/iambumblehead/esmock/pull/146)
    * [remove lines not covered by tests](https://github.com/iambumblehead/esmock/pull/145)
    * [small fixes:](https://github.com/iambumblehead/esmock/pull/144) fix README json syntax error and test descriptions, rename modulePath to moduleId
+   * [remove a few chars](https://github.com/iambumblehead/esmock/pull/148) from README
  * 2.0.0 _Sep.06.2022_
    * [export a 'strict'](https://github.com/iambumblehead/esmock/pull/140) variant of esmock
    * [use 'partial' mock behaviour with default export](https://github.com/iambumblehead/esmock/pull/141)
