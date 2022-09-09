@@ -76,7 +76,7 @@ test('should throw error if local file not found', async () => {
       createString: () => 'test string'
     }
   }), {
-    message: 'invalid moduleId: "../local/not/found.js"'
+    message: /invalid moduleId: "..\/local\/not\/found.js" \(used by/
   })
 })
 
