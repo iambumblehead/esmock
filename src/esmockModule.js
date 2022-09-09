@@ -21,10 +21,6 @@ const esmockModuleMergeDefault = (defaultLive, defaultMock, merged)  => {
     merged = Object.assign({}, defaultLive, defaultMock)
   } else if (defaultMock) {
     merged = defaultMock
-  } else if (defaultLiveIsObj) {
-    merged = Object.assign({}, defaultLive)
-  } else if (defaultLive) {
-    merged = defaultLive
   }
 
   return merged
