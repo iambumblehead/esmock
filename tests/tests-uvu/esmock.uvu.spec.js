@@ -32,7 +32,8 @@ test('should throw error if local file not found', async () => {
       }
     })
   } catch (e) {
-    assert.is(e.message, 'invalid moduleId: "../local/not/found.js"')
+    assert.ok(e.message.startsWith(
+      'invalid moduleId: "../local/not/found.js" (used by'))
   }
 })
 

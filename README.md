@@ -55,10 +55,7 @@ import esmock from 'esmock'
 test('should mock packages and local files', async () => {
   const cookup = await esmock('../src/cookup.js', {
     addpkg: (a, b) => a + b,
-    '#icon': {
-      coffee: '☕',
-      bacon: '🥓'
-    },
+    '#icon': { coffee: '☕', bacon: '🥓' },
     '../src/breakfast.js': {
       default: () => ['coffee', 'bacon'],
       addSalt: meal => meal + '🧂'
