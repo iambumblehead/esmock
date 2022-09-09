@@ -29,7 +29,7 @@
     "test-ava": "NODE_OPTIONS=--loader=esmock ava",
     "test-uvu": "NODE_OPTIONS=--loader=esmock uvu spec",
     "test-tsm": "node --loader=tsm --loader=esmock --test *ts",
-    "test-ts-node": "node --loader=ts-node/esm --loader=esmock --test *ts",
+    "test-ts": "node --loader=ts-node/esm --loader=esmock --test *ts",
     "test-jest": "NODE_OPTIONS=--loader=esmock jest"
   },
   "jest": {
@@ -85,7 +85,7 @@ test('should mock "await import()" using esmock.p', async () => {
 })
 
 test('should support "strict" mocking, at esmock.strict', async () => {
-  // strict mock definitions are not merged w/ original module definitions
+  // strict mock definitions aren't merged w/ original module definitions
   const pathWrapper = await esmock.strict('../src/pathWrapper.js', {
     path: { dirname: () => '/path/to/file' }
   })
