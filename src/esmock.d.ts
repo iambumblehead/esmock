@@ -79,5 +79,4 @@ declare namespace esmock {
   function purge(mockModule: any): void;
 }
 
-export default esmock;
-export { esmock as strict };
+export { esmock as default, esmock as strict };
