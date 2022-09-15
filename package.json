@@ -57,7 +57,7 @@
     "node": ">=14.16.0"
   },
   "dependencies": {
-    "resolvewithplus": "iambumblehead/resolvewithplus#use-minifier-friendly-export"
+    "resolvewithplus": "^1.0.1"
   },
   "devDependencies": {
     "c8": "^7.12.0",
