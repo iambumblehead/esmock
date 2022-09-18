@@ -14,11 +14,9 @@ const isDefaultDefined = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 
 const esmockModuleIdNotFoundError = (moduleId, parent) => new Error(
-  `invalid moduleId: "${moduleId}" (used by :moduleParent)`
-    .replace(/:moduleParent/, parent
-      .replace(/^\/\//, '')
-      .replace(process.cwd(), '.')
-      .replace(process.env.HOME, '~')))
+  `invalid moduleId: "${moduleId}" (used by ${parent})`
+    .replace(process.cwd(), '.')
+    .replace(process.env.HOME, '~'))
 
 const esmockModuleMergeDefault = (defaultLive, defaultMock) => (
   (isObj(defaultLive) && isObj(defaultMock))
