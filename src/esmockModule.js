@@ -108,24 +108,24 @@ const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
   return mockModuleKey
 }
 
-const esmockModuleId = async (parent, key, defs, ids, mocks, opt) => {
+const esmockModuleId = async (parent, key, defs, ids, mocks, opt, id) => {
   ids = ids || Object.keys(defs)
+  id = ids[0] // eslint-disable-line prefer-destructuring
   mocks = mocks || []
 
   if (!ids.length)
     return mocks
 
-  let mockedPathFull = resolvewith(ids[0], parent)
+  let mockedPathFull = resolvewith(id, parent)
   if (!mockedPathFull && opt.isModuleNotFoundError === false) {
-    mockedPathFull = 'file:///' + ids[0]
+    mockedPathFull = 'file:///' + id
     opt = Object.assign({ isfound: false }, opt)
   }
 
   if (mockedPathFull === null)
-    throw esmockModuleIdNotFoundError(ids[0], parent)
+    throw esmockModuleIdNotFoundError(id, parent)
 
-  mocks.push(await esmockModuleCreate(
-    key, ids[0], mockedPathFull, defs[ids[0]], opt))
+  mocks.push(await esmockModuleCreate(key, id, mockedPathFull, defs[id], opt))
 
   return esmockModuleId(parent, key, defs, ids.slice(1), mocks, opt)
 }
