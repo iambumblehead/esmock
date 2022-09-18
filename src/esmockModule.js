@@ -113,8 +113,7 @@ const esmockModuleId = async (parent, key, defs, ids, mocks, opt, id) => {
   id = ids[0] // eslint-disable-line prefer-destructuring
   mocks = mocks || []
 
-  if (!ids.length)
-    return mocks
+  if (!id) return mocks
 
   let mockedPathFull = resolvewith(id, parent)
   if (!mockedPathFull && opt.isModuleNotFoundError === false) {
@@ -122,7 +121,7 @@ const esmockModuleId = async (parent, key, defs, ids, mocks, opt, id) => {
     opt = Object.assign({ isfound: false }, opt)
   }
 
-  if (mockedPathFull === null)
+  if (!mockedPathFull)
     throw esmockModuleIdNotFoundError(id, parent)
 
   mocks.push(await esmockModuleCreate(key, id, mockedPathFull, defs[id], opt))
@@ -138,7 +137,7 @@ const esmockModule = async (parent, moduleId, defs, gdefs, opt) => {
   const esmockGlobalKeys = await esmockModuleId(
     parent, esmockKey, gdefs, Object.keys(gdefs), 0, opt)
 
-  if (moduleFileURL === null)
+  if (!moduleFileURL)
     throw esmockModuleIdNotFoundError(moduleId, parent)
 
   const esmockKeyLong = moduleFileURL + '?' +
