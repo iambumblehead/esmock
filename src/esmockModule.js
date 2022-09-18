@@ -109,7 +109,7 @@ const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
 }
 
 const esmockModuleId = async (parent, key, defs, ids, mocks, opt) => {
-  ids = ids || Object.ids(defs)
+  ids = ids || Object.keys(defs)
   mocks = mocks || []
 
   if (!ids.length)
