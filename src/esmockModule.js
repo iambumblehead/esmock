@@ -95,7 +95,7 @@ const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
   const defLive = opt.strict || opt.isfound === false || await import(fileURL)
   const def = esmockModuleApply(defLive, defMock, fileURL)
   const mockExportNames = Object.keys(def).sort().join()
-  const mockModuleKey = `${fileURL}?` + [
+  const mockModuleKey = fileURL + '?' + [
     'esmockKey=' + esmockKey,
     'esmockModuleKey=' + key,
     'isesm=' + isesm,
