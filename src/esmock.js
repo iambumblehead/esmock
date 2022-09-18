@@ -1,12 +1,7 @@
 import esmockIsLoader from './esmockIsLoader.js'
+import esmockModule from './esmockModule.js'
 import esmockCache from './esmockCache.js'
 import esmockArgs from './esmockArgs.js'
-
-import {
-  esmockModuleMock,
-  esmockModuleImportedPurge,
-  esmockModuleImportedSanitize
-} from './esmockModule.js'
 
 const esmock = async (...args) => {
   const [modulePath, mockDefs, globalDefs, opt = {}, err] = esmockArgs(args)
@@ -19,15 +14,15 @@ const esmock = async (...args) => {
   if (!esmockIsLoader())
     throw new Error('process must be started with --loader=esmock')
 
-  const modulePathKey = await esmockModuleMock(
+  const modulePathKey = await esmockModule(
     calleePath, modulePath, mockDefs || {}, globalDefs || {}, opt)
 
   const importedModule = await import(modulePathKey)
 
   if (opt.purge !== false)
-    esmockModuleImportedPurge(modulePathKey)
+    esmockModule.purge(modulePathKey)
 
-  return esmockModuleImportedSanitize(importedModule, modulePathKey)
+  return esmockModule.sanitize(importedModule, modulePathKey)
 }
 esmock.p = async (...args) => esmock(
   ...esmockArgs(args, { purge: false }, new Error))
@@ -42,7 +37,7 @@ Object.assign(esmock, { strict })
 esmock.purge = mockModule => {
   if (mockModule && /object|function/.test(typeof mockModule)
       && 'esmockKey' in mockModule)
-    esmockModuleImportedPurge(mockModule.esmockKey)
+    esmockModule.purge(mockModule.esmockKey)
 }
 
 esmock.esmockCache = esmockCache
