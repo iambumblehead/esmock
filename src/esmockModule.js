@@ -92,14 +92,14 @@ const esmockNextKey = ((key = 0) => () => ++key)()
 
 const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
   const isesm = esmockModuleIsESM(fileURL)
-  const defLive = opt.strict || opt.isfound === false || await import(fileURL)
+  const defLive = opt.strict || !fileURL || await import(fileURL)
   const def = esmockModuleApply(defLive, defMock, fileURL)
   const mockExportNames = Object.keys(def).sort().join()
-  const mockModuleKey = fileURL + '?' + [
+  const mockModuleKey = (fileURL || 'file:///' + key) + '?' + [
     'esmockKey=' + esmockKey,
     'esmockModuleKey=' + key,
     'isesm=' + isesm,
-    opt.isfound === false ? 'notfound=' + key : 'found',
+    fileURL ? 'found' : 'notfound=' + key,
     mockExportNames ? 'exportNames=' + mockExportNames : 'exportNone'
   ].join('&')
 
@@ -116,12 +116,7 @@ const esmockModuleId = async (parent, key, defs, ids, mocks, opt, id) => {
   if (!id) return mocks
 
   let mockedPathFull = resolvewith(id, parent)
-  if (!mockedPathFull && opt.isModuleNotFoundError === false) {
-    mockedPathFull = 'file:///' + id
-    opt = Object.assign({ isfound: false }, opt)
-  }
-
-  if (!mockedPathFull)
+  if (!mockedPathFull && opt.isModuleNotFoundError !== false)
     throw esmockModuleIdNotFoundError(id, parent)
 
   mocks.push(await esmockModuleCreate(key, id, mockedPathFull, defs[id], opt))
