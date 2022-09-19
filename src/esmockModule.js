@@ -113,7 +113,7 @@ const esmockModuleId = async (parent, key, defs, ids, mocks, opt, id) => {
 
   if (!id) return mocks
 
-  let mockedPathFull = resolvewith(id, parent)
+  const mockedPathFull = resolvewith(id, parent)
   if (!mockedPathFull && opt.isModuleNotFoundError !== false)
     throw esmockModuleIdNotFoundError(id, parent)
 
