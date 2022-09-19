@@ -14,11 +14,9 @@ const isDefaultDefined = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 
 const esmockModuleIdNotFoundError = (moduleId, parent) => new Error(
-  `invalid moduleId: "${moduleId}" (used by :moduleParent)`
-    .replace(/:moduleParent/, parent
-      .replace(/^\/\//, '')
-      .replace(process.cwd(), '.')
-      .replace(process.env.HOME, '~')))
+  `invalid moduleId: "${moduleId}" (used by ${parent})`
+    .replace(process.cwd(), '.')
+    .replace(process.env.HOME, '~'))
 
 const esmockModuleMergeDefault = (defaultLive, defaultMock) => (
   (isObj(defaultLive) && isObj(defaultMock))
@@ -92,14 +90,14 @@ const esmockNextKey = ((key = 0) => () => ++key)()
 
 const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
   const isesm = esmockModuleIsESM(fileURL)
-  const defLive = opt.strict || opt.isfound === false || await import(fileURL)
+  const defLive = opt.strict || !fileURL || await import(fileURL)
   const def = esmockModuleApply(defLive, defMock, fileURL)
   const mockExportNames = Object.keys(def).sort().join()
-  const mockModuleKey = `${fileURL}?` + [
+  const mockModuleKey = (fileURL || 'file:///' + key) + '?' + [
     'esmockKey=' + esmockKey,
     'esmockModuleKey=' + key,
     'isesm=' + isesm,
-    opt.isfound === false ? 'notfound=' + key : 'found',
+    fileURL ? 'found' : 'notfound=' + key,
     mockExportNames ? 'exportNames=' + mockExportNames : 'exportNone'
   ].join('&')
 
@@ -108,39 +106,31 @@ const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
   return mockModuleKey
 }
 
-// eslint-disable-next-line max-len
-const esmockModulesCreate = async (parent, moduleFileURL, esmockKey, defs, keys, mocks, opt) => {
-  keys = keys || Object.keys(defs)
+const esmockModuleId = async (parent, key, defs, ids, mocks, opt, id) => {
+  ids = ids || Object.keys(defs)
+  id = ids[0] // eslint-disable-line prefer-destructuring
   mocks = mocks || []
 
-  if (!keys.length)
-    return mocks
+  if (!id) return mocks
 
-  let mockedPathFull = resolvewith(keys[0], parent)
-  if (!mockedPathFull && opt.isModuleNotFoundError === false) {
-    mockedPathFull = 'file:///' + keys[0]
-    opt = Object.assign({ isfound: false }, opt)
-  }
+  const mockedPathFull = resolvewith(id, parent)
+  if (!mockedPathFull && opt.isModuleNotFoundError !== false)
+    throw esmockModuleIdNotFoundError(id, parent)
 
-  if (!mockedPathFull)
-    throw esmockModuleIdNotFoundError(keys[0], parent)
+  mocks.push(await esmockModuleCreate(key, id, mockedPathFull, defs[id], opt))
 
-  mocks.push(await esmockModuleCreate(
-    esmockKey, keys[0], mockedPathFull, defs[keys[0]], opt))
-
-  return esmockModulesCreate(
-    parent, moduleFileURL, esmockKey, defs, keys.slice(1), mocks, opt)
+  return esmockModuleId(parent, key, defs, ids.slice(1), mocks, opt)
 }
 
-const esmockModuleMock = async (parent, moduleId, defs, gdefs, opt) => {
+const esmockModule = async (parent, moduleId, defs, gdefs, opt) => {
   const moduleFileURL = resolvewith(moduleId, parent)
   const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey()
-  const esmockModuleKeys = await esmockModulesCreate(
-    parent, moduleFileURL, esmockKey, defs, Object.keys(defs), 0, opt)
-  const esmockGlobalKeys = await esmockModulesCreate(
-    parent, moduleFileURL, esmockKey, gdefs, Object.keys(gdefs), 0, opt)
+  const esmockModuleKeys = await esmockModuleId(
+    parent, esmockKey, defs, Object.keys(defs), 0, opt)
+  const esmockGlobalKeys = await esmockModuleId(
+    parent, esmockKey, gdefs, Object.keys(gdefs), 0, opt)
 
-  if (moduleFileURL === null)
+  if (!moduleFileURL)
     throw esmockModuleIdNotFoundError(moduleId, parent)
 
   const esmockKeyLong = moduleFileURL + '?' +
@@ -154,8 +144,7 @@ const esmockModuleMock = async (parent, moduleId, defs, gdefs, opt) => {
   return moduleFileURL + `?esmk=${esmockKey}`
 }
 
-export {
-  esmockModuleMock,
-  esmockModuleImportedPurge,
-  esmockModuleImportedSanitize
-}
+export default Object.assign(esmockModule, {
+  purge: esmockModuleImportedPurge,
+  sanitize: esmockModuleImportedSanitize
+})
