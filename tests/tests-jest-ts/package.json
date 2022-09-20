@@ -1,0 +1,27 @@
+{
+  "type": "module",
+  "description": "esmock unit tests, jest with jest-light-runner",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "tsm": "^2.2.2",
+    "jest": "^28.1.3",
+    "jest-light-runner": "0.2.2",
+    "run-script-os": "^1.1.6",
+    "esmock": "file:..",
+    "sinon": "file:../node_modules/sinon",
+    "eslint": "file:../node_modules/eslint",
+    "form-urlencoded": "file:../node_modules/form-urlencoded",
+    "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
+  },
+  "jest": {
+    "runner": "jest-light-runner"
+  },
+  "scripts": {
+    "test:default": "NODE_OPTIONS=\"--loader=tsm --loader=esmock\" jest esmock.node-jest.test.ts",
+    "test:win32": "set NODE_OPTIONS=\"--loader=tsm --loader=esmock\" && jest esmock.node-jest.test.ts",
+    "test": "run-script-os"
+  }
+}
