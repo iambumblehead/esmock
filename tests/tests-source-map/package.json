@@ -9,11 +9,11 @@
     "esmock": "file:..",
     "@ava/typescript": "^3.0.1",
     "@tsconfig/node14": "^1.0.3",
-    "@types/node": "^18.7.3",
+    "@types/node": "^18.7.18",
     "ava": "^4.3.3",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.3"
   },
   "scripts": {
     "test": "rimraf dist && tsc && cross-env NODE_OPTIONS=--loader=esmock NODE_NO_WARNINGS=1 ava",
