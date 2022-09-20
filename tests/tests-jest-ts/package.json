@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test:default": "NODE_OPTIONS=\"--loader=ts-node/esm --loader=esmock\" jest esmock.node-jest.test.ts",
-    "test:win32": "set NODE_OPTIONS=\"--loader=ts-node/esm --loader=esmock\" && jest esmock.node-jest.test.ts",
+    "test:win32": "set NODE_OPTIONS=\"--loader=ts-node\\esm --loader=esmock\" && jest esmock.node-jest.test.ts",
     "test": "run-script-os"
   }
 }
