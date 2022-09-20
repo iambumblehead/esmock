@@ -1,5 +1,8 @@
 # changelog
 
+ * 2.0.2 _tbd_
+   * [simplifications,](https://github.com/iambumblehead/esmock/pull/153) slightly reducing install size
+   * [add jest+ts-node test example,](https://github.com/iambumblehead/esmock/pull/155) credit @liuxingbaoyu @cspotcode
  * 2.0.1 _Sep.15.2022_
    * [use newer, smaller resolvewithplus](https://github.com/iambumblehead/resolvewithplus/releases/tag/v1.0.1)
    * [use shared moduleId not found error message](https://github.com/iambumblehead/esmock/pull/146)
