@@ -24,21 +24,19 @@ const esmock = async (...args) => {
 
   return esmockModule.sanitize(importedModule, modulePathKey)
 }
-esmock.p = async (...args) => esmock(
-  ...esmockArgs(args, { purge: false }, new Error))
 
 const strict = async (...args) => esmock(
   ...esmockArgs(args, { strict: true }, new Error))
+esmock.p = async (...args) => esmock(
+  ...esmockArgs(args, { purge: false }, new Error))
 strict.p = async (...args) => esmock(
   ...esmockArgs(args, { strict: true, purge: false }, new Error))
 
 Object.assign(esmock, { strict })
 
-esmock.purge = mockModule => {
-  if (mockModule && /object|function/.test(typeof mockModule)
-      && 'esmockKey' in mockModule)
-    esmockModule.purge(mockModule.esmockKey)
-}
+esmock.purge = mockModule => mockModule
+  && /object|function/.test(typeof mockModule) && 'esmockKey' in mockModule
+  && esmockModule.purge(mockModule.esmockKey)
 
 esmock.esmockCache = esmockCache
 

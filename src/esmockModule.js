@@ -10,71 +10,66 @@ import {
 } from './esmockCache.js'
 
 const isObj = o => typeof o === 'object' && o
-const isDefaultDefined = o => isObj(o) && 'default' in o
+const isDefaultIn = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
+const esmockNextKey = ((key = 0) => () => ++key)()
 
 const esmockModuleIdNotFoundError = (moduleId, parent) => new Error(
   `invalid moduleId: "${moduleId}" (used by ${parent})`
     .replace(process.cwd(), '.')
     .replace(process.env.HOME, '~'))
 
-const esmockModuleMergeDefault = (defaultLive, defaultMock) => (
-  (isObj(defaultLive) && isObj(defaultMock))
-    ? Object.assign({}, defaultLive, defaultMock)
-    : defaultMock)
+const esmockModuleMergeDefault = (defLive, defMock) =>
+  (isObj(defLive) && isObj(defMock))
+    ? Object.assign({}, defLive, defMock)
+    : defMock
 
-const esmockModuleApply = (definitionLive, definitionMock, definitionPath) => {
-  const isCorePath = resolvewith.iscoremodule(definitionPath)
-  const definitionDefault = esmockModuleMergeDefault(
-    isDefaultDefined(definitionLive) && definitionLive.default,
-    isDefaultDefined(definitionMock) ? definitionMock.default : definitionMock)
-  const definition = Object.assign({}, definitionLive || {}, {
-    default: definitionDefault
-  }, definitionMock)
+const esmockModuleApply = (defLive, defMock, fileURL) => {
+  const def = Object.assign({}, defLive || {}, {
+    default: esmockModuleMergeDefault(
+      isDefaultIn(defLive) && defLive.default,
+      isDefaultIn(defMock) ? defMock.default : defMock)
+  }, defMock)
 
-  // if safe, an extra default definition is added for compatibility,
-  // because babel-generated dist cjs files often import in this way,
-  // note: core modules do not define "default.default"
-  //   import package from 'package';
-  //   package.default(); <- extra default definition
-  if (!isCorePath && Object.isExtensible(definition.default))
-    definition.default.default = definition.default
+  // if safe, an extra "default.default" is added for compatibility with
+  // babel-generated dist cjs files which also define "default.default"
+  if (!resolvewith.iscoremodule(fileURL) && Object.isExtensible(def.default))
+    def.default.default = def.default
 
-  return definition
+  return def
 }
 
 // eslint-disable-next-line max-len
 const esmockModuleESMRe = /(^\s*|[});\n]\s*)(import\s+(['"]|(\*\s+as\s+)?[^"'()\n;]+\s+from\s+['"]|\{)|export\s+\*\s+from\s+["']|export\s+(\{|default|function|class|var|const|let|async\s+function))/
 
-// tries to return resolved value from a cache first
-// else, builds value, stores in cache and returns
-const esmockModuleIsESM = (mockPathFull, isesm) => {
-  isesm = esmockCacheResolvedPathIsESMGet(mockPathFull)
+// returns cached results when available
+const esmockModuleIsESM = (fileURL, isesm) => {
+  isesm = esmockCacheResolvedPathIsESMGet(fileURL)
 
   if (typeof isesm === 'boolean')
     return isesm
 
-  isesm = !resolvewith.iscoremodule(mockPathFull)
-    && isDirPathRe.test(mockPathFull)
-    && esmockModuleESMRe.test(fs.readFileSync(mockPathFull, 'utf-8'))
+  isesm = !resolvewith.iscoremodule(fileURL)
+    && isDirPathRe.test(fileURL)
+    && esmockModuleESMRe.test(fs.readFileSync(fileURL, 'utf-8'))
 
-  esmockCacheResolvedPathIsESMSet(mockPathFull, isesm)
+  esmockCacheResolvedPathIsESMSet(fileURL, isesm)
 
   return isesm
 }
 
 // return the default value directly, so that the esmock caller
 // does not need to lookup default as in "esmockedValue.default"
-const esmockModuleImportedSanitize = (importedModule, esmockKey) => {
-  const importedDefault = 'default' in importedModule && importedModule.default
+const esmockModuleImportedSanitize = (imported, esmockKey) => {
+  const importedDefault = 'default' in imported && imported.default
 
   if (/boolean|string|number/.test(typeof importedDefault))
-    return importedModule
+    return imported
   
-  // an example of [object Module]: import * as mod from 'fs'; export mod;
+  // ex, non-extensible "[object Module]": import * as fs from 'fs'; export fs;
   return Object.isExtensible(importedDefault)
-    ? Object.assign(importedDefault, importedModule, { esmockKey })
-    : Object.assign({}, importedDefault, importedModule, { esmockKey })
+    ? Object.assign(importedDefault, imported, { esmockKey })
+    : Object.assign({}, importedDefault, imported, { esmockKey })
 }
 
 const esmockModuleImportedPurge = modulePathKey => {
@@ -86,12 +81,10 @@ const esmockModuleImportedPurge = modulePathKey => {
   String(url.split('esmockGlobals=')[1]).split('#-#').forEach(purgeKey)
 }
 
-const esmockNextKey = ((key = 0) => () => ++key)()
-
 const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
   const isesm = esmockModuleIsESM(fileURL)
-  const defLive = opt.strict || !fileURL || await import(fileURL)
-  const def = esmockModuleApply(defLive, defMock, fileURL)
+  const def = esmockModuleApply(
+    opt.strict || !fileURL || await import(fileURL), defMock, fileURL)
   const mockExportNames = Object.keys(def).sort().join()
   const mockModuleKey = (fileURL || 'file:///' + key) + '?' + [
     'esmockKey=' + esmockKey,
@@ -106,7 +99,7 @@ const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
   return mockModuleKey
 }
 
-const esmockModuleId = async (parent, key, defs, ids, mocks, opt, id) => {
+const esmockModuleId = async (parent, key, defs, ids, opt, mocks, id) => {
   ids = ids || Object.keys(defs)
   id = ids[0] // eslint-disable-line prefer-destructuring
   mocks = mocks || []
@@ -119,25 +112,22 @@ const esmockModuleId = async (parent, key, defs, ids, mocks, opt, id) => {
 
   mocks.push(await esmockModuleCreate(key, id, mockedPathFull, defs[id], opt))
 
-  return esmockModuleId(parent, key, defs, ids.slice(1), mocks, opt)
+  return esmockModuleId(parent, key, defs, ids.slice(1), opt, mocks)
 }
 
 const esmockModule = async (parent, moduleId, defs, gdefs, opt) => {
   const moduleFileURL = resolvewith(moduleId, parent)
-  const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey()
-  const esmockModuleKeys = await esmockModuleId(
-    parent, esmockKey, defs, Object.keys(defs), 0, opt)
-  const esmockGlobalKeys = await esmockModuleId(
-    parent, esmockKey, gdefs, Object.keys(gdefs), 0, opt)
-
   if (!moduleFileURL)
     throw esmockModuleIdNotFoundError(moduleId, parent)
 
+  const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey()
   const esmockKeyLong = moduleFileURL + '?' +
     'key=:esmockKey?esmockGlobals=:esmockGlobals#-#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
-      .replace(/:esmockGlobals/, esmockGlobalKeys.join('#-#') || 'null')
-      .replace(/:moduleKeys/, esmockModuleKeys.join('#-#'))
+      .replace(/:esmockGlobals/, (await esmockModuleId(
+        parent, esmockKey, gdefs, Object.keys(gdefs), opt)).join('#-#') || 0)
+      .replace(/:moduleKeys/, (await esmockModuleId(
+        parent, esmockKey, defs, Object.keys(defs), opt)).join('#-#') || 0)
 
   esmockKeySet(String(esmockKey), esmockKeyLong)
 

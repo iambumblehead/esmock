@@ -70,7 +70,7 @@ const resolve = async (specifier, context, nextResolve) => {
     resolved.url = isesmRe.test(moduleKey)
       ? moduleKey
       : urlDummy + '#-#' + moduleKey
-  } else if (moduleGlobals && moduleGlobals !== 'null') {
+  } else if (moduleGlobals && moduleGlobals !== '0') {
     if (!resolved.url.startsWith('node:')) {
       resolved.url += '?esmockGlobals=' + moduleGlobals
     }
