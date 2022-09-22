@@ -101,7 +101,7 @@ const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
 
 const esmockModuleId = async (parent, key, defs, ids, opt, mocks, id) => {
   ids = ids || Object.keys(defs)
-  id = ids[0] // eslint-disable-line prefer-destructuring
+  id = ids[0]
   mocks = mocks || []
 
   if (!id) return mocks

@@ -44,9 +44,9 @@ const resolve = async (specifier, context, nextResolve) => {
   const moduleGlobals = keyUrl && keyUrl.replace(esmockGlobalsAndBeforeRe, '')
   // do not call 'nextResolve' for notfound modules
   if (esmockKeyLong.includes(`notfound=${specifier}`)) {
-    const moduleKeyRe = new RegExp( // eslint-disable-line prefer-destructuring
+    const moduleKeyRe = new RegExp(
       '.*file:///' + specifier + '(\\?' + esmockKeyParam + '(?:(?!#-#).)*).*')
-    const moduleKey = ( // eslint-disable-line prefer-destructuring
+    const moduleKey = (
       moduleGlobals.match(moduleKeyRe) || keys.match(moduleKeyRe) || [])[1]
     if (moduleKey) {
       return {
