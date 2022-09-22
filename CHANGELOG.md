@@ -1,7 +1,8 @@
 # changelog
 
- * 2.0.2 _tbd_
+ * 2.0.2 _Sep.21.2022_
    * [simplifications,](https://github.com/iambumblehead/esmock/pull/153) slightly reducing install size
+   * [update jest and jest-light-runner versions](https://github.com/iambumblehead/esmock/pull/156/files) used in unit-tests
    * [add jest+ts-node test example,](https://github.com/iambumblehead/esmock/pull/155) credit @liuxingbaoyu @cspotcode
  * 2.0.1 _Sep.15.2022_
    * [use newer, smaller resolvewithplus](https://github.com/iambumblehead/resolvewithplus/releases/tag/v1.0.1)
