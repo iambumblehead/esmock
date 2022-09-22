@@ -61,7 +61,7 @@ const esmockModuleIsESM = (fileURL, isesm) => {
 // return the default value directly, so that the esmock caller
 // does not need to lookup default as in "esmockedValue.default"
 const esmockModuleImportedSanitize = (imported, esmockKey) => {
-  const importedDefault = 'default' in imported && imported.default
+  const importedDefault = isDefaultIn(imported) && imported.default
 
   if (/boolean|string|number/.test(typeof importedDefault))
     return imported
