@@ -131,11 +131,11 @@ test('should purge local and global mocks', async t => {
   })
 
   const keys = Object
-    .keys(esmock.esmockCache.mockDefs)
+    .keys(esmock.cache.mockDefs)
     .filter(key => /esmockKey=999/.test(key))
 
   t.truthy(keys.length)
-  t.true(keys.every(key => esmock.esmockCache.mockDefs[key] === null))
+  t.true(keys.every(key => esmock.cache.mockDefs[key] === null))
 })
 
 test('should mock a module, many times differently', async t => {
@@ -311,12 +311,12 @@ test('mocks inline `async import("name")`', async t => {
   const [, key] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/)
   const keyRe = new RegExp(`esmockKey=${key}[^d]`)
 
-  const moduleKeys = Object.keys(esmock.esmockCache.mockDefs)
+  const moduleKeys = Object.keys(esmock.cache.mockDefs)
     .filter(moduleKey => keyRe.test(moduleKey))
 
-  t.true(moduleKeys.every(mkey => esmock.esmockCache.mockDefs[mkey]))
+  t.true(moduleKeys.every(mkey => esmock.cache.mockDefs[mkey]))
   esmock.purge(writeJSConfigFile)
-  t.true(moduleKeys.every(mkey => esmock.esmockCache.mockDefs[mkey] === null))
+  t.true(moduleKeys.every(mkey => esmock.cache.mockDefs[mkey] === null))
 })
 
 test('should have small querystring in stacktrace filename', async t => {
