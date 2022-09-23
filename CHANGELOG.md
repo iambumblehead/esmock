@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.0.3 _tbd_
+   * [simplify main esmock.js file,](https://github.com/iambumblehead/esmock/pull/158) slightly reducing install size
  * 2.0.2 _Sep.21.2022_
    * [simplifications,](https://github.com/iambumblehead/esmock/pull/153) slightly reducing install size
    * [update jest and jest-light-runner versions](https://github.com/iambumblehead/esmock/pull/156/files) used in unit-tests

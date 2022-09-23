@@ -3,9 +3,9 @@ import esmockModule from './esmockModule.js'
 import esmockCache from './esmockCache.js'
 import esmockArgs from './esmockArgs.js'
 
-const esmock = async (...args) => {
-  const [modulePath, mockDefs, globalDefs, opt = {}, err] = esmockArgs(args)
-  const calleePath = (opt.parent || (err || new Error).stack.split('\n')[2])
+const esmockGo = opts => async (...args) => {
+  const [moduleId, defs = {}, gdefs = {}, opt, e] = esmockArgs(args, opts)
+  const parent = (opt.parent || e.stack.split('\n')[3])
     .replace(/^.*file:\/\//, '') // rm every before filepath
     .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
     .replace(/^.*:/, '') // rm windows-style drive location
@@ -14,30 +14,23 @@ const esmock = async (...args) => {
   if (!esmockIsLoader())
     throw new Error('process must be started with --loader=esmock')
 
-  const modulePathKey = await esmockModule(
-    calleePath, modulePath, mockDefs || {}, globalDefs || {}, opt)
-
-  const importedModule = await import(modulePathKey)
+  const fileURLKey = await esmockModule(parent, moduleId, defs, gdefs, opt)
+  const importedModule = await import(fileURLKey)
 
   if (opt.purge !== false)
-    esmockModule.purge(modulePathKey)
+    esmockModule.purge(fileURLKey)
 
-  return esmockModule.sanitize(importedModule, modulePathKey)
+  return esmockModule.sanitize(importedModule, fileURLKey)
 }
 
-const strict = async (...args) => esmock(
-  ...esmockArgs(args, { strict: true }, new Error))
-esmock.p = async (...args) => esmock(
-  ...esmockArgs(args, { purge: false }, new Error))
-strict.p = async (...args) => esmock(
-  ...esmockArgs(args, { strict: true, purge: false }, new Error))
-
-Object.assign(esmock, { strict })
-
-esmock.purge = mockModule => mockModule
+const purge = mockModule => mockModule
   && /object|function/.test(typeof mockModule) && 'esmockKey' in mockModule
   && esmockModule.purge(mockModule.esmockKey)
 
-esmock.esmockCache = esmockCache
+const strict = Object.assign(esmockGo({ strict: true }), {
+  purge, cache: esmockCache, p: esmockGo({ strict: true, purge: false }) })
+
+const esmock = Object.assign(esmockGo(), {
+  purge, cache: esmockCache, p: esmockGo({ purge: false }), strict })
 
 export {esmock as default, strict}
