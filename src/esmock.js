@@ -4,8 +4,8 @@ import esmockCache from './esmockCache.js'
 import esmockArgs from './esmockArgs.js'
 
 const esmockGo = opts => async (...args) => {
-  const [moduleId, defs, gefs, opt = {}, err] = esmockArgs(args, opts)
-  const parent = (opt.parent || err.stack.split('\n')[3])
+  const [moduleId, defs = {}, gdefs = {}, opt, e] = esmockArgs(args, opts)
+  const parent = (opt.parent || e.stack.split('\n')[3])
     .replace(/^.*file:\/\//, '') // rm every before filepath
     .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
     .replace(/^.*:/, '') // rm windows-style drive location
@@ -14,15 +14,13 @@ const esmockGo = opts => async (...args) => {
   if (!esmockIsLoader())
     throw new Error('process must be started with --loader=esmock')
 
-  const modulePathKey = await esmockModule(
-    parent, moduleId, defs || {}, gefs || {}, opt)
-
-  const importedModule = await import(modulePathKey)
+  const fileURLKey = await esmockModule(parent, moduleId, defs, gdefs, opt)
+  const importedModule = await import(fileURLKey)
 
   if (opt.purge !== false)
-    esmockModule.purge(modulePathKey)
+    esmockModule.purge(fileURLKey)
 
-  return esmockModule.sanitize(importedModule, modulePathKey)
+  return esmockModule.sanitize(importedModule, fileURLKey)
 }
 
 const purge = mockModule => mockModule
