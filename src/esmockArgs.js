@@ -7,15 +7,16 @@ const stackpathre = /^.*(\(|at )(.*):[\d]*:[\d]*.*$/
 
 // this function normalizes "overloaded" args signatures, returning
 // one predictable args list. ex,
-//   esmockArgs([modulepath, mockdefs, globaldefs, opts])
-//     -> [modulepath, mockdefs, globaldefs, opts]
-//   esmockArgs([modulepath, parent, mockdefs, globaldefs, opts])
-//     -> [modulepath, mockdefs, globaldefs, { ...opts, parent }]
-export default (args, optsextra, parent) => {
-  parent = typeof args[1] === 'string' && args[1]
-  args = parent ? [args[0], ...args.slice(2)] : args
-  parent = parent || (new Error).stack.split('\n')[3].replace(stackpathre, '$2')
-  args[3] = { parent, ...args[3], ...optsextra }
+//   [moduleId, defs, gdefs, opts]
+//     -> [moduleId, parent, defs, gdefs, opts]
+//   [moduleId, parent, defs, gdefs, opts]
+//     -> [moduleId, parent, defs, gdefs, opts]
+export default (arg, optsextra, o = {}) => {
+  arg = typeof arg[1] === 'string' ? arg : [
+    arg[0],
+    (new Error).stack.split('\n')[3].replace(stackpathre, '$2'),
+    ...arg.slice(1)
+  ]
 
-  return args
+  return [arg[0], arg[1], arg[2] || o, arg[3] || o, {...arg[4], ...optsextra}]
 }

@@ -115,7 +115,7 @@ const esmockModuleId = async (parent, key, defs, ids, opt, mocks, id) => {
   return esmockModuleId(parent, key, defs, ids.slice(1), opt, mocks)
 }
 
-const esmockModule = async (parent, moduleId, defs, gdefs, opt) => {
+const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
   const moduleFileURL = resolvewith(moduleId, parent)
   if (!moduleFileURL)
     throw esmockModuleIdNotFoundError(moduleId, parent)
