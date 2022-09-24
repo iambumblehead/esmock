@@ -29,13 +29,6 @@ declare function esmock(modulePath: string, parent: string, mockDefs?: mocks, gl
 declare function esmock(modulePath: string, mockDefs?: mocks, globalDefs?: mocks, opt?: opts): any;
 
 declare namespace esmock {
-  interface Options {
-    strict?: boolean | undefined;
-    purge?: boolean | undefined;
-    isModuleNotFoundError?: boolean | undefined;
-    parent?: string | undefined;
-  }
-
   /**
    * Mocks imports for the module specified by {@link modulePath}.
    *
