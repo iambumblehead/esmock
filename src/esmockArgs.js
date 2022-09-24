@@ -11,12 +11,13 @@ const stackpathre = /^.*(\(|at )(.*):[\d]*:[\d]*.*$/
 //     -> [moduleId, parent, defs, gdefs, opts]
 //   [moduleId, parent, defs, gdefs, opts]
 //     -> [moduleId, parent, defs, gdefs, opts]
-export default (arg, optsextra, o = {}) => {
+export default (arg, optsextra) => {
   arg = typeof arg[1] === 'string' ? arg : [
     arg[0],
     (new Error).stack.split('\n')[3].replace(stackpathre, '$2'),
     ...arg.slice(1)
   ]
+  arg[4] = {...arg[4], ...optsextra}
 
-  return [arg[0], arg[1], arg[2] || o, arg[3] || o, {...arg[4], ...optsextra}]
+  return arg
 }
