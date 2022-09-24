@@ -15,18 +15,14 @@ type opts = {
  *
  * @param modulePath The module whose imports will be mocked.
  * @param parent A URL to resolve specifiers relative to; typically `import.meta.url`.
- *               If not specified, it will be inferred via the stack, which may not work
- *               if source maps are in use.
- * @param mockDefs A mapping of import specifiers to mocked module objects; these mocks will
- *                 only be used for imports resolved in the module specified by {@link modulePath}.
- * @param globalDefs A mapping of import specifiers to mocked module objects; these mocks will
- *                   apply to imports within the module specified by {@link modulePath}, as well
- *                   as any transitively imported modules.
+ *               If not specified, inferred via the stack. Useful with source maps.
+ * @param defs A mapping of import specifiers to mock definitions.
+ * @param gdefs A mapping of import specifiers to mock definitions, applied globally.
  * @param opt
  * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
  */
-declare function esmock(modulePath: string, parent: string, mockDefs?: mocks, globalDefs?: mocks, opt?: opts): any;
-declare function esmock(modulePath: string, mockDefs?: mocks, globalDefs?: mocks, opt?: opts): any;
+declare function esmock(modulePath: string, parent: string, defs?: mocks, gdefs?: mocks, opt?: opts): any
+declare function esmock(modulePath: string, defs?: mocks, gdefs?: mocks, opt?: opts): any
 
 declare namespace esmock {
   /**
@@ -37,22 +33,19 @@ declare namespace esmock {
    *
    * @param modulePath The module whose imports will be mocked.
    * @param parent A URL to resolve specifiers relative to; typically `import.meta.url`.
-   *               If not specified, it will be inferred via the stack, which may not work
-   *               if source maps are in use.
-   * @param mockDefs A mapping of import specifiers to mocked module objects; these mocks will
-   *                 only be used for imports resolved in the module specified by {@link modulePath}.
-   * @param globalDefs A mapping of import specifiers to mocked module objects; these mocks will
-   *                   apply to imports within the module specified by {@link modulePath}, as well
-   *                   as any transitively imported modules.
+   *               If not specified, inferred via the stack. Useful with source maps.
+   * @param defs A mapping of import specifiers to mock definitions.
+   * @param gdefs A mapping of import specifiers to mock definitions, applied globally.
    * @param opt
    * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
    */
-  function strict(modulePath: string, parent: string, mockDefs?: mocks, globalDefs?: mocks, opt?: opts): any;
-  function strict(modulePath: string, mockDefs?: mocks, globalDefs?: mocks, opt?: opts): any;
+  function strict(modulePath: string, parent: string, defs?: mocks, gdefs?: mocks, opt?: opts): any
+  function strict(modulePath: string, defs?: mocks, gdefs?: mocks, opt?: opts): any
   export namespace strict {
-    function p(modulePath: string, parent: string, mockDefs?: mocks, globalDefs?: mocks, opt?: opts): any;
-    function p(modulePath: string, mockDefs?: mocks, globalDefs?: mocks, opt?: opts): any;
+    function p(modulePath: string, parent: string, defs?: mocks, gdefs?: mocks, opt?: opts): any
+    function p(modulePath: string, defs?: mocks, gdefs?: mocks, opt?: opts): any
   }
+
   /**
    * Mocks dynamic imports for the module specified by {@link modulePath}.
    *
@@ -60,25 +53,21 @@ declare namespace esmock {
    *
    * @param modulePath The module whose imports will be mocked.
    * @param parent A URL to resolve specifiers relative to; typically `import.meta.url`.
-   *               If not specified, it will be inferred via the stack, which may not work
-   *               if source maps are in use.
-   * @param mockDefs A mapping of import specifiers to mocked module objects; these mocks will
-   *                 only be used for imports resolved in the module specified by {@link modulePath}.
-   * @param globalDefs A mapping of import specifiers to mocked module objects; these mocks will
-   *                   apply to imports within the module specified by {@link modulePath}, as well
-   *                   as any transitively imported modules.
+   *               If not specified, inferred via the stack. Useful with source maps.
+   * @param defs A mapping of import specifiers to mock definitions.
+   * @param gdefs A mapping of import specifiers to mock definitions, applied globally.
    * @param opt
    * @returns The result of importing {@link modulePath}, similar to `import(modulePath)`.
    */
-  function p(modulePath: string, parent: string, mockDefs?: mocks, globalDefs?: mocks, opt?: opts): any;
-  function p(modulePath: string, mockDefs?: mocks, globalDefs?: mocks, opt?: opts): any;    
+  function p(modulePath: string, parent: string, defs?: mocks, gdefs?: mocks, opt?: opts): any
+  function p(modulePath: string, defs?: mocks, gdefs?: mocks, opt?: opts): any
 
   /**
    * Unregisters a dynamic mock created by {@link esmock.p}.
    *
    * @param mockModule A module object that was previously returned by {@link esmock.p}.
    */
-  function purge(mockModule: any): void;
+  function purge(mockModule: any): void
 }
 
-export { esmock as default, esmock as strict };
+export { esmock as default, esmock as strict }
