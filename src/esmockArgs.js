@@ -7,8 +7,10 @@
 export default (args, optsextra, err, parent) => {
   parent = typeof args[1] === 'string' && args[1]
   args = parent ? [args[0], ...args.slice(2)] : args
+  parent = parent || (new Error).stack.split('\n')[3]
+    .replace(/^.*(file:)/, '$1') // rm every before fileurl
+    .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
   args[3] = { parent, ...args[3], ...optsextra }
-  args[4] = err || args[4] || new Error
 
   return args
 }
