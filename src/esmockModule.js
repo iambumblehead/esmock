@@ -115,7 +115,7 @@ const esmockModuleId = async (parent, key, defs, ids, opt, mocks, id) => {
   return esmockModuleId(parent, key, defs, ids.slice(1), opt, mocks)
 }
 
-const esmockModule = async (parent, moduleId, defs, gdefs, opt) => {
+const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
   const moduleFileURL = resolvewith(moduleId, parent)
   if (!moduleFileURL)
     throw esmockModuleIdNotFoundError(moduleId, parent)
@@ -124,9 +124,9 @@ const esmockModule = async (parent, moduleId, defs, gdefs, opt) => {
   const esmockKeyLong = moduleFileURL + '?' +
     'key=:esmockKey?esmockGlobals=:esmockGlobals#-#esmockModuleKeys=:moduleKeys'
       .replace(/:esmockKey/, esmockKey)
-      .replace(/:esmockGlobals/, (await esmockModuleId(
+      .replace(/:esmockGlobals/, gdefs && (await esmockModuleId(
         parent, esmockKey, gdefs, Object.keys(gdefs), opt)).join('#-#') || 0)
-      .replace(/:moduleKeys/, (await esmockModuleId(
+      .replace(/:moduleKeys/, defs && (await esmockModuleId(
         parent, esmockKey, defs, Object.keys(defs), opt)).join('#-#') || 0)
 
   esmockKeySet(String(esmockKey), esmockKeyLong)

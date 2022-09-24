@@ -7,8 +7,8 @@ const esmockGo = opts => async (...args) => {
   if (!esmockIsLoader())
     throw new Error('process must be started with --loader=esmock')
 
-  const [moduleId, defs = {}, gdefs = {}, opt] = esmockArgs(args, opts)
-  const fileURLKey = await esmockModule(opt.parent, moduleId, defs, gdefs, opt)
+  const [moduleId, parent, defs, gdefs, opt] = esmockArgs(args, opts)
+  const fileURLKey = await esmockModule(moduleId, parent, defs, gdefs, opt)
   const importedModule = await import(fileURLKey)
 
   if (opt.purge !== false)
