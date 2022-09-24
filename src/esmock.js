@@ -5,7 +5,7 @@ import esmockArgs from './esmockArgs.js'
 
 const esmockGo = opts => async (...args) => {
   const [moduleId, defs = {}, gdefs = {}, opt, e] = esmockArgs(args, opts)
-  const parent = (opt.parent || e.stack.split('\n')[3])
+  const parent = opt.parent || e.stack.split('\n')[3]
     .replace(/^.*file:\/\//, '') // rm every before filepath
     .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
     .replace(/^.*:/, '') // rm windows-style drive location
