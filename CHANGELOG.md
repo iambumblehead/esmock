@@ -1,6 +1,7 @@
 # changelog
 
  * 2.0.3 _tbd_
+   * [simplify](https://github.com/iambumblehead/esmock/pull/159/files) [path-extracting](https://github.com/iambumblehead/esmock/pull/161) to use one regexp rather than four
    * [use newer resolvewithplus](https://github.com/iambumblehead/resolvewithplus/releases/tag/v1.0.2) with better fileurl support
    * [simplify main esmock.js file,](https://github.com/iambumblehead/esmock/pull/158) slightly reducing install size
  * 2.0.2 _Sep.21.2022_
