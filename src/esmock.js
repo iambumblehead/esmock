@@ -4,17 +4,11 @@ import esmockCache from './esmockCache.js'
 import esmockArgs from './esmockArgs.js'
 
 const esmockGo = opts => async (...args) => {
-  const [moduleId, defs = {}, gdefs = {}, opt, e] = esmockArgs(args, opts)
-  const parent = (opt.parent || e.stack.split('\n')[3])
-    .replace(/^.*file:\/\//, '') // rm every before filepath
-    .replace(/:[\d]*:[\d]*.*$/, '') // rm line and row number
-    .replace(/^.*:/, '') // rm windows-style drive location
-    .replace(/.*at [^(]*\(/, '') // rm ' at TestContext.<anonymous> ('
-
   if (!esmockIsLoader())
     throw new Error('process must be started with --loader=esmock')
 
-  const fileURLKey = await esmockModule(parent, moduleId, defs, gdefs, opt)
+  const [moduleId, defs = {}, gdefs = {}, opt] = esmockArgs(args, opts)
+  const fileURLKey = await esmockModule(opt.parent, moduleId, defs, gdefs, opt)
   const importedModule = await import(fileURLKey)
 
   if (opt.purge !== false)

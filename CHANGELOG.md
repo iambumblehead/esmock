@@ -1,6 +1,7 @@
 # changelog
 
  * 2.0.3 _tbd_
+   * [use newer resolvewithplus](https://github.com/iambumblehead/resolvewithplus/releases/tag/v1.0.2) with better fileurl support
    * [simplify main esmock.js file,](https://github.com/iambumblehead/esmock/pull/158) slightly reducing install size
  * 2.0.2 _Sep.21.2022_
    * [simplifications,](https://github.com/iambumblehead/esmock/pull/153) slightly reducing install size
