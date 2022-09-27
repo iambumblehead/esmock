@@ -2,6 +2,7 @@ import { test } from 'uvu'
 import * as assert from 'uvu/assert'
 import sinon from 'sinon'
 import esmock from 'esmock'
+import esmockCache from '../../src/esmockCache.js'
 
 test('should return un-mocked file', async () => {
   const main = await esmock('../local/main.js')
@@ -100,11 +101,11 @@ test('should purge local and global mocks', async () => {
   })
 
   const keys = Object
-    .keys(esmock.cache.mockDefs)
+    .keys(esmockCache.mockDefs)
     .filter(key => /esmockKey=999/.test(key))
 
   assert.ok(keys.length)
-  assert.ok(keys.every(key => esmock.cache.mockDefs[key] === null))
+  assert.ok(keys.every(key => esmockCache.mockDefs[key] === null))
 })
 
 test('should mock a module, many times differently', async () => {
@@ -280,12 +281,12 @@ test('mocks inline `async import("name")`', async () => {
   const [, key] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/)
   const keyRe = new RegExp(`esmockKey=${key}[^d]`)
 
-  const moduleKeys = Object.keys(esmock.cache.mockDefs)
+  const moduleKeys = Object.keys(esmockCache.mockDefs)
     .filter(moduleKey => keyRe.test(moduleKey))
 
-  assert.ok(moduleKeys.every(mkey => esmock.cache.mockDefs[mkey]))
+  assert.ok(moduleKeys.every(mkey => esmockCache.mockDefs[mkey]))
   esmock.purge(writeJSConfigFile)
-  assert.ok(moduleKeys.every(mkey => esmock.cache.mockDefs[mkey] === null))
+  assert.ok(moduleKeys.every(mkey => esmockCache.mockDefs[mkey] === null))
 })
 
 test('should have small querystring in stacktrace filename', async () => {

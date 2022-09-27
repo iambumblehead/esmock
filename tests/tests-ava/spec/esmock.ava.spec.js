@@ -1,6 +1,7 @@
 import test from 'ava'
 import esmock from 'esmock'
 import sinon from 'sinon'
+import esmockCache from '../../../src/esmockCache.js'
 
 test('should not error when handling non-extensible object', async t => {
   // if esmock tries to simulate babel and define default.default
@@ -131,11 +132,11 @@ test('should purge local and global mocks', async t => {
   })
 
   const keys = Object
-    .keys(esmock.cache.mockDefs)
+    .keys(esmockCache.mockDefs)
     .filter(key => /esmockKey=999/.test(key))
 
   t.truthy(keys.length)
-  t.true(keys.every(key => esmock.cache.mockDefs[key] === null))
+  t.true(keys.every(key => esmockCache.mockDefs[key] === null))
 })
 
 test('should mock a module, many times differently', async t => {
@@ -311,12 +312,12 @@ test('mocks inline `async import("name")`', async t => {
   const [, key] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/)
   const keyRe = new RegExp(`esmockKey=${key}[^d]`)
 
-  const moduleKeys = Object.keys(esmock.cache.mockDefs)
+  const moduleKeys = Object.keys(esmockCache.mockDefs)
     .filter(moduleKey => keyRe.test(moduleKey))
 
-  t.true(moduleKeys.every(mkey => esmock.cache.mockDefs[mkey]))
+  t.true(moduleKeys.every(mkey => esmockCache.mockDefs[mkey]))
   esmock.purge(writeJSConfigFile)
-  t.true(moduleKeys.every(mkey => esmock.cache.mockDefs[mkey] === null))
+  t.true(moduleKeys.every(mkey => esmockCache.mockDefs[mkey] === null))
 })
 
 test('should have small querystring in stacktrace filename', async t => {
