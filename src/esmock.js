@@ -1,6 +1,5 @@
 import esmockIsLoader from './esmockIsLoader.js'
 import esmockModule from './esmockModule.js'
-import esmockCache from './esmockCache.js'
 import esmockArgs from './esmockArgs.js'
 
 const esmockGo = opts => async (...args) => {
@@ -22,9 +21,9 @@ const purge = mockModule => mockModule
   && esmockModule.purge(mockModule.esmockKey)
 
 const strict = Object.assign(esmockGo({ strict: true }), {
-  purge, cache: esmockCache, p: esmockGo({ strict: true, purge: false }) })
+  purge, p: esmockGo({ strict: true, purge: false }) })
 
 const esmock = Object.assign(esmockGo(), {
-  purge, cache: esmockCache, p: esmockGo({ purge: false }), strict })
+  purge, p: esmockGo({ purge: false }), strict })
 
 export {esmock as default, strict}
