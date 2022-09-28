@@ -1,10 +1,10 @@
-type MockMap = { [specifier: string]: any };
+type MockMap = { [specifier: string]: any }
 
 type Options = {
   strict?: boolean | undefined;
   purge?: boolean | undefined;
   isModuleNotFoundError?: boolean | undefined;
-};
+}
 
 /**
  * Mocks imports for the module specified by {@link modulePath}.
@@ -39,7 +39,7 @@ type MockFunction = {
     gdefs?: MockMap,
     opts?: Options,
   ): any;
-};
+}
 
 /**
  * By default, mock definitions are merged with the original module definitions.
@@ -68,18 +68,18 @@ declare const esmock: MockFunction & {
   strict: MockFunction & {
     p: MockFunction;
   };
-};
+}
 
 /**
  * The "strict" variant replaces original module definitions
  * with mock definitions.
  */
-declare const strict: typeof esmock['strict'];
+declare const strict: typeof esmock['strict']
 
 export {
   esmock as default,
   strict,
   type MockFunction,
   type MockMap,
-  type Options,
-};
+  type Options
+}

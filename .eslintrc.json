@@ -75,5 +75,26 @@
     "prefer-destructuring": 0,
     "class-methods-use-this": 0,
     "no-confusing-arrow": 0
-  }
+  },
+  "overrides": [{
+    "files": ["*.ts"],
+    "plugins": ["@typescript-eslint"],
+    "extends": ["plugin:@typescript-eslint/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "rules": {
+      "@typescript-eslint/semi": ["error", "never"],
+      "@typescript-eslint/no-explicit-any": 0,
+      "no-extra-semi": "off",
+      "@typescript-eslint/no-extra-semi": "error",
+      "comma-dangle": "off",
+      "@typescript-eslint/comma-dangle": ["error", {
+        "tuples": "never",
+        "arrays": "never",
+        "objects": "never",
+        "imports": "never",
+        "exports": "never",
+        "functions": "never"
+      }]
+    }
+  }]
 }
