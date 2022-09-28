@@ -1,9 +1,9 @@
 type MockMap = { [specifier: string]: any }
 
 type Options = {
-  strict?: boolean | undefined;
-  purge?: boolean | undefined;
-  isModuleNotFoundError?: boolean | undefined;
+  strict?: boolean | undefined,
+  purge?: boolean | undefined,
+  isModuleNotFoundError?: boolean | undefined
 }
 
 /**
@@ -32,13 +32,13 @@ type MockFunction = {
     defs?: MockMap,
     gdefs?: MockMap,
     opts?: Options,
-  ): any;
+  ): any,
   (
     modulePath: string,
     defs?: MockMap,
     gdefs?: MockMap,
     opts?: Options,
-  ): any;
+  ): any
 }
 
 /**
@@ -52,22 +52,22 @@ declare const esmock: MockFunction & {
    * After using this function, consider calling {@link esmock.purge}
    * to free memory.
    */
-  p: MockFunction;
+  p: MockFunction,
 
   /**
    * Removes caching created by {@link esmock.p}.
    *
    * @param mockModule A module object returned from {@link esmock.p}.
    */
-  purge: (mockModule: any) => void;
+  purge: (mockModule: any) => void,
 
   /**
    * The "strict" variant replaces original module definitions
    * with mock definitions.
    */
   strict: MockFunction & {
-    p: MockFunction;
-  };
+    p: MockFunction
+  }
 }
 
 /**
