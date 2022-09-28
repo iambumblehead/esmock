@@ -6,44 +6,39 @@ type Options = {
   isModuleNotFoundError?: boolean | undefined
 }
 
-/**
- * Mocks imports for the module specified by {@link modulePath}.
- *
- * @param modulePath The module whose imports will be mocked.
- *
- * @param parent A URL used to resolve relative specifiers, typically
- * `import.meta.url`. If not specified, inferred via the stack. Useful with
- * source maps.
- *
- * @param defs A mapping of import specifiers to mock definitions.
- *
- * @param gdefs A globally applied mapping of import specifiers to mock
- * definitions.
- *
- * @param opts
- *
- * @returns The result of importing {@link modulePath}, similar to
- * `import(modulePath)`.
- */
 type MockFunction = {
+  /**
+   * Mocks imports for the module specified by {@link modulePath}.
+   *
+   * @param modulePath The module whose imports will be mocked.
+   * @param parent A URL used to resolve relative specifiers, typically
+   * `import.meta.url`. If not specified, inferred via the stack. Useful with
+   * source maps.
+   * @param defs A mapping of import specifiers to mock definitions.
+   * @param gdefs A globally applied mapping of import specifiers to mock
+   * definitions.
+   * @param opts
+   * @returns The mocked import-tree result of "import({@link modulePath})"
+   */
   (
     modulePath: string,
     parent: string,
     defs?: MockMap,
     gdefs?: MockMap,
-    opts?: Options,
+    opts?: Options
   ): any,
   (
     modulePath: string,
     defs?: MockMap,
     gdefs?: MockMap,
-    opts?: Options,
+    opts?: Options
   ): any
 }
 
 /**
  * By default, mock definitions are merged with the original module definitions.
  * To avoid the default behaviour, use {@link esmock.strict}.
+ *
  */
 declare const esmock: MockFunction & {
   /**
