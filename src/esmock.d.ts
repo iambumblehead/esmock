@@ -38,7 +38,6 @@ type MockFunction = {
 /**
  * By default, mock definitions are merged with the original module definitions.
  * To avoid the default behaviour, use {@link esmock.strict}.
- *
  */
 declare const esmock: MockFunction & {
   /**

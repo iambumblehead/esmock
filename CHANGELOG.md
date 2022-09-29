@@ -1,5 +1,8 @@
 # changelog
 
+ * 2.0.4 _Sep.28.2022_
+   * [huge simplifications to typescript types file,](https://github.com/iambumblehead/esmock/pull/164) much smaller, credit @jsejcksn
+   * [added ts linting](https://github.com/iambumblehead/esmock/pull/166)
  * 2.0.3 _Sep.24.2022_
    * [simplify esmock.d.ts file,](https://github.com/iambumblehead/esmock/pull/163) reducing documentation and using shorter param names
    * [simplify args normalization](https://github.com/iambumblehead/esmock/pull/162) and drop support for opts.parent
