@@ -2,8 +2,8 @@ import fs from 'fs'
 import resolvewith from 'resolvewithplus'
 
 import {
-  esmockKeySet,
-  esmockKeyGet,
+  esmockTreeIdSet,
+  esmockTreeIdGet,
   esmockCacheSet,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
@@ -60,7 +60,7 @@ const esmockModuleIsESM = (fileURL, isesm) => {
 
 // return the default value directly, so that the esmock caller
 // does not need to lookup default as in "esmockedValue.default"
-const esmockModuleImportedSanitize = (imported, esmockKey) => {
+const esmockModuleImportedSanitize = (imported, esmkTreeId) => {
   const importedDefault = isDefaultIn(imported) && imported.default
 
   if (/boolean|string|number/.test(typeof importedDefault))
@@ -68,13 +68,13 @@ const esmockModuleImportedSanitize = (imported, esmockKey) => {
   
   // ex, non-extensible "[object Module]": import * as fs from 'fs'; export fs;
   return Object.isExtensible(importedDefault)
-    ? Object.assign(importedDefault, imported, { esmockKey })
-    : Object.assign({}, importedDefault, imported, { esmockKey })
+    ? Object.assign(importedDefault, imported, { esmkTreeId })
+    : Object.assign({}, importedDefault, imported, { esmkTreeId })
 }
 
 const esmockModuleImportedPurge = modulePathKey => {
   const purgeKey = key => key === 'null' || esmockCacheSet(key, null)
-  const longKey = esmockKeyGet(modulePathKey.split('esmk=')[1])
+  const longKey = esmockTreeIdGet(modulePathKey.split('esmk=')[1])
   const [url, keys] = longKey.split('#-#esmkdefs=')
 
   String(keys).split('#-#').forEach(purgeKey)
@@ -122,14 +122,14 @@ const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
     throw esmockModuleIdNotFoundError(moduleId, parent)
 
   const treeid = typeof opt.key === 'number' ? opt.key : esmockNextId()
-  const esmockKeyLong = `${moduleFileURL}?key=${treeid}?` + [
+  const treeidspec = `${moduleFileURL}?key=${treeid}?` + [
     'esmkgdefs=' + (gdefs && (await esmockModuleId(
       parent, treeid, gdefs, Object.keys(gdefs), opt)).join('#-#') || 0),
     'esmkdefs=', (defs && (await esmockModuleId(
       parent, treeid, defs, Object.keys(defs), opt)).join('#-#') || 0)
   ].join('#-#')
 
-  esmockKeySet(String(treeid), esmockKeyLong)
+  esmockTreeIdSet(String(treeid), treeidspec)
 
   return moduleFileURL + `?esmk=${treeid}`
 }

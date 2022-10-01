@@ -33,7 +33,7 @@ const resolve = async (specifier, context, nextResolve) => {
   const [esmockKeyParamSmall] =
     (parentURL && parentURL.match(/\?esmk=\d*/)) || []
   const esmockKeyLong = esmockKeyParamSmall
-    ? global.esmockKeyGet(esmockKeyParamSmall.split('=')[1])
+    ? global.esmockTreeIdGet(esmockKeyParamSmall.split('=')[1])
     : parentURL
 
   if (!esmockKeyRe.test(esmockKeyLong))

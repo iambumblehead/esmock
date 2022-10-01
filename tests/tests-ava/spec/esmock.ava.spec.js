@@ -309,7 +309,7 @@ test('mocks inline `async import("name")`', async t => {
       filePath: 'filePath'
     }))
 
-  const [, key] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/)
+  const [, key] = writeJSConfigFile.esmkTreeId.match(/esmk=(\d*)/)
   const keyRe = new RegExp(`esmockKey=${key}[^d]`)
 
   const moduleKeys = Object.keys(esmockCache.mockDefs)
@@ -401,3 +401,4 @@ test('should not error when mocked file has space in path', async t => {
 
   t.is(main.wild, 'tamed')
 })
+

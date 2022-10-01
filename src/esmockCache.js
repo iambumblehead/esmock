@@ -6,10 +6,10 @@ const esmockCache = {
   mockDefs: {}
 }
 
-const esmockKeySet = (key, keylong) => (
+const esmockTreeIdSet = (key, keylong) => (
   global.mockKeys[String(key)] = keylong)
 
-const esmockKeyGet = key => (
+const esmockTreeIdGet = key => (
   global.mockKeys[String(key)])
 
 const esmockCacheSet = (key, mockDef) => (
@@ -26,7 +26,7 @@ const esmockCacheResolvedPathIsESMSet = (mockPathFull, isesm) => (
 
 Object.assign(global, {
   esmockCacheGet,
-  esmockKeyGet,
+  esmockTreeIdGet,
   mockKeys: {}
 })
 
@@ -34,8 +34,8 @@ export {
   esmockCache as default,
   esmockCacheSet,
   esmockCacheGet,
-  esmockKeySet,
-  esmockKeyGet,
+  esmockTreeIdSet,
+  esmockTreeIdGet,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
 }
