@@ -137,12 +137,12 @@ test('should purge local and global mocks', async () => {
         : filepath
     }
   }, {
-    key: 999
+    id: 999
   })
 
   const keys = Object
     .keys(esmockCache.mockDefs)
-    .filter(key => /esmockKey=999/.test(key))
+    .filter(key => /esmkTreeId=999/.test(key))
 
   assert.ok(keys.length)
   assert.ok(keys.every(key => esmockCache.mockDefs[key] === null))
@@ -324,7 +324,7 @@ test('mocks inline `async import("name")`', async () => {
     }))
 
   const [, key] = writeJSConfigFile.esmkTreeId.match(/esmk=(\d*)/)
-  const keyRe = new RegExp(`esmockKey=${key}[^d]`)
+  const keyRe = new RegExp(`esmkTreeId=${key}[^d]`)
 
   const moduleKeys = Object.keys(esmockCache.mockDefs)
     .filter(moduleKey => keyRe.test(moduleKey))

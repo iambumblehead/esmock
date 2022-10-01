@@ -19,17 +19,15 @@ const esmockModuleIdNotFoundError = (moduleId, parent) => new Error(
     .replace(process.cwd(), '.')
     .replace(process.env.HOME, '~'))
 
-const esmockModuleMergeDefault = (defLive, defMock) =>
-  (isObj(defLive) && isObj(defMock))
-    ? Object.assign({}, defLive, defMock)
-    : defMock
+const esmockModuleMergeDefault = (defLive, def) =>
+  (isObj(defLive) && isObj(def)) ? Object.assign({}, defLive, def) : def
 
-const esmockModuleApply = (defLive, defMock, fileURL) => {
-  const def = Object.assign({}, defLive || {}, {
+const esmockModuleApply = (defLive, def, fileURL) => {
+  def = Object.assign({}, defLive || {}, {
     default: esmockModuleMergeDefault(
       isDefaultIn(defLive) && defLive.default,
-      isDefaultIn(defMock) ? defMock.default : defMock)
-  }, defMock)
+      isDefaultIn(def) ? def.default : def)
+  }, def)
 
   // if safe, an extra "default.default" is added for compatibility with
   // babel-generated dist cjs files which also define "default.default"
@@ -81,16 +79,16 @@ const esmockModuleImportedPurge = modulePathKey => {
   String(url.split('esmkgdefs=')[1]).split('#-#').forEach(purgeKey)
 }
 
-const esmockModuleCreate = async (treeid, key, fileURL, defMock, opt) => {
-  const isesm = esmockModuleIsESM(fileURL)
-  const def = esmockModuleApply(
-    opt.strict || !fileURL || await import(fileURL), defMock, fileURL)
+const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
+  def = esmockModuleApply(
+    opt.strict || !fileURL || await import(fileURL), def, fileURL)
+
   const mockExportNames = Object.keys(def).sort().join()
-  const mockModuleKey = (fileURL || 'file:///' + key) + '?' + [
-    'esmockKey=' + treeid,
-    'esmockModuleKey=' + key,
-    'isesm=' + isesm,
-    fileURL ? 'found' : 'notfound=' + key,
+  const mockModuleKey = (fileURL || 'file:///' + id) + '?' + [
+    'esmkTreeId=' + treeid,
+    'esmkModuleId=' + id,
+    'isesm=' + esmockModuleIsESM(fileURL),
+    fileURL ? 'found' : 'notfound=' + id,
     mockExportNames ? 'exportNames=' + mockExportNames : 'exportNone'
   ].join('&')
 
@@ -106,12 +104,11 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   if (!id) return mocks
 
-  const mockedPathFull = resolvewith(id, parent)
-  if (!mockedPathFull && opt.isModuleNotFoundError !== false)
+  const fileURL = resolvewith(id, parent)
+  if (!fileURL && opt.isModuleNotFoundError !== false)
     throw esmockModuleIdNotFoundError(id, parent)
 
-  mocks.push(
-    await esmockModuleCreate(treeid, id, mockedPathFull, defs[id], opt))
+  mocks.push(await esmockModuleCreate(treeid, defs[id], id, fileURL, opt))
 
   return esmockModuleId(parent, treeid, defs, ids.slice(1), opt, mocks)
 }
@@ -121,7 +118,7 @@ const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
   if (!moduleFileURL)
     throw esmockModuleIdNotFoundError(moduleId, parent)
 
-  const treeid = typeof opt.key === 'number' ? opt.key : esmockNextId()
+  const treeid = typeof opt.id === 'number' ? opt.id : esmockNextId()
   const treeidspec = `${moduleFileURL}?key=${treeid}?` + [
     'esmkgdefs=' + (gdefs && (await esmockModuleId(
       parent, treeid, gdefs, Object.keys(gdefs), opt)).join('#-#') || 0),

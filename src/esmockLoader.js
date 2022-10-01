@@ -8,7 +8,7 @@ const esmkgdefsAndAfterRe = /\?esmkgdefs=.*/
 const esmkgdefsAndBeforeRe = /.*\?esmkgdefs=/
 const esmkdefsRe = /#-#esmkdefs/
 const exportNamesRe = /.*exportNames=(.*)/
-const esmockKeyRe = /esmockKey=\d*/
+const esmkTreeIdRe = /esmkTreeId=\d*/
 const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 const notfoundRe = /notfound=([^&]*)/
@@ -36,10 +36,10 @@ const resolve = async (specifier, context, nextResolve) => {
     ? global.esmockTreeIdGet(esmockKeyParamSmall.split('=')[1])
     : parentURL
 
-  if (!esmockKeyRe.test(esmockKeyLong))
+  if (!esmkTreeIdRe.test(esmockKeyLong))
     return nextResolveCall(nextResolve, specifier, context)
 
-  const [esmockKeyParam] = String(esmockKeyLong).match(esmockKeyRe)
+  const [esmockKeyParam] = String(esmockKeyLong).match(esmkTreeIdRe)
   const [keyUrl, keys] = esmockKeyLong.split(esmkdefsRe)
   const moduleGlobals = keyUrl && keyUrl.replace(esmkgdefsAndBeforeRe, '')
   // do not call 'nextResolve' for notfound modules
