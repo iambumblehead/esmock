@@ -12,7 +12,7 @@ import {
 const isObj = o => typeof o === 'object' && o
 const isDefaultIn = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
-const esmockNextKey = ((key = 0) => () => ++key)()
+const esmockNextId = ((id = 0) => () => ++id)()
 
 const esmockModuleIdNotFoundError = (moduleId, parent) => new Error(
   `invalid moduleId: "${moduleId}" (used by ${parent})`
@@ -75,19 +75,19 @@ const esmockModuleImportedSanitize = (imported, esmockKey) => {
 const esmockModuleImportedPurge = modulePathKey => {
   const purgeKey = key => key === 'null' || esmockCacheSet(key, null)
   const longKey = esmockKeyGet(modulePathKey.split('esmk=')[1])
-  const [url, keys] = longKey.split('#-#esmockModuleKeys=')
+  const [url, keys] = longKey.split('#-#esmkdefs=')
 
   String(keys).split('#-#').forEach(purgeKey)
-  String(url.split('esmockGlobals=')[1]).split('#-#').forEach(purgeKey)
+  String(url.split('esmkgdefs=')[1]).split('#-#').forEach(purgeKey)
 }
 
-const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
+const esmockModuleCreate = async (treeid, key, fileURL, defMock, opt) => {
   const isesm = esmockModuleIsESM(fileURL)
   const def = esmockModuleApply(
     opt.strict || !fileURL || await import(fileURL), defMock, fileURL)
   const mockExportNames = Object.keys(def).sort().join()
   const mockModuleKey = (fileURL || 'file:///' + key) + '?' + [
-    'esmockKey=' + esmockKey,
+    'esmockKey=' + treeid,
     'esmockModuleKey=' + key,
     'isesm=' + isesm,
     fileURL ? 'found' : 'notfound=' + key,
@@ -99,7 +99,7 @@ const esmockModuleCreate = async (esmockKey, key, fileURL, defMock, opt) => {
   return mockModuleKey
 }
 
-const esmockModuleId = async (parent, key, defs, ids, opt, mocks, id) => {
+const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
   ids = ids || Object.keys(defs)
   id = ids[0]
   mocks = mocks || []
@@ -110,9 +110,10 @@ const esmockModuleId = async (parent, key, defs, ids, opt, mocks, id) => {
   if (!mockedPathFull && opt.isModuleNotFoundError !== false)
     throw esmockModuleIdNotFoundError(id, parent)
 
-  mocks.push(await esmockModuleCreate(key, id, mockedPathFull, defs[id], opt))
+  mocks.push(
+    await esmockModuleCreate(treeid, id, mockedPathFull, defs[id], opt))
 
-  return esmockModuleId(parent, key, defs, ids.slice(1), opt, mocks)
+  return esmockModuleId(parent, treeid, defs, ids.slice(1), opt, mocks)
 }
 
 const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
@@ -120,18 +121,17 @@ const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
   if (!moduleFileURL)
     throw esmockModuleIdNotFoundError(moduleId, parent)
 
-  const esmockKey = typeof opt.key === 'number' ? opt.key : esmockNextKey()
-  const esmockKeyLong = moduleFileURL + '?' +
-    'key=:esmockKey?esmockGlobals=:esmockGlobals#-#esmockModuleKeys=:moduleKeys'
-      .replace(/:esmockKey/, esmockKey)
-      .replace(/:esmockGlobals/, gdefs && (await esmockModuleId(
-        parent, esmockKey, gdefs, Object.keys(gdefs), opt)).join('#-#') || 0)
-      .replace(/:moduleKeys/, defs && (await esmockModuleId(
-        parent, esmockKey, defs, Object.keys(defs), opt)).join('#-#') || 0)
+  const treeid = typeof opt.key === 'number' ? opt.key : esmockNextId()
+  const esmockKeyLong = `${moduleFileURL}?key=${treeid}?` + [
+    'esmkgdefs=' + (gdefs && (await esmockModuleId(
+      parent, treeid, gdefs, Object.keys(gdefs), opt)).join('#-#') || 0),
+    'esmkdefs=', (defs && (await esmockModuleId(
+      parent, treeid, defs, Object.keys(defs), opt)).join('#-#') || 0)
+  ].join('#-#')
 
-  esmockKeySet(String(esmockKey), esmockKeyLong)
+  esmockKeySet(String(treeid), esmockKeyLong)
 
-  return moduleFileURL + `?esmk=${esmockKey}`
+  return moduleFileURL + `?esmk=${treeid}`
 }
 
 export default Object.assign(esmockModule, {

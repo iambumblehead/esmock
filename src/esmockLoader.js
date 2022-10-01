@@ -4,9 +4,9 @@ import urlDummy from './esmockDummy.js'
 const [major, minor] = process.versions.node.split('.').map(it => +it)
 const isLT1612 = major < 16 || (major === 16 && minor < 12)
 
-const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/
-const esmockGlobalsAndBeforeRe = /.*\?esmockGlobals=/
-const esmockModuleKeysRe = /#-#esmockModuleKeys/
+const esmkgdefsAndAfterRe = /\?esmkgdefs=.*/
+const esmkgdefsAndBeforeRe = /.*\?esmkgdefs=/
+const esmkdefsRe = /#-#esmkdefs/
 const exportNamesRe = /.*exportNames=(.*)/
 const esmockKeyRe = /esmockKey=\d*/
 const withHashRe = /.*#-#/
@@ -40,8 +40,8 @@ const resolve = async (specifier, context, nextResolve) => {
     return nextResolveCall(nextResolve, specifier, context)
 
   const [esmockKeyParam] = String(esmockKeyLong).match(esmockKeyRe)
-  const [keyUrl, keys] = esmockKeyLong.split(esmockModuleKeysRe)
-  const moduleGlobals = keyUrl && keyUrl.replace(esmockGlobalsAndBeforeRe, '')
+  const [keyUrl, keys] = esmockKeyLong.split(esmkdefsRe)
+  const moduleGlobals = keyUrl && keyUrl.replace(esmkgdefsAndBeforeRe, '')
   // do not call 'nextResolve' for notfound modules
   if (esmockKeyLong.includes(`notfound=${specifier}`)) {
     const moduleKeyRe = new RegExp(
@@ -72,7 +72,7 @@ const resolve = async (specifier, context, nextResolve) => {
       : urlDummy + '#-#' + moduleKey
   } else if (moduleGlobals && moduleGlobals !== '0') {
     if (!resolved.url.startsWith('node:')) {
-      resolved.url += '?esmockGlobals=' + moduleGlobals
+      resolved.url += '?esmkgdefs=' + moduleGlobals
     }
   }
 
@@ -80,10 +80,10 @@ const resolve = async (specifier, context, nextResolve) => {
 }
 
 const load = async (url, context, nextLoad) => {
-  if (esmockModuleKeysRe.test(url)) // parent of mocked modules
+  if (esmkdefsRe.test(url)) // parent of mocked modules
     return nextLoad(url, context)
 
-  url = url.replace(esmockGlobalsAndAfterRe, '')
+  url = url.replace(esmkgdefsAndAfterRe, '')
   if (url.startsWith(urlDummy)) {
     url = url.replace(withHashRe, '')
     if (notfoundRe.test(url))
