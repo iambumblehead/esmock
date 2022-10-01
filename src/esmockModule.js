@@ -70,9 +70,9 @@ const esmockModuleImportedSanitize = (imported, esmkTreeId) => {
     : Object.assign({}, importedDefault, imported, { esmkTreeId })
 }
 
-const esmockModuleImportedPurge = modulePathKey => {
+const esmockModuleImportedPurge = treeid => {
   const purgeKey = key => key === 'null' || esmockCacheSet(key, null)
-  const longKey = esmockTreeIdGet(modulePathKey.split('esmk=')[1])
+  const longKey = esmockTreeIdGet(treeid.split('esmk=')[1])
   const [url, keys] = longKey.split('#-#esmkdefs=')
 
   String(keys).split('#-#').forEach(purgeKey)
@@ -83,13 +83,12 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
   def = esmockModuleApply(
     opt.strict || !fileURL || await import(fileURL), def, fileURL)
 
-  const mockExportNames = Object.keys(def).sort().join()
   const mockModuleKey = (fileURL || 'file:///' + id) + '?' + [
     'esmkTreeId=' + treeid,
     'esmkModuleId=' + id,
+    'isfound=' + Boolean(fileURL),
     'isesm=' + esmockModuleIsESM(fileURL),
-    fileURL ? 'found' : 'notfound=' + id,
-    mockExportNames ? 'exportNames=' + mockExportNames : 'exportNone'
+    'exportNames=' + Object.keys(def).sort().join()
   ].join('&')
 
   esmockCacheSet(mockModuleKey, def)
