@@ -17,8 +17,8 @@ const esmockGo = opts => async (...args) => {
 }
 
 const purge = mockModule => mockModule
-  && /object|function/.test(typeof mockModule) && 'esmockKey' in mockModule
-  && esmockModule.purge(mockModule.esmockKey)
+  && /object|function/.test(typeof mockModule) && 'esmkTreeId' in mockModule
+  && esmockModule.purge(mockModule.esmkTreeId)
 
 const strict = Object.assign(esmockGo({ strict: true }), {
   purge, p: esmockGo({ strict: true, purge: false }) })

@@ -128,12 +128,12 @@ test('should purge local and global mocks', async t => {
         : filepath
     }
   }, {
-    key: 999
+    id: 999
   })
 
   const keys = Object
     .keys(esmockCache.mockDefs)
-    .filter(key => /esmockKey=999/.test(key))
+    .filter(key => /esmkTreeId=999/.test(key))
 
   t.truthy(keys.length)
   t.true(keys.every(key => esmockCache.mockDefs[key] === null))
@@ -309,8 +309,8 @@ test('mocks inline `async import("name")`', async t => {
       filePath: 'filePath'
     }))
 
-  const [, key] = writeJSConfigFile.esmockKey.match(/esmk=(\d*)/)
-  const keyRe = new RegExp(`esmockKey=${key}[^d]`)
+  const [, key] = writeJSConfigFile.esmkTreeId.match(/esmk=(\d*)/)
+  const keyRe = new RegExp(`esmkTreeId=${key}[^d]`)
 
   const moduleKeys = Object.keys(esmockCache.mockDefs)
     .filter(moduleKey => keyRe.test(moduleKey))
@@ -401,3 +401,4 @@ test('should not error when mocked file has space in path', async t => {
 
   t.is(main.wild, 'tamed')
 })
+

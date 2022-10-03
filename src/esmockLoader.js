@@ -4,14 +4,16 @@ import urlDummy from './esmockDummy.js'
 const [major, minor] = process.versions.node.split('.').map(it => +it)
 const isLT1612 = major < 16 || (major === 16 && minor < 12)
 
-const esmockGlobalsAndAfterRe = /\?esmockGlobals=.*/
-const esmockGlobalsAndBeforeRe = /.*\?esmockGlobals=/
-const esmockModuleKeysRe = /#-#esmockModuleKeys/
+const esmkgdefsAndAfterRe = /\?esmkgdefs=.*/
+const esmkgdefsAndBeforeRe = /.*\?esmkgdefs=/
+const esmkdefsRe = /#-#esmkdefs/
+const esmkTreeIdRe = /esmkTreeId=\d*/
+const esmkModuleIdRe = /esmkModuleId=([^&]*)/
+const esmkIdRe = /\?esmk=\d*/
 const exportNamesRe = /.*exportNames=(.*)/
-const esmockKeyRe = /esmockKey=\d*/
 const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
-const notfoundRe = /notfound=([^&]*)/
+const isnotfoundRe = /isfound=false/
 
 // new versions of node: when multiple loaders are used and context
 // is passed to nextResolve, the process crashes in a recursive call
@@ -30,49 +32,44 @@ const nextResolveCall = async (nextResolve, specifier, context) => (
 
 const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context
-  const [esmockKeyParamSmall] =
-    (parentURL && parentURL.match(/\?esmk=\d*/)) || []
-  const esmockKeyLong = esmockKeyParamSmall
-    ? global.esmockKeyGet(esmockKeyParamSmall.split('=')[1])
+  const treeidspec = esmkIdRe.test(parentURL)
+    ? global.esmockTreeIdGet(parentURL.match(esmkIdRe)[0].split('=')[1])
     : parentURL
 
-  if (!esmockKeyRe.test(esmockKeyLong))
+  if (!esmkTreeIdRe.test(treeidspec))
     return nextResolveCall(nextResolve, specifier, context)
 
-  const [esmockKeyParam] = String(esmockKeyLong).match(esmockKeyRe)
-  const [keyUrl, keys] = esmockKeyLong.split(esmockModuleKeysRe)
-  const moduleGlobals = keyUrl && keyUrl.replace(esmockGlobalsAndBeforeRe, '')
+  const [treeid] = String(treeidspec).match(esmkTreeIdRe)
+  const [url, defs] = treeidspec.split(esmkdefsRe)
+  const gdefs = url && url.replace(esmkgdefsAndBeforeRe, '')
   // do not call 'nextResolve' for notfound modules
-  if (esmockKeyLong.includes(`notfound=${specifier}`)) {
-    const moduleKeyRe = new RegExp(
-      '.*file:///' + specifier + '(\\?' + esmockKeyParam + '(?:(?!#-#).)*).*')
-    const moduleKey = (
-      moduleGlobals.match(moduleKeyRe) || keys.match(moduleKeyRe) || [])[1]
-    if (moduleKey) {
+  if (treeidspec.includes(`esmkModuleId=${specifier}&isfound=false`)) {
+    const moduleIdRe = new RegExp(
+      '.*file:///' + specifier + '(\\?' + treeid + '(?:(?!#-#).)*).*')
+    const moduleId = (
+      gdefs.match(moduleIdRe) || defs.match(moduleIdRe) || [])[1]
+    if (moduleId) {
       return {
         shortCircuit: true,
-        url: urlDummy + moduleKey
+        url: urlDummy + moduleId
       }
     }
   }
 
   const resolved = await nextResolveCall(nextResolve, specifier, context)
   const resolvedurl = decodeURI(resolved.url)
-  const moduleKeyRe = new RegExp(
-    '.*(' + resolvedurl + '\\?' + esmockKeyParam + '(?:(?!#-#).)*).*')
-  const moduleKeyChild = moduleKeyRe.test(keys)
-        && keys.replace(moduleKeyRe, '$1')
-  const moduleKeyGlobal = moduleKeyRe.test(moduleGlobals)
-        && moduleGlobals.replace(moduleKeyRe, '$1')
-
-  const moduleKey = moduleKeyChild || moduleKeyGlobal
-  if (moduleKey) {
-    resolved.url = isesmRe.test(moduleKey)
-      ? moduleKey
-      : urlDummy + '#-#' + moduleKey
-  } else if (moduleGlobals && moduleGlobals !== '0') {
+  const moduleIdRe = new RegExp(
+    '.*(' + resolvedurl + '\\?' + treeid + '(?:(?!#-#).)*).*')
+  const moduleId =
+    moduleIdRe.test(defs) && defs.replace(moduleIdRe, '$1') ||
+    moduleIdRe.test(gdefs) && gdefs.replace(moduleIdRe, '$1')
+  if (moduleId) {
+    resolved.url = isesmRe.test(moduleId)
+      ? moduleId
+      : urlDummy + '#-#' + moduleId
+  } else if (gdefs && gdefs !== '0') {
     if (!resolved.url.startsWith('node:')) {
-      resolved.url += '?esmockGlobals=' + moduleGlobals
+      resolved.url += '?esmkgdefs=' + gdefs
     }
   }
 
@@ -80,14 +77,14 @@ const resolve = async (specifier, context, nextResolve) => {
 }
 
 const load = async (url, context, nextLoad) => {
-  if (esmockModuleKeysRe.test(url)) // parent of mocked modules
+  if (esmkdefsRe.test(url)) // parent of mocked modules
     return nextLoad(url, context)
 
-  url = url.replace(esmockGlobalsAndAfterRe, '')
+  url = url.replace(esmkgdefsAndAfterRe, '')
   if (url.startsWith(urlDummy)) {
     url = url.replace(withHashRe, '')
-    if (notfoundRe.test(url))
-      url = url.replace(urlDummy, `file:///${url.match(notfoundRe)[1]}`)
+    if (isnotfoundRe.test(url))
+      url = url.replace(urlDummy, `file:///${url.match(esmkModuleIdRe)[1]}`)
   }
 
   const exportedNames = exportNamesRe.test(url) &&
