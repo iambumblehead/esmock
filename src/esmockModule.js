@@ -1,5 +1,6 @@
 import fs from 'fs'
 import resolvewith from 'resolvewithplus'
+import esmockErr from './esmockErr.js'
 
 import {
   esmockTreeIdSet,
@@ -12,12 +13,7 @@ import {
 const isObj = o => typeof o === 'object' && o
 const isDefaultIn = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
-const esmockNextId = ((id = 0) => () => ++id)()
-
-const esmockModuleIdNotFoundError = (moduleId, parent) => new Error(
-  `invalid moduleId: "${moduleId}" (used by ${parent})`
-    .replace(process.cwd(), '.')
-    .replace(process.env.HOME, '~'))
+const nextId = ((id = 0) => () => ++id)()
 
 const esmockModuleMergeDefault = (defLive, def) =>
   (isObj(defLive) && isObj(def)) ? Object.assign({}, defLive, def) : def
@@ -105,7 +101,7 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   const fileURL = resolvewith(id, parent)
   if (!fileURL && opt.isModuleNotFoundError !== false)
-    throw esmockModuleIdNotFoundError(id, parent)
+    throw esmockErr.errModuleIdNotFound(id, parent)
 
   mocks.push(await esmockModuleCreate(treeid, defs[id], id, fileURL, opt))
 
@@ -115,10 +111,10 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
   const moduleFileURL = resolvewith(moduleId, parent)
   if (!moduleFileURL)
-    throw esmockModuleIdNotFoundError(moduleId, parent)
+    throw esmockErr.errModuleIdNotFound(moduleId, parent)
 
-  const treeid = typeof opt.id === 'number' ? opt.id : esmockNextId()
-  const treeidspec = `${moduleFileURL}?key=${treeid}?` + [
+  const treeid = typeof opt.id === 'number' ? opt.id : nextId()
+  const treeidspec = `${moduleFileURL}?key=${treeid}&strict=${opt.strict}?` + [
     'esmkgdefs=' + (gdefs && (await esmockModuleId(
       parent, treeid, gdefs, Object.keys(gdefs), opt)).join('#-#') || 0),
     'esmkdefs=', (defs && (await esmockModuleId(

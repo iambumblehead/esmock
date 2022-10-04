@@ -62,6 +62,14 @@ declare const esmock: MockFunction & {
   strict: MockFunction & {
     p: MockFunction
   }
+
+  /**
+   * The "strictest" variant replaces original module definitions
+   * with mock definitions AND requires all imported modules to be mocked.
+   */
+  strictest: MockFunction & {
+    p: MockFunction
+  }
 }
 
 /**
@@ -70,9 +78,16 @@ declare const esmock: MockFunction & {
  */
 declare const strict: typeof esmock['strict']
 
+/**
+ * The "strictest" variant replaces original module definitions
+ * with mock definitions AND requires all imported modules to be mocked.
+ */
+declare const strictest: typeof esmock['strictest']
+
 export {
   esmock as default,
   strict,
+  strictest,
   type MockFunction,
   type MockMap,
   type Options
