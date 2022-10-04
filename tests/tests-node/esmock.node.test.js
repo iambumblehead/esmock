@@ -472,7 +472,6 @@ test('should error when "strictest" mock tree module not mocked', async () => {
         .replace(':parent', 'importsCoreLocalAndPackage.js'))
   })
 
-
   await assert.rejects(async () => esmock.strictest(
     '../local/importsCoreLocalAndPackage.js', {
       path: { basename: () => 'core' },
