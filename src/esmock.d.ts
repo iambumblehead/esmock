@@ -61,7 +61,7 @@ declare const esmock: MockFunction & {
    */
   strict: MockFunction & {
     p: MockFunction
-  }
+  },
 
   /**
    * The "strictest" variant replaces original module definitions
