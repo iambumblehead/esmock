@@ -1,5 +1,9 @@
 # changelog
 
+ * 2.0.5 _Oct.05.2022_
+   * [add support for esmock.strictest,](https://github.com/iambumblehead/esmock/pull/172) a more-strict variant of esmock, per @gmahomarf
+   * [use more-descriptive internal-variable "treeId",](https://github.com/iambumblehead/esmock/pull/170) rather than "esmockKey"
+   * [include .mjs files in eslint filter](https://github.com/iambumblehead/esmock/pull/173) and lint-fix existing .mjs files
  * 2.0.4 _Sep.28.2022_
    * [huge simplifications to typescript types file,](https://github.com/iambumblehead/esmock/pull/164) much smaller, credit @jsejcksn
    * [added ts linting](https://github.com/iambumblehead/esmock/pull/166)
