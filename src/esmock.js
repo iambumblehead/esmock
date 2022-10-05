@@ -20,10 +20,13 @@ const purge = mockModule => mockModule
   && /object|function/.test(typeof mockModule) && 'esmkTreeId' in mockModule
   && esmockModule.purge(mockModule.esmkTreeId)
 
-const strict = Object.assign(esmockGo({ strict: true }), {
-  purge, p: esmockGo({ strict: true, purge: false }) })
+const strict = Object.assign(esmockGo({ strict: 1 }), {
+  purge, p: esmockGo({ strict: 1, purge: false }) })
+
+const strictest = Object.assign(esmockGo({ strict: 3 }), {
+  purge, p: esmockGo({ strict: 3, purge: false }) })
 
 const esmock = Object.assign(esmockGo(), {
-  purge, p: esmockGo({ purge: false }), strict })
+  purge, p: esmockGo({ purge: false }), strict, strictest })
 
-export {esmock as default, strict}
+export {esmock as default, strict, strictest}

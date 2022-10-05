@@ -1,5 +1,6 @@
 import process from 'process'
 import urlDummy from './esmockDummy.js'
+import esmockErr from './esmockErr.js'
 
 const [major, minor] = process.versions.node.split('.').map(it => +it)
 const isLT1612 = major < 16 || (major === 16 && minor < 12)
@@ -72,6 +73,9 @@ const resolve = async (specifier, context, nextResolve) => {
       resolved.url += '?esmkgdefs=' + gdefs
     }
   }
+
+  if (/strict=3/.test(treeidspec) && !moduleId)
+    throw esmockErr.errModuleIdNotMocked(resolvedurl, treeidspec.split('?')[0])
 
   return resolved
 }

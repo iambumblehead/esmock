@@ -434,3 +434,54 @@ test('should throw error when strict mock definition not found', async () => {
   assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png')
 })
 
+test('should error when "strictest" mock tree module not mocked', async () => {
+  const strictestTree = await esmock.strictest(
+    '../local/importsCoreLocalAndPackage.js', {
+      path: { basename: () => 'core' },
+      '../local/usesCoreModule.js': { readPath: () => 'local' },
+      'form-urlencoded': () => 'package'
+    }
+  )
+
+  assert.deepEqual(strictestTree.corePathBasename(), 'core')
+  assert.deepEqual(strictestTree.localReadSync(), 'local')
+  assert.deepEqual(strictestTree.packageFn(), 'package')
+
+  await assert.rejects(async () => esmock.strictest(
+    '../local/importsCoreLocalAndPackage.js', {
+      '../local/usesCoreModule.js': { readPath: () => 'local' },
+      'form-urlencoded': () => 'package'
+    }
+  ), {
+    name: 'Error',
+    message: new RegExp(
+      'un-mocked moduleId: "node:path" \\(used by .*:parent\\)'
+        .replace(':parent', 'importsCoreLocalAndPackage.js'))
+  })
+
+  await assert.rejects(async () => esmock.strictest(
+    '../local/importsCoreLocalAndPackage.js', {
+      path: { basename: () => 'core' },
+      'form-urlencoded': () => 'package'
+    }
+  ), {
+    name: 'Error',
+    message: new RegExp(
+      'un-mocked moduleId: ".*:child" \\(used by .*:parent\\)'
+        .replace(':child', 'usesCoreModule.js')
+        .replace(':parent', 'importsCoreLocalAndPackage.js'))
+  })
+
+  await assert.rejects(async () => esmock.strictest(
+    '../local/importsCoreLocalAndPackage.js', {
+      path: { basename: () => 'core' },
+      '../local/usesCoreModule.js': { readPath: () => 'local' }
+    }
+  ), {
+    name: 'Error',
+    message: new RegExp(
+      'un-mocked moduleId: ".*:package" \\(used by .*:parent\\)'
+        .replace(':package', 'form-urlencoded.mjs')
+        .replace(':parent', 'importsCoreLocalAndPackage.js'))
+  })
+})
