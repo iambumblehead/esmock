@@ -1,3 +1,3 @@
 export default function thedefaultfunction () {
-  return 'not-mocked';
+  return 'not-mocked'
 }
