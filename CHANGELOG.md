@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.0.6 _Oct.14.2022_
+   * [show full path at error message,](https://github.com/iambumblehead/esmock/pull/170) making it easier to identify an invalid path
  * 2.0.5 _Oct.05.2022_
    * [add support for esmock.strictest,](https://github.com/iambumblehead/esmock/pull/172) a more-strict variant of esmock, per @gmahomarf
    * [use more-descriptive internal-variable "treeId",](https://github.com/iambumblehead/esmock/pull/170) rather than "esmockKey"
