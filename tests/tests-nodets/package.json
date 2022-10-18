@@ -14,6 +14,8 @@
     "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "test": "node --loader=ts-node/esm --loader=esmock --test esmock.node-ts.test.ts esmock.node-ts.importing.test.ts"
+    "test-metaresolve": "node --experimental-import-meta-resolve --loader=ts-node/esm --loader=esmock --test esmock.node-ts.test.ts esmock.node-ts.importing.test.ts",
+    "test-nometaresolve": "node --loader=ts-node/esm --loader=esmock --test esmock.node-ts.test.ts esmock.node-ts.importing.test.ts",
+    "test": "npm run test-metaresolve && npm run test-nometaresolve"
   }
 }
