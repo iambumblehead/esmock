@@ -101,7 +101,7 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
 const esmockMetaResolve = async (id, parent) => {
   try {
     return decodeURI(await import.meta.resolve(id, asFileURL(parent)))
-  } catch (e) {
+  } catch {
     return null
   }
 }
