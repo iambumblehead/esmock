@@ -3,10 +3,10 @@ import esmockModule from './esmockModule.js'
 import esmockArgs from './esmockArgs.js'
 
 const esmockGo = opts => async (...args) => {
-  if (!esmockIsLoader())
+  const [moduleId, parent, defs, gdefs, opt] = esmockArgs(args, opts)
+  if (!(await esmockIsLoader()))
     throw new Error('process must be started with --loader=esmock')
 
-  const [moduleId, parent, defs, gdefs, opt] = esmockArgs(args, opts)
   const fileURLKey = await esmockModule(moduleId, parent, defs, gdefs, opt)
   const importedModule = await import(fileURLKey)
 

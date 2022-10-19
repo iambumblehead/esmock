@@ -81,6 +81,15 @@ const resolve = async (specifier, context, nextResolve) => {
 }
 
 const load = async (url, context, nextLoad) => {
+  if (url.endsWith('esmockIsLoader.js?test')) {
+    return {
+      format: 'module',
+      shortCircuit: true,
+      responseURL: encodeURI(url),
+      source: 'export default true'
+    }
+  }
+
   if (esmkdefsRe.test(url)) // parent of mocked modules
     return nextLoad(url, context)
 

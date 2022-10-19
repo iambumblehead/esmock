@@ -1,5 +1,2 @@
-const isloaderRe = /--(experimental-)?loader[=\s,"']*esmock/
-
-export default (pr = process) =>
-  isloaderRe.test(pr.execArgv) ||
-  isloaderRe.test(pr.env.NODE_OPTIONS)
+export default (cache => async () => typeof cache === 'boolean' ? cache
+  : cache = ((await import(`${import.meta.url}?test`)).default === true))()
