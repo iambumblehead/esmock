@@ -16,7 +16,6 @@ const isDefaultIn = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 const isMetaResolve = typeof import.meta.resolve === 'function'
 const nextId = ((id = 0) => () => ++id)()
-const rootDirSlashRe = /^\//
 const asFileURL = p => p.startsWith('file://') ? p : url.pathToFileURL(p)
 
 const esmockModuleMergeDefault = (defLive, def) =>
