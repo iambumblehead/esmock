@@ -16,9 +16,8 @@ const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 const isMetaResolve = typeof import.meta.resolve === 'function'
 const nextId = ((id = 0) => () => ++id)()
 const rootDirSlashRe = /^\//
-const protocolFileRe = /^file:/
 
-const asFileURL = p => protocolFileRe.test(p) ? p
+const asFileURL = p => p.startsWith('file:') ? p
   : `file:///${p.replace(rootDirSlashRe, '')}`
 
 const esmockModuleMergeDefault = (defLive, def) =>
