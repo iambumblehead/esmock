@@ -1,4 +1,5 @@
 import fs from 'fs'
+import url from 'node:url'
 import resolvewith from 'resolvewithplus'
 import esmockErr from './esmockErr.js'
 
@@ -13,7 +14,9 @@ import {
 const isObj = o => typeof o === 'object' && o
 const isDefaultIn = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
+const isMetaResolve = typeof import.meta.resolve === 'function'
 const nextId = ((id = 0) => () => ++id)()
+const asFileURL = p => p.startsWith('file://') ? p : url.pathToFileURL(p)
 
 const esmockModuleMergeDefault = (defLive, def) =>
   (isObj(defLive) && isObj(def)) ? Object.assign({}, defLive, def) : def
@@ -92,6 +95,14 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
   return mockModuleKey
 }
 
+const esmockMetaResolve = async (id, parent) => {
+  try {
+    return decodeURI(await import.meta.resolve(id, asFileURL(parent)))
+  } catch {
+    return null
+  }
+}
+
 const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
   ids = ids || Object.keys(defs)
   id = ids[0]
@@ -99,7 +110,9 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   if (!id) return mocks
 
-  const fileURL = resolvewith(id, parent)
+  const fileURL = isMetaResolve
+    ? await esmockMetaResolve(id, parent)
+    : resolvewith(id, parent)
   if (!fileURL && opt.isModuleNotFoundError !== false)
     throw esmockErr.errModuleIdNotFound(id, parent)
 

@@ -20,8 +20,12 @@
     "runner": "jest-light-runner"
   },
   "scripts": {
-    "test:default": "NODE_OPTIONS=\"--loader=ts-node/esm --loader=esmock\" jest esmock.node-jest.test.ts",
-    "test:win32": "set \"NODE_OPTIONS=--loader=ts-node/esm --loader=esmock\" && jest esmock.node-jest.test.ts",
+    "test:default-metaresolve": "NODE_OPTIONS=\"--experimental-import-meta-resolve --loader=ts-node/esm --loader=esmock\" jest esmock.node-jest.test.ts",
+    "test:default-nometaresolve": "NODE_OPTIONS=\"--loader=ts-node/esm --loader=esmock\" jest esmock.node-jest.test.ts",
+    "test:default": "npm run test:default-metaresolve && npm run test:default-nometaresolve",
+    "test:win32-metaresolve": "set \"NODE_OPTIONS=--experimental-import-meta-resolve --loader=ts-node/esm --loader=esmock\" && jest esmock.node-jest.test.ts",
+    "test:win32-nometaresolve": "set \"NODE_OPTIONS=--loader=ts-node/esm --loader=esmock\" && jest esmock.node-jest.test.ts",
+    "test:win32": "npm run test:win32-metaresolve && npm run test:win32-nometaresolve",
     "test": "run-script-os"
   }
 }

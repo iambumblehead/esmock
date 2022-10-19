@@ -16,7 +16,9 @@
     "typescript": "^4.8.3"
   },
   "scripts": {
-    "test": "rimraf dist && tsc && cross-env NODE_OPTIONS=--loader=esmock NODE_NO_WARNINGS=1 ava",
+    "test-metaresolve": "rimraf dist && tsc && cross-env \"NODE_OPTIONS=--experimental-import-meta-resolve --loader=esmock\" NODE_NO_WARNINGS=1 ava",
+    "test-nometaresolve": "rimraf dist && tsc && cross-env NODE_OPTIONS=--loader=esmock NODE_NO_WARNINGS=1 ava",
+    "test": "npm run test-metaresolve && npm run test-nometaresolve",
     "test-no-maps": "rimraf dist && tsc --sourceMap false && cross-env NODE_OPTIONS=--loader=esmock NODE_NO_WARNINGS=1 ava"
   },
   "ava": {
