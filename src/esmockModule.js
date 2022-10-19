@@ -1,4 +1,5 @@
 import fs from 'fs'
+import url from 'node:url'
 import resolvewith from 'resolvewithplus'
 import esmockErr from './esmockErr.js'
 
@@ -16,9 +17,7 @@ const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 const isMetaResolve = typeof import.meta.resolve === 'function'
 const nextId = ((id = 0) => () => ++id)()
 const rootDirSlashRe = /^\//
-
-const asFileURL = p => p.startsWith('file://') ? p
-  : `file:///${p.replace(rootDirSlashRe, '')}`
+const asFileURL = p => p.startsWith('file://') ? p : url.pathToFileURL(p)
 
 const esmockModuleMergeDefault = (defLive, def) =>
   (isObj(defLive) && isObj(def)) ? Object.assign({}, defLive, def) : def
