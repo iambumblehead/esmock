@@ -85,7 +85,7 @@ const load = async (url, context, nextLoad) => {
     return {
       format: 'module',
       shortCircuit: true,
-      responseURL: encodeURI(url),
+      responseURL: url,
       source: 'export default true'
     }
   }
