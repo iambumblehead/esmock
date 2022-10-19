@@ -85,7 +85,7 @@ const loaderVerificationURLCreate = url => `${url}?${loaderVerificationQuery}`
 const loaderIsVerified = async url =>
   (await import(loaderVerificationURLCreate(url))).default === true
 const load = async (url, context, nextLoad) => {
-  if (url.endsWith(`esmockIsLoader.js?${loaderVerificationQuery}`)) {
+  if (url.endsWith(loaderVerificationQuery)) {
     return {
       format: 'module',
       shortCircuit: true,
