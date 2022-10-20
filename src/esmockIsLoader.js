@@ -1,5 +1,4 @@
-const isloaderRe = /--(experimental-)?loader[=\s,"']*esmock/
+import { loaderIsVerified } from './esmockLoader.js'
 
-export default (pr = process) =>
-  isloaderRe.test(pr.execArgv) ||
-  isloaderRe.test(pr.env.NODE_OPTIONS)
+export default (c => async () =>
+  c || (c = await loaderIsVerified(import.meta.url)))()

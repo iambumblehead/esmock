@@ -80,7 +80,20 @@ const resolve = async (specifier, context, nextResolve) => {
   return resolved
 }
 
+const loaderVerificationQuery = 'esmock-loader=true'
+const loaderVerificationURLCreate = url => `${url}?${loaderVerificationQuery}`
+const loaderIsVerified = async url =>
+  (await import(loaderVerificationURLCreate(url))).default === true
 const load = async (url, context, nextLoad) => {
+  if (url.endsWith(loaderVerificationQuery)) {
+    return {
+      format: 'module',
+      shortCircuit: true,
+      responseURL: url,
+      source: 'export default true'
+    }
+  }
+
   if (esmkdefsRe.test(url)) // parent of mocked modules
     return nextLoad(url, context)
 
@@ -113,4 +126,4 @@ const getSource = isLT1612 && load
 
 export * from './esmock.js'
 export {default} from './esmock.js'
-export {load, resolve, getSource}
+export {load, resolve, getSource, loaderIsVerified}
