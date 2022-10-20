@@ -27,6 +27,9 @@
     "mini:default": "cd .. && npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
     "mini:win32": "cd .. && cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
     "mini": "run-script-os",
+    "embed:cp-refd": "node --input-type=module -e \"import fs from 'fs';fs.copyFileSync('../node_modules/resolvewithplus/resolvewithplus.js', '../src/resolvewithplus.js')\"",
+    "embed:update-refs": "node --input-type=module -e \"import fs from 'fs';let p='../src/esmockModule.js';fs.writeFileSync(p, fs.readFileSync(p, 'utf-8').replace(/'resolvewithplus'/, '\\'./resolvewithplus.js\\''))\"",
+    "embed": "npm run embed:update-refs && npm run embed:cp-refd",
     "isnodelt18": "node -e \"+process.versions.node.split('.')[0] < 18 || process.exit(1)\"",
     "install:esmock": "cd .. && npm install",
     "install:test-ava": "cd tests-ava && npm install",
@@ -50,7 +53,7 @@
     "test:node18-test-no-loader": "cd tests-no-loader && npm test",
     "test:node18:all": "npm run isnodelt18 || npm-run-all test:node18-test*",
     "test:all": "npm-run-all test:test* && npm run test:node18:all",
-    "test:all-cover": "c8 --src=../src/* npm run test:all",
-    "test:all-ci": "npm run mini && npm run test:all"
+    "test:all-cover": "c8 --src=../src/esmock* npm run test:all",
+    "test:all-ci": "npm run mini && npm run embed && npm run test:all"
   }
 }
