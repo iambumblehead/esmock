@@ -1,4 +1,4 @@
 import { loaderIsVerified } from './esmockLoader.js'
 
-export default (cache => async () => typeof cache === 'boolean' ? cache
-  : cache = await loaderIsVerified(import.meta.url))()
+export default (c => async () =>
+  c || (c = await loaderIsVerified(import.meta.url)))()
