@@ -1,6 +1,7 @@
 # changelog
 
- * 2.0.7 _Oct.??.2022_
+ * 2.0.7 _Oct.20.2022_
+   * [embed resolvewithplus inside esmock,](https://github.com/iambumblehead/esmock/pull/181) to support yarn PnP, per @koshic
    * [use loader mechanism to detect](https://github.com/iambumblehead/esmock/pull/180) presence of esmock loader
    * [detect and use import.meta.resolve,](https://github.com/iambumblehead/esmock/pull/179) when defined by host environment
  * 2.0.6 _Oct.14.2022_
