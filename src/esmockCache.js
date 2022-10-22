@@ -13,10 +13,10 @@ const esmockTreeIdGet = key => (
   global.mockKeys[String(key)])
 
 const esmockCacheSet = (key, mockDef) => (
-  esmockCache.mockDefs[key] = mockDef)
+  global.esmockCache.mockDefs[key] = mockDef)
 
 const esmockCacheGet = key => (
-  esmockCache.mockDefs[key])
+  global.esmockCache.mockDefs[key])
 
 const esmockCacheResolvedPathIsESMGet = mockPathFull => (
   esmockCache.isESM[mockPathFull])
@@ -25,6 +25,7 @@ const esmockCacheResolvedPathIsESMSet = (mockPathFull, isesm) => (
   esmockCache.isESM[mockPathFull] = isesm)
 
 Object.assign(global, {
+  esmockCache,
   esmockCacheGet,
   esmockTreeIdGet,
   mockKeys: {}
