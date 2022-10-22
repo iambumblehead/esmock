@@ -48,7 +48,7 @@
     "test:node18-test-no-loader": "cd tests-no-loader && npm test",
     "test:node18:all": "npm run isnodelt18 || npm-run-all test:node18-test*",
     "test:all": "npm-run-all test:test* && npm run test:node18:all",
-    "test:all-cover": "c8 --src=../src/esmock* npm run test:all",
+    "test:all-cover": "c8 --src=../src/esmockLoader* npm run test:all",
     "test:all-ci": "npm run mini && npm run test:all"
   }
 }
