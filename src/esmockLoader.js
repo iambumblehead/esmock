@@ -58,9 +58,8 @@ const resolve = async (specifier, context, nextResolve) => {
   }
 
   const resolved = await nextResolveCall(nextResolve, specifier, context)
-  const resolvedurl = decodeURI(resolved.url)
   const moduleIdRe = new RegExp(
-    '.*(' + resolvedurl + '\\?' + treeid + '(?:(?!#-#).)*).*')
+    '.*(' + resolved.url + '\\?' + treeid + '(?:(?!#-#).)*).*')
   const moduleId =
     moduleIdRe.test(defs) && defs.replace(moduleIdRe, '$1') ||
     moduleIdRe.test(gdefs) && gdefs.replace(moduleIdRe, '$1')
@@ -75,7 +74,7 @@ const resolve = async (specifier, context, nextResolve) => {
   }
 
   if (/strict=3/.test(treeidspec) && !moduleId)
-    throw esmockErr.errModuleIdNotMocked(resolvedurl, treeidspec.split('?')[0])
+    throw esmockErr.errModuleIdNotMocked(resolved.url, treeidspec.split('?')[0])
 
   return resolved
 }
