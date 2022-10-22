@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import esmock from 'esmock'
 import sinon from 'sinon'
 import esmockCache from '../../src/esmockCache.js'
-/*
+
 test('should mock package, even when package is not installed', async () => {
   const component = await esmock(`../local/notinstalledVueComponent.js`, {
     vue: {
@@ -261,7 +261,7 @@ test('should mock an exported constant values', async () => {
 
   assert.strictEqual(main.verifyImportedConstant(), 'hello world')
 })
-*/
+
 test('should mock core module', async () => {
   const usesCoreModule = await esmock('../local/usesCoreModule.js', {
     fs: {
@@ -274,7 +274,7 @@ test('should mock core module', async () => {
 
   assert.strictEqual(usesCoreModule.readPath('checkfilepath.js'), 'success')
 })
-/*
+
 test('should apply third parameter "global" definitions', async () => {
   const main = await esmock('../local/main.js', {
     '../local/mainUtil.js': {
@@ -485,4 +485,3 @@ test('should error when "strictest" mock tree module not mocked', async () => {
         .replace(':parent', 'importsCoreLocalAndPackage.js'))
   })
 })
-*/
