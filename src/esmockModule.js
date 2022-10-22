@@ -95,14 +95,6 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
   return mockModuleKey
 }
 
-const esmockMetaResolve = async (id, parent, p) => {
-  p = isMetaResolve
-    ? await import.meta.resolve(id, asFileURL(parent)).catch(() => p)
-    : resolvewith(id, parent)
-
-  return p && decodeURI(p)
-}
-
 const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
   ids = ids || Object.keys(defs)
   id = ids[0]
@@ -110,7 +102,9 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   if (!id) return mocks
 
-  const fileURL = await esmockMetaResolve(id, parent)
+  const fileURL = isMetaResolve
+    ? await import.meta.resolve(id, asFileURL(parent)).catch(() => null)
+    : resolvewith(id, parent)
   if (!fileURL && opt.isModuleNotFoundError !== false)
     throw esmockErr.errModuleIdNotFound(id, parent)
 
