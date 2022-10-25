@@ -1,7 +1,7 @@
 {
   "name": "esmock",
   "type": "module",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "license": "ISC",
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
@@ -75,7 +75,7 @@
     "test-cover": "npm run test:install && c8 npm run test:all",
     "lint": "eslint --ext=.js,.mjs .",
     "lint-fix": "eslint --ext=.js,.mjs --fix .",
-    "mini:pkg": "npm pkg delete scripts devDependencies",
+    "mini:pkg": "npm pkg delete scripts devDependencies dependencies",
     "prepublishOnly": "npm run lint && npm run test-ci && npm run mini:pkg"
   }
 }

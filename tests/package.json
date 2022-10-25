@@ -24,9 +24,7 @@
     "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "mini:default": "cd .. && npx esbuild ./src/*js --minify --allow-overwrite --outdir=src",
-    "mini:win32": "cd .. && cd src && forfiles /m \"*.js\" /c \"cmd /c npx esbuild @file --minify --allow-overwrite --outfile=@file\"",
-    "mini": "run-script-os",
+    "mini": "cd .. && cd src && npx esbuild esmockLoader.js --minify --bundle --allow-overwrite --platform=node --format=esm --outfile=esmockLoader.js",
     "isnodelt18": "node -e \"+process.versions.node.split('.')[0] < 18 || process.exit(1)\"",
     "install:esmock": "cd .. && npm install",
     "install:test-ava": "cd tests-ava && npm install",
