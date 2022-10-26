@@ -6,10 +6,10 @@
   "readmeFilename": "README.md",
   "description": "provides native ESM import mocking for unit tests",
   "author": "chris <chris@bumblehead.com>",
-  "main": "./src/esmockLoader.js",
+  "main": "./src/esmock.js",
   "exports": {
     "types": "./src/esmock.d.ts",
-    "import": "./src/esmockLoader.js"
+    "import": "./src/esmock.js"
   },
   "repository": {
     "type": "git",

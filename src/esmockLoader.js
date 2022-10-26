@@ -123,6 +123,4 @@ const load = async (url, context, nextLoad) => {
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
 const getSource = isLT1612 && load
 
-export * from './esmock.js'
-export {default} from './esmock.js'
 export {load, resolve, getSource, loaderIsVerified}
