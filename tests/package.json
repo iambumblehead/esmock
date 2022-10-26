@@ -24,7 +24,6 @@
     "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "mini": "cd .. && cd src && npx esbuild esmockLoader.js --minify --bundle --allow-overwrite --platform=node --format=esm --outfile=esmockLoader.js",
     "isnodelt18": "node -e \"+process.versions.node.split('.')[0] < 18 || process.exit(1)\"",
     "install:esmock": "cd .. && npm install",
     "install:test-ava": "cd tests-ava && npm install",
@@ -49,6 +48,6 @@
     "test:node18:all": "npm run isnodelt18 || npm-run-all test:node18-test*",
     "test:all": "npm-run-all test:test* && npm run test:node18:all",
     "test:all-cover": "c8 --src=../src/* npm run test:all",
-    "test:all-ci": "npm run mini && npm run test:all"
+    "test:all-ci": "npm run test:all"
   }
 }
