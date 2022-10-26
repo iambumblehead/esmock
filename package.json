@@ -77,7 +77,7 @@
     "lint-fix": "eslint --ext=.js,.mjs --fix .",
     "mini:pkg": "npm pkg delete scripts devDependencies dependencies",
     "mini:src": "cd src && npx rimraf \"!(esmock).js\"",
-    "mini": "npm run mini:pkg && npm run mini:src",
+    "mini": "npm run mini:src && npm run mini:pkg",
     "prepublishOnly": "npm run lint && npm run test-ci && npm run mini"
   }
 }
