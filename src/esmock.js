@@ -31,3 +31,4 @@ const esmock = Object.assign(esmockGo(), {
   purge, p: esmockGo({ purge: false }), strict, strictest })
 
 export {esmock as default, strict, strictest}
+export * from './esmockLoader.js'

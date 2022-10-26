@@ -1,5 +1,5 @@
-export * from '../src/esmockLoader.js'
-export {default} from '../src/esmockLoader.js'
+export * from '../src/esmock.js'
+export {default} from '../src/esmock.js'
 
 // this file is used in tandem with two other things,
 //
