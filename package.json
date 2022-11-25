@@ -67,6 +67,7 @@
     "@typescript-eslint/eslint-plugin": "^5.38.1"
   },
   "scripts": {
+    "isnodegt14": "node -e \"+process.versions.node.split('.')[0] > 14 || process.exit(1)\"",
     "test:install": "cd tests && npm run install:all",
     "test:all": "cd tests && npm run test:all",
     "test:all-ci": "cd tests && npm run test:all-ci",
