@@ -19,7 +19,7 @@ const nextId = ((id = 0) => () => ++id)()
 const asFileURL = p => p.startsWith('file://') ? p : url.pathToFileURL(p)
 
 const esmockModuleMergeDefault = (defLive, def) =>
-  (isObj(defLive) && isObj(def)) ? Object.assign({}, defLive, def) : def
+  (isObj(defLive) && isObj(def)) ? Object.assign(Object.create(defLive), def) : def
 
 const esmockModuleApply = (defLive, def, fileURL) => {
   def = Object.assign({}, defLive || {}, {
@@ -62,7 +62,7 @@ const esmockModuleImportedSanitize = (imported, esmkTreeId) => {
 
   if (/boolean|string|number/.test(typeof importedDefault))
     return imported
-  
+
   // ex, non-extensible "[object Module]": import * as fs from 'fs'; export fs;
   return Object.isExtensible(importedDefault)
     ? Object.assign(importedDefault, imported, { esmkTreeId })

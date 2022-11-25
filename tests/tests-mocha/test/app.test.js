@@ -7,9 +7,7 @@ chai.should()
 
 const app = await esmock('../src/app.js', {
   passport: {
-    use: function (bearerStrategy) {
-      console.log(bearerStrategy)
-    }
+    use: bearerStrategy => `mocked${bearerStrategy}`
   }
 }, {})
 
@@ -20,14 +18,10 @@ describe('/', () => {
         .request(app.default)
         .get('/')
         .end((err, res) => {
-          try {
-            res.should.have.status(200)
-          } catch (err) {
-            console.error(res.text)
-            throw err
-          }
-          done()
+          app.close()
+          res.should.have.status(200)
         })
+      done()
     } catch (e) {
       console.log(e)
     }
