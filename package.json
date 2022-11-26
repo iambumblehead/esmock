@@ -57,7 +57,7 @@
     "node": ">=14.16.0"
   },
   "dependencies": {
-    "resolvewithplus": "^2.0.0"
+    "resolvewithplus": "mshima/resolvewithplus#patch-1"
   },
   "devDependencies": {
     "c8": "^7.12.0",
