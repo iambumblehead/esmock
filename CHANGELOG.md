@@ -1,8 +1,11 @@
 # changelog
 
- * 2.0.8 _Nov.11.2025_
+ * 2.0.9 _Nov.26.2022_
+   * [resolve windows modules with correct drive letter](https://github.com/iambumblehead/esmock/pull/189) using [resolvewithplus patch](https://github.com/iambumblehead/resolvewithplus/pull/42) from @mshima
+ * 2.0.8 _Nov.25.2022_
    * [use live default export](https://github.com/iambumblehead/esmock/pull/188) in prototype of returned mock definition to resolve class instance mocking
    * [added CONTRIBUTING.md](https://github.com/iambumblehead/esmock/pull/188)
+   * [added mocha tests](https://github.com/iambumblehead/esmock/pull/188)
  * 2.0.7 _Oct.26.2022_
    * [use export esmock.js,](https://github.com/iambumblehead/esmock/pull/182) rather than esmockLoader.js, as main package export
    * [embed resolvewithplus inside esmock,](https://github.com/iambumblehead/esmock/pull/181) to support yarn PnP, per @koshic
