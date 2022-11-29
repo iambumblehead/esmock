@@ -1,5 +1,8 @@
 # changelog
 
+ * 2.1.0 _Nov.29.2022_
+   * [add node v19](https://github.com/iambumblehead/esmock/pull/189) to ci-test pipeline
+   * [use live default export](https://github.com/iambumblehead/esmock/pull/189) to populate enumerable properties of mock definition
  * 2.0.9 _Nov.26.2022_
    * [resolve windows modules with correct drive letter](https://github.com/iambumblehead/esmock/pull/189) using [resolvewithplus patch](https://github.com/iambumblehead/resolvewithplus/pull/42) from @mshima
  * 2.0.8 _Nov.25.2022_

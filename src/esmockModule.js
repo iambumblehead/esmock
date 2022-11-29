@@ -17,10 +17,20 @@ const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 const isMetaResolve = typeof import.meta.resolve === 'function'
 const nextId = ((id = 0) => () => ++id)()
 const asFileURL = p => p.startsWith('file://') ? p : url.pathToFileURL(p)
+const objProto = Object.getPrototypeOf({})
+const isPlainObj = o => Object.getPrototypeOf(o) === objProto
+
+// assigning the object to its own prototypal inheritor can error, eg
+//   'Cannot assign to read only property \'F_OK\' of object \'#<Object>\''
+// 
+// if not plain obj, assign enumerable vals only. core modules === plain obj
+const esmockModuleMerge = (defLive, def) => isPlainObj(defLive)
+  ? Object.assign({}, defLive, def)
+  : Object.assign(Object.keys(defLive).reduce(
+    (prev, k) => (prev[k] = defLive[k], prev), Object.create(defLive)), def)
 
 const esmockModuleMergeDefault = (defLive, def) =>
-  (isObj(defLive) && isObj(def))
-    ? Object.assign(Object.create(defLive), def) : def
+  (isObj(defLive) && isObj(def)) ? esmockModuleMerge(defLive, def) : def
 
 const esmockModuleApply = (defLive, def, fileURL) => {
   def = Object.assign({}, defLive || {}, {

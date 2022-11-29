@@ -11,6 +11,10 @@ if (typeof passport.initialize !== 'function') {
   throw new Error('inavalid mock')
 }
 
+if (!('_key' in passport)) {
+  throw new Error('inavalid mock, enumerable props not discoverable')
+}
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
