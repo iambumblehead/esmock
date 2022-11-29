@@ -20,7 +20,7 @@ const asFileURL = p => p.startsWith('file://') ? p : url.pathToFileURL(p)
 
 const esmockModuleMergeDefault = (defLive, def) =>
   (isObj(defLive) && isObj(def))
-    ? Object.assign(Object.create(defLive, defLive), def) : def
+    ? Object.assign(Object.create(defLive), defLive, def) : def
 
 const esmockModuleApply = (defLive, def, fileURL) => {
   def = Object.assign({}, defLive || {}, {
