@@ -129,12 +129,18 @@ const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
   if (!moduleFileURL)
     throw esmockErr.errModuleIdNotFound(moduleId, parent)
 
+  const gkeys = gdefs ? Object.keys(gdefs) : []
+  const dkeys = defs ? Object.keys(defs) : []
+  if (opt.strict === 3 && !gkeys.length && !dkeys.length) {
+    throw esmockErr.errModuleIdNoDefs(moduleId, parent)
+  }
+
   const treeid = typeof opt.id === 'number' ? opt.id : nextId()
   const treeidspec = `${moduleFileURL}?key=${treeid}&strict=${opt.strict}?` + [
-    'esmkgdefs=' + (gdefs && (await esmockModuleId(
-      parent, treeid, gdefs, Object.keys(gdefs), opt)).join('#-#') || 0),
-    'esmkdefs=', (defs && (await esmockModuleId(
-      parent, treeid, defs, Object.keys(defs), opt)).join('#-#') || 0)
+    'esmkgdefs=' + (gkeys.length && (await esmockModuleId(
+      parent, treeid, gdefs, gkeys, opt)).join('#-#') || 0),
+    'esmkdefs=', (dkeys.length && (await esmockModuleId(
+      parent, treeid, defs, dkeys, opt)).join('#-#') || 0)
   ].join('#-#')
 
   esmockTreeIdSet(String(treeid), treeidspec)
