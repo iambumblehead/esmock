@@ -436,13 +436,13 @@ test('should throw error when strict mock definition not found', async () => {
 
 test('should error when "strictest" called with defs: {}', async () => {
   await assert.rejects(async () => esmock.strictest(
-    '../local/strictest.js', {}
+    '../local/importsCoreLocalAndPackage.js', {}
   ))
 })
 
 test('should error when "strictest" called with defs: undefined', async () => {
   await assert.rejects(async () => esmock.strictest(
-    '../local/strictest.js'
+    '../local/importsCoreLocalAndPackage.js'
   ))
 })
 
