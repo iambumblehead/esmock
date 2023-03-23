@@ -434,6 +434,18 @@ test('should throw error when strict mock definition not found', async () => {
   assert.deepEqual(pathWrapPartial.basename('/dog.png'), 'dog.png')
 })
 
+test('should error when "strictest" called with defs: {}', async () => {
+  await assert.rejects(async () => esmock.strictest(
+    '../local/importsCoreLocalAndPackage.js', {}
+  ))
+})
+
+test('should error when "strictest" called with defs: undefined', async () => {
+  await assert.rejects(async () => esmock.strictest(
+    '../local/importsCoreLocalAndPackage.js'
+  ))
+})
+
 test('should error when "strictest" mock tree module not mocked', async () => {
   const strictestTree = await esmock.strictest(
     '../local/importsCoreLocalAndPackage.js', {

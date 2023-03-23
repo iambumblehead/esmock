@@ -8,8 +8,12 @@ const errMissingLoader = () =>
   new Error('the loader chain process must include esmock. '
     + 'start the process using --loader=esmock.')
 
+const errModuleIdNoDefs = (moduleId, parent) =>
+  new Error(`no mocks provided for module: "${moduleId}" (used by ${parent}`)
+
 export default {
   errModuleIdNotFound,
   errModuleIdNotMocked,
-  errMissingLoader
+  errMissingLoader,
+  errModuleIdNoDefs
 }
