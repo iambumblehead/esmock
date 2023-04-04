@@ -1,5 +1,10 @@
 # changelog
 
+ * 2.2.1 _Apr.03.2023_
+   * [use Object.defineProperty](https://github.com/iambumblehead/esmock/pull/197) to write mock definitions protected on inherited prototype chain
+ * 2.2.0 _Mar.23.2023_
+   * [throw error when](https://github.com/iambumblehead/esmock/pull/193) esmock.strictest is called with empty mock definition, @koshic @Swivelgames 
+   * [update jest and jest-light-runner packages](https://github.com/iambumblehead/esmock/pull/194) at unit-tests, @koshic
  * 2.1.0 _Nov.29.2022_
    * [add node v19](https://github.com/iambumblehead/esmock/pull/189) to ci-test pipeline
    * [use live default export](https://github.com/iambumblehead/esmock/pull/189) to populate enumerable properties of mock definition

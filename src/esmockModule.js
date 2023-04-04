@@ -27,7 +27,10 @@ const isPlainObj = o => Object.getPrototypeOf(o) === objProto
 const esmockModuleMerge = (defLive, def) => isPlainObj(defLive)
   ? Object.assign({}, defLive, def)
   : Object.assign(Object.keys(defLive).reduce(
-    (prev, k) => (prev[k] = defLive[k], prev), Object.create(defLive)), def)
+    (prev, k) => (Object.defineProperty(prev, k, {
+      value: defLive[k],
+      writable: true
+    }), prev), Object.create(defLive)), def)
 
 const esmockModuleMergeDefault = (defLive, def) =>
   (isObj(defLive) && isObj(def)) ? esmockModuleMerge(defLive, def) : def
