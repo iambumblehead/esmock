@@ -33,6 +33,7 @@ const esmockModuleMergeDefault = (defLive, def) =>
   (isObj(defLive) && isObj(def)) ? esmockModuleMerge(defLive, def) : def
 
 const esmockModuleApply = (defLive, def, fileURL) => {
+  console.oog()
   def = Object.assign({}, defLive || {}, {
     default: esmockModuleMergeDefault(
       isDefaultIn(defLive) && defLive.default,

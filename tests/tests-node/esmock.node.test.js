@@ -5,6 +5,15 @@ import esmock from 'esmock'
 import sinon from 'sinon'
 import esmockCache from '../../src/esmockCache.js'
 
+test('should mock node:process', async () => {
+  // has direct and in-direct calls to `process.cwd()`
+  const thingBeingTested = await esmock('../local/usesNodeProcess.js', {}, {
+    'node:process': { cwd: () => 'tempDir' }
+  })
+
+  assert.strictEqual(thingBeingTested.cwd(), 'tempDir')
+})
+
 test('should mock package, even when package is not installed', async () => {
   const component = await esmock(`../local/notinstalledVueComponent.js`, {
     vue: {
