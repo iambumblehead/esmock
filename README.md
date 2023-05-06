@@ -52,7 +52,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import esmock from 'esmock'
 
-test('should mock packages and local files', async () => {
+test('package, alias and local file mocks', async () => {
   const cookup = await esmock('../src/cookup.js', {
     addpkg: (a, b) => a + b,
     '#icon': { coffee: '☕', bacon: '🥓' },
@@ -65,7 +65,7 @@ test('should mock packages and local files', async () => {
   assert.strictEqual(cookup('breakfast'), '☕🥓🧂')
 })
 
-test('should do global instance mocks —third param', async () => {
+test('global instance mocks —third param', async () => {
   const { getFile } = await esmock('../src/main.js', {}, {
     fs: { readFileSync: () => 'returns this 🌎 globally' }
   })
@@ -73,7 +73,7 @@ test('should do global instance mocks —third param', async () => {
   assert.strictEqual(getFile(), 'returns this 🌎 globally')
 })
 
-test('should mock "await import()" using esmock.p', async () => {
+test('mocks "await import()" using esmock.p', async () => {
   // using esmock.p, mock definitions are kept in cache
   const doAwaitImport = await esmock.p('../awaitImportLint.js', {
     eslint: { ESLint: cfg => cfg }
@@ -84,7 +84,7 @@ test('should mock "await import()" using esmock.p', async () => {
   // a bit more info are found in the wiki guide
 })
 
-test('should support "strict" mocking, at esmock.strict', async () => {
+test('esmock.strict mocks', async () => {
   // replace original module definitions and do not merge them
   const pathWrapper = await esmock.strict('../src/pathWrapper.js', {
     path: { dirname: () => '/path/to/file' }
