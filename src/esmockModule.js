@@ -20,6 +20,15 @@ const asFileURL = p => p.startsWith('file://') ? p : url.pathToFileURL(p)
 const objProto = Object.getPrototypeOf({})
 const isPlainObj = o => Object.getPrototypeOf(o) === objProto
 
+const resolve = isMetaResolve ?
+  (import.meta.resolve.constructor.name === 'AsyncFunction'
+    ? async (id, p) => import.meta.resolve(id, asFileURL(p)).catch(() => null)
+    : (id, p) => {
+      try { return import.meta.resolve(id, asFileURL(p)) }
+      catch { return null }
+    })
+  : resolvewith
+
 // assigning the object to its own prototypal inheritor can error, eg
 //   'Cannot assign to read only property \'F_OK\' of object \'#<Object>\''
 // 
@@ -116,9 +125,8 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   if (!id) return mocks
 
-  const fileURL = isMetaResolve
-    ? await import.meta.resolve(id, asFileURL(parent)).catch(() => null)
-    : resolvewith(id, parent)
+  const fileURL = resolve.constructor.name === 'AsyncFunction'
+    ? await resolve(id, parent) : resolve(id, parent)
   if (!fileURL && opt.isModuleNotFoundError !== false)
     throw esmockErr.errModuleIdNotFound(id, parent)
 
@@ -128,7 +136,8 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 }
 
 const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
-  const moduleFileURL = resolvewith(moduleId, parent)
+  const moduleFileURL = resolve.constructor.name === 'AsyncFunction'
+    ? await resolve(moduleId, parent) : resolve(moduleId, parent)
   if (!moduleFileURL)
     throw esmockErr.errModuleIdNotFound(moduleId, parent)
 
