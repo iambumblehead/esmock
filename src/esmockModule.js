@@ -20,6 +20,7 @@ const asFileURL = p => p.startsWith('file://') ? p : url.pathToFileURL(p)
 const objProto = Object.getPrototypeOf({})
 const isPlainObj = o => Object.getPrototypeOf(o) === objProto
 
+// when import.meta.resolve fails to resolve windows paths, fallback resolvewith
 const resolve = isMetaResolve ?
   (import.meta.resolve.constructor.name === 'AsyncFunction'
     ? async (id, p) => import.meta.resolve(id, asFileURL(p))
