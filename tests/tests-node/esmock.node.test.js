@@ -39,7 +39,7 @@ test('should mock package, even when package is not installed', async () => {
 })
 
 test('should mock a subpath', async () => {
-  const localpackagepath = path.resolve('../local/') + '/'
+  const localpackagepath = path.resolve('../local/') + path.sep
   const { subpathfunctionWrap } = await esmock(
     '../local/subpathimporter.js', localpackagepath, {
       '#sub': {
