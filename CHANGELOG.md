@@ -1,7 +1,7 @@
 # changelog
 
  * 2.2.2 _May.06.2023_
-   * detect async import.meta.resolve and handle in a separate way
+   * [detect async import.meta.resolve](https://github.com/iambumblehead/esmock/pull/201) and handle in a separate way
    * remove un-necessary usage of await keyword in README example
    * require node version less than 20.x
  * 2.2.1 _Apr.03.2023_
