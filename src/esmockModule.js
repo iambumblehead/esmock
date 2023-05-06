@@ -22,10 +22,11 @@ const isPlainObj = o => Object.getPrototypeOf(o) === objProto
 
 const resolve = isMetaResolve ?
   (import.meta.resolve.constructor.name === 'AsyncFunction'
-    ? async (id, p) => import.meta.resolve(id, asFileURL(p)).catch(() => null)
+    ? async (id, p) => import.meta.resolve(id, asFileURL(p))
+      .catch(() => resolvewith(id, p))
     : (id, p) => {
       try { return import.meta.resolve(id, asFileURL(p)) }
-      catch { return null }
+      catch { return resolvewith(id, p) }
     })
   : resolvewith
 
