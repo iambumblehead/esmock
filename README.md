@@ -9,13 +9,13 @@
 ```
 ![npm](https://img.shields.io/npm/v/esmock) [![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iambumblehead/166d927bd0089d7bfdee4e98a537712c/raw/esmock__heads_master.json)][2] [![install size](https://packagephobia.now.sh/badge?p=esmock)](https://packagephobia.now.sh/result?p=esmock) [![downloads](https://badgen.now.sh/npm/dm/esmock)](https://npmjs.org/package/esmock)
 
-**esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][10] or browse [esmock's test runner examples.][3]
+**esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][4] or browse [esmock's test runner examples.][3]
 
-[10]: https://github.com/iambumblehead/esmock/wiki
-[0]: http://www.bumblehead.com "bumblehead"
+[0]: https://www.bumblehead.com "bumblehead"
 [1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
 [2]: https://github.com/iambumblehead/esmock "esmock"
 [3]: https://github.com/iambumblehead/esmock/tree/master/tests "tests"
+[4]: https://github.com/iambumblehead/esmock/wiki
 
 `esmock` is used with node's --loader
 ``` json
@@ -52,7 +52,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import esmock from 'esmock'
 
-test('should mock packages and local files', async () => {
+test('package, alias and local file mocks', async () => {
   const cookup = await esmock('../src/cookup.js', {
     addpkg: (a, b) => a + b,
     '#icon': { coffee: '☕', bacon: '🥓' },
@@ -65,7 +65,7 @@ test('should mock packages and local files', async () => {
   assert.strictEqual(cookup('breakfast'), '☕🥓🧂')
 })
 
-test('should do global instance mocks —third param', async () => {
+test('global instance mocks —third param', async () => {
   const { getFile } = await esmock('../src/main.js', {}, {
     fs: { readFileSync: () => 'returns this 🌎 globally' }
   })
@@ -73,7 +73,7 @@ test('should do global instance mocks —third param', async () => {
   assert.strictEqual(getFile(), 'returns this 🌎 globally')
 })
 
-test('should mock "await import()" using esmock.p', async () => {
+test('mocks "await import()" using esmock.p', async () => {
   // using esmock.p, mock definitions are kept in cache
   const doAwaitImport = await esmock.p('../awaitImportLint.js', {
     eslint: { ESLint: cfg => cfg }
@@ -84,14 +84,14 @@ test('should mock "await import()" using esmock.p', async () => {
   // a bit more info are found in the wiki guide
 })
 
-test('should support "strict" mocking, at esmock.strict', async () => {
+test('esmock.strict mocks', async () => {
   // replace original module definitions and do not merge them
   const pathWrapper = await esmock.strict('../src/pathWrapper.js', {
     path: { dirname: () => '/path/to/file' }
   })
 
   // error, because "path" mock above does not define path.basename
-  await assert.rejects(async () => pathWrapper.basename('/dog.png'), {
+  assert.rejects(() => pathWrapper.basename('/dog.🐶.png'), {
     name: 'TypeError',
     message: 'path.basename is not a function'
   })
