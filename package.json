@@ -54,7 +54,7 @@
     "rewire"
   ],
   "engines": {
-    "node": ">=14.16.0 <=19.9.0"
+    "node": ">=14.16.0"
   },
   "dependencies": {
     "resolvewithplus": "^2.0.1"
