@@ -6,7 +6,7 @@
     "url": "https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "mocha": "^10.1.0",
+    "mocha": "^10.2.0",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
     "esmock": "file:..",
