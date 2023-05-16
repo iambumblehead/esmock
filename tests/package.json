@@ -27,7 +27,7 @@
     "mini": "cd .. && cd src && npx esbuild esmock.js --minify --bundle --allow-overwrite --platform=node --format=esm --outfile=esmock.js",
     "isnodelt18": "node -e \"+process.versions.node.split('.')[0] < 18 || process.exit(1)\"",
     "isnodegt19": "node -e \"+process.versions.node.split('.')[0] > 19 || process.exit(1)\"",
-    "isnodenight": "node -e \"\/nightly\/.test(process.versions.node) || process.exit(1)\"",
+    "isnodenight": "node -e \"process.versions.node.includes('night') || process.exit(1)\"",
     "install:esmock": "cd .. && npm install",
     "install:test-ava": "cd tests-ava && npm install",
     "install:test-uvu": "cd tests-uvu && npm install",
