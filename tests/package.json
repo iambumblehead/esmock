@@ -26,6 +26,7 @@
   "scripts": {
     "mini": "cd .. && cd src && npx esbuild esmock.js --minify --bundle --allow-overwrite --platform=node --format=esm --outfile=esmock.js",
     "isnodelt18": "node -e \"+process.versions.node.split('.')[0] < 18 || process.exit(1)\"",
+    "isnodegt19": "node -e \"+process.versions.node.split('.')[0] > 19 || process.exit(1)\"",
     "install:esmock": "cd .. && npm install",
     "install:test-ava": "cd tests-ava && npm install",
     "install:test-uvu": "cd tests-uvu && npm install",
@@ -38,7 +39,6 @@
     "install:test-nodets": "cd tests-nodets && npm install",
     "install:test-mocha": "cd tests-mocha && npm install",
     "install:all": "node --version && npm install && npm-run-all install:test*",
-    "test:test-ava": "cd tests-ava && npm test",
     "test:test-uvu": "cd tests-uvu && npm test",
     "test:test-mocha": "cd tests-mocha && npm test",
     "test:node18-test-tsm": "cd tests-tsm && npm test",
@@ -49,6 +49,8 @@
     "test:node18-test-source-map": "cd tests-source-map && npm test",
     "test:node18-test-no-loader": "cd tests-no-loader && npm test",
     "test:node18:all": "npm run isnodelt18 || npm-run-all test:node18-test*",
+    "test:nodelt20-test-ava": "cd tests-ava && npm test",
+    "test:nodelt20:all": "npm run isnodegt19 || npm-run-all test:nodelt20-test*",
     "test:all": "npm-run-all test:test* && npm run test:node18:all",
     "test:all-cover": "c8 --src=../src/* npm run test:all",
     "test:all-ci": "npm run mini && npm run test:all"
