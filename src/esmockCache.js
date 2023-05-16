@@ -7,6 +7,8 @@ const esmockCache = {
 }
 
 const esmockTreeIdSet = (key, keylong) => (
+  (typeof global.postMessageEsmk === 'function')
+    && global.postMessageEsmk({ key, keylong }),
   global.mockKeys[String(key)] = keylong)
 
 const esmockTreeIdGet = key => (

@@ -1,4 +1,5 @@
 import process from 'process'
+import { isMainThread } from 'node:worker_threads'
 import urlDummy from './esmockDummy.js'
 import esmockErr from './esmockErr.js'
 
@@ -15,6 +16,13 @@ const exportNamesRe = /.*exportNames=(.*)/
 const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
+
+const globalPreload = isMainThread && (({ port }) => (
+  port.addEventListener('message', ev => (
+    global.mockKeys[ev.data.key] = ev.data.keylong)),
+  port.unref(),
+  'global.postMessageEsmk = d => port.postMessage(d)'
+))
 
 // new versions of node: when multiple loaders are used and context
 // is passed to nextResolve, the process crashes in a recursive call
@@ -123,4 +131,4 @@ const load = async (url, context, nextLoad) => {
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
 const getSource = isLT1612 && load
 
-export {load, resolve, getSource, loaderIsVerified}
+export {load, resolve, getSource, loaderIsVerified, globalPreload}
