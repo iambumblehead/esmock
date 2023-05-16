@@ -6,7 +6,7 @@
     "url": "https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "ava": "^4.3.3",
+    "ava": "^5.2.0",
     "esmock": "file:..",
     "sinon": "file:../node_modules/sinon",
     "eslint": "file:../node_modules/eslint",

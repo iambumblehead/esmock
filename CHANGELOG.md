@@ -1,5 +1,9 @@
 # changelog
 
+ * 2.2.3 _May.16.2023_
+   * [add node v21 nightly](https://github.com/iambumblehead/esmock/pull/199) to test ci pipeline
+   * send wide uri definitions to loader using loader worker
+   * [encountered upstream error](https://github.com/nodejs/node/issues/47614) when attempting to add node v20 tests
  * 2.2.2 _May.06.2023_
    * [detect async import.meta.resolve](https://github.com/iambumblehead/esmock/pull/201) and handle in a separate way
    * remove un-necessary usage of await keyword in README example

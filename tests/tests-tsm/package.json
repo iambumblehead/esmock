@@ -6,7 +6,7 @@
     "url": "https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "tsm": "^2.2.2",
+    "tsm": "^2.3.0",
     "esmock": "file:..",
     "pg": "file:../node_modules/pg",
     "sinon": "file:../node_modules/sinon",

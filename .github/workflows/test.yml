@@ -14,11 +14,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 12
     strategy:
+      fail-fast: false
       matrix:
         # node-14's npm must be updated, but no longer updatable due to:
         #   https://github.com/npm/cli/issues/2663
         # because of this, node-14 test strategy is removed :(
-        node-version: [16.x, 18.x, 19.x]
+        # node-version: [16.x, 18.x, 19.x, 20.x, 20-nightly]
+        node-version: [16.x, 18.x, 19.x, 21-nightly]
         os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v3

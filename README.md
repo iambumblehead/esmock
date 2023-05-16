@@ -32,6 +32,10 @@
     "test-ts": "node --loader=ts-node/esm --loader=esmock --test *ts",
     "test-jest": "NODE_OPTIONS=--loader=esmock jest"
   },
+  "ava": [
+    "ava is incompatible w/ --loader and node v20 or greater",
+    "https://github.com/avajs/ava/issues/3195"
+  ],
   "jest": {
     "runner": "jest-light-runner"
   }
