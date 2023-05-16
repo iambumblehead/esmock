@@ -35,8 +35,8 @@ const nextResolveCall = async (nextResolve, specifier, context) => (
   context.parentURL &&
     (context.conditions.slice(-1)[0] === 'node-addons'
      || context.importAssertions || isLT1612)
-    ? await nextResolve(specifier, context)
-    : await nextResolve(specifier))
+    ? nextResolve(specifier, context)
+    : nextResolve(specifier))
 
 const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context
