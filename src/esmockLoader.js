@@ -1,5 +1,4 @@
 import process from 'process'
-import { isMainThread } from 'node:worker_threads'
 import urlDummy from './esmockDummy.js'
 import esmockErr from './esmockErr.js'
 
@@ -17,7 +16,7 @@ const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
 
-const globalPreload = isMainThread && (({ port }) => (
+const globalPreload = (({ port }) => (
   port.addEventListener('message', ev => (
     global.mockKeys[ev.data.key] = ev.data.keylong)),
   port.unref(),
