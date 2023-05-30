@@ -46,6 +46,9 @@ const parseImportsTree = treeidspec => {
   ]
 }
 
+const treeidspecFromUrl = url => esmkIdRe.test(url)
+  && global.esmockTreeIdGet(url.match(esmkIdRe)[0].split('=')[1])
+
 // new versions of node: when multiple loaders are used and context
 // is passed to nextResolve, the process crashes in a recursive call
 // see: /esmock/issues/#48
@@ -63,10 +66,7 @@ const nextResolveCall = async (nextResolve, specifier, context) => (
 
 const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context
-  const treeidspec = esmkIdRe.test(parentURL)
-    ? global.esmockTreeIdGet(parentURL.match(esmkIdRe)[0].split('=')[1])
-    : parentURL
-
+  const treeidspec = treeidspecFromUrl(parentURL) || parentURL
   if (!esmkTreeIdRe.test(treeidspec))
     return nextResolveCall(nextResolve, specifier, context)
 
@@ -130,8 +130,7 @@ const load = async (url, context, nextLoad) => {
     }
   }
 
-  const treeidspec = esmkIdRe.test(url)
-    ? global.esmockTreeIdGet(url.match(esmkIdRe)[0].split('=')[1]) : url
+  const treeidspec = treeidspecFromUrl(url) || url
   const treeid = treeidspec &&
     (treeidspec.match(esmkTreeIdRe) || [])[0]
   if (treeid) {
