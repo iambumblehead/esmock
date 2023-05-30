@@ -8,6 +8,7 @@ const isLT1612 = major < 16 || (major === 16 && minor < 12)
 const esmkgdefsAndAfterRe = /\?esmkgdefs=.*/
 const esmkgdefsAndBeforeRe = /.*\?esmkgdefs=/
 const esmkdefsRe = /#-#esmkdefs/
+const esmkImportStartRe = /^file:\/\/\/import\?/
 const esmkImportRe = /file:\/\/\/import\?([^#]*)/
 const esmkImportListItemRe = /\bimport,|,import\b|\bimport\b/g
 const esmkTreeIdRe = /esmkTreeId=\d*/
@@ -87,10 +88,10 @@ const resolve = async (specifier, context, nextResolve) => {
     }
   }
 
-  if (specifier.startsWith('file:///import?')) {
+  if (esmkImportStartRe.test(specifier)) {
     return {
       shortCircuit: true,
-      url: specifier.replace('file:///import', urlDummy)
+      url: specifier.replace(esmkImportStartRe, urlDummy + '?')
     }
   }
 
