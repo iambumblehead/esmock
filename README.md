@@ -11,11 +11,6 @@
 
 **esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][4] or browse [esmock's test runner examples.][3]
 
-[0]: https://www.bumblehead.com "bumblehead"
-[1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
-[2]: https://github.com/iambumblehead/esmock "esmock"
-[3]: https://github.com/iambumblehead/esmock/tree/master/tests "tests"
-[4]: https://github.com/iambumblehead/esmock/wiki
 
 `esmock` is used with node's --loader
 ``` json
@@ -112,6 +107,11 @@ test('esmock globals; fetch, Date, setTimeout etc', async () => {
 })
 ```
 
+[0]: https://www.bumblehead.com "bumblehead"
+[1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
+[2]: https://github.com/iambumblehead/esmock "esmock"
+[3]: https://github.com/iambumblehead/esmock/tree/master/tests "tests"
+[4]: https://github.com/iambumblehead/esmock/wiki
 [5]: https://packagephobia.now.sh/result?p=esmock
 [6]: https://packagephobia.now.sh/badge?p=esmock
 [7]: https://www.npmjs.com/package/esmock
