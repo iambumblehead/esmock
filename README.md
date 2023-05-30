@@ -84,7 +84,7 @@ test('mocks "await import()" using esmock.p', async () => {
   })
 
   // mock definition is returned from cache, when import is called
-  assert.strictEqual(await doAwaitImport('cfg'), 'cfg')
+  assert.strictEqual(await doAwaitImport('cfg🛠️'), 'cfg🛠️')
   // a bit more info are found in the wiki guide
 })
 
@@ -99,5 +99,15 @@ test('esmock.strict mocks', async () => {
     name: 'TypeError',
     message: 'path.basename is not a function'
   })
+})
+
+test('esmock globals; fetch, Date, setTimeout etc', async () => {
+  const reqUsers = await esmock('../reqUsers.js', {
+    import: { // define the 'fetch' mock, see wiki for more info
+      fetch: () => '[["jim😄",1],["jen😊",2}]'
+    }
+  })
+  
+  assert.strictEqual(await reqUsers(), '[["jim😄",1],["jen😊",2}]')
 })
 ```

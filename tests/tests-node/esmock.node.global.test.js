@@ -40,3 +40,13 @@ test('should import mock objects, global', async () => {
   assert.strictEqual(hostObjects.child.fetchWrapper().res, 404)
   assert.strictEqual(hostObjects.child.otherimport(), 'other import')
 })
+
+test('should mock fetch as shown in README', async () => {
+  const reqUsers = await esmock('../local/usesImportObjects.js', {
+    import: {
+      fetch: () => '[["jim😄",1],["jen😊",2}]'
+    }
+  })
+
+  assert.strictEqual(await reqUsers(), '[["jim😄",1],["jen😊",2}]')
+})
