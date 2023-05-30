@@ -1,6 +1,6 @@
 # changelog
 
- * 2.2.4 _May.30.2023_
+ * 2.3.0 _May.30.2023_
    * [add initial support](https://github.com/iambumblehead/esmock/pull/205) for the solution to "globalThis" mocks,
    * support injecting definitions into the mock import tree,
    * demonstrate mock setTimeout, fetch and Date scenarious at unit-tests
