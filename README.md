@@ -104,11 +104,11 @@ test('esmock.strict mocks', async () => {
 test('esmock globals; fetch, Date, setTimeout etc', async () => {
   const reqUsers = await esmock('../reqUsers.js', {
     import: { // define the 'fetch' mock, see wiki for more info
-      fetch: () => '[["jim😄",1],["jen😊",2}]'
+      fetch: () => '[["jim","😄"],["jen","😊"]]'
     }
   })
   
-  assert.strictEqual(await reqUsers(), '[["jim😄",1],["jen😊",2}]')
+  assert.strictEqual(await reqUsers(), '[["jim","😄"],["jen","😊"]]')
 })
 ```
 
