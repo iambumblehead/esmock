@@ -9,6 +9,7 @@ const esmkgdefsAndAfterRe = /\?esmkgdefs=.*/
 const esmkgdefsAndBeforeRe = /.*\?esmkgdefs=/
 const esmkdefsRe = /#-#esmkdefs/
 const esmkImportRe = /file:\/\/\/import\?([^#]*)/
+const esmkImportListItemRe = /\bimport,|,import\b|\bimport\b/g
 const esmkTreeIdRe = /esmkTreeId=\d*/
 const esmkModuleIdRe = /esmkModuleId=([^&]*)/
 const esmkIdRe = /\?esmk=\d*/
@@ -140,8 +141,7 @@ const load = async (url, context, nextLoad) => {
         format: 'module',
         shortCircuit: true,
         responseURL: encodeURI(url),
-        source:
-        `import {${importedNames.join()}} from '${specifier}';`
+        source: `import {${importedNames}} from '${specifier}';`
           + (await nextLoad(url, context)).source
       }
     }
@@ -158,10 +158,11 @@ const load = async (url, context, nextLoad) => {
   }
 
   const exportedNames = exportNamesRe.test(url) && url
-    .replace(exportNamesRe, '$1').split(',')
-    .filter(n => n !== 'import')
+    .replace(exportNamesRe, '$1')
+    .replace(esmkImportListItemRe, '')
+    .split(',')
 
-  if (exportedNames.length) {
+  if (exportedNames && exportedNames[0]) {
     return {
       format: 'module',
       shortCircuit: true,
