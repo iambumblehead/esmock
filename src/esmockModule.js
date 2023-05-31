@@ -47,6 +47,10 @@ const esmockModuleMergeDefault = (defLive, def) =>
   (isObj(defLive) && isObj(def)) ? esmockModuleMerge(defLive, def) : def
 
 const esmockModuleApply = (defLive, def, fileURL) => {
+  // no fileURL here indicates 'import' mock, 'default' not needed
+  if (fileURL === null)
+    return Object.assign({}, defLive || {}, def)
+
   def = Object.assign({}, defLive || {}, {
     default: esmockModuleMergeDefault(
       isDefaultIn(defLive) && defLive.default,
@@ -129,7 +133,7 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   const fileURL = resolve.constructor.name === 'AsyncFunction'
     ? await resolve(id, parent) : resolve(id, parent)
-  if (!fileURL && opt.isModuleNotFoundError !== false)
+  if (!fileURL && opt.isModuleNotFoundError !== false && id !== 'import')
     throw esmockErr.errModuleIdNotFound(id, parent)
 
   mocks.push(await esmockModuleCreate(treeid, defs[id], id, fileURL, opt))

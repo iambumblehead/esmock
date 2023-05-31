@@ -15,6 +15,7 @@
     "allowImportExportEverywhere": true
   },
   "globals": {
+    "Set": true
   },
   "rules": {
     "no-unused-vars": [ "error", {

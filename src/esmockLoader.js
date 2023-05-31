@@ -8,6 +8,9 @@ const isLT1612 = major < 16 || (major === 16 && minor < 12)
 const esmkgdefsAndAfterRe = /\?esmkgdefs=.*/
 const esmkgdefsAndBeforeRe = /.*\?esmkgdefs=/
 const esmkdefsRe = /#-#esmkdefs/
+const esmkImportStartRe = /^file:\/\/\/import\?/
+const esmkImportRe = /file:\/\/\/import\?([^#]*)/
+const esmkImportListItemRe = /\bimport,|,import\b|\bimport\b/g
 const esmkTreeIdRe = /esmkTreeId=\d*/
 const esmkModuleIdRe = /esmkModuleId=([^&]*)/
 const esmkIdRe = /\?esmk=\d*/
@@ -22,6 +25,30 @@ const globalPreload = (({ port }) => (
   port.unref(),
   'global.postMessageEsmk = d => port.postMessage(d)'
 ))
+
+const parseImports = defstr => {
+  const [specifier, imports] = (defstr.match(esmkImportRe) || [])
+
+  return [ // return [specifier, importNames]
+    specifier, exportNamesRe.test(imports) &&
+      imports.replace(exportNamesRe, '$1').split(',')]
+}
+
+// parses local and global mock imports from long-url treeidspec
+const parseImportsTree = treeidspec => {
+  const defs = treeidspec.split(esmkdefsRe)[1] || ''
+  const defimports = parseImports(defs)
+  const gdefs = treeidspec.replace(esmkgdefsAndBeforeRe, '')
+  const gdefimports = parseImports(gdefs)
+
+  return [
+    defimports[0] || gdefimports[0],
+    [...new Set([defimports[1] || [], gdefimports[1] || []].flat())]
+  ]
+}
+
+const treeidspecFromUrl = url => esmkIdRe.test(url)
+  && global.esmockTreeIdGet(url.match(esmkIdRe)[0].split('=')[1])
 
 // new versions of node: when multiple loaders are used and context
 // is passed to nextResolve, the process crashes in a recursive call
@@ -40,10 +67,7 @@ const nextResolveCall = async (nextResolve, specifier, context) => (
 
 const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context
-  const treeidspec = esmkIdRe.test(parentURL)
-    ? global.esmockTreeIdGet(parentURL.match(esmkIdRe)[0].split('=')[1])
-    : parentURL
-
+  const treeidspec = treeidspecFromUrl(parentURL) || parentURL
   if (!esmkTreeIdRe.test(treeidspec))
     return nextResolveCall(nextResolve, specifier, context)
 
@@ -61,6 +85,13 @@ const resolve = async (specifier, context, nextResolve) => {
         shortCircuit: true,
         url: urlDummy + moduleId
       }
+    }
+  }
+
+  if (esmkImportStartRe.test(specifier)) {
+    return {
+      shortCircuit: true,
+      url: specifier.replace(esmkImportStartRe, urlDummy + '?')
     }
   }
 
@@ -100,6 +131,22 @@ const load = async (url, context, nextLoad) => {
     }
   }
 
+  const treeidspec = treeidspecFromUrl(url) || url
+  const treeid = treeidspec &&
+    (treeidspec.match(esmkTreeIdRe) || [])[0]
+  if (treeid) {
+    const [specifier, importedNames] = parseImportsTree(treeidspec)
+    if (importedNames && importedNames.length) {
+      return {
+        format: 'module',
+        shortCircuit: true,
+        responseURL: encodeURI(url),
+        source: `import {${importedNames}} from '${specifier}';`
+          + (await nextLoad(url, context)).source
+      }
+    }
+  }
+
   if (esmkdefsRe.test(url)) // parent of mocked modules
     return nextLoad(url, context)
 
@@ -110,9 +157,12 @@ const load = async (url, context, nextLoad) => {
       url = url.replace(urlDummy, `file:///${url.match(esmkModuleIdRe)[1]}`)
   }
 
-  const exportedNames = exportNamesRe.test(url) &&
-    url.replace(exportNamesRe, '$1').split(',')
-  if (exportedNames.length) {
+  const exportedNames = exportNamesRe.test(url) && url
+    .replace(exportNamesRe, '$1')
+    .replace(esmkImportListItemRe, '')
+    .split(',')
+
+  if (exportedNames && exportedNames[0]) {
     return {
       format: 'module',
       shortCircuit: true,
