@@ -7,7 +7,7 @@
 +╚███████╗███████╔╝██║  ██║  ██║╚██████╔╝╚██████╗██║  ╚██╗
 + ╚══════╝╚══════╝ ╚═╝  ╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚═╝   ╚═╝
 ```
-[![npm][9]][7] [![coverage][8]][2] [![install size][6]][5] [![downloads](https://badgen.now.sh/npm/dm/esmock)][7]
+[![npm][9]][7] [![coverage][8]][2] [![install size][6]][5] [![downloads][10]][7]
 
 **esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][4] or browse [esmock's test runner examples.][3]
 
@@ -117,3 +117,4 @@ test('esmock.strict mocks', async () => {
 [7]: https://www.npmjs.com/package/esmock
 [8]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iambumblehead/166d927bd0089d7bfdee4e98a537712c/raw/esmock__heads_master.json
 [9]: https://img.shields.io/npm/v/esmock
+[10]: https://badgen.now.sh/npm/dm/esmock
