@@ -1,9 +1,10 @@
 # changelog
 
- * 2.3.0 _May.30.2023_
+ * 2.3.0 _May.31.2023_
    * [add initial support](https://github.com/iambumblehead/esmock/pull/205) for the solution to "globalThis" mocks,
    * support injecting definitions into the mock import tree,
    * demonstrate mock setTimeout, fetch and Date scenarious at unit-tests
+   * [remove node 19](https://github.com/iambumblehead/esmock/pull/206) test job, update remaining jobs to use node 20
  * 2.2.3 _May.16.2023_
    * [add node v21 nightly](https://github.com/iambumblehead/esmock/pull/199) to test ci pipeline
    * send wide uri definitions to loader using loader worker
