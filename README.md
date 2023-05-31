@@ -64,6 +64,16 @@ test('package, alias and local file mocks', async () => {
   assert.strictEqual(cookup('breakfast'), '☕🥓🧂')
 })
 
+test('global mocks fetch, Date, setTimeout etc', async () => {
+  const reqUsers = await esmock('../reqUsers.js', {
+    import: { // define the 'fetch' mock, see wiki for more info
+      fetch: () => '[["jim","😄"],["jen","😊"]]'
+    }
+  })
+  
+  assert.strictEqual(await reqUsers(), '[["jim","😄"],["jen","😊"]]')
+})
+
 test('global instance mocks —third param', async () => {
   const { getFile } = await esmock('../src/main.js', {}, {
     fs: { readFileSync: () => 'returns this 🌎 globally' }
@@ -94,16 +104,6 @@ test('esmock.strict mocks', async () => {
     name: 'TypeError',
     message: 'path.basename is not a function'
   })
-})
-
-test('esmock globals; fetch, Date, setTimeout etc', async () => {
-  const reqUsers = await esmock('../reqUsers.js', {
-    import: { // define the 'fetch' mock, see wiki for more info
-      fetch: () => '[["jim","😄"],["jen","😊"]]'
-    }
-  })
-  
-  assert.strictEqual(await reqUsers(), '[["jim","😄"],["jen","😊"]]')
 })
 ```
 
