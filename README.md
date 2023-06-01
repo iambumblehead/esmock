@@ -9,7 +9,7 @@
 ```
 [![npm][9]][7] [![coverage][8]][2] [![install size][6]][5] [![downloads][10]][7]
 
-**esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][4] or browse [esmock's test runner examples.][3]
+**esmock provides native ESM import and globals mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][4] or browse [esmock's test runner examples.][3]
 
 
 `esmock` is used with node's --loader
