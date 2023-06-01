@@ -64,10 +64,19 @@ test('package, alias and local file mocks', async () => {
   assert.strictEqual(cookup('breakfast'), '☕🥓🧂')
 })
 
+test('global import tree mocks —third param', async () => {
+  const { getFile } = await esmock('../src/main.js', {}, {
+    // mocks *every* fs.readFileSync inside the import tree
+    fs: { readFileSync: () => 'returned to 🌲 every caller in the tree' }
+  })
+
+  assert.strictEqual(getFile(), 'returned to 🌲 every caller in the tree')
+})
+
 test('global mocks fetch, Date, setTimeout etc', async () => {
   // https://github.com/iambumblehead/esmock/wiki#call-esmock-globals
   const Users = await esmock('../Users.js', {
-    // this nested-esmock will define '../req.js' for '../Users.js' only
+    // nested esmock defines 'fetch' at req.js' import tree *only*
     '../req.js': await esmock('../req.js', {
       import: {
         // define globals, such as 'fetch', using the import namespace
@@ -80,15 +89,6 @@ test('global mocks fetch, Date, setTimeout etc', async () => {
   })
   
   assert.deepEqual(await Users.count(), 2)
-})
-
-test('global import tree mocks —third param', async () => {
-  const { getFile } = await esmock('../src/main.js', {}, {
-    // mocks *every* fs.readFileSync inside the import tree
-    fs: { readFileSync: () => 'returned to 🌲 every caller in the tree' }
-  })
-
-  assert.strictEqual(getFile(), 'returned to 🌲 every caller in the tree')
 })
 
 test('mocks "await import()" using esmock.p', async () => {
