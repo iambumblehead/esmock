@@ -9,7 +9,7 @@
 ```
 [![npm][9]][7] [![coverage][8]][2] [![install size][6]][5] [![downloads][10]][7]
 
-**esmock provides native ESM import mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][4] or browse [esmock's test runner examples.][3]
+**esmock provides native ESM import and globals mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][4] or browse [esmock's test runner examples.][3]
 
 
 `esmock` is used with node's --loader
@@ -64,22 +64,31 @@ test('package, alias and local file mocks', async () => {
   assert.strictEqual(cookup('breakfast'), '☕🥓🧂')
 })
 
-test('global mocks fetch, Date, setTimeout etc', async () => {
-  const reqUsers = await esmock('../reqUsers.js', {
-    import: { // define the 'fetch' mock, see wiki for more info
-      fetch: () => '[["jim","😄"],["jen","😊"]]'
-    }
+test('full import tree mocks —third param', async () => {
+  const { getFile } = await esmock('../src/main.js', {}, {
+    // mocks *every* fs.readFileSync inside the import tree
+    fs: { readFileSync: () => 'returned to 🌲 every caller in the tree' }
   })
-  
-  assert.strictEqual(await reqUsers(), '[["jim","😄"],["jen","😊"]]')
+
+  assert.strictEqual(getFile(), 'returned to 🌲 every caller in the tree')
 })
 
-test('global instance mocks —third param', async () => {
-  const { getFile } = await esmock('../src/main.js', {}, {
-    fs: { readFileSync: () => 'returns this 🌎 globally' }
+test('mock fetch, Date, setTimeout and any globals', async () => {
+  // https://github.com/iambumblehead/esmock/wiki#call-esmock-globals
+  const Users = await esmock('../Users.js', {
+    // nested esmock defines 'fetch' at req.js' import tree *only*
+    '../req.js': await esmock('../req.js', {
+      import: {
+        // define globals, such as 'fetch', using the import namespace
+        fetch: async () => ({
+          status: 200,
+          json: async () => [["jim","😄"],["jen","😊"]]
+        })
+      }
+    })
   })
 
-  assert.strictEqual(getFile(), 'returns this 🌎 globally')
+  assert.deepEqual(await Users.count(), 2)
 })
 
 test('mocks "await import()" using esmock.p', async () => {

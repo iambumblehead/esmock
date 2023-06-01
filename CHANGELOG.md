@@ -1,5 +1,8 @@
 # changelog
 
+ * 2.3.1 _Jun.01.2023_
+   * [improve README example](https://github.com/iambumblehead/esmock/pull/207) for mocking global values
+   * use the word 'global' in the global values mocking example only, to improve clarity (hopefully)
  * 2.3.0 _May.31.2023_
    * [add initial support](https://github.com/iambumblehead/esmock/pull/205) for the solution to "globalThis" mocks,
    * support injecting definitions into the mock import tree,

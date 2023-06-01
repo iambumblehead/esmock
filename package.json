@@ -1,10 +1,10 @@
 {
   "name": "esmock",
   "type": "module",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "license": "ISC",
   "readmeFilename": "README.md",
-  "description": "provides native ESM import mocking for unit tests",
+  "description": "provides native ESM import and globals mocking for unit tests",
   "author": "chris <chris@bumblehead.com>",
   "main": "./src/esmock.js",
   "exports": {
@@ -51,7 +51,10 @@
     "modules",
     "mocking",
     "proxyquire",
-    "rewire"
+    "rewire",
+    "global",
+    "fetch",
+    "mock fetch"
   ],
   "engines": {
     "node": ">=14.16.0"
