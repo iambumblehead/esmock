@@ -87,7 +87,7 @@ test('mock fetch, Date, setTimeout and any globals', async () => {
       }
     })
   })
-  
+
   assert.deepEqual(await Users.count(), 2)
 })
 
