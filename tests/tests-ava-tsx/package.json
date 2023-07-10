@@ -1,0 +1,29 @@
+{
+  "type": "module",
+  "description": "esmock unit tests, tsx with ava",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "ava": "^5.3.1",
+    "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault",
+    "eslint": "file:../node_modules/eslint",
+    "esmock": "file:..",
+    "form-urlencoded": "file:../node_modules/form-urlencoded",
+    "sinon": "file:../node_modules/sinon",
+    "tsx": "^3.12.7"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "nodeArguments": [
+      "--loader=tsx",
+      "--loader=esmock"
+    ]
+  }
+}
