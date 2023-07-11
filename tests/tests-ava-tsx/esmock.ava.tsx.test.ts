@@ -11,7 +11,7 @@ test('should mock js when using tsx', async t => {
   t.is(main.pathbasenamewrap(), 'hellow')
 })
 
-test.failing('should mock ts when using tsx - unknown file extension', async t => {
+test.only('should mock ts when using tsx - unknown file extension', async t => {
   const main = await esmock('../local/main.ts', {
     path: {
       basename: () => 'hellow'
