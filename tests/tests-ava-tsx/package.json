@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "ava": "^5.3.1",
-    "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault",
     "esmock": "file:..",
     "tsx": "^3.12.7"
   },
