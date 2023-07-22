@@ -1,7 +1,7 @@
 # changelog
 
  * 2.3.2 _Jul.22.2023_
-   * restore ava unit-test process at node20 test pipeline
+   * [restore ava unit-test](https://github.com/iambumblehead/esmock/pull/213) process at node20 test pipeline
  * 2.3.1 _Jun.01.2023_
    * [improve README example](https://github.com/iambumblehead/esmock/pull/207) for mocking global values
    * use the word 'global' in the global values mocking example only, to improve clarity (hopefully)
