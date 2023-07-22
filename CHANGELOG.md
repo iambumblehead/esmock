@@ -2,6 +2,8 @@
 
  * 2.3.2 _Jul.22.2023_
    * [restore ava unit-test](https://github.com/iambumblehead/esmock/pull/213) process at node20 test pipeline
+   * [investigate problems](https://github.com/iambumblehead/esmock/issues/209) using tsx from @tommy-mitchell
+   * [reported the issue at the tsx project,](https://github.com/esbuild-kit/tsx/issues/264) where tsx fails import moduleIds with query params
  * 2.3.1 _Jun.01.2023_
    * [improve README example](https://github.com/iambumblehead/esmock/pull/207) for mocking global values
    * use the word 'global' in the global values mocking example only, to improve clarity (hopefully)
