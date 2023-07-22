@@ -74,7 +74,7 @@ test('mock fetch, Date, setTimeout and any globals', async () => {
   const { userCount } = await esmock('../Users.js', {
     '../req.js': await esmock('../req.js', {
       import: { // define globals like 'fetch' on the import namespace
-        fetch: async () => ({n
+        fetch: async () => ({
           status: 200,
           json: async () => [['jim','😄'],['jen','😊']]
         })
