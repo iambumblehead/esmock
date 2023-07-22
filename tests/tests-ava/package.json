@@ -14,6 +14,6 @@
     "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "test": "ava --node-arguments=\"--loader=esmock\""
+    "test": "NODE_OPTIONS='--loader=esmock' ava"
   }
 }
