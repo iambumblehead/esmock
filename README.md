@@ -27,10 +27,6 @@
     "test-ts": "node --loader=ts-node/esm --loader=esmock --test *ts",
     "test-jest": "NODE_OPTIONS=--loader=esmock jest"
   },
-  "ava": [
-    "ava is incompatible w/ --loader and node v20 or greater",
-    "https://github.com/avajs/ava/issues/3195"
-  ],
   "jest": {
     "runner": "jest-light-runner"
   }
@@ -61,7 +57,7 @@ test('package, alias and local file mocks', async () => {
     }
   })
 
-  assert.strictEqual(cookup('breakfast'), '☕🥓🧂')
+  assert.equal(cookup('breakfast'), '☕🥓🧂')
 })
 
 test('full import tree mocks —third param', async () => {
@@ -70,25 +66,23 @@ test('full import tree mocks —third param', async () => {
     fs: { readFileSync: () => 'returned to 🌲 every caller in the tree' }
   })
 
-  assert.strictEqual(getFile(), 'returned to 🌲 every caller in the tree')
+  assert.equal(getFile(), 'returned to 🌲 every caller in the tree')
 })
 
 test('mock fetch, Date, setTimeout and any globals', async () => {
   // https://github.com/iambumblehead/esmock/wiki#call-esmock-globals
-  const Users = await esmock('../Users.js', {
-    // nested esmock defines 'fetch' at req.js' import tree *only*
+  const { userCount } = await esmock('../Users.js', {
     '../req.js': await esmock('../req.js', {
-      import: {
-        // define globals, such as 'fetch', using the import namespace
+      import: { // define globals like 'fetch' on the import namespace
         fetch: async () => ({
           status: 200,
-          json: async () => [["jim","😄"],["jen","😊"]]
+          json: async () => [['jim','😄'],['jen','😊']]
         })
       }
     })
   })
 
-  assert.deepEqual(await Users.count(), 2)
+  assert.deepEqual(await userCount(), 2)
 })
 
 test('mocks "await import()" using esmock.p', async () => {
@@ -98,7 +92,7 @@ test('mocks "await import()" using esmock.p', async () => {
   })
 
   // mock definition is returned from cache, when import is called
-  assert.strictEqual(await doAwaitImport('cfg🛠️'), 'cfg🛠️')
+  assert.equal(await doAwaitImport('cfg🛠️'), 'cfg🛠️')
   // a bit more info are found in the wiki guide
 })
 

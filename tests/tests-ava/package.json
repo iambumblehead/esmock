@@ -6,7 +6,8 @@
     "url": "https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "ava": "^5.2.0",
+    "ava": "^5.3.1",
+    "run-script-os": "^1.1.6",
     "esmock": "file:..",
     "sinon": "file:../node_modules/sinon",
     "eslint": "file:../node_modules/eslint",
@@ -14,6 +15,8 @@
     "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "test": "ava --node-arguments=\"--loader=esmock\""
+    "test:default": "NODE_OPTIONS=--loader=esmock ava",
+    "test:win32": "set \"NODE_OPTIONS=--loader=esmock\" && ava",
+    "test": "run-script-os"
   }
 }

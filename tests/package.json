@@ -42,6 +42,7 @@
     "install:all": "node --version && npm install && npm-run-all install:test*",
     "test:test-uvu": "cd tests-uvu && npm test",
     "test:test-mocha": "cd tests-mocha && npm test",
+    "test:test-ava": "cd tests-ava && npm test",
     "test:node19-tsm": " cd tests-tsm && npm test",
     "test:node18-test-tsm": "npm run isnodenight || npm run test:node19-tsm",
     "test:node18-test-node": "cd tests-node && npm test",
@@ -51,9 +52,7 @@
     "test:node18-test-source-map": "cd tests-source-map && npm test",
     "test:node18-test-no-loader": "cd tests-no-loader && npm test",
     "test:node18:all": "npm run isnodelt18 || npm-run-all test:node18-test*",
-    "test:nodelt20-test-ava": "cd tests-ava && npm test",
-    "test:nodelt20:all": "npm run isnodegt19 || npm-run-all test:nodelt20-test*",
-    "test:all": "npm-run-all test:test* && npm run test:node18:all && npm run test:nodelt20:all",
+    "test:all": "npm-run-all test:test* && npm run test:node18:all",
     "test:all-cover": "c8 --src=../src/* npm run test:all",
     "test:all-ci": "npm run mini && npm run test:all"
   }
