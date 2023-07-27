@@ -18,6 +18,7 @@ const exportNamesRe = /.*exportNames=(.*)/
 const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
+const hashbangRe = /^(#![^\n]*[\n])/
 
 const globalPreload = (({ port }) => (
   port.addEventListener('message', ev => (
@@ -137,12 +138,16 @@ const load = async (url, context, nextLoad) => {
   if (treeid) {
     const [specifier, importedNames] = parseImportsTree(treeidspec)
     if (importedNames && importedNames.length) {
+      const source = String((await nextLoad(url, context)).source)
+      const hbang = (source.match(hashbangRe) || [])[0] || ''
+      const sourcesafe = hbang ? source.replace(hashbangRe, '') : source
+
       return {
         format: 'module',
         shortCircuit: true,
         responseURL: encodeURI(url),
-        source: `import {${importedNames}} from '${specifier}';`
-          + (await nextLoad(url, context)).source
+        source: hbang + `import {${importedNames}} from '${specifier}';`
+          + sourcesafe
       }
     }
   }
