@@ -50,3 +50,16 @@ test('should mock fetch as shown in README', async () => {
 
   assert.strictEqual(await reqUsers(), '[["jim😄",1],["jen😊",2}]')
 })
+
+test('should mock files with hashbangs', async () => {
+  const logs = []
+
+  await esmock('../local/hashbang.js', {
+    '../local/env.js': { TESTCONSTANT: 'foo' },
+    import: {
+      console: { log: (...args) => logs.push(...args) }
+    }
+  })
+
+  assert.deepEqual(logs, ['foo'])
+})
