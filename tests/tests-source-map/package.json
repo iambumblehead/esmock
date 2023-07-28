@@ -7,13 +7,13 @@
   },
   "dependencies": {
     "esmock": "file:..",
-    "@ava/typescript": "^4.0.0",
-    "@tsconfig/node14": "^1.0.3",
-    "@types/node": "^20.1.5",
-    "ava": "^5.2.0",
+    "@ava/typescript": "^4.1.0",
+    "@tsconfig/node16": "^16.1.0",
+    "@types/node": "^20.4.5",
+    "ava": "^5.3.1",
     "cross-env": "^7.0.3",
-    "rimraf": "^3.0.2",
-    "typescript": "^5.0.4"
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6"
   },
   "scripts": {
     "test-metaresolve": "rimraf dist && tsc && cross-env \"NODE_OPTIONS=--experimental-import-meta-resolve --loader=esmock\" NODE_NO_WARNINGS=1 ava",
