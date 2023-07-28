@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "description": "esmock unit tests, tsx with node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "esmock": "file:..",
+    "tsx": "^3.12.7"
+  },
+  "scripts": {
+    "test": "node --loader=tsx --loader=esmock --test esmock.ava.tsx.test.ts"
+  }
+}
