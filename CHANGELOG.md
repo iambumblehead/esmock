@@ -2,6 +2,7 @@
 
  * 2.3.3 _Jul.27.2023_
    * [do not error when processing node hashbang](https://github.com/iambumblehead/esmock/pull/217) scripts from @tommy-mitchell
+   * [add note explaining](https://github.com/iambumblehead/esmock/pull/211) why tsx [does not work](https://github.com/esbuild-kit/tsx/issues/264)
  * 2.3.2 _Jul.22.2023_
    * [restore ava unit-test](https://github.com/iambumblehead/esmock/pull/213) process at node20 test pipeline
    * [investigate problems](https://github.com/iambumblehead/esmock/issues/209) using tsx from @tommy-mitchell
