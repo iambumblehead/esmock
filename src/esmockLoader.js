@@ -18,7 +18,7 @@ const exportNamesRe = /.*exportNames=(.*)/
 const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
-const hashbangRe = /^(#![^\n]*[\n])/
+const hashbangRe = /^(#![^\n]*\n)/
 
 const globalPreload = (({ port }) => (
   port.addEventListener('message', ev => (
