@@ -25,7 +25,8 @@
     "test-uvu": "NODE_OPTIONS=--loader=esmock uvu spec",
     "test-tsm": "node --loader=tsm --loader=esmock --test *ts",
     "test-ts": "node --loader=ts-node/esm --loader=esmock --test *ts",
-    "test-jest": "NODE_OPTIONS=--loader=esmock jest"
+    "test-jest": "NODE_OPTIONS=--loader=esmock jest",
+    "test-tsx": "⚠ https://github.com/esbuild-kit/tsx/issues/264"
   },
   "jest": {
     "runner": "jest-light-runner"
