@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.3.4 _Jul.30.2023_
+   * [do not error when mocking commonjs](https://github.com/iambumblehead/esmock/pull/220) global values, found by @tommy-mitchell
  * 2.3.3 _Jul.28.2023_
    * [do not error when processing node hashbang](https://github.com/iambumblehead/esmock/pull/217) scripts from @tommy-mitchell
    * [add note explaining](https://github.com/iambumblehead/esmock/pull/211) why tsx [does not work](https://github.com/esbuild-kit/tsx/issues/264)
