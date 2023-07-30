@@ -2,6 +2,7 @@ import fs from 'fs'
 import url from 'node:url'
 import resolvewith from 'resolvewithplus'
 import esmockErr from './esmockErr.js'
+import esmockIsESMRe from './esmockIsESMRe.js'
 
 import {
   esmockTreeIdSet,
@@ -65,9 +66,6 @@ const esmockModuleApply = (defLive, def, fileURL) => {
   return def
 }
 
-// eslint-disable-next-line max-len
-const esmockModuleESMRe = /(^\s*|[});\n]\s*)(import\s+(['"]|(\*\s+as\s+)?[^"'()\n;]+\s+from\s+['"]|\{)|export\s+\*\s+from\s+["']|export\s+(\{|default|function|class|var|const|let|async\s+function))/
-
 // returns cached results when available
 const esmockModuleIsESM = (fileURL, isesm) => {
   isesm = esmockCacheResolvedPathIsESMGet(fileURL)
@@ -77,7 +75,7 @@ const esmockModuleIsESM = (fileURL, isesm) => {
 
   isesm = !resolvewith.iscoremodule(fileURL)
     && isDirPathRe.test(fileURL)
-    && esmockModuleESMRe.test(fs.readFileSync(fileURL, 'utf-8'))
+    && esmockIsESMRe.test(fs.readFileSync(fileURL, 'utf-8'))
 
   esmockCacheResolvedPathIsESMSet(fileURL, isesm)
 
