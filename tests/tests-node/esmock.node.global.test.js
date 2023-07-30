@@ -74,4 +74,4 @@ test('should work when modules have CJS imports', async () => {
   })
 
   assert.deepEqual(logs, ['\nfoo\n'])
-});
+})
