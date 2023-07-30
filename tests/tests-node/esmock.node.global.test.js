@@ -63,3 +63,15 @@ test('should mock files with hashbangs', async () => {
 
   assert.deepEqual(logs, ['foo'])
 })
+
+test('should work when modules have CJS imports', async () => {
+  const logs = []
+
+  await esmock('../local/usesModuleWithCJSDependency.js', {}, {
+    import: {
+      console: { log: (...args) => logs.push(...args) }
+    }
+  })
+
+  assert.deepEqual(logs, ['\nfoo\n'])
+})

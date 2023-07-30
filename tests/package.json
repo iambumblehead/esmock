@@ -15,13 +15,14 @@
     "#sub": "./local/subpath.js"
   },
   "dependencies": {
-    "pg": "^8.7.3",
+    "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault",
     "eslint": "^8.12.0",
-    "sinon": "^12.0.1",
     "form-urlencoded": "^6.0.7",
-    "run-script-os": "^1.1.6",
+    "meow": "12.0.1",
     "npm-run-all": "^4.1.5",
-    "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault"
+    "pg": "^8.7.3",
+    "run-script-os": "^1.1.6",
+    "sinon": "^12.0.1"
   },
   "scripts": {
     "mini": "cd .. && cd src && npx esbuild esmock.js --minify --bundle --allow-overwrite --platform=node --format=esm --outfile=esmock.js",
