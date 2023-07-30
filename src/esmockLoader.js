@@ -141,13 +141,15 @@ const load = async (url, context, nextLoad) => {
       const source = String((await nextLoad(url, context)).source)
       const hbang = (source.match(hashbangRe) || [])[0] || ''
       const sourcesafe = hbang ? source.replace(hashbangRe, '') : source
+      const importexpr = context.format === 'module'
+        ? `import {${importedNames}} from '${specifier}';`
+        : `const {${importedNames}} = require('${specifier}');`
 
       return {
-        format: 'module',
+        format: context.format,
         shortCircuit: true,
         responseURL: encodeURI(url),
-        source: hbang + `import {${importedNames}} from '${specifier}';`
-          + sourcesafe
+        source: hbang + importexpr + sourcesafe
       }
     }
   }
