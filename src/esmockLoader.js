@@ -141,12 +141,12 @@ const load = async (url, context, nextLoad) => {
       const source = String((await nextLoad(url, context)).source)
       const hbang = (source.match(hashbangRe) || [])[0] || ''
       const sourcesafe = hbang ? source.replace(hashbangRe, '') : source
-      const importexpr = context.format === 'module'
-        ? `import {${importedNames}} from '${specifier}';`
-        : `const {${importedNames}} = require('${specifier}');`
+      const importexpr = context.format === 'commonjs'
+        ? `const {${importedNames}} = require('${specifier}');`
+        : `import {${importedNames}} from '${specifier}';`
 
       return {
-        format: context.format,
+        format: context.format === 'commonjs' ? 'commonjs' : 'module',
         shortCircuit: true,
         responseURL: encodeURI(url),
         source: hbang + importexpr + sourcesafe
