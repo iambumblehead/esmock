@@ -138,7 +138,8 @@ const load = async (url, context, nextLoad) => {
   if (treeid) {
     const [specifier, importedNames] = parseImportsTree(treeidspec)
     if (importedNames && importedNames.length) {
-      const source = String((await nextLoad(url, context)).source)
+      const nextLoadRes = await nextLoad(url, context)
+      const source = String(nextLoadRes.source)
       const hbang = (source.match(hashbangRe) || [])[0] || ''
       const sourcesafe = hbang ? source.replace(hashbangRe, '') : source
       const importexpr = context.format === 'commonjs'
@@ -146,7 +147,7 @@ const load = async (url, context, nextLoad) => {
         : `import {${importedNames}} from '${specifier}';`
 
       return {
-        format: context.format === 'commonjs' ? 'commonjs' : 'module',
+        format: nextLoadRes.format,
         shortCircuit: true,
         responseURL: encodeURI(url),
         source: hbang + importexpr + sourcesafe
