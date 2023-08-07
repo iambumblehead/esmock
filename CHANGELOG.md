@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.3.6 _Aug.07.2023_
+   * [resolve global mocking issues](https://github.com/iambumblehead/esmock/pull/224) when using mixed esm cjs import trees
  * 2.3.4 _Jul.30.2023_
    * [do not error when mocking commonjs](https://github.com/iambumblehead/esmock/pull/220) global values, found by @tommy-mitchell
  * 2.3.3 _Jul.28.2023_
