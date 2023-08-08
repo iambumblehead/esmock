@@ -1,5 +1,7 @@
 # changelog
 
+ * tbd
+   * [normalize package.json url](https://github.com/iambumblehead/esmock/pull/225) and [reduce loc for loader verification](https://github.com/iambumblehead/esmock/pull/226)
  * 2.3.6 _Aug.07.2023_
    * [resolve global mocking issues](https://github.com/iambumblehead/esmock/pull/224) when using mixed esm cjs import trees
  * 2.3.4 _Jul.30.2023_
