@@ -118,10 +118,9 @@ const resolve = async (specifier, context, nextResolve) => {
   return resolved
 }
 
-const loaderVerificationQuery = 'esmock-loader=true'
-const loaderVerificationURLCreate = url => `${url}?${loaderVerificationQuery}`
-const loaderIsVerified = async url =>
-  (await import(loaderVerificationURLCreate(url))).default === true
+const loaderVerificationQuery = '?esmock-loader=true'
+const loaderIsVerified = async url => import(
+  url + loaderVerificationQuery).then(m => m.default === true)
 const load = async (url, context, nextLoad) => {
   if (url.endsWith(loaderVerificationQuery)) {
     return {
