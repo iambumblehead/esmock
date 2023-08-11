@@ -9,7 +9,7 @@ const errMissingLoader = () =>
     + 'start the process using --loader=esmock.')
 
 const errModuleIdNoDefs = (moduleId, parent) =>
-  new Error(`no mocks provided for module: "${moduleId}" (used by ${parent}`)
+  new Error(`no mocks provided for module: "${moduleId}" (used by ${parent})`)
 
 export default {
   errModuleIdNotFound,

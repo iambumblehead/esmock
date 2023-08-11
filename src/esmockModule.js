@@ -17,7 +17,8 @@ const isDefaultIn = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 const isMetaResolve = typeof import.meta.resolve === 'function'
 const nextId = ((id = 0) => () => ++id)()
-const asFileURL = p => p.startsWith('file://') ? p : url.pathToFileURL(p)
+const fileurlre = /^file:\/\//
+const asFileURL = p => fileurlre.test(p) ? p : url.pathToFileURL(p)
 const objProto = Object.getPrototypeOf({})
 const isPlainObj = o => Object.getPrototypeOf(o) === objProto
 
@@ -147,9 +148,8 @@ const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
 
   const gkeys = gdefs ? Object.keys(gdefs) : []
   const dkeys = defs ? Object.keys(defs) : []
-  if (opt.strict === 3 && !gkeys.length && !dkeys.length) {
+  if (opt.strict === 3 && !gkeys.length && !dkeys.length)
     throw esmockErr.errModuleIdNoDefs(moduleId, parent)
-  }
 
   const treeid = typeof opt.id === 'number' ? opt.id : nextId()
   const treeidspec = `${moduleFileURL}?key=${treeid}&strict=${opt.strict}?` + [

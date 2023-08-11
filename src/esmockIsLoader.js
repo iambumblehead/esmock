@@ -1,4 +1,3 @@
 import { loaderIsVerified } from './esmockLoader.js'
 
-export default (c => async () =>
-  (c = c || loaderIsVerified(import.meta.url)))()
+export default (c => () => (c = c || loaderIsVerified(import.meta.url)))()
