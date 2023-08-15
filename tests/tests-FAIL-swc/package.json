@@ -1,0 +1,24 @@
+{
+  "type": "module",
+  "description": "esmock unit tests, tsm with node native runner",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "@swc-node/register": "1.6.6",
+    "esmock": "file:..",
+    "pg": "file:../node_modules/pg",
+    "sinon": "file:../node_modules/sinon",
+    "eslint": "file:../node_modules/eslint",
+    "form-urlencoded": "file:../node_modules/form-urlencoded",
+    "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
+  },
+  "scripts": {
+    "test:metaresolve": "node --experimental-import-meta-resolve --loader=@swc-node/register/esm --loader=esmock --test esmock.node-swc.test.ts",
+    "test:nometaresolve": "node --loader=@swc-node/register/esm --loader=esmock --test esmock.node-swc.test.ts",
+    "test": "npm run test:metaresolve && npm run test:nometaresolve",
+    "test": "SWCRC=true node --loader=@swc-node/register/esm --loader=esmock --test esmock.node-swc.test.ts",
+    "note": "⚠ https://github.com/swc-project/swc-node/issues/710"
+  }
+}

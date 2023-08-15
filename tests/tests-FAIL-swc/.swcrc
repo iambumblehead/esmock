@@ -1,0 +1,13 @@
+{
+  "test": ".*.ts$",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true
+    },
+    "transform": null
+  },
+  "module": {
+    "type": "es6"
+  }
+}
