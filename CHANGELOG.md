@@ -1,6 +1,6 @@
 # changelog
 
- * 2.3.8 _unreleased_
+ * 2.3.8 _Aug.15.2023_
    * [reuse moduleid regexp](https://github.com/iambumblehead/esmock/pull/231) replacing separately created regexps
    * [remove esmockIsLoader.js](https://github.com/iambumblehead/esmock/pull/231) export from esmockLoader.js instead
    * [simplify esmockIsLoader,](https://github.com/iambumblehead/esmock/pull/232) per review @koshic
