@@ -1,7 +1,7 @@
 # changelog
 
  * 2.3.8 _unreleased_
-   * [reuse moduleid regexp](https://github.com/iambumblehead/esmock/pull/230) replacing separately created regexps
+   * [reuse moduleid regexp](https://github.com/iambumblehead/esmock/pull/231) replacing separately created regexps
  * 2.3.7 _Aug.15.2023_
    * [normalize package.json url](https://github.com/iambumblehead/esmock/pull/225) and [reduce loc for loader verification](https://github.com/iambumblehead/esmock/pull/226)
    * [small adjustments](https://github.com/iambumblehead/esmock/pull/228) reducing lines of code
