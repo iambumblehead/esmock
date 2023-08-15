@@ -1,12 +1,11 @@
-//import esmockIsLoader from './esmockIsLoader.js'
-import esmockIsLoader from './esmockLoader.js'
+import esmockLoader from './esmockLoader.js'
 import esmockModule from './esmockModule.js'
 import esmockArgs from './esmockArgs.js'
 import esmockErr from './esmockErr.js'
 
 const esmockGo = opts => async (...args) => {
   const [moduleId, parent, defs, gdefs, opt] = esmockArgs(args, opts)
-  if (!await esmockIsLoader())
+  if (!await esmockLoader())
     throw esmockErr.errMissingLoader()
 
   const fileURLKey = await esmockModule(moduleId, parent, defs, gdefs, opt)
