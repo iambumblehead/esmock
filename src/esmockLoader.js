@@ -119,11 +119,11 @@ const resolve = async (specifier, context, nextResolve) => {
   return resolved
 }
 
-const loaderVerificationUrl = urlDummy + '?esmock-loader=true'
-const loaderIsVerified = (memo => () => memo = memo || (
-  import(loaderVerificationUrl).then(m => m.default === true)))()
+const loaderVerifyUrl = urlDummy + '?esmock-loader=true'
+const loaderIsVerified = (memo => async () => memo = memo || (
+  (await import(loaderVerifyUrl)).default === true))()
 const load = async (url, context, nextLoad) => {
-  if (url === loaderVerificationUrl) {
+  if (url === loaderVerifyUrl) {
     return {
       format: 'module',
       shortCircuit: true,
