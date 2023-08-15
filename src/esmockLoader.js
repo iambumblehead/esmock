@@ -189,4 +189,4 @@ const load = async (url, context, nextLoad) => {
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
 const getSource = isLT1612 && load
 
-export { load, resolve, getSource, globalPreload, loaderIs as default }
+export {load, resolve, getSource, globalPreload, loaderIs as default}
