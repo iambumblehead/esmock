@@ -83,7 +83,7 @@ test('mock fetch, Date, setTimeout and any globals', async () => {
     })
   })
 
-  assert.deepEqual(await userCount(), 2)
+  assert.equal(await userCount(), 2)
 })
 
 test('mocks "await import()" using esmock.p', async () => {

@@ -1,8 +1,9 @@
 # changelog
 
- * 2.3.7 _Aug.11.2023_
+ * 2.3.7 _Aug.15.2023_
    * [normalize package.json url](https://github.com/iambumblehead/esmock/pull/225) and [reduce loc for loader verification](https://github.com/iambumblehead/esmock/pull/226)
    * [small adjustments](https://github.com/iambumblehead/esmock/pull/228) reducing lines of code
+   * [clerical changes to some](https://github.com/iambumblehead/esmock/pull/229) test folders
  * 2.3.6 _Aug.07.2023_
    * [resolve global mocking issues](https://github.com/iambumblehead/esmock/pull/224) when using mixed esm cjs import trees
  * 2.3.4 _Jul.30.2023_
