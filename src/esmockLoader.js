@@ -19,6 +19,9 @@ const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
 const hashbangRe = /^(#![^\n]*\n)/
+// returned regexp will match embedded moduleid w/ treeid
+const moduleIdReCreate = (moduleid, treeid) => new RegExp(
+  `.*(${moduleid}(\\?${treeid}(?:(?!#-#).)*)).*`)
 
 const globalPreload = (({ port }) => (
   port.addEventListener('message', ev => (
@@ -77,10 +80,9 @@ const resolve = async (specifier, context, nextResolve) => {
   const gdefs = url && url.replace(esmkgdefsAndBeforeRe, '')
   // do not call 'nextResolve' for notfound modules
   if (treeidspec.includes(`esmkModuleId=${specifier}&isfound=false`)) {
-    const moduleIdRe = new RegExp(
-      '.*file:///' + specifier + '(\\?' + treeid + '(?:(?!#-#).)*).*')
+    const moduleIdRe = moduleIdReCreate(`file:///${specifier}`, treeid)
     const moduleId = (
-      gdefs.match(moduleIdRe) || defs.match(moduleIdRe) || [])[1]
+      gdefs.match(moduleIdRe) || defs.match(moduleIdRe) || [])[2]
     if (moduleId) {
       return {
         shortCircuit: true,
@@ -97,8 +99,7 @@ const resolve = async (specifier, context, nextResolve) => {
   }
 
   const resolved = await nextResolveCall(nextResolve, specifier, context)
-  const moduleIdRe = new RegExp(
-    '.*(' + resolved.url + '\\?' + treeid + '(?:(?!#-#).)*).*')
+  const moduleIdRe = moduleIdReCreate(resolved.url, treeid)
   const moduleId =
     moduleIdRe.test(defs) && defs.replace(moduleIdRe, '$1') ||
     moduleIdRe.test(gdefs) && gdefs.replace(moduleIdRe, '$1')
