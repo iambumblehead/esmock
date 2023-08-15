@@ -122,6 +122,7 @@ const resolve = async (specifier, context, nextResolve) => {
 const loaderVerificationQuery = '?esmock-loader=true'
 const loaderIsVerified = url => import(
   url + loaderVerificationQuery).then(m => m.default === true)
+const loaderIs = (c => () => (c = c || loaderIsVerified(import.meta.url)))()
 const load = async (url, context, nextLoad) => {
   if (url.endsWith(loaderVerificationQuery)) {
     return {
@@ -188,4 +189,4 @@ const load = async (url, context, nextLoad) => {
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
 const getSource = isLT1612 && load
 
-export {load, resolve, getSource, loaderIsVerified, globalPreload}
+export { load, resolve, getSource, globalPreload, loaderIs as default }

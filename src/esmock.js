@@ -1,4 +1,5 @@
-import esmockIsLoader from './esmockIsLoader.js'
+//import esmockIsLoader from './esmockIsLoader.js'
+import esmockIsLoader from './esmockLoader.js'
 import esmockModule from './esmockModule.js'
 import esmockArgs from './esmockArgs.js'
 import esmockErr from './esmockErr.js'
