@@ -1,10 +1,12 @@
 import process from 'process'
-import urlDummy from './esmockDummy.js'
 import esmockErr from './esmockErr.js'
 
 const [major, minor] = process.versions.node.split('.').map(it => +it)
 const isLT1612 = major < 16 || (major === 16 && minor < 12)
 
+// ex, file:///path/to/esmockLoader.js,
+//     file:///c:/path/to/esmockLoader.js
+const urlDummy = import.meta.url
 const esmkgdefsAndAfterRe = /\?esmkgdefs=.*/
 const esmkgdefsAndBeforeRe = /.*\?esmkgdefs=/
 const esmkdefsRe = /#-#esmkdefs/
