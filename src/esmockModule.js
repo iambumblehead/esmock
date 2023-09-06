@@ -36,7 +36,6 @@ const assertImportMetaResolveReturn = (url, id, parent) => {
 const resolve = isMetaResolve ?
   (import.meta.resolve.constructor.name === 'AsyncFunction'
     ? async (id, p) => import.meta.resolve(id, asFileURL(p))
-      .then(url => assertImportMetaResolveReturn(url, id, p))
       .catch(() => resolvewith(id, p))
     : (id, p) => {
       try {
