@@ -1,3 +1,4 @@
+import fs from 'node:fs/promises'
 import process from 'process'
 import esmockErr from './esmockErr.js'
 
@@ -141,7 +142,9 @@ const load = async (url, context, nextLoad) => {
     const [specifier, importedNames] = parseImportsTree(treeidspec)
     if (importedNames && importedNames.length) {
       const nextLoadRes = await nextLoad(url, context)
-      const source = String(nextLoadRes.source)
+      const source = nextLoadRes.source === null
+        ? String(await fs.readFile(new URL(url)))
+        : String(nextLoadRes.source)
       const hbang = (source.match(hashbangRe) || [])[0] || ''
       const sourcesafe = hbang ? source.replace(hashbangRe, '') : source
       const importexpr = context.format === 'commonjs'
