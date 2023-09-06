@@ -22,14 +22,27 @@ const asFileURL = p => fileurlre.test(p) ? p : url.pathToFileURL(p)
 const objProto = Object.getPrototypeOf({})
 const isPlainObj = o => Object.getPrototypeOf(o) === objProto
 
+// see https://github.com/iambumblehead/esmock/issues/234
+//
+// node v20.6.x returns invalid import.meta.resolve result "{}"
+const assertImportMetaResolveReturn = (url, id, parent) => {
+  if (typeof url === 'string' || url === null)
+    return url
+
+  throw esmockErr.errModuleIdUrlInvalid(id, parent)
+}
+
 // when import.meta.resolve fails to resolve windows paths, fallback resolvewith
 const resolve = isMetaResolve ?
   (import.meta.resolve.constructor.name === 'AsyncFunction'
     ? async (id, p) => import.meta.resolve(id, asFileURL(p))
+      .then(url => assertImportMetaResolveReturn(url, id, p))
       .catch(() => resolvewith(id, p))
     : (id, p) => {
-      try { return import.meta.resolve(id, asFileURL(p)) }
-      catch { return resolvewith(id, p) }
+      try {
+        return assertImportMetaResolveReturn(
+          import.meta.resolve(id, asFileURL(p)), id, p)
+      } catch { return resolvewith(id, p) }
     })
   : resolvewith
 
