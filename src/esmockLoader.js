@@ -21,6 +21,9 @@ const exportNamesRe = /.*exportNames=(.*)/
 const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
+const isnullundefinedRe = /^(null|undefined)$/
+const iscommonjsmoduleRe = /^(commonjs|module)$/
+const isstrict3 = /strict=3/
 const hashbangRe = /^(#![^\n]*\n)/
 // returned regexp will match embedded moduleid w/ treeid
 const moduleIdReCreate = (moduleid, treeid) => new RegExp(
@@ -116,7 +119,7 @@ const resolve = async (specifier, context, nextResolve) => {
     }
   }
 
-  if (/strict=3/.test(treeidspec) && !moduleId)
+  if (isstrict3.test(treeidspec) && !moduleId)
     throw esmockErr.errModuleIdNotMocked(resolved.url, treeidspec.split('?')[0])
 
   return resolved
@@ -142,11 +145,11 @@ const load = async (url, context, nextLoad) => {
     const [specifier, importedNames] = parseImportsTree(treeidspec)
     if (importedNames && importedNames.length) {
       const nextLoadRes = await nextLoad(url, context)
-      if (!/^(commonjs|module)$/.test(nextLoadRes.format))
+      if (!iscommonjsmoduleRe.test(nextLoadRes.format))
         return nextLoad(url, context)
 
       // nextLoadRes.source sometimes 'undefined' and other times 'null' :(
-      const source = /null|undefined/.test(typeof nextLoadRes.source)
+      const source = isnullundefinedRe.test(typeof nextLoadRes.source)
         ? String(await fs.readFile(new URL(url)))
         : String(nextLoadRes.source)
       const hbang = (source.match(hashbangRe) || [])[0] || ''
