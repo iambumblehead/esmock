@@ -148,7 +148,7 @@ const load = async (url, context, nextLoad) => {
       const hbang = (source.match(hashbangRe) || [])[0] || ''
       const sourcesafe = hbang ? source.replace(hashbangRe, '') : source
       const importexpr = context.format === 'commonjs'
-        ? `const {${importedNames}} = require('${specifier}');`
+        ? `const {${importedNames}} = global.esmockCacheGet("${specifier}");`
         : `import {${importedNames}} from '${specifier}';`
 
       return {
