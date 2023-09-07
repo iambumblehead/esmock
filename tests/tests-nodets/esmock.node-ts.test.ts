@@ -29,7 +29,7 @@ test('should mock import global at import tree w/ mixed esm cjs', async () => {
   })
 
   trigger()
-  trigger()    
-  assert.strictEqual(consolelog.mock.calls.length, 2)
+  trigger()
+  assert.is(2, logs.filter(n => n === '\nfoo\n'))
 })
 */
