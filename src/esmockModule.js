@@ -1,5 +1,4 @@
 import fs from 'fs'
-import url from 'node:url'
 import resolvewith from 'resolvewithplus'
 import esmockErr from './esmockErr.js'
 import esmockIsESMRe from './esmockIsESMRe.js'
@@ -15,23 +14,9 @@ import {
 const isObj = o => typeof o === 'object' && o
 const isDefaultIn = o => isObj(o) && 'default' in o
 const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
-const isMetaResolve = typeof import.meta.resolve === 'function'
 const nextId = ((id = 0) => () => ++id)()
-const fileurlre = /^file:\/\//
-const asFileURL = p => fileurlre.test(p) ? p : url.pathToFileURL(p)
 const objProto = Object.getPrototypeOf({})
 const isPlainObj = o => Object.getPrototypeOf(o) === objProto
-
-// when import.meta.resolve fails to resolve windows paths, fallback resolvewith
-const resolve = isMetaResolve ?
-  (import.meta.resolve.constructor.name === 'AsyncFunction'
-    ? async (id, p) => import.meta.resolve(id, asFileURL(p))
-      .catch(() => resolvewith(id, p))
-    : (id, p) => {
-      try { return import.meta.resolve(id, asFileURL(p)) }
-      catch { return resolvewith(id, p) }
-    })
-  : resolvewith
 
 // assigning the object to its own prototypal inheritor can error, eg
 //   'Cannot assign to read only property \'F_OK\' of object \'#<Object>\''
@@ -130,8 +115,7 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   if (!id) return mocks
 
-  const fileURL = resolve.constructor.name === 'AsyncFunction'
-    ? await resolve(id, parent) : resolve(id, parent)
+  const fileURL = resolvewith(id, parent)
   if (!fileURL && opt.isModuleNotFoundError !== false && id !== 'import')
     throw esmockErr.errModuleIdNotFound(id, parent)
 
@@ -141,8 +125,7 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 }
 
 const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
-  const moduleFileURL = resolve.constructor.name === 'AsyncFunction'
-    ? await resolve(moduleId, parent) : resolve(moduleId, parent)
+  const moduleFileURL = resolvewith(moduleId, parent)
   if (!moduleFileURL)
     throw esmockErr.errModuleIdNotFound(moduleId, parent)
 
