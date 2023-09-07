@@ -1,7 +1,10 @@
 # changelog
 
- * 2.3.9 _pending_
+ * 2.4.0 _Sep.07.2023_
    * [remove esmockDummy](https://github.com/iambumblehead/esmock/pull/233)
+   * [resolve issues](https://github.com/iambumblehead/esmock/issues/234) affecting node-v20.6
+   * [remove usage of import.meta.resolve,](https://github.com/iambumblehead/esmock/pull/237) node-v20.6 meta.resolve is not useful
+   * [only process 'module' and 'commonjs'](https://github.com/iambumblehead/esmock/pull/237) at the loader
  * 2.3.8 _Aug.15.2023_
    * [reuse moduleid regexp](https://github.com/iambumblehead/esmock/pull/231) replacing separately created regexps
    * [remove esmockIsLoader.js](https://github.com/iambumblehead/esmock/pull/231) export from esmockLoader.js instead
