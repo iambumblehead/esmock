@@ -17,7 +17,7 @@ test('should mock import global at import tree w/ mixed esm cjs', async () => {
   const consolelog = mock.fn()
   const trigger = await esmock('../local/usesModuleWithCJSDependency.ts', {}, {
     import: {
-      console: { log: n => consolelog('foo') }
+      console: { log: () => consolelog('foo') }
     }
   })
 

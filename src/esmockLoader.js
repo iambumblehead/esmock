@@ -21,7 +21,6 @@ const exportNamesRe = /.*exportNames=(.*)/
 const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
-const isnullundefinedRe = /^(null|undefined)$/
 const iscommonjsmoduleRe = /^(commonjs|module)$/
 const isstrict3 = /strict=3/
 const hashbangRe = /^(#![^\n]*\n)/
@@ -149,7 +148,9 @@ const load = async (url, context, nextLoad) => {
         return nextLoad(url, context)
 
       // nextLoadRes.source sometimes 'undefined' and other times 'null' :(
-      const source = isnullundefinedRe.test(typeof nextLoadRes.source)
+      const sourceIsNullLike = (
+        nextLoadRes.source === null || nextLoadRes.source === undefined)
+      const source = sourceIsNullLike
         ? String(await fs.readFile(new URL(url)))
         : String(nextLoadRes.source)
       const hbang = (source.match(hashbangRe) || [])[0] || ''
