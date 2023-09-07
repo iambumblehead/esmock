@@ -145,7 +145,8 @@ const load = async (url, context, nextLoad) => {
       if (!/^(commonjs|module)$/.test(nextLoadRes.format))
         return nextLoad(url, context)
 
-      const source = nextLoadRes.source === null
+      // nextLoadRes.source sometimes 'undefined' and other times 'null' :(
+      const source = /null|undefined/.test(typeof nextLoadRes.source)
         ? String(await fs.readFile(new URL(url)))
         : String(nextLoadRes.source)
       const hbang = (source.match(hashbangRe) || [])[0] || ''

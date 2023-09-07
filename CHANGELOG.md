@@ -1,5 +1,8 @@
 # changelog
 
+ * 2.4.1 _Sep.07.2023_
+   * [detect null AND undefined](https://github.com/iambumblehead/esmock/pull/234) loader-resolved source defintions
+   * restore commented-out test affected by un-caught `undefined` source definitions
  * 2.4.0 _Sep.07.2023_
    * [remove esmockDummy](https://github.com/iambumblehead/esmock/pull/233)
    * [resolve issues](https://github.com/iambumblehead/esmock/issues/234) affecting node-v20.6
