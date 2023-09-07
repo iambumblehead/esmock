@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.4.2 _tbd_
+   * [remove duplicate nextLoad call](https://github.com/iambumblehead/esmock/pull/239)
  * 2.4.1 _Sep.07.2023_
    * [detect null AND undefined](https://github.com/iambumblehead/esmock/pull/238) loader-resolved source defintions
    * restore commented-out test affected by un-caught `undefined` source definitions
