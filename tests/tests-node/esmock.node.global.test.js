@@ -69,11 +69,7 @@ test('should work when modules have CJS imports', async () => {
 
   await esmock('../local/usesModuleWithCJSDependency.js', {}, {
     import: {
-      console: {
-        log: (...args) => {
-          logs.push(...args)
-        }
-      }
+      console: { log: (...args) => logs.push(...args) }
     }
   })
 
