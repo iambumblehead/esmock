@@ -142,6 +142,9 @@ const load = async (url, context, nextLoad) => {
     const [specifier, importedNames] = parseImportsTree(treeidspec)
     if (importedNames && importedNames.length) {
       const nextLoadRes = await nextLoad(url, context)
+      if (!/^(commonjs|module)$/.test(nextLoadRes.format))
+        return nextLoad(url, context)
+
       const source = nextLoadRes.source === null
         ? String(await fs.readFile(new URL(url)))
         : String(nextLoadRes.source)

@@ -64,16 +64,18 @@ test('should mock files with hashbangs', async () => {
   assert.deepEqual(logs, ['foo'])
 })
 
-/* TODO global CJS import mocking, broken at node v20.6
 test('should work when modules have CJS imports', async () => {
   const logs = []
 
   await esmock('../local/usesModuleWithCJSDependency.js', {}, {
     import: {
-      console: { log: (...args) => logs.push(...args) }
+      console: {
+        log: (...args) => {
+          logs.push(...args)
+        }
+      }
     }
   })
 
   assert.deepEqual(logs, ['\nfoo\n'])
 })
-*/
