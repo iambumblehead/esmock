@@ -145,7 +145,7 @@ const load = async (url, context, nextLoad) => {
     if (importedNames && importedNames.length) {
       const nextLoadRes = await nextLoad(url, context)
       if (!iscommonjsmoduleRe.test(nextLoadRes.format))
-        return nextLoad(url, context)
+        return nextLoadRes
 
       // nextLoadRes.source sometimes 'undefined' and other times 'null' :(
       const sourceIsNullLike = (
