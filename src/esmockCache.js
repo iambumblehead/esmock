@@ -31,7 +31,7 @@ Object.assign(global, {
   esmockCache,
   esmockCacheGet,
   esmockTreeIdGet,
-  mockKeys: {}
+  mockKeys: global.mockKeys || {}
 })
 
 export {
