@@ -1,7 +1,6 @@
 import fs from 'node:fs/promises'
 import process from 'process'
 import esmockErr from './esmockErr.js'
-// import './esmockCache.js'
 
 const [major, minor] = process.versions.node.split('.').map(it => +it)
 const isLT1612 = major < 16 || (major === 16 && minor < 12)
