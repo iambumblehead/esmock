@@ -508,25 +508,31 @@ test('should error when "strictest" mock tree module not mocked', async () => {
 })
 
 test('should mock scoped package, @aws-sdk/client-s3', async () => {
-  const scopedClientS3 = await esmock({
-    '../importsScopedPackageClientS3.js': {
+  const scopedClientS3 = await esmock(
+    '../local/importsScopedPackageClientS3.js', {
       '@aws-sdk/client-s3': {
-        S3Client: () => 'mock client'
-      }
-    }
-  })
+        S3Client: function () {
+          this.mocked = 'mock client'
 
-  assert.strictEqual(scopedClientS3, 'mock client')
+          return this
+        }
+      }
+    })
+
+  assert.strictEqual(scopedClientS3.mocked, 'mock client')
 })
 
 test('should mock scoped package, @aws-sdk/client-s3 (deep)', async () => {
-  const scopedClientS3 = await esmock({}, {
-    '../importsScopedPackageClientS3Deep.js': {
+  const scopedClientS3 = await esmock(
+    '../local/importsScopedPackageClientS3Deep.js', {}, {
       '@aws-sdk/client-s3': {
-        S3Client: () => 'mock client'
-      }
-    }
-  })
+        S3Client: function () {
+          this.mocked = 'mock client'
 
-  assert.strictEqual(scopedClientS3, 'mock client')
+          return this
+        }
+      }
+    })
+
+  assert.strictEqual(scopedClientS3.mocked, 'mock client')
 })
