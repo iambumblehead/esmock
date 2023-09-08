@@ -1,3 +1,5 @@
+import esmockPostMessage from './esmockRegister.js'
+
 const esmockCache = {
   isESM: {},
 
@@ -7,8 +9,7 @@ const esmockCache = {
 }
 
 const esmockTreeIdSet = (key, keylong) => (
-  typeof global.postMessageEsmk === 'function'
-    && global.postMessageEsmk({ key, keylong }),
+  esmockPostMessage({ key, keylong }),
   global.mockKeys[String(key)] = keylong)
 
 const esmockTreeIdGet = key => (
