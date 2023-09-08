@@ -1,17 +1,20 @@
-import { register } from 'node:module'
-import { MessageChannel } from 'node:worker_threads'
+import module from 'node:module'
+import threads from 'node:worker_threads'
 
-const { port2, port1 } = new MessageChannel()
+const channel = threads.MessageChannel
+  && new threads.MessageChannel()
 
-register('./esmockLoader.js', {
-  parentURL: import.meta.url,
-  data: { port: port2 },
-  transferList: [port2]
-})
+if (channel && module.register) {
+  module.register('./esmockLoader.js', {
+    parentURL: import.meta.url,
+    data: { port: channel.port2 },
+    transferList: [channel.port2]
+  })
+}
 
 export default msg => {
   if (typeof global.postMessageEsmk === 'function')
     global.postMessageEsmk(msg)
-  if (port1)
-    port1.postMessage(msg)
+  if (channel && channel.port1)
+    channel.port1.postMessage(msg)
 }
