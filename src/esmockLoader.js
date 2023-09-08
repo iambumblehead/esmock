@@ -29,7 +29,7 @@ const moduleIdReCreate = (moduleid, treeid) => new RegExp(
   `.*(${moduleid}(\\?${treeid}(?:(?!#-#).)*)).*`)
 
 // node v12.0-v18.x, global
-const mockKeys = global.mockKeys || {}
+const mockKeys = global.mockKeys = (global.mockKeys || {})
 
 // node v20.0-v20.6
 const globalPreload = (({ port }) => (
