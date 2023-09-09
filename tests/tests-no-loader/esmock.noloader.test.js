@@ -13,7 +13,7 @@ if (isLT206) {
     await assert.rejects(() => esmock('./to/module.js'), {
       message: esmockErr.errMissingLoader().message
     })
-  })  
+  })
 }
 
 if (!isLT206) {
