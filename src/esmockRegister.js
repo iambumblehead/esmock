@@ -8,7 +8,7 @@ const register = (res => () => {
   if (typeof res === 'boolean')
     return res
 
-  if ((res = Boolean(channel && module.register))) {
+  if ((res = Boolean(module.register))) {
     module.register('./esmockLoader.js', {
       parentURL: import.meta.url,
       data: { port: channel.port2 },

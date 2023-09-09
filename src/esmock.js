@@ -1,7 +1,5 @@
 import module from 'node:module'
-import threads from 'node:worker_threads'
 import * as hooks from './esmockLoader.js'
-import esmockRegister from './esmockRegister.js'
 import esmockLoader from './esmockLoader.js'
 import esmockModule from './esmockModule.js'
 import esmockArgs from './esmockArgs.js'
@@ -9,7 +7,7 @@ import esmockErr from './esmockErr.js'
 
 const esmockGo = opts => async (...args) => {
   const [moduleId, parent, defs, gdefs, opt] = esmockArgs(args, opts)
-  if (!esmockRegister.register() && !await esmockLoader())
+  if (!module.register && !await esmockLoader())
     throw esmockErr.errMissingLoader()
 
   const fileURLKey = await esmockModule(moduleId, parent, defs, gdefs, opt)
@@ -40,8 +38,7 @@ export {esmock as default, strict, strictest}
 // "--loader=esmock/loader", esmock.js exported loader hook definitions here
 //
 // for newer node versions 20.6+, exporting hook definitions here causes
-// problems when --loader is ued and esmock initializes newer message channels
-const isMessageChannel = Boolean(module.register && threads.MessageChannel)
-const hooksFinal = isMessageChannel ? {} : hooks
+// problems when --loader is used w/ module.register
+const hooksFinal = module.register ? {} : hooks
 const { load, resolve, getSource, initialize, globalPreload } = hooksFinal
 export { load, resolve, getSource, initialize, globalPreload }
