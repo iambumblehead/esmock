@@ -9,6 +9,14 @@ const isLT206 = (([major, minor]) => (
   process.versions.node.split('.').map(it => +it))
 
 if (isLT206) {
+  test('should throw error if !esmockloader', async () => {
+    await assert.rejects(() => esmock('./to/module.js'), {
+      message: esmockErr.errMissingLoader().message
+    })
+  })  
+}
+
+if (!isLT206) {
   test('should mock a module', async () => {
     const main = await esmock('../local/mainUtil.js', {
       'form-urlencoded': () => 'mock encode'
@@ -16,11 +24,5 @@ if (isLT206) {
 
     assert.strictEqual(typeof main, 'function')
     assert.strictEqual(main.createString(), 'mock encode')
-  })
-} else {
-  test('should throw error if !esmockloader', async () => {
-    await assert.rejects(() => esmock('./to/module.js'), {
-      message: esmockErr.errMissingLoader().message
-    })
   })
 }

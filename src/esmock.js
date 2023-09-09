@@ -37,8 +37,12 @@ const esmock = Object.assign(esmockGo(), {
 export {esmock as default, strict, strictest}
 
 
+// for older node versions, to support "--loader=esmock" rather than
+// "--loader=esmock/loader", esmock.js exported loader hook definitions here
+//
+// for newer node versions 20.6+, exported hook definitions here cause
+// problems when --loader called and esmock initializes newer message channels
 const isMessageChannel = Boolean(module.register && threads.MessageChannel)
 const hooksFinal = isMessageChannel ? {} : hooks
 const { load, resolve, getSource, initialize, globalPreload } = hooksFinal
 export { load, resolve, getSource, initialize, globalPreload }
-// export * from './esmockLoader.js'
