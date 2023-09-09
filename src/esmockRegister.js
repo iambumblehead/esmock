@@ -19,10 +19,10 @@ const register = (res => () => {
   return res
 })()
 
-export default msg => {
+export default Object.assign(msg => {
   if (register()) {
     channel.port1.postMessage(msg)
   } else if (typeof global.postMessageEsmk === 'function') {
     global.postMessageEsmk(msg)
   }
-}
+}, { register })

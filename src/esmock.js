@@ -9,7 +9,7 @@ import esmockErr from './esmockErr.js'
 
 const esmockGo = opts => async (...args) => {
   const [moduleId, parent, defs, gdefs, opt] = esmockArgs(args, opts)
-  if (!esmockRegister && !await esmockLoader())
+  if (!esmockRegister.register() && !await esmockLoader())
     throw esmockErr.errMissingLoader()
 
   const fileURLKey = await esmockModule(moduleId, parent, defs, gdefs, opt)
