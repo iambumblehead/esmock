@@ -1,3 +1,7 @@
+import module from 'node:module'
+import threads from 'node:worker_threads'
+import * as hooks from './esmockLoader.js'
+import esmockRegister from './esmockRegister.js'
 import esmockLoader from './esmockLoader.js'
 import esmockModule from './esmockModule.js'
 import esmockArgs from './esmockArgs.js'
@@ -5,7 +9,7 @@ import esmockErr from './esmockErr.js'
 
 const esmockGo = opts => async (...args) => {
   const [moduleId, parent, defs, gdefs, opt] = esmockArgs(args, opts)
-  if (!await esmockLoader())
+  if (!esmockRegister && !await esmockLoader())
     throw esmockErr.errMissingLoader()
 
   const fileURLKey = await esmockModule(moduleId, parent, defs, gdefs, opt)
@@ -31,4 +35,10 @@ const esmock = Object.assign(esmockGo(), {
   purge, p: esmockGo({ purge: false }), strict, strictest })
 
 export {esmock as default, strict, strictest}
-export * from './esmockLoader.js'
+
+
+const isMessageChannel = Boolean(module.register && threads.MessageChannel)
+const hooksFinal = isMessageChannel ? {} : hooks
+const { load, resolve, getSource, initialize, globalPreload } = hooksFinal
+export { load, resolve, getSource, initialize, globalPreload }
+// export * from './esmockLoader.js'

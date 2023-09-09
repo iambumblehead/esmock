@@ -1,4 +1,6 @@
 import fs from 'node:fs/promises'
+import module from 'node:module'
+import threads from 'node:worker_threads'
 import process from 'process'
 import esmockErr from './esmockErr.js'
 
@@ -28,11 +30,13 @@ const hashbangRe = /^(#![^\n]*\n)/
 const moduleIdReCreate = (moduleid, treeid) => new RegExp(
   `.*(${moduleid}(\\?${treeid}(?:(?!#-#).)*)).*`)
 
+const isMessageChannel = Boolean(module.register && threads.MessageChannel)
+
 // node v12.0-v18.x, global
 const mockKeys = global.mockKeys = (global.mockKeys || {})
 
 // node v20.0-v20.6
-const globalPreload = (({ port }) => (
+const globalPreload = !isMessageChannel && (({ port }) => (
   port.addEventListener('message', ev => (
     mockKeys[ev.data.key] = ev.data.keylong)),
   port.unref(),
@@ -40,13 +44,13 @@ const globalPreload = (({ port }) => (
 ))
 
 // node v20.6-current
-const initialize = data => {
+const initialize = isMessageChannel && (data => {
   if (data && data.port) {
     data.port.on('message', msg => {
       mockKeys[msg.key] = msg.keylong
     })
   }
-}
+})
 
 const parseImports = defstr => {
   const [specifier, imports] = (defstr.match(esmkImportRe) || [])
@@ -220,7 +224,7 @@ export {
   getSource,
   // if getSource and initialize exported at the time,
   // getSource is never called :(
-  // initialize,
+  initialize,
   globalPreload,
   loaderIsVerified as default
 }

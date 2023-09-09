@@ -8,8 +8,8 @@ const register = (res => () => {
   if (typeof res === 'boolean')
     return res
 
-  if (!(res = global.shouldRegister === true))
-    return res
+  //  if (!(res = global.shouldRegister === true))
+  //    return res
 
   if ((res = Boolean(channel && module.register))) {
     module.register('./esmockLoader.js', {
