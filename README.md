@@ -11,28 +11,7 @@
 
 **esmock provides native ESM import and globals mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][4] or browse [esmock's test runner examples.][3]
 
-
-`esmock` is used with node's --loader
-``` json
-{
-  "name": "give-esmock-a-star",
-  "type": "module",
-  "scripts": {
-    "test": "node --loader=esmock --test",
-    "test-mocha": "mocha --loader=esmock",
-    "test-tap": "NODE_OPTIONS=--loader=esmock tap",
-    "test-ava": "NODE_OPTIONS=--loader=esmock ava",
-    "test-uvu": "NODE_OPTIONS=--loader=esmock uvu spec",
-    "test-tsm": "node --loader=tsm --loader=esmock --test *ts",
-    "test-ts": "node --loader=ts-node/esm --loader=esmock --test *ts",
-    "test-jest": "NODE_OPTIONS=--loader=esmock jest",
-    "test-tsx": "⚠ https://github.com/esbuild-kit/tsx/issues/264"
-  },
-  "jest": {
-    "runner": "jest-light-runner"
-  }
-}
-```
+Note: For older versions of node, less than version 20.6, `esmock` must be used with node's "--loader" as demonstrated [in the wiki.][4] Newer versions of node can use esmock as-is with no extra requirements.
 
 `esmock` has the below signature
 ``` javascript
@@ -42,7 +21,7 @@ await esmock(
   { ...globalmocks }) // mock definitions imported everywhere
 ```
 
-`esmock` examples
+`esmock` examples.
 ``` javascript
 import test from 'node:test'
 import assert from 'node:assert/strict'
