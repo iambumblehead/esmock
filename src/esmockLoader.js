@@ -218,7 +218,9 @@ export {
   load,
   resolve,
   getSource,
-  initialize,
+  // if getSource and initialize exported at the time,
+  // getSource is never called :(
+  // initialize,
   globalPreload,
   loaderIsVerified as default
 }
