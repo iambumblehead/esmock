@@ -20,12 +20,13 @@
     "runner": "jest-light-runner"
   },
   "scripts": {
-    "test:default-metaresolve": "NODE_OPTIONS=\"--experimental-import-meta-resolve --loader=ts-node/esm --loader=esmock\" jest esmock.node-jest.test.ts",
-    "test:default-nometaresolve": "NODE_OPTIONS=\"--loader=ts-node/esm --loader=esmock\" jest esmock.node-jest.test.ts",
-    "test:default": "npm run test:default-metaresolve && npm run test:default-nometaresolve",
-    "test:win32-metaresolve": "set \"NODE_OPTIONS=--experimental-import-meta-resolve --loader=ts-node/esm --loader=esmock\" && jest esmock.node-jest.test.ts",
-    "test:win32-nometaresolve": "set \"NODE_OPTIONS=--loader=ts-node/esm --loader=esmock\" && jest esmock.node-jest.test.ts",
-    "test:win32": "npm run test:win32-metaresolve && npm run test:win32-nometaresolve",
+    "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",
+    "test:defaultcurrent": "npm run isnodelt20_6 || NODE_OPTIONS=\"--loader=ts-node/esm\" jest esmock.node-jest.test.ts",
+    "test:defaultloader": "NODE_OPTIONS=\"--loader=ts-node/esm --loader=esmock\" jest esmock.node-jest.test.ts",
+    "test:default": "npm run test:defaultloader && npm run test:defaultcurrent",
+    "test:win32current": "npm run isnodelt20_6 || set \"NODE_OPTIONS=--loader=ts-node/esm\" && jest esmock.node-jest.test.ts",
+    "test:win32loader": "set \"NODE_OPTIONS=--loader=ts-node/esm --loader=esmock\" && jest esmock.node-jest.test.ts",
+    "test:win32": "npm run test:win32loader && npm run test:win32current",
     "test": "run-script-os"
   }
 }
