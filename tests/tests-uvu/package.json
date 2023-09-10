@@ -16,7 +16,7 @@
   "scripts": {
     "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",
     "test:loader": "node --loader=esmock ./node_modules/uvu/bin.js",
-    "test:current": "npm run isnodelt20_6 || node ./node_modules/uvu/bin.js",
-    "test": "npm run test:loader && npm run test:current"
+    "test:current": "node ./node_modules/uvu/bin.js",
+    "test": "npm run test:loader && npm run isnodelt20_6 || npm run test:current"
   }
 }
