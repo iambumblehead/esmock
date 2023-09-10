@@ -13,9 +13,9 @@
     "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "test:metaresolve": "node --experimental-import-meta-resolve --loader=esmock --test",
-    "test": "node --loader=esmock --test && npm run test:metaresolve",
-    "test-one": "node --loader=esmock --test",
-    "test-one-no--loader": "node --test"
+    "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",
+    "test:loader": "node --loader=esmock --test",
+    "test:current": "node --test",
+    "test": "npm run test:loader && npm run test:current"
   }
 }
