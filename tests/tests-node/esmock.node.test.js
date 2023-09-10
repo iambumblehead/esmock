@@ -3,7 +3,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import esmock from 'esmock'
 import sinon from 'sinon'
-// import esmockCache from '../../src/esmockCache.js'
+import esmockCache from '../../src/esmockCache.js'
 
 test('should mock node:process', async () => {
   // has direct and in-direct calls to `process.cwd()`
@@ -131,7 +131,7 @@ test('should mock a module, globally', async () => {
   )
   assert.strictEqual(main(), 'main string and mocked export, mock encode')
 })
-/*
+
 test('should purge local and global mocks', async () => {
   await esmock('../local/main.js', {
     '../local/mainUtilNamedExports.js': {
@@ -156,7 +156,7 @@ test('should purge local and global mocks', async () => {
   assert.ok(keys.length)
   assert.ok(keys.every(key => esmockCache.mockDefs[key] === null))
 })
-*/
+
 test('should mock a module, many times differently', async () => {
   const mainfoo = await esmock('../local/mainUtil.js', {
     'form-urlencoded': () => 'mock encode foo'
@@ -311,7 +311,7 @@ test('returns spread-imported [object Module] default export', async () => {
 
   assert.strictEqual(main.exportedFunction(), 'foobar')
 })
-/*
+
 test('mocks inline `async import("name")`', async () => {
   const writeJSConfigFile = await esmock.p('../local/usesInlineImport.mjs', {
     eslint: {
@@ -342,7 +342,7 @@ test('mocks inline `async import("name")`', async () => {
   esmock.purge(writeJSConfigFile)
   assert.ok(moduleKeys.every(mkey => esmockCache.mockDefs[mkey] === null))
 })
-*/
+
 test('should have small querystring in stacktrace filename', async () => {
   const { causeRuntimeError } = await esmock('../local/mainUtil.js')
 

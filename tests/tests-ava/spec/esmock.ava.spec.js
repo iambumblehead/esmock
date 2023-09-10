@@ -1,7 +1,7 @@
 import test from 'ava'
 import esmock from 'esmock'
 import sinon from 'sinon'
-// import esmockCache from '../../../src/esmockCache.js'
+import esmockCache from '../../../src/esmockCache.js'
 
 test('should not error when handling non-extensible object', async t => {
   // if esmock tries to simulate babel and define default.default
@@ -114,7 +114,6 @@ test('should mock a module, globally', async t => {
   t.is(main(), 'main string and mocked export, mock encode')
 })
 
-/*
 test('should purge local and global mocks', async t => {
   await esmock('../../local/main.js', {
     '../../local/mainUtilNamedExports.js': {
@@ -139,7 +138,6 @@ test('should purge local and global mocks', async t => {
   t.truthy(keys.length)
   t.true(keys.every(key => esmockCache.mockDefs[key] === null))
 })
-*/
 
 test('should mock a module, many times differently', async t => {
   const mainfoo = await esmock('../../local/mainUtil.js', {
@@ -290,7 +288,7 @@ test('returns spread-imported [object Module] default export', async t => {
 
   t.is(main.exportedFunction(), 'foobar')
 })
-/*
+
 test('mocks inline `async import("name")`', async t => {
   const writeJSConfigFile = await esmock.p('../../local/usesInlineImport.mjs', {
     eslint: {
@@ -321,7 +319,7 @@ test('mocks inline `async import("name")`', async t => {
   esmock.purge(writeJSConfigFile)
   t.true(moduleKeys.every(mkey => esmockCache.mockDefs[mkey] === null))
 })
-*/
+
 test('should have small querystring in stacktrace filename', async t => {
   const { causeRuntimeError } = await esmock('../../local/mainUtil.js')
 

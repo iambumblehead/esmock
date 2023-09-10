@@ -78,7 +78,9 @@
     "test-cover": "npm run test:install && c8 npm run test:all",
     "lint": "eslint --ext=.js,.mjs .",
     "lint-fix": "eslint --ext=.js,.mjs --fix .",
-    "mini": "npm pkg delete scripts devDependencies dependencies",
+    "mini:pkg": "npm pkg delete scripts devDependencies dependencies",
+    "mini:src": "cd src && npx rimraf \"!(esmock|esmockLoader).js\"",
+    "mini": "npm run mini:src && npm run mini:pkg",
     "prepublishOnly": "npm run lint && npm run test-ci && npm run mini"
   }
 }
