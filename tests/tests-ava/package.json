@@ -18,7 +18,7 @@
     "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",
     "test:default": "NODE_OPTIONS=--loader=esmock ava",
     "test:win32": "set \"NODE_OPTIONS=--loader=esmock\" && ava",
-    "test:current": "npm run isnodelt20_6 || ava",
-    "test": "run-script-os && npm run test:current"
+    "test:current": "ava",
+    "test": "run-script-os && npm run isnodelt20_6 || npm run test:current"
   }
 }
