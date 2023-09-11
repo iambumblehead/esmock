@@ -3,12 +3,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "node --loader=esmock --test"
+    "test": "node --test"
   },
   "dependencies": {
     "a": "^0.0.0"
-  },
-  "devDependencies": {
-    "esmock": "^2.3.8"
   }
 }
