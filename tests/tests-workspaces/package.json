@@ -1,0 +1,8 @@
+{
+  "name": "esmock unit tests, workspaces",
+  "workspaces": ["packages/*"],
+  "esmock": "file:..",
+  "scripts": {
+    "test": "npm --prefix packages/b test"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "b",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --loader=esmock --test"
+  },
+  "dependencies": {
+    "a": "^0.0.0"
+  },
+  "devDependencies": {
+    "esmock": "^2.3.8"
+  }
+}
