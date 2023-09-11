@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises'
+import module from 'node:module'
 import process from 'process'
 import esmockErr from './esmockErr.js'
 
@@ -28,12 +29,25 @@ const hashbangRe = /^(#![^\n]*\n)/
 const moduleIdReCreate = (moduleid, treeid) => new RegExp(
   `.*(${moduleid}(\\?${treeid}(?:(?!#-#).)*)).*`)
 
-const globalPreload = (({ port }) => (
+// node v12.0-v18.x, global
+const mockKeys = global.mockKeys = (global.mockKeys || {})
+
+// node v20.0-v20.6
+const globalPreload = !module.register && (({ port }) => (
   port.addEventListener('message', ev => (
-    global.mockKeys[ev.data.key] = ev.data.keylong)),
+    mockKeys[ev.data.key] = ev.data.keylong)),
   port.unref(),
   'global.postMessageEsmk = d => port.postMessage(d)'
 ))
+
+// node v20.6-current
+const initialize = module.register && (data => {
+  if (data && data.port) {
+    data.port.on('message', msg => {
+      mockKeys[msg.key] = msg.keylong
+    })
+  }
+})
 
 const parseImports = defstr => {
   const [specifier, imports] = (defstr.match(esmkImportRe) || [])
@@ -57,7 +71,7 @@ const parseImportsTree = treeidspec => {
 }
 
 const treeidspecFromUrl = url => esmkIdRe.test(url)
-  && global.esmockTreeIdGet(url.match(esmkIdRe)[0].split('=')[1])
+  && mockKeys[url.match(esmkIdRe)[0].split('=')[1]]
 
 // new versions of node: when multiple loaders are used and context
 // is passed to nextResolve, the process crashes in a recursive call
@@ -201,4 +215,11 @@ const load = async (url, context, nextLoad) => {
 // node lt 16.12 require getSource, node gte 16.12 warn remove getSource
 const getSource = isLT1612 && load
 
-export {load, resolve, getSource, globalPreload, loaderIsVerified as default}
+export {
+  load,
+  resolve,
+  getSource,
+  initialize,
+  globalPreload,
+  loaderIsVerified as default
+}
