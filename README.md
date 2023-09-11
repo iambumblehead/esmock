@@ -11,7 +11,7 @@
 
 **esmock provides native ESM import and globals mocking for unit tests.** Use examples below as a quick-start guide, see the [descriptive and friendly esmock guide here,][4] or browse [esmock's test runner examples.][3]
 
-_**Note: For versions of node prior to v20.6.0** "--loader" command line arguments must be used with `esmock` as demonstrated [in the wiki.][4] Current versions of node do not require "--loader"._
+_**Note: For versions of node prior to v20.6.0,** "--loader" command line arguments must be used with `esmock` as demonstrated [in the wiki.][4] Current versions of node do not require "--loader"._
 
 `esmock` has the below signature
 ``` javascript
