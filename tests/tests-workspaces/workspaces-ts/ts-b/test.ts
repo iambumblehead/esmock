@@ -4,7 +4,7 @@ import esmock from '../../../../src/esmock.js'
 
 test('works ootb', async () => {
   const sut = await esmock('./index.js', {
-    'js-a': { foo: () => 'bar' }
+    'ts-a': { foo: () => 'bar' }
   })
 
   assert.equal(sut(), 'bar')
