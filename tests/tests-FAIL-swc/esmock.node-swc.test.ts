@@ -7,7 +7,7 @@ import esmock from 'esmock'
 // when the typescript sytax are removed, tests pass
 
 test('should mock ts when using node-ts', async () => {
-  const main = await esmock('../local/main.ts', {
+  const main = await esmock('../local/main-ts.ts', {
     path: {
       basename: () => 'hellow'
     }
@@ -17,7 +17,7 @@ test('should mock ts when using node-ts', async () => {
 })
 
 test('should mock pg', async () => {
-  const main = await esmock('../local/main.ts', {
+  const main = await esmock('../local/main-ts.ts', {
     'pg': {
       Pool: (config:any) => {
         return config || 'mocked pool'

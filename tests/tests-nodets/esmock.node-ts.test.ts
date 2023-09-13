@@ -3,7 +3,7 @@ import assert from 'assert'
 import esmock from 'esmock'
 
 test('should mock ts when using node-ts', { only: true }, async () => {
-  const main = await esmock('../local/main.ts', {
+  const main = await esmock('../local/main-ts.ts', {
     path: {
       basename: () => 'hellow'
     }
@@ -26,4 +26,3 @@ test('should mock import global at import tree w/ mixed esm cjs', async () => {
   assert.equal(consolelog.mock.calls[0].arguments[0], 'foo')
   assert.equal(consolelog.mock.calls[1].arguments[0], 'foo')
 })
-

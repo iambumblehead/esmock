@@ -15,7 +15,7 @@ test('should mock js when using tsx', async () => {
 // tsx fails :/ https://github.com/esbuild-kit/tsx/issues/264
 //
 // test('should mock ts when using tsx - unknown file extension', async () => {
-//   const main = await esmock('../local/main.ts', {
+//   const main = await esmock('../local/main-ts.ts', {
 //     path: {
 //       basename: () => 'hellow'
 //     }
