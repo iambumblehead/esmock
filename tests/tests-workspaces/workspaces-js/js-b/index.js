@@ -1,4 +1,4 @@
-import {foo} from 'a'
+import {foo} from 'js-a'
 
 export default function test () {
   return foo()

@@ -5,9 +5,10 @@
     "workspaces-ts/*"
   ],  
   "scripts": {
+    "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",
     "test-workspaces-js": "npm --prefix workspaces-js/js-b test",
     "test-workspaces-ts": "npm --prefix workspaces-js/js-b test",
     "test-workspaces": "npm run test-workspaces-js && npm run test-workspaces-ts",
-    "test": "npm run test-workspaces"
+    "test": "npm run isnodelt20_6 || npm run test-workspaces"
   }
 }
