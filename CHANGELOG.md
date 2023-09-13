@@ -1,7 +1,7 @@
 # changelog
 
- * 2.5.1 _Sep.12.2023_
-   * [resolve existing ".ts" files,](https://github.com/iambumblehead/esmock/pull/243) rather than ".js" files, when typescript detected
+ * 2.5.1 _Sep.13.2023_
+   * [resolve existing ".ts" files,](https://github.com/iambumblehead/esmock/pull/243) rather than ".js" files, when typescript detected, thanks @tpluscode
  * 2.5.0 _Sep.09.2023_
    * [remove duplicate nextLoad call](https://github.com/iambumblehead/esmock/pull/239)
    * [add support for initialize hook](https://github.com/iambumblehead/esmock/pull/240)
