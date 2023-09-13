@@ -1,11 +1,11 @@
 {
-  "name": "b",
+  "name": "js-b",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "test": "node --test"
   },
   "dependencies": {
-    "a": "^0.0.0"
+    "js-a": "^0.0.0"
   }
 }

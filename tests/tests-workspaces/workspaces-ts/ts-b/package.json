@@ -1,0 +1,14 @@
+{
+  "name": "ts-b",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --loader=ts-node/esm --test test.ts"
+  },
+  "dependencies": {
+    "ts-a": "^0.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}

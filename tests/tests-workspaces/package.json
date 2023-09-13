@@ -1,8 +1,13 @@
 {
   "name": "esmock unit tests, workspaces",
-  "workspaces": ["packages/*"],
-  "esmock": "file:..",
+  "workspaces": [
+    "workspaces-js/*",
+    "workspaces-ts/*"
+  ],  
   "scripts": {
-    "test": "npm --prefix packages/b test"
+    "test-workspaces-js": "npm --prefix workspaces-js/js-b test",
+    "test-workspaces-ts": "npm --prefix workspaces-js/js-b test",
+    "test-workspaces": "npm run test-workspaces-js && npm run test-workspaces-ts",
+    "test": "npm run test-workspaces"
   }
 }
