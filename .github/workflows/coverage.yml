@@ -2,9 +2,9 @@ name: coverage
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
         echo $BRANCH_NAME
         # process.env.BRANCH = 'pull_27';
         echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
-    - if: ${{ github.ref == 'refs/heads/master' }}
+    - if: ${{ github.ref == 'refs/heads/main' }}
       name: Create the Badge
       uses: schneegans/dynamic-badges-action@v1.4.0
       with:
