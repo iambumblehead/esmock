@@ -9,3 +9,11 @@ test('works ootb', async () => {
 
   assert.equal(sut(), 'bar')
 })
+
+test('also mocks local file', async () => {
+  const { localfilewrap } = await esmock('./index.js', {
+    './local-file.js': () => 'local-value-mocked'
+  })
+
+  assert.equal(localfilewrap(), 'local-value-mocked')
+})
