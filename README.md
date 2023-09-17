@@ -24,7 +24,7 @@ await esmock(
 `esmock` examples
 ``` javascript
 import test from 'node:test'
-import assert from 'node:assert/strict'
+import assert from 'node:assert'
 import esmock from 'esmock'
 
 test('package, alias and local file mocks', async () => {
