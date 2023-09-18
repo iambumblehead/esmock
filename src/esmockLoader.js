@@ -20,6 +20,7 @@ const esmkModuleIdRe = /esmkModuleId=([^&]*)/
 const esmkIdRe = /\?esmk=\d*/
 const exportNamesRe = /.*exportNames=(.*)/
 const withHashRe = /.*#-#/
+const isJSONExtnRe = /\.json$/i
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
 const iscommonjsmoduleRe = /^(commonjs|module)$/
@@ -31,11 +32,14 @@ const moduleIdReCreate = (moduleid, treeid) => new RegExp(
 
 // node v12.0-v18.x, global
 const mockKeys = global.mockKeys = (global.mockKeys || {})
+const mockKeysSource = global.mockKeysSource = (global.mockKeysSource || {})
 
 // node v20.0-v20.6
 const globalPreload = !module.register && (({ port }) => (
   port.addEventListener('message', ev => (
-    mockKeys[ev.data.key] = ev.data.keylong)),
+    ev.data.keysource
+      ? mockKeysSource[ev.data.keysource] = ev.data.source
+      : mockKeys[ev.data.key] = ev.data.keylong)),
   port.unref(),
   'global.postMessageEsmk = d => port.postMessage(d)'
 ))
@@ -44,7 +48,9 @@ const globalPreload = !module.register && (({ port }) => (
 const initialize = module.register && (data => {
   if (data && data.port) {
     data.port.on('message', msg => {
-      mockKeys[msg.key] = msg.keylong
+      msg.keysource
+        ? mockKeysSource[msg.keysource] = msg.source
+        : mockKeys[msg.key] = msg.keylong
     })
   }
 })
@@ -198,6 +204,16 @@ const load = async (url, context, nextLoad) => {
     .split(',')
 
   if (exportedNames && exportedNames[0]) {
+    if (mockKeysSource[url]) {
+      return {
+        // ...await nextLoad(url, context),
+        format: 'json',
+        shortCircuit: true,
+        responseURL: encodeURI(url),
+        source: mockKeysSource[url]
+      }
+    }
+
     return {
       format: 'module',
       shortCircuit: true,
