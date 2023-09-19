@@ -20,7 +20,6 @@ const esmkModuleIdRe = /esmkModuleId=([^&]*)/
 const esmkIdRe = /\?esmk=\d*/
 const exportNamesRe = /.*exportNames=(.*)/
 const withHashRe = /.*#-#/
-const isJSONExtnRe = /\.json$/i
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
 const iscommonjsmoduleRe = /^(commonjs|module)$/
