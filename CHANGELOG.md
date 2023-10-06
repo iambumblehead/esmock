@@ -1,9 +1,9 @@
 # changelog
 
  * 2.5.2 _Oct.06.2023_
-  * [update resolver](https://github.com/iambumblehead/esmock/pull/243) to improve module resolution. See [resolvewithplus/releases/tag/v2.0.6](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.6) and [resolvewithplus/releases/tag/v2.0.7.](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.7)
-    * **Resolve "exports" before "main".** The [spec says:](https://nodejs.org/api/packages.html#package-entry-points) _the "exports" field takes precedence over "main" in supported versions of Node.js._ The updated resolver correctly returns "main" before "exports" (older resolver did not).
-    * **Use package.json "type" to return "import" or "require".** The older resolver did not read package.json type and returned incorrect "require" values for some packages. For example, if this [inferno package]( https://www.npmjs.com/package/inferno) where changed to use type "module", the older resolver would return "index.js" rather than "index.esm.js",
+   * [update resolver](https://github.com/iambumblehead/esmock/pull/243) to improve module resolution. See resolvewithplus tags [v2.0.6](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.6) and [v2.0.7.](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.7)
+   * **resolve "exports" before "main".** The [spec says:](https://nodejs.org/api/packages.html#package-entry-points) _the "exports" field takes precedence over "main" in supported versions of Node.js._ The updated resolver correctly returns "main" before "exports" (older resolver did not).
+   * **use package.json "type" to return "import" or "require".** The older resolver did not read package.json type and returned incorrect "require" values for some packages. For example, if this [inferno package]( https://www.npmjs.com/package/inferno) where changed to use type "module", the older resolver would return "index.js" rather than "index.esm.js"
  * 2.5.1 _Sep.13.2023_
    * [resolve existing ".ts" files,](https://github.com/iambumblehead/esmock/pull/243) rather than ".js" files, when typescript detected, thanks @tpluscode
  * 2.5.0 _Sep.09.2023_
