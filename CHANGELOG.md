@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.5.2 _Oct.06.2023_
+   * [update resolver](https://github.com/iambumblehead/esmock/pull/243) to improve module resolution. See [resolvewithplus/releases/tag/v2.0.6](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.6)
  * 2.5.1 _Sep.13.2023_
    * [resolve existing ".ts" files,](https://github.com/iambumblehead/esmock/pull/243) rather than ".js" files, when typescript detected, thanks @tpluscode
  * 2.5.0 _Sep.09.2023_
