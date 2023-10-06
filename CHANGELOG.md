@@ -1,7 +1,7 @@
 # changelog
 
  * 2.5.2 _Oct.06.2023_
-   * [update resolver](https://github.com/iambumblehead/esmock/pull/243) to improve module resolution. See [resolvewithplus/releases/tag/v2.0.6](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.6)
+   * [update resolver](https://github.com/iambumblehead/esmock/pull/243) to improve module resolution. See [resolvewithplus/releases/tag/v2.0.6](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.6) and [resolvewithplus/releases/tag/v2.0.7.](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.7) Experiments with esmock's resolver indicated incorrect resolutions. The [spec says:](https://nodejs.org/api/packages.html#package-entry-points) _the "exports" field takes precedence over "main" in supported versions of Node.js._ The updated resolver correctly returns "main" before "exports". The updated resolver uses package.json "type" to determine resolution of "import" or "require" where the older resolver sometimes returned "require" values for type "module" packages... for example, if this [inferno package]( https://www.npmjs.com/package/inferno) were updated to use `{ "type": "module" }` esmock's updated resolver would return the correct "import" paths, where the old resolver did not.
  * 2.5.1 _Sep.13.2023_
    * [resolve existing ".ts" files,](https://github.com/iambumblehead/esmock/pull/243) rather than ".js" files, when typescript detected, thanks @tpluscode
  * 2.5.0 _Sep.09.2023_
