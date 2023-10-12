@@ -15,12 +15,16 @@ async function resolve (specifier, context, next) {
       : specifier, context)
 }
 
-module.register(`
+const loader = `
 data:text/javascript,
 ${encodeURIComponent(resolverCustom)}
-export ${encodeURIComponent(resolve)}`.slice(1))
+export ${encodeURIComponent(resolve)}`.slice(1)
 
 test('should use custom resolver', async () => {
+  if (!module.register)
+    return assert.ok('skip test')
+
+  module.register(loader)
   const customResolverParent = await esmock(
     '../local/customResolverParent.js', {}, {
       RESOLVECUSTOM: ({ isMocked: true })
