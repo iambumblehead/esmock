@@ -1,4 +1,3 @@
-import path from 'path'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import module from 'node:module'
