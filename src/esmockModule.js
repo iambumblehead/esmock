@@ -108,6 +108,14 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
   return mockModuleKey
 }
 
+const esmockCustomResolvers = (id, parent, resolvers) => {
+  if (!Array.isArray(resolvers) || !resolvers.length)
+    return null
+
+  return resolvers[0](id, parent)
+    || esmockCustomResolvers(id, parent, resolvers.slice(1))
+}
+
 const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
   ids = ids || Object.keys(defs)
   id = ids[0]
@@ -115,7 +123,8 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   if (!id) return mocks
 
-  const fileURL = resolvewith(id, parent)
+  const fileURL = esmockCustomResolvers(id, parent, opt.resolvers)
+    || resolvewith(id, parent)
   if (!fileURL && opt.isModuleNotFoundError !== false && id !== 'import')
     throw esmockErr.errModuleIdNotFound(id, parent)
 
@@ -125,7 +134,8 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 }
 
 const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
-  const moduleFileURL = resolvewith(moduleId, parent)
+  const moduleFileURL = esmockCustomResolvers(moduleId, parent, opt.resolvers)
+    || resolvewith(moduleId, parent)
   if (!moduleFileURL)
     throw esmockErr.errModuleIdNotFound(moduleId, parent)
 
