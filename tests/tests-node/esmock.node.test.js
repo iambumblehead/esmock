@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import esmock from 'esmock'
 import sinon from 'sinon'
 import esmockCache from '../../src/esmockCache.js'
-/*
+
 test('should mock node:process', async () => {
   // has direct and in-direct calls to `process.cwd()`
   const thingBeingTested = await esmock('../local/usesNodeProcess.js', {}, {
@@ -535,32 +535,4 @@ test('should mock scoped package, @aws-sdk/client-s3 (deep)', async () => {
     })
 
   assert.strictEqual(scopedClientS3.mocked, 'mock client')
-})
-*/
-test('should use custom resolver', async () => {
-  const customResolverParent = await esmock(
-    '../local/customResolverParent.js', {}, {
-      'form-urlencoded': ({ isMocked: true })
-    }, {
-      resolvers: [
-        (moduleId, parent) => {
-          const pathParent = new URL(parent).pathname
-          const pathChild = path.resolve(
-            pathParent, '../../local/customResolverChild.js')
-          
-          if (/CUSTOMLOADER$/.test(moduleId)) {
-            console.log('resolved path', new URL(pathChild, parent).href)
-          }
-
-          return /CUSTOMLOADER$/.test(moduleId)
-            ? new URL(pathChild, parent).href
-          //  ? path.join(path.dirname(parent), '../local/customResolverChild.js')
-            : null
-        }
-      ]
-    })
-
-  console.log('child', customResolverParent.child)
-  assert.ok(customResolverParent.child.isCustomResolverChild)
-  assert.ok(customResolverParent.child.isMocked)
 })
