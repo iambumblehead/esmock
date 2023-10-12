@@ -5,12 +5,8 @@ import module from 'node:module'
 import esmock from 'esmock'
 
 function resolverCustom (moduleId, parent) {
-  return /RESOLVECUSTOM$/.test(moduleId) && new URL(
-    path.resolve(
-      new URL(parent).pathname,
-      '../../local/customResolverChild.js'),
-    parent
-  ).href
+  return /RESOLVECUSTOM$/.test(moduleId) && parent
+    .replace(/\/tests\/.*$/, '/tests/local/customResolverChild.js')
 }
 
 async function resolve (specifier, context, next) {
@@ -22,7 +18,6 @@ async function resolve (specifier, context, next) {
 
 module.register(`
 data:text/javascript,
-import path from 'node:path';
 ${encodeURIComponent(resolverCustom)}
 export ${encodeURIComponent(resolve)}`.slice(1))
 
