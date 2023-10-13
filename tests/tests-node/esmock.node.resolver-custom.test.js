@@ -4,18 +4,21 @@ import module from 'node:module'
 import esmock from 'esmock'
 
 function resolverCustom (moduleId, parent) {
-  parent = parent.replace(/\/tests\/.*$/, '/tests/tests-node/')
-
   // This logic looks unusual because of constraints here. This function must:
   //  * must work at windows, where path.join and path.resolve cause issues
   //  * must be string-serializable, no external funcions
   //  * must resolve these moduleIds to corresponding, existing filepaths
   //    * '../local/customResolverParent.js',
   //    * 'RESOLVECUSTOM/
+  if (/(node:)?path/.test(moduleId))
+    return 'node:path'
+
   return (
-    /RESOLVECUSTOM$/.test(moduleId)
-      ? parent + '../local/customResolverChild.js'
-      : parent + moduleId
+    parent.replace(/\/tests\/.*$/, '/tests/tests-node/') + (
+      /RESOLVECUSTOM$/.test(moduleId)
+        ? '../local/customResolverChild.js'
+        : moduleId
+    )
   ).replace(/\/tests-node\/\.\./, '')
 }
 
