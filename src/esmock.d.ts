@@ -1,9 +1,11 @@
 type MockMap = { [specifier: string]: any }
+type Resolver = (id: string, parent: string) => string
 
 type Options = {
   strict?: boolean | undefined,
   purge?: boolean | undefined,
-  isModuleNotFoundError?: boolean | undefined
+  isModuleNotFoundError?: boolean | undefined,
+  resolver?: Resolver | undefined
 }
 
 type MockFunction = {
@@ -90,5 +92,6 @@ export {
   strictest,
   type MockFunction,
   type MockMap,
-  type Options
+  type Options,
+  type Resolver   
 }
