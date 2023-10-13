@@ -17,6 +17,9 @@ const isDirPathRe = /^\.?\.?([a-zA-Z]:)?(\/|\\)/
 const nextId = ((id = 0) => () => ++id)()
 const objProto = Object.getPrototypeOf({})
 const isPlainObj = o => Object.getPrototypeOf(o) === objProto
+const iscoremodule = resolvewith.iscoremodule
+const protocolNodeRe = /^node:/
+const addprotocolnode = p => protocolNodeRe.test(p) ? p : `node:${p}`
 
 // assigning the object to its own prototypal inheritor can error, eg
 //   'Cannot assign to read only property \'F_OK\' of object \'#<Object>\''
@@ -46,7 +49,7 @@ const esmockModuleApply = (defLive, def, fileURL) => {
 
   // if safe, an extra "default.default" is added for compatibility with
   // babel-generated dist cjs files which also define "default.default"
-  if (!resolvewith.iscoremodule(fileURL) && Object.isExtensible(def.default))
+  if (!iscoremodule(fileURL) && Object.isExtensible(def.default))
     def.default.default = def.default
 
   return def
@@ -59,7 +62,7 @@ const esmockModuleIsESM = (fileURL, isesm) => {
   if (typeof isesm === 'boolean')
     return isesm
 
-  isesm = !resolvewith.iscoremodule(fileURL)
+  isesm = !iscoremodule(fileURL)
     && isDirPathRe.test(fileURL)
     && esmockIsESMRe.test(fs.readFileSync(fileURL, 'utf-8'))
 
@@ -108,6 +111,9 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
   return mockModuleKey
 }
 
+const esmockResolve = (id, parent, opt) => (
+  iscoremodule(id) ? addprotocolnode(id) : opt.resolver(id, parent))
+
 const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
   ids = ids || Object.keys(defs)
   id = ids[0]
@@ -115,7 +121,7 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   if (!id) return mocks
 
-  const fileURL = resolvewith(id, parent)
+  const fileURL = esmockResolve(id, parent, opt)
   if (!fileURL && opt.isModuleNotFoundError !== false && id !== 'import')
     throw esmockErr.errModuleIdNotFound(id, parent)
 
@@ -125,7 +131,7 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 }
 
 const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
-  const moduleFileURL = resolvewith(moduleId, parent)
+  const moduleFileURL = esmockResolve(moduleId, parent, opt)
   if (!moduleFileURL)
     throw esmockErr.errModuleIdNotFound(moduleId, parent)
 

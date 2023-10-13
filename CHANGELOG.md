@@ -1,7 +1,8 @@
 # changelog
 
  * 2.5.3 _Oct.12.2023_
-   * [update resolver](https://github.com/iambumblehead/esmock/pull/243) to latest version, slightly faster with fewer loops
+   * [update resolver](https://github.com/iambumblehead/esmock/pull/250) to latest version, slightly faster with fewer loops
+   * [add support for resolver](https://github.com/iambumblehead/esmock/pull/251) configuration option
  * 2.5.2 _Oct.06.2023_
    * [update resolver](https://github.com/iambumblehead/esmock/pull/243) to improve module resolution. See resolvewithplus tags [v2.0.6](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.6) and [v2.0.7.](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.7)
    * **resolve "exports" before "main".** The [spec says:](https://nodejs.org/api/packages.html#package-entry-points) _the "exports" field takes precedence over "main" in supported versions of Node.js._ The updated resolver correctly returns "main" before "exports" (older resolver did not).
