@@ -1,7 +1,7 @@
 # changelog
 
  * 2.5.4 _Oct.13.2023_
-   * [remove condition](https://github.com/iambumblehead/esmock/pull/253) to not-call resolver with builtin moduleId
+   * [remove condition](https://github.com/iambumblehead/esmock/pull/252) to not-call resolver with builtin moduleId
  * 2.5.3 _Oct.12.2023_
    * [update resolver](https://github.com/iambumblehead/esmock/pull/250) to latest version, slightly faster with fewer loops
    * [add support for resolver](https://github.com/iambumblehead/esmock/pull/251) configuration option
