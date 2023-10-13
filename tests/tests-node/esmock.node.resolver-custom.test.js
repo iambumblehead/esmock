@@ -26,16 +26,15 @@ async function resolve (specifier, context, next) {
       : specifier, context)
 }
 
-const loader = `
+module.register && module.register(`
 data:text/javascript,
 ${encodeURIComponent(resolverCustom)}
-export ${encodeURIComponent(resolve)}`.slice(1)
+export ${encodeURIComponent(resolve)}`.slice(1))
 
 test('should use custom resolver', async () => {
   if (!module.register)
     return assert.ok('skip test')
 
-  module.register(loader)
   const customResolverParent = await esmock(
     '../local/customResolverParent.js', {}, {
       RESOLVECUSTOM: ({ isMocked: true })
@@ -45,4 +44,23 @@ test('should use custom resolver', async () => {
 
   assert.ok(customResolverParent.child.isCustomResolverChild)
   assert.ok(customResolverParent.child.isMocked)
+})
+
+test('should not call custom resover with builtin moduleIds', async () => {
+  if (!module.register)
+    return assert.ok('skip test')
+
+  const customResolverParent = await esmock(
+    '../local/customResolverParent.js', {}, {
+      RESOLVECUSTOM: ({ isMocked: true }),
+      path: { basename: () => 'basenametest' }
+    }, {
+      resolver: resolverCustom
+    })
+
+  assert.ok(customResolverParent.child.isCustomResolverChild)
+  assert.ok(customResolverParent.child.isMocked)
+  assert.strictEqual(
+    customResolverParent.pathbasenameresult,
+    'basenametest')
 })
