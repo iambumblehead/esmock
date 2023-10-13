@@ -1,5 +1,5 @@
 type MockMap = { [specifier: string]: any }
-type Resolver = (id: string, parent: string) => string
+type Resolver = (id: string, parent: string) => string | null
 
 type Options = {
   strict?: boolean | undefined,
