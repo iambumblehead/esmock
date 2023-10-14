@@ -26,7 +26,7 @@
     "sinon": "^12.0.1"
   },
   "scripts": {
-    "mini:esmock": "cd .. && cd src && npx esbuild esmock.js --minify --bundle --allow-overwrite --platform=node --format=esm --outfile=esmock.js",
+    "mini:esmock": "cd .. && cd src && npx esbuild esmock.js --minify --bundle --allow-overwrite --platform=node --format=esm --external:pnpapi --outfile=esmock.js",
     "mini:esmockLoader": "cd .. && cd src && npx esbuild esmockLoader.js --minify --bundle --allow-overwrite --platform=node --format=esm --outfile=esmockLoader.js",
     "mini": "npm run mini:esmock && npm run mini:esmockLoader",
     "isnodelt18": "node -e \"+process.versions.node.split('.')[0] < 18 || process.exit(1)\"",
