@@ -1,0 +1,1 @@
+delete process.versions.pnp
