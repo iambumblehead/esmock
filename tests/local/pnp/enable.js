@@ -7,8 +7,6 @@ async function resolve (specifier, context, next) {
       : specifier, context)
 }
   
-module.register && module.register(`
+module.register && (process.versions.pnp = '3') && module.register(`
 data:text/javascript,
 export ${encodeURIComponent(resolve)}`.slice(1))
-
-process.versions.pnp = '3'
