@@ -2,7 +2,6 @@ import fs from 'fs'
 import resolvewith from 'resolvewithplus'
 import esmockErr from './esmockErr.js'
 import esmockIsESMRe from './esmockIsESMRe.js'
-import esmockResolver from './esmockResolver.js'
 
 import {
   esmockTreeIdSet,
@@ -117,8 +116,7 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   if (!id) return mocks
 
-  const resolver = await esmockResolver(opt)
-  const fileURL = resolver(id, parent)
+  const fileURL = opt.resolver(id, parent)
   if (!fileURL && opt.isModuleNotFoundError !== false && id !== 'import')
     throw esmockErr.errModuleIdNotFound(id, parent)
 
@@ -128,8 +126,7 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 }
 
 const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
-  const resolver = await esmockResolver(opt)
-  const moduleFileURL = resolver(moduleId, parent)
+  const moduleFileURL = opt.resolver(moduleId, parent)
   if (!moduleFileURL)
     throw esmockErr.errModuleIdNotFound(moduleId, parent)
 

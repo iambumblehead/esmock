@@ -1,4 +1,5 @@
-import resolver from 'resolvewithplus'
+import resolvewithplus from 'resolvewithplus'
+import pnpResolver from './pnpResolver.js'
 
 // extracts path or fileurl from stack,
 // '  at <anonymous> (/root/test.js:11:31)' -> /root/test.js
@@ -6,6 +7,8 @@ import resolver from 'resolvewithplus'
 // '  at file:///root/test.js:7:9' -> file:///root/test.js
 // '  at file:///D:/a/test.js:7:9' -> file:///D:/a/test.js
 const stackpathre = /^.*(\(|at )(.*):[\d]*:[\d]*.*$/
+
+const resolver = pnpResolver || resolvewithplus
 
 // this function normalizes "overloaded" args signatures, returning
 // one predictable args list. ex,
