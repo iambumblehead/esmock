@@ -17,7 +17,7 @@ test.beforeEach(() => {
   delete pnpapi.resolveRequest
 })
 
-test('should work with pnp resolver', async (t) => {
+test('should work with pnp resolver', async t => {
   if (!module.register)
     return assert.ok('skip test')
   
