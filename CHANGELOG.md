@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.5.6 _Oct.15.2023_
+   * [update resolver](https://github.com/iambumblehead/esmock/pull/256) to latest version, [resolves a resolution error](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.9) that seems to have been introduced by a previous update from the past week.
  * 2.5.5 _Oct.14.2023_
    * [support yarn PnP](https://github.com/iambumblehead/esmock/pull/255) @koshic
  * 2.5.4 _Oct.13.2023_
