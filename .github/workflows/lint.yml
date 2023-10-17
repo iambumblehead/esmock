@@ -8,14 +8,12 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-        
     steps:
     - uses: actions/checkout@v3
     - name: lint
       uses: actions/setup-node@v3
       with:
-        node-version: '20.x'
+        node-version: 20
     - run: npm install
     - run: npm run lint

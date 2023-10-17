@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.5.7 _pendng_
+   * [add node 21](https://github.com/iambumblehead/esmock/pull/257) to test pipeline
  * 2.5.6 _Oct.15.2023_
    * [update resolver](https://github.com/iambumblehead/esmock/pull/256) to latest version, [resolves a resolution error](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.9) that seems to have been introduced by a previous update from the past week.
  * 2.5.5 _Oct.14.2023_
