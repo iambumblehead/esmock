@@ -1,8 +1,9 @@
 # changelog
 
- * 2.5.7 _pendng_
-   * [add node 21](https://github.com/iambumblehead/esmock/pull/257) to test pipeline
-   * [use latest node 18](https://github.com/iambumblehead/esmock/pull/258) at test pipeline
+ * 2.5.7 _Oct.20.2023_
+   * [add node 21](https://github.com/iambumblehead/esmock/pull/258) to test pipeline
+   * [use latest node 18](https://github.com/iambumblehead/esmock/pull/259) at test pipeline
+   * [update resolver again](https://github.com/iambumblehead/esmock/pull/261) resolves [this issue.](https://github.com/iambumblehead/esmock/issues/260)
  * 2.5.6 _Oct.15.2023_
    * [update resolver](https://github.com/iambumblehead/esmock/pull/256) to latest version, [resolves a resolution error](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.0.9) that seems to have been introduced by a previous update from the past week.
  * 2.5.5 _Oct.14.2023_
