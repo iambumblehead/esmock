@@ -15,7 +15,7 @@ export default pnpapi && ((id, parent) => {
   let path = null
   try {
     path = pnpapi.resolveRequest(id, parent)
-  } catch {}
+  } catch { /* empty */ }
 
   return path !== null ? pathToFileURL(path).href : null
 })
