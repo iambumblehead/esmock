@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.5.8 _Oct.23.2023_
+   * [catch yarn PnP exceptions](https://github.com/iambumblehead/esmock/pull/262) @koshic
  * 2.5.7 _Oct.20.2023_
    * [add node 21](https://github.com/iambumblehead/esmock/pull/258) to test pipeline
    * [use latest node 18](https://github.com/iambumblehead/esmock/pull/259) at test pipeline
