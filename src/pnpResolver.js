@@ -12,7 +12,10 @@ export default pnpapi && ((id, parent) => {
     return null
   }
 
-  const path = pnpapi.resolveRequest(id, parent)
+  let path = null
+  try {
+    path = pnpapi.resolveRequest(id, parent)
+  } catch { /* empty */ }
 
   return path !== null ? pathToFileURL(path).href : null
 })
