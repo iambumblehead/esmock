@@ -1,4 +1,5 @@
 import fs from 'fs'
+import url from 'url'
 import resolvewith from 'resolvewithplus'
 import esmockErr from './esmockErr.js'
 import esmockIsESMRe from './esmockIsESMRe.js'
@@ -7,6 +8,7 @@ import {
   esmockTreeIdSet,
   esmockTreeIdGet,
   esmockCacheSet,
+  esmockModuleIdSourceSet,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
 } from './esmockCache.js'
@@ -18,6 +20,7 @@ const nextId = ((id = 0) => () => ++id)()
 const objProto = Object.getPrototypeOf({})
 const isPlainObj = o => Object.getPrototypeOf(o) === objProto
 const iscoremodule = resolvewith.iscoremodule
+const isJSONExtnRe = /\.json$/i
 
 // assigning the object to its own prototypal inheritor can error, eg
 //   'Cannot assign to read only property \'F_OK\' of object \'#<Object>\''
@@ -36,7 +39,7 @@ const esmockModuleMergeDefault = (defLive, def) =>
 
 const esmockModuleApply = (defLive, def, fileURL) => {
   // no fileURL here indicates 'import' mock, 'default' not needed
-  if (fileURL === null)
+  if (fileURL === null || isJSONExtnRe.test(fileURL))
     return Object.assign({}, defLive || {}, def)
 
   if (Array.isArray(def))
@@ -95,9 +98,13 @@ const esmockModuleImportedPurge = treeid => {
   String(url.split('esmkgdefs=')[1]).split('#-#').forEach(purgeKey)
 }
 
+const esmockImport = async fileURL => isJSONExtnRe.test(fileURL)
+  ? JSON.parse(fs.readFileSync(new url.URL(fileURL), 'utf-8'))
+  : import(fileURL)
+
 const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
   def = esmockModuleApply(
-    opt.strict || !fileURL || await import(fileURL), def, fileURL)
+    opt.strict || !fileURL || await esmockImport(fileURL), def, fileURL)
 
   const mockModuleKey = (fileURL || 'file:///' + id) + '?' + [
     'esmkTreeId=' + treeid,
@@ -106,6 +113,10 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
     'isesm=' + esmockModuleIsESM(fileURL),
     'exportNames=' + Object.keys(def).sort().join()
   ].join('&')
+
+  if (isJSONExtnRe.test(fileURL)) {
+    esmockModuleIdSourceSet(mockModuleKey, JSON.stringify(def))
+  }
 
   esmockCacheSet(mockModuleKey, def)
 

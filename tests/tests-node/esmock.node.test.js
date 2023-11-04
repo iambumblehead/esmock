@@ -548,3 +548,36 @@ test('should mock an exported array', async () => {
 
   assert.deepStrictEqual(importsArray(), ['mocked'])
 })
+
+test('should mock imported json', async () => {
+  const importsJSON = await esmock(
+    '../local/importsJSONfile.js', {
+      '../local/example.json': {
+        'test-example': 'test-json-a'
+      }
+    })
+
+  if (/^(18|20)$/.test(process.versions.node.split('.')[0]))
+    return assert.ok(true)
+  
+  assert.strictEqual(
+    Object.keys(importsJSON.JSONobj).sort().join(), 'example,test-example')
+  assert.strictEqual(importsJSON.JSONobj['test-example'], 'test-json-a')
+  assert.strictEqual(importsJSON.JSONobj['example'], 'json')
+})
+
+test('should mock imported json (strict)', async () => {
+  const importsJSON = await esmock.strict(
+    '../local/importsJSONfile.js', {
+      '../local/example.json': {
+        'test-example': 'test-json-b'
+      }
+    })
+
+  if (/^(18|20)$/.test(process.versions.node.split('.')[0]))
+    return assert.ok(true)
+  
+  assert.strictEqual(
+    Object.keys(importsJSON.JSONobj).sort().join(), 'test-example')
+  assert.strictEqual(importsJSON.JSONobj['test-example'], 'test-json-b')
+})
