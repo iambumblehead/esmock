@@ -39,6 +39,9 @@ const esmockModuleApply = (defLive, def, fileURL) => {
   if (fileURL === null)
     return Object.assign({}, defLive || {}, def)
 
+  if (Array.isArray(def))
+    return { default: def.slice() }
+
   def = Object.assign({}, defLive || {}, {
     default: esmockModuleMergeDefault(
       isDefaultIn(defLive) && defLive.default,

@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.5.9 _Nov.11.2023_
+   * [mock Array-type default export,](https://github.com/iambumblehead/esmock/pull/266) thanks @altearius
  * 2.5.8 _Oct.23.2023_
    * [catch yarn PnP exceptions](https://github.com/iambumblehead/esmock/pull/262) @koshic
  * 2.5.7 _Oct.20.2023_
