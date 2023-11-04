@@ -536,3 +536,15 @@ test('should mock scoped package, @aws-sdk/client-s3 (deep)', async () => {
 
   assert.strictEqual(scopedClientS3.mocked, 'mock client')
 })
+
+test('should mock an exported array', async () => {
+  const mockedArray = ['mocked']
+
+  const importsArray = await esmock(
+    '../local/importsArray.js', {
+      '../local/exportsArray.js': mockedArray
+    }
+  )
+
+  assert.deepStrictEqual(importsArray(), ['mocked'])
+})
