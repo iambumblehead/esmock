@@ -1,6 +1,8 @@
 # changelog
 
- * 2.5.9 _Nov.11.2023_
+ * 2.6.0 _Nov.07.2023_
+   * [typings: make MockFunction generic,](https://github.com/iambumblehead/esmock/pull/267) thanks @uwinkelvos
+ * 2.5.9 _Nov.01.2023_
    * [mock Array-type default export,](https://github.com/iambumblehead/esmock/pull/266) thanks @altearius
    * [support json import mocking,](https://github.com/iambumblehead/esmock/pull/247) only working at node v21, see [node#49724](https://github.com/nodejs/node/issues/49724)
  * 2.5.8 _Oct.23.2023_
