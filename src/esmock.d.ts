@@ -22,19 +22,19 @@ type MockFunction = {
    * @param opts
    * @returns The mocked import-tree result of "import({@link modulePath})"
    */
-  (
+  <T = any>(
     modulePath: string,
     parent: string,
     defs?: MockMap,
     gdefs?: MockMap,
     opts?: Options
-  ): any,
-  (
+  ): Promise<T>,
+  <T = any>(
     modulePath: string,
     defs?: MockMap,
     gdefs?: MockMap,
     opts?: Options
-  ): any
+  ): Promise<T>
 }
 
 /**
