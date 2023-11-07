@@ -1,6 +1,9 @@
 {
   "plugins": [],
-  "ignorePatterns": ["importsJSONfile.js"],
+  "ignorePatterns": [
+    "dist",
+    "importsJSONfile.js"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:markdown/recommended"    
