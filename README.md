@@ -49,9 +49,8 @@ test('full import tree mocks —third param', async () => {
   assert.equal(getFile(), 'returned to 🌲 every caller in the tree')
 })
 
-import type * as utilsType from '../src/utils.js/';
 test('allows you to specify the type of returned exports', async () => {
-  const { multiplyNumbers } = await esmock<typeof utilsType>(
+  const { multiplyNumbers } = await esmock<typeof import('../src/utils.js')>(
     '../src/utils.js', {
     multiplyNumbers: (numbers: number[]): number => numbers.reduce((acc, current) => acc *= current, 1),
   })
