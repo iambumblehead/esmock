@@ -49,6 +49,15 @@ test('full import tree mocks —third param', async () => {
   assert.equal(getFile(), 'returned to 🌲 every caller in the tree')
 })
 
+test('allows you to specify the type of returned exports', async () => {
+  const { multiplyNumbers } = await esmock<typeof import('../src/utils.js')>(
+    '../src/utils.js', {
+    multiplyNumbers: (numbers: number[]): number => numbers.reduce((acc, current) => acc *= current, 1),
+  })
+
+  assert.equal(multiplyNumbers([1, 2, 3]), 6)
+})
+
 test('mock fetch, Date, setTimeout and any globals', async () => {
   // https://github.com/iambumblehead/esmock/wiki#call-esmock-globals
   const { userCount } = await esmock('../Users.js', {
