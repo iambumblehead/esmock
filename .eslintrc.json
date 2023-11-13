@@ -21,6 +21,7 @@
     "Set": true
   },
   "rules": {
+    "no-trailing-spaces": [2],
     "no-unused-vars": [ "error", {
       "vars": "all",
       "args": "after-used",

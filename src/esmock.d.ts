@@ -93,5 +93,5 @@ export {
   type MockFunction,
   type MockMap,
   type Options,
-  type Resolver   
+  type Resolver
 }
