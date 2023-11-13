@@ -40,6 +40,18 @@ test('package, alias and local file mocks', async () => {
   assert.equal(cookup('breakfast'), '☕🥓🧂')
 })
 
+import type MinecraftWorld from '../src/minecraftWorld.js';
+test('allows you to specify the type of returned exports', async () => {
+  const world = await esmock<MinecraftWorld>(
+    '../src/minecraftWorld.js', {
+      '../src/difficulty.js': {
+        getDifficulty: (): string => 'HARD',
+      }
+  })
+
+  assert.equal(world.spawnSpiders(), '🕷️🕷️🕷️🕷️🕷️')
+})
+
 test('full import tree mocks —third param', async () => {
   const { getFile } = await esmock('../src/main.js', {}, {
     // mocks *every* fs.readFileSync inside the import tree
