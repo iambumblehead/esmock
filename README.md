@@ -22,6 +22,8 @@ await esmock(
 ```
 
 `esmock` examples
+
+JavaScript
 ``` javascript
 import test from 'node:test'
 import assert from 'node:assert'
@@ -38,18 +40,6 @@ test('package, alias and local file mocks', async () => {
   })
 
   assert.equal(cookup('breakfast'), '☕🥓🧂')
-})
-
-import type MinecraftWorld from '../src/minecraftWorld.js';
-test('allows you to specify the type of returned exports', async () => {
-  const world = await esmock<MinecraftWorld>(
-    '../src/minecraftWorld.js', {
-      '../src/difficulty.js': {
-        getDifficulty: (): string => 'HARD',
-      }
-  })
-
-  assert.equal(world.spawnSpiders(), '🕷️🕷️🕷️🕷️🕷️')
 })
 
 test('full import tree mocks —third param', async () => {
@@ -99,6 +89,21 @@ test('esmock.strict mocks', async () => {
     name: 'TypeError',
     message: 'path.basename is not a function'
   })
+})
+```
+
+TypeScript
+``` typescript
+import type MinecraftWorld from '../src/minecraftWorld.js';
+test('allows you to specify the type of returned exports', async () => {
+  const world = await esmock<MinecraftWorld>(
+    '../src/minecraftWorld.js', {
+      '../src/difficulty.js': {
+        getDifficulty: (): string => 'HARD',
+      }
+  })
+
+  assert.equal(world.spawnSpiders(), '🕷️🕷️🕷️🕷️🕷️')
 })
 ```
 
