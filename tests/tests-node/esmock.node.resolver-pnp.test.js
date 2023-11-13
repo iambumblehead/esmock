@@ -20,7 +20,7 @@ test.beforeEach(() => {
 test('should work with pnp resolver', async ({ mock }) => {
   if (!module.register)
     return assert.ok('skip test')
-  
+
   pnpapi.resolveRequest = mock.fn(resolver)
 
   const main = await esmock('../local/main.js', {

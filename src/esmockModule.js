@@ -24,7 +24,7 @@ const isJSONExtnRe = /\.json$/i
 
 // assigning the object to its own prototypal inheritor can error, eg
 //   'Cannot assign to read only property \'F_OK\' of object \'#<Object>\''
-// 
+//
 // if not plain obj, assign enumerable vals only. core modules === plain obj
 const esmockModuleMerge = (defLive, def) => isPlainObj(defLive)
   ? Object.assign({}, defLive, def)
