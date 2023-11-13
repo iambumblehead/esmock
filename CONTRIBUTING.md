@@ -4,5 +4,10 @@ If `esmock` is failing for you, feel free to submit a PR that reproduces the iss
 
 Please do not submit PRs to convert esmock to typescript or add build scripts. Typescript and build scripts are fine, however, esmock's current setup is ideal for me now.
 
+When it comes to adding examples to README, please follow the constraints below:
+- The example should work. It should be possible to write a real unit-test that passes with the example,
+- Each line less than 70 characters wide. This is a special optimization for the README so the examples fit inside most laptop screens without scrollbars,
+- The example should be slightly interesting, if possible, and should use a unicode emoji
+
 
 [0]: https://github.com/iambumblehead/esmock/tree/master/tests
