@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.6.1 _???.??.2023_
+   * [update README to work w/ eslint-plugin-markdown](https://github.com/iambumblehead/esmock/pull/275)
  * 2.6.0 _Nov.07.2023_
    * [typings: make MockFunction generic,](https://github.com/iambumblehead/esmock/pull/267) thanks @uwinkelvos
  * 2.5.9 _Nov.01.2023_
