@@ -90,6 +90,25 @@ test('esmock.strict mocks', async () => {
 })
 ```
 
+`esmock` examples in typescript
+```ts
+import test from 'node:test'
+import assert from 'node:assert'
+import esmock from 'esmock'
+import type Rabbit from '../rabbit.js'
+
+test('specify the type of export returned', async () => {
+  const rabbit = await esmock<Rabbit>('../rabbit.js', {
+    '../util.js': {
+      multiply: (numbers: number[]): number => (
+        numbers.reduce((acc, n) => acc *= n, 1))
+    }
+  })
+
+  assert.equal(rabbit.makebabies({ pairs: 3 }), '🐇🐇🐇🐇🐇🐇🐇')
+})
+```
+
 [0]: https://www.bumblehead.com "bumblehead"
 [1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
 [2]: https://github.com/iambumblehead/esmock "esmock"
