@@ -105,7 +105,7 @@ test('specify the type of export returned', async () => {
     }
   })
 
-  assert.equal(rabbit.makebabies({ pairs: 3 }), '🐇🐇🐇🐇🐇🐇🐇')
+  assert.equal(rabbit.makebabies(), '🐇🐇🐇🐇🐇🐇🐇🐇🐇🐇🐇🐇🐇')
 })
 ```
 
