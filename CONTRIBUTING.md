@@ -4,5 +4,7 @@ If `esmock` is failing for you, feel free to submit a PR that reproduces the iss
 
 Please do not submit PRs to convert esmock to typescript or add build scripts. Typescript and build scripts are fine, however, esmock's current setup is ideal for me now.
 
+Collaborators may reject or revert any issue or PR for any reason.
 
-[0]: https://github.com/iambumblehead/esmock/tree/master/tests
+
+[0]: https://github.com/iambumblehead/esmock/tree/main/tests

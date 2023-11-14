@@ -14,7 +14,7 @@
 _**Note: For versions of node prior to v20.6.0,** "--loader" command line arguments must be used with `esmock` as demonstrated [in the wiki.][4] Current versions of node do not require "--loader"._
 
 `esmock` has the below signature
-``` javascript
+```js
 await esmock(
   './to/module.js', // path to target module being tested
   { ...childmocks }, // mock definitions imported by target module
@@ -22,9 +22,7 @@ await esmock(
 ```
 
 `esmock` examples
-
-JavaScript
-``` javascript
+```js
 import test from 'node:test'
 import assert from 'node:assert'
 import esmock from 'esmock'
