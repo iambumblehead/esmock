@@ -90,14 +90,16 @@ test('esmock.strict mocks', async () => {
 })
 ```
 
-TypeScript
-``` typescript
+```js
+import test from 'node:test';
+import assert from 'node:assert';
+import esmock from 'esmock';
 import type MinecraftWorld from '../src/minecraftWorld.js';
 test('allows you to specify the type of returned exports', async () => {
   const world = await esmock<MinecraftWorld>(
     '../src/minecraftWorld.js', {
       '../src/difficulty.js': {
-        getDifficulty: (): string => 'HARD',
+        getDifficulty: (): string => 'HARD'
       }
   })
 
