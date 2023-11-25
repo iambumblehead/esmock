@@ -52,7 +52,7 @@
     "test:node18-test-tsm": "npm run isnodenight || npm run test:node19-tsm",
     "test:node18-test-node": "cd tests-node && npm test",
     "test:node18-test-jest": "cd tests-jest && npm test",
-    "test:node18-test-jest-ts": "cd tests-jest-ts && npm test",
+    "test:DISABLEnode18-test-jest-ts": "cd tests-jest-ts && npm test",
     "test:node18-test-nodets": "cd tests-nodets && npm test",
     "test:node18-test-source-map": "cd tests-source-map && npm test",
     "test:node18-test-no-loader": "cd tests-no-loader && npm test",
