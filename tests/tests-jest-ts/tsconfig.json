@@ -1,5 +1,5 @@
 {
-  "extends": "ts-node/node16/tsconfig.json",
+  "extends": "./node_modules/@tsconfig/node16/tsconfig.json",
   "include": ["./esmock.node-jest.test.ts"],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
