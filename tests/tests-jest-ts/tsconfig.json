@@ -2,7 +2,9 @@
   "extends": "./node_modules/@tsconfig/node16/tsconfig.json",
   "include": ["./esmock.node-jest.test.ts"],
   "ts-node": {
-    "transpileOnly": true
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true,
+    "esm": true
   },
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
