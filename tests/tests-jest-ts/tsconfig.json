@@ -7,5 +7,6 @@
     "allowSyntheticDefaultImports": true,
     "module": "ESNext",
     "moduleResolution": "node"
-  }
+  },
+  "include": ["./esmock.node-jest.test.ts"]
 }
