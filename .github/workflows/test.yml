@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 12
     strategy:
@@ -16,9 +16,7 @@ jobs:
         node-version: [16.x, 18.x, 20.x, 21.x]
         os: [ubuntu-latest, windows-latest]
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
