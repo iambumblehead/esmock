@@ -1,6 +1,7 @@
 # changelog
 
  * 2.6.1 _???.??.2023_
+   * [update ci job to use checkout v4](https://github.com/iambumblehead/esmock/pull/279)
    * [update README to work w/ eslint-plugin-markdown](https://github.com/iambumblehead/esmock/pull/275)
    * [update eslint](https://github.com/iambumblehead/esmock/pull/276) disallow trailing whitespace
    * [add typescript example](https://github.com/iambumblehead/esmock/pull/278) to README
