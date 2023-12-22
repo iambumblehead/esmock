@@ -583,12 +583,23 @@ test('should mock imported json (strict)', async () => {
 })
 
 test('mocks await import node:fs/promises', async () => {
-  const main = await esmock.p('../local/usesInlineImport.mjs', {
+  const mainlocal = await esmock.p('../local/usesInlineImport.mjs', {
     'node:fs/promises': {
-      readdir: () => (['foo', 'bar'])
+      readdir: () => (['mock', 'local'])
     }
   })
 
   assert.deepStrictEqual(
-    await main.importFSPromisesReadDir(), ['foo', 'bar'])
+    await mainlocal.importFSPromisesReadDir(), ['mock', 'local'])
+})
+
+test('mocks await import node:fs/promises (global)', async () => {
+  const main = await esmock.p('../local/usesInlineImport.mjs', {}, {
+    'node:fs/promises': {
+      readdir: () => (['mock', 'global'])
+    }
+  })
+
+  assert.deepStrictEqual(
+    await main.importFSPromisesReadDir(), ['mock', 'global'])
 })
