@@ -581,3 +581,14 @@ test('should mock imported json (strict)', async () => {
     Object.keys(importsJSON.JSONobj).sort().join(), 'test-example')
   assert.strictEqual(importsJSON.JSONobj['test-example'], 'test-json-b')
 })
+
+test('mocks await import node:fs/promises', async () => {
+  const main = await esmock.p('../local/usesInlineImport.mjs', {
+    'node:fs/promises': {
+      readdir: () => (['foo', 'bar'])
+    }
+  })
+
+  assert.deepStrictEqual(
+    await main.importFSPromisesReadDir(), ['foo', 'bar'])
+})
