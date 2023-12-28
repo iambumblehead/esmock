@@ -583,7 +583,7 @@ test('should mock imported json (strict)', async () => {
 })
 
 test('mocks await import node:fs/promises', async () => {
-  const main = await esmock.p('../local/usesInlineImport.mjs', {
+  const main = await esmock.p('../local/usesInlineBuiltinImport.js', {
     'node:fs/promises': {
       readdir: () => (['mock', 'local'])
     }
@@ -594,7 +594,7 @@ test('mocks await import node:fs/promises', async () => {
 })
 
 test('mocks await import node:fs/promises (global)', async () => {
-  const main = await esmock.p('../local/usesInlineImport.mjs', {}, {
+  const main = await esmock.p('../local/usesInlineBuiltinImportChild.js', {}, {
     'node:fs/promises': {
       readdir: () => (['mock', 'global'])
     }
