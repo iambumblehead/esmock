@@ -1,10 +1,11 @@
 # changelog
 
- * 2.6.1 _???.??.2023_
+ * 2.6.1 _Dec.30.2023_
    * [update ci job to use checkout v4](https://github.com/iambumblehead/esmock/pull/279)
    * [update README to work w/ eslint-plugin-markdown](https://github.com/iambumblehead/esmock/pull/275)
    * [update eslint](https://github.com/iambumblehead/esmock/pull/276) disallow trailing whitespace
    * [add typescript example](https://github.com/iambumblehead/esmock/pull/278) to README
+   * [update esmock to correctly](https://github.com/iambumblehead/esmock/pull/282) mock builtins imported with `await import` thanks @btakita
  * 2.6.0 _Nov.07.2023_
    * [typings: make MockFunction generic,](https://github.com/iambumblehead/esmock/pull/267) thanks @uwinkelvos
  * 2.5.9 _Nov.01.2023_
