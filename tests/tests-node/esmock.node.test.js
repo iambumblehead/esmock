@@ -603,3 +603,24 @@ test('mocks await import node:fs/promises (global)', async () => {
   assert.deepStrictEqual(
     await main.importFSPromisesReadDir(), ['mock', 'global'])
 })
+
+// https://github.com/iambumblehead/esmock/issues/284
+// older applications may export names that are reserved in newer runtimes
+//
+// express exports this...
+// ```js
+// exports.static = require('serve-static');
+// ```
+test('mocks express, exports disallowed keyword "static"', async () => {
+  const calls = []
+
+  assert.ok(await esmock('../local/usesExpress.js', import.meta.url, {
+    express: {
+      Router: {
+        get: (path, fn) => {
+          calls.push([path, fn])
+        }
+      }
+    }
+  }))
+})
