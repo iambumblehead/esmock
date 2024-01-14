@@ -1,6 +1,8 @@
 # changelog
 
- * 2.6.1 _Jan.14.2023_
+ * 2.6.2 _Jan.14.2023_
+   * [remove reserved keywords](https://github.com/iambumblehead/esmock/pull/287) from export names lists, allows express to be mocked, thanks @lcapel
+ * 2.6.1 _Jan.13.2023_
    * [update ci job to use checkout v4](https://github.com/iambumblehead/esmock/pull/279)
    * [update README to work w/ eslint-plugin-markdown](https://github.com/iambumblehead/esmock/pull/275)
    * [update eslint](https://github.com/iambumblehead/esmock/pull/276) disallow trailing whitespace

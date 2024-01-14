@@ -611,7 +611,7 @@ test('mocks await import node:fs/promises (global)', async () => {
 // ```js
 // exports.static = require('serve-static');
 // ```
-test('mocks express, exports disallowed reserved keyword "static"', async () => {
+test('mocks express, exports disallowed keyword "static"', async () => {
   const calls = []
 
   assert.ok(await esmock('../local/usesExpress.js', import.meta.url, {
