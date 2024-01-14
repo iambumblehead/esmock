@@ -116,7 +116,8 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
     'isfound=' + Boolean(fileURL),
     'isesm=' + esmockModuleIsESM(fileURL),
     'exportNames=' + Object.keys(def).sort().join()
-      .replace(reservedKeywordsFoundInWild, '')
+      .replace(reservedKeywordsFoundInWild, a => (
+        a.startsWith(',') && a.endsWith(',') ? ',' : ''))
   ].join('&')
 
   if (isJSONExtnRe.test(fileURL)) {
