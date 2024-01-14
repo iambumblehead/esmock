@@ -22,6 +22,10 @@ const isPlainObj = o => Object.getPrototypeOf(o) === objProto
 const iscoremodule = resolvewith.iscoremodule
 const isJSONExtnRe = /\.json$/i
 
+// https://github.com/iambumblehead/esmock/issues/284
+// older applications may export names that are reserved in newer runtimes
+const reservedKeywordsFoundInWild = /(^|,)static($|,)/g
+
 // assigning the object to its own prototypal inheritor can error, eg
 //   'Cannot assign to read only property \'F_OK\' of object \'#<Object>\''
 //
@@ -112,6 +116,7 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
     'isfound=' + Boolean(fileURL),
     'isesm=' + esmockModuleIsESM(fileURL),
     'exportNames=' + Object.keys(def).sort().join()
+      .replace(reservedKeywordsFoundInWild, '')
   ].join('&')
 
   if (isJSONExtnRe.test(fileURL)) {
