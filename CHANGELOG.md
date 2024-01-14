@@ -7,6 +7,7 @@
    * [add typescript example](https://github.com/iambumblehead/esmock/pull/278) to README
    * [update esmock to correctly](https://github.com/iambumblehead/esmock/pull/282) mock builtins imported with `await import` thanks @btakita
    * [move typescript example from README](https://github.com/iambumblehead/esmock/pull/283) to wiki
+   * [update eslint package](https://github.com/iambumblehead/esmock/pull/284) to resolve failing lint command
  * 2.6.0 _Nov.07.2023_
    * [typings: make MockFunction generic,](https://github.com/iambumblehead/esmock/pull/267) thanks @uwinkelvos
  * 2.5.9 _Nov.01.2023_
