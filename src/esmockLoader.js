@@ -224,6 +224,12 @@ const load = async (url, context, nextLoad) => {
     }
   }
 
+  if (treeid && !url.includes(treeid)) {
+    // long querystring reduces readability of runtime error stacktrace
+    // smaller querystring `esmk=$id` does not clutter stacktrace
+    url = url + '?esmk=' + treeid.split('=')[1]
+  }
+
   return nextLoad(url, context)
 }
 

@@ -1,4 +1,3 @@
-
 async function writeJSConfigFile (config, filePath) {
   const eslint = (await import('eslint'))
 

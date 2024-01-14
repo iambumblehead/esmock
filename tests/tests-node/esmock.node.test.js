@@ -581,3 +581,25 @@ test('should mock imported json (strict)', async () => {
     Object.keys(importsJSON.JSONobj).sort().join(), 'test-example')
   assert.strictEqual(importsJSON.JSONobj['test-example'], 'test-json-b')
 })
+
+test('mocks await import node:fs/promises', async () => {
+  const main = await esmock.p('../local/usesInlineBuiltinImport.js', {
+    'node:fs/promises': {
+      readdir: () => (['mock', 'local'])
+    }
+  })
+
+  assert.deepStrictEqual(
+    await main.importFSPromisesReadDir(), ['mock', 'local'])
+})
+
+test('mocks await import node:fs/promises (global)', async () => {
+  const main = await esmock.p('../local/usesInlineBuiltinImportChild.js', {}, {
+    'node:fs/promises': {
+      readdir: () => (['mock', 'global'])
+    }
+  })
+
+  assert.deepStrictEqual(
+    await main.importFSPromisesReadDir(), ['mock', 'global'])
+})
