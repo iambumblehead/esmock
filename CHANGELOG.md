@@ -2,6 +2,7 @@
 
  * 2.6.? _tbd_
    * [update publish spec job actions,](https://github.com/iambumblehead/esmock/pull/291) use checkout@v4 and setup-node@v4
+   * [remove node 16 from test job matrix,](https://github.com/iambumblehead/esmock/pull/292) eol 2023, Sep 11 #254
  * 2.6.3 _Jan.23.2023_
    * [resolve nested exports defined on named-properties](https://github.com/iambumblehead/resolvewithplus/pull/65) with wildcards, eg `exports: { './*': { default: './src/*/index.js' } }` resolves [this issue at esmock](https://github.com/iambumblehead/esmock/issues/289)
  * 2.6.2 _Jan.14.2023_
