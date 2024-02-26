@@ -1,13 +1,15 @@
 # changelog
 
- * 2.6.? _tbd_
+ * 2.6.4 _Feb.26.2024_
+   * [update README with notice](https://github.com/iambumblehead/resolvewithplus/pull/295) about incompatible typescript loaders
+   * [increment resolvewithplus](https://github.com/iambumblehead/resolvewithplus/pull/295) to support more export patterns, see [resolvewithplus v2.1.5](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.1.5)
    * [update publish spec job actions,](https://github.com/iambumblehead/esmock/pull/291) use checkout@v4 and setup-node@v4
    * [remove node 16 from test job matrix,](https://github.com/iambumblehead/esmock/pull/292) eol 2023, Sep 11 #254
- * 2.6.3 _Jan.23.2023_
+ * 2.6.3 _Jan.23.2024_
    * [resolve nested exports defined on named-properties](https://github.com/iambumblehead/resolvewithplus/pull/65) with wildcards, eg `exports: { './*': { default: './src/*/index.js' } }` resolves [this issue at esmock](https://github.com/iambumblehead/esmock/issues/289)
- * 2.6.2 _Jan.14.2023_
+ * 2.6.2 _Jan.14.2024_
    * [remove reserved keywords](https://github.com/iambumblehead/esmock/pull/287) from export names lists, allows express to be mocked, thanks @lcapel
- * 2.6.1 _Jan.13.2023_
+ * 2.6.1 _Jan.13.2024_
    * [update ci job to use checkout v4](https://github.com/iambumblehead/esmock/pull/279)
    * [update README to work w/ eslint-plugin-markdown](https://github.com/iambumblehead/esmock/pull/275)
    * [update eslint](https://github.com/iambumblehead/esmock/pull/276) disallow trailing whitespace
