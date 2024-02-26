@@ -1,7 +1,7 @@
 {
   "name": "esmock",
   "type": "module",
-  "version": "2.6.3",
+  "version": "2.6.4",
   "license": "ISC",
   "readmeFilename": "README.md",
   "description": "provides native ESM import and globals mocking for unit tests",
@@ -60,7 +60,7 @@
     "node": ">=14.16.0"
   },
   "dependencies": {
-    "resolvewithplus": "^2.1.4"
+    "resolvewithplus": "^2.1.5"
   },
   "devDependencies": {
     "c8": "^9.1.0",
