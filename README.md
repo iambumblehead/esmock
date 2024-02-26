@@ -13,7 +13,7 @@
 
 _**Note: For versions of node prior to v20.6.0,** "--loader" command line arguments must be used with `esmock` as demonstrated [in the wiki.][4] Current versions of node do not require "--loader"._
 
-_**Note: Typescript loaders** `ts-node` 👍 and `tsm` 👍 are compatible with other loaders, [including esmock.][11] `swc` 👎 and `tsx` 👎 are demonstrated as **incompatible** with other loaders, including esmock._
+_**Note: Typescript loaders** `ts-node` 👍 and `tsm` 👍 are compatible with other loaders, [including esmock.][3] `swc` 👎 and `tsx` 👎 are demonstrated as **incompatible** with other loaders, including esmock._
 
 `esmock` has the below signature
 ```js
@@ -95,7 +95,7 @@ test('esmock.strict mocks', async () => {
 [0]: https://www.bumblehead.com "bumblehead"
 [1]: https://github.com/iambumblehead/esmock/workflows/nodejs-ci/badge.svg "nodejs-ci pipeline"
 [2]: https://github.com/iambumblehead/esmock "esmock"
-[3]: https://github.com/iambumblehead/esmock/tree/master/tests "tests"
+[3]: https://github.com/iambumblehead/esmock/tree/main/tests "tests"
 [4]: https://github.com/iambumblehead/esmock/wiki
 [5]: https://packagephobia.now.sh/result?p=esmock
 [6]: https://packagephobia.now.sh/badge?p=esmock
@@ -103,4 +103,3 @@ test('esmock.strict mocks', async () => {
 [8]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iambumblehead/166d927bd0089d7bfdee4e98a537712c/raw/esmock__heads_master.json
 [9]: https://img.shields.io/npm/v/esmock
 [10]: https://badgen.now.sh/npm/dm/esmock
-[11]: https://github.com/iambumblehead/esmock/tree/main/tests
