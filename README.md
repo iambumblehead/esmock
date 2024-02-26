@@ -13,7 +13,7 @@
 
 _**Note: For versions of node prior to v20.6.0,** "--loader" command line arguments must be used with `esmock` as demonstrated [in the wiki.][4] Current versions of node do not require "--loader"._
 
-_**Note: typescript loaders** `ts-node` 👍 and `tsm` 👍 are compatible with other loaders, [including esmock.][11] `swc` 👎 and `tsx` 👎 are demonstrated as **incompatible** with other loaders, including esmock._
+_**Note: Typescript loaders** `ts-node` 👍 and `tsm` 👍 are compatible with other loaders, [including esmock.][11] `swc` 👎 and `tsx` 👎 are demonstrated as **incompatible** with other loaders, including esmock._
 
 `esmock` has the below signature
 ```js
