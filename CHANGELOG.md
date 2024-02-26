@@ -1,7 +1,8 @@
 # changelog
 
  * 2.6.4 _Feb.26.2024_
-   * [increment resolvewithplus](https://github.com/iambumblehead/resolvewithplus/pull/293) to support more export patterns, see [resolvewithplus v2.1.5](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.1.5)
+   * [update README with notice](https://github.com/iambumblehead/resolvewithplus/pull/295) about incompatible typescript loaders
+   * [increment resolvewithplus](https://github.com/iambumblehead/resolvewithplus/pull/295) to support more export patterns, see [resolvewithplus v2.1.5](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.1.5)
    * [update publish spec job actions,](https://github.com/iambumblehead/esmock/pull/291) use checkout@v4 and setup-node@v4
    * [remove node 16 from test job matrix,](https://github.com/iambumblehead/esmock/pull/292) eol 2023, Sep 11 #254
  * 2.6.3 _Jan.23.2024_
