@@ -559,9 +559,6 @@ test('should mock imported json', async () => {
     }
   })
 
-  // if (/^(18)$/.test(process.versions.node.split('.')[0]))
-  //   return assert.ok(true)
-
   assert.strictEqual(
     Object.keys(importsJSON.JSONobj).sort().join(), 'example,test-example')
   assert.strictEqual(importsJSON.JSONobj['test-example'], 'test-json-a')
@@ -577,9 +574,6 @@ test('should mock imported json (strict)', async () => {
       'test-example': 'test-json-b'
     }
   })
-
-  // if (/^(18)$/.test(process.versions.node.split('.')[0]))
-  //   return assert.ok(true)
 
   assert.strictEqual(
     Object.keys(importsJSON.JSONobj).sort().join(), 'test-example')
