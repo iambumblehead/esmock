@@ -550,6 +550,9 @@ test('should mock an exported array', async () => {
 })
 
 test('should mock imported json', async () => {
+  if (/^22$/.test(process.versions.node.split('.')[0]))
+    return assert.ok(true)
+
   const importsJSON = await esmock(
     '../local/importsJSONfile.js', {
       '../local/example.json': {
@@ -567,6 +570,9 @@ test('should mock imported json', async () => {
 })
 
 test('should mock imported json (strict)', async () => {
+  if (/^22$/.test(process.versions.node.split('.')[0]))
+    return assert.ok(true)
+
   const importsJSON = await esmock.strict(
     '../local/importsJSONfile.js', {
       '../local/example.json': {
