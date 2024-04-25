@@ -559,7 +559,7 @@ test('should mock imported json', async () => {
     }
   })
 
-  if (/^(18|20)$/.test(process.versions.node.split('.')[0]))
+  if (/^(18)$/.test(process.versions.node.split('.')[0]))
     return assert.ok(true)
 
   assert.strictEqual(
@@ -578,7 +578,7 @@ test('should mock imported json (strict)', async () => {
     }
   })
 
-  if (/^(18|20)$/.test(process.versions.node.split('.')[0]))
+  if (/^(18)$/.test(process.versions.node.split('.')[0]))
     return assert.ok(true)
 
   assert.strictEqual(
