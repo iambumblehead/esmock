@@ -1,5 +1,8 @@
 # changelog
 
+ * 2.6.5 _Apr.25.2024_
+   * [add node 22 to ci test pipeline](https://github.com/iambumblehead/esmock/pull/297) thanks @aladdin-add
+   * [use json import syntax `with { type: 'json' }`](https://github.com/iambumblehead/esmock/pull/298) for node 22
  * 2.6.4 _Feb.26.2024_
    * [update README with notice](https://github.com/iambumblehead/resolvewithplus/pull/295) about incompatible typescript loaders
    * [increment resolvewithplus](https://github.com/iambumblehead/resolvewithplus/pull/295) to support more export patterns, see [resolvewithplus v2.1.5](https://github.com/iambumblehead/resolvewithplus/releases/tag/v2.1.5)

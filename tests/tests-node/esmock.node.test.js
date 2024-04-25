@@ -550,15 +550,14 @@ test('should mock an exported array', async () => {
 })
 
 test('should mock imported json', async () => {
-  if (/^22$/.test(process.versions.node.split('.')[0]))
-    return assert.ok(true)
-
-  const importsJSON = await esmock(
-    '../local/importsJSONfile.js', {
-      '../local/example.json': {
-        'test-example': 'test-json-a'
-      }
-    })
+  const importsJSONPath = 22 >= +process.versions.node.split('.')[0]
+    ? '../local/importsJSONfile.with.js'
+    : '../local/importsJSONfile.assert.legacy.js'
+  const importsJSON = await esmock(importsJSONPath, {
+    '../local/example.json': {
+      'test-example': 'test-json-a'
+    }
+  })
 
   if (/^(18|20)$/.test(process.versions.node.split('.')[0]))
     return assert.ok(true)
@@ -570,15 +569,14 @@ test('should mock imported json', async () => {
 })
 
 test('should mock imported json (strict)', async () => {
-  if (/^22$/.test(process.versions.node.split('.')[0]))
-    return assert.ok(true)
-
-  const importsJSON = await esmock.strict(
-    '../local/importsJSONfile.js', {
-      '../local/example.json': {
-        'test-example': 'test-json-b'
-      }
-    })
+  const importsJSONPath = 22 >= +process.versions.node.split('.')[0]
+    ? '../local/importsJSONfile.with.js'
+    : '../local/importsJSONfile.assert.legacy.js'
+  const importsJSON = await esmock.strict(importsJSONPath, {
+    '../local/example.json': {
+      'test-example': 'test-json-b'
+    }
+  })
 
   if (/^(18|20)$/.test(process.versions.node.split('.')[0]))
     return assert.ok(true)
