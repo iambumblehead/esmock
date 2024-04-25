@@ -2,7 +2,8 @@
   "plugins": [],
   "ignorePatterns": [
     "dist",
-    "importsJSONfile.js"
+    "importsJSONfile.with.js",
+    "importsJSONfile.assert.legacy.js"
   ],
   "extends": [
     "eslint:recommended",
