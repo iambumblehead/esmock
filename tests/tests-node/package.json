@@ -3,7 +3,7 @@
   "description": "esmock unit tests, node native runner",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iambumblehead/esmock.git"
+    "url": "gi+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
     "esmock": "file:..",
