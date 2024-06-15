@@ -1,5 +1,9 @@
 # changelog
 
+ * 2.6.6 _Jun.15.2024_
+   * [add tsx tests and remove tsx caution from README](https://github.com/iambumblehead/esmock/pull/305) thanks @galexite
+   * [pin node 22.1 at test CI](https://github.com/iambumblehead/esmock/pull/306) and ignore regressions in new node 22
+   * [migrate to eslint 9](https://github.com/iambumblehead/esmock/pull/306)
  * 2.6.5 _Apr.25.2024_
    * [add node 22 to ci test pipeline](https://github.com/iambumblehead/esmock/pull/297) thanks @aladdin-add
    * [use json import syntax `with { type: 'json' }`](https://github.com/iambumblehead/esmock/pull/298) for node 22

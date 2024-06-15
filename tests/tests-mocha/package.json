@@ -3,7 +3,7 @@
   "description": "esmock unit tests, mocha",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iambumblehead/esmock.git"
+    "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
     "mocha": "^10.2.0",
