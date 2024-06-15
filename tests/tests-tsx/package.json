@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "description": "esmock unit tests, tsx with node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iambumblehead/esmock.git"
+  },
+  "dependencies": {
+    "esmock": "file:..",
+    "tsx": "^4.15.5"
+  },
+  "scripts": {
+    "isloaderavailable": "node -e \"(([mj, mn]) => (+mj < 18 || (+mj === 20 && +mn < 6) || (+mj === 18 && +mn < 19)))(process.versions.node.split('.')) || process.exit(1)\"",
+    "test:loader": "node --loader=tsx/esm --loader=esmock --test esmock.node.tsx.test.ts",
+    "test:current": "node --import=tsx/esm --test esmock.node.tsx.test.ts",
+    "test": "npm run isloaderavailable && npm run test:loader || npm run test:current"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2"
+  }
+}
