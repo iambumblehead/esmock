@@ -6,8 +6,8 @@ import esmock from 'esmock'
 // swc tests fail when encountering typescript syntax
 // when the typescript sytax are removed, tests pass
 
-test('should mock ts when using node-ts', async () => {
-  const main = await esmock('../local/main-ts.ts', {
+test('should mock js when using swc', async () => {
+  const main = await esmock('../local/main.js', {
     path: {
       basename: () => 'hellow'
     }
@@ -16,14 +16,12 @@ test('should mock ts when using node-ts', async () => {
   assert.strictEqual(main.pathbasenamewrap(), 'hellow')
 })
 
-test('should mock pg', async () => {
+test('should mock ts when using swc', async () => {
   const main = await esmock('../local/main-ts.ts', {
-    'pg': {
-      Pool: (config:any) => {
-        return config || 'mocked pool'
-      }
+    path: {
+      basename: () => 'hellow'
     }
   })
 
-  assert.strictEqual(main.pgpoolwrap(), 'mocked pool')
+  assert.strictEqual(main.pathbasenamewrap(), 'hellow')
 })
