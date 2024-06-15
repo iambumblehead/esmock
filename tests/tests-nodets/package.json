@@ -3,7 +3,7 @@
   "description": "esmock unit tests, ts-node/esm with node native runner",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iambumblehead/esmock.git"
+    "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
     "ts-node": "^10.9.1",

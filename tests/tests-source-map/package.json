@@ -3,7 +3,7 @@
   "description": "esmock unit tests, ava with sourcemap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iambumblehead/esmock.git"
+    "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
     "esmock": "file:..",
