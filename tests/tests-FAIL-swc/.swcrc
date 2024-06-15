@@ -1,13 +1,15 @@
 {
+  "$schema": "https://swc.rs/schema.json",
   "test": ".*.ts$",
   "jsc": {
     "parser": {
       "syntax": "typescript",
-      "decorators": true
+      "importMeta": true
     },
-    "transform": null
+    "target": "es2022",
+    "experimental": {
+      "keepImportAssertions": true
+    }
   },
-  "module": {
-    "type": "es6"
-  }
+  "isModule": true
 }
