@@ -1,13 +1,13 @@
 {
   "type": "module",
-  "description": "esmock unit tests, tsm with node native runner",
+  "description": "esmock unit tests, swc with node native runner",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
     "esmock": "file:..",
-    "@swc-node/register": "1.9.2"
+    "@swc-node/register": "1.10.2"
   },
   "scripts": {
     "isloaderavailable": "node -e \"(([mj, mn]) => (+mj < 18 || (+mj === 20 && +mn < 6) || (+mj === 18 && +mn < 19)))(process.versions.node.split('.')) || process.exit(1)\"",
