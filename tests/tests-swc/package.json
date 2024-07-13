@@ -7,7 +7,9 @@
   },
   "dependencies": {
     "esmock": "file:..",
-    "@swc-node/register": "1.10.2"
+    "typescript": "^5.5.3",
+    "@swc-node/register": "^1.10.5",
+    "@swc/core": "^1.6.13"
   },
   "scripts": {
     "isloaderavailable": "node -e \"(([mj, mn]) => (+mj < 18 || (+mj === 20 && +mn < 6) || (+mj === 18 && +mn < 19)))(process.versions.node.split('.')) || process.exit(1)\"",
