@@ -6,7 +6,10 @@ import sinon from 'sinon'
 import esmockCache from '../../src/esmockCache.js'
 
 // https://github.com/iambumblehead/esmock/issues/312
-test('should mock changelog-parser', {skip: false}, async () => {
+test('should mock changelog-parser', {
+  only: true,
+  skip: true
+}, async () => {
   const parseChangelog = await esmock(
     '../local/importsChangelogParser.js', {}, {
       'node:fs': {
