@@ -10,6 +10,7 @@
     "sinon": "file:../node_modules/sinon",
     "eslint": "file:../node_modules/eslint",
     "form-urlencoded": "file:../node_modules/form-urlencoded",
+    "changelog-parser": "file:../node_modules/changelog-parser",
     "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
   },
   "scripts": {

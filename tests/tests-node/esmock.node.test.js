@@ -6,10 +6,12 @@ import sinon from 'sinon'
 import esmockCache from '../../src/esmockCache.js'
 
 // https://github.com/iambumblehead/esmock/issues/312
-test('should mock changelog-parser', {skip: true}, async () => {
+test('should mock changelog-parser', {skip: false}, async () => {
   const parseChangelog = await esmock(
     '../local/importsChangelogParser.js', {}, {
       'node:fs': {
+        open: test.mock.fn(),
+        close: test.mock.fn(),
         read: test.mock.fn(() => 'content')
       }
     })
