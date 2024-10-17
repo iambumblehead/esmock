@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.6.8 _tbd_
+   * add log utility for debugging loader
  * 2.6.7 _Jul.16.2024_
    * [add swc tests and remove swc caution from README](https://github.com/iambumblehead/esmock/pull/309) thanks @Brooooooklyn
    * [unpin node 22.1 at test CI](https://github.com/iambumblehead/esmock/pull/309) and use latest 22.x

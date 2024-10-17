@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises'
+import fs from 'node:fs'
 import module from 'node:module'
 import process from 'process'
 import esmockErr from './esmockErr.js'
@@ -32,6 +32,10 @@ const moduleIdReCreate = (moduleid, treeid) => new RegExp(
 // node v12.0-v18.x, global
 const mockKeys = global.mockKeys = (global.mockKeys || {})
 const mockKeysSource = global.mockKeysSource = (global.mockKeysSource || {})
+
+// use fs when logging from hooks, console.log async unpredictable
+const log = (...args) => (
+  fs.writeSync(1, JSON.stringify(args, null, '  ').slice(2, -1)))
 
 // node v20.0-v20.6
 const globalPreload = !module.register && (({ port }) => (
@@ -170,7 +174,7 @@ const load = async (url, context, nextLoad) => {
       const sourceIsNullLike = (
         nextLoadRes.source === null || nextLoadRes.source === undefined)
       const source = sourceIsNullLike
-        ? String(await fs.readFile(new URL(url)))
+        ? String(fs.readFileSync(new URL(url)))
         : String(nextLoadRes.source)
       const hbang = (source.match(hashbangRe) || [])[0] || ''
       const sourcesafe = hbang ? source.replace(hashbangRe, '') : source
