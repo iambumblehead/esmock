@@ -13,6 +13,8 @@
 
 _**Note: For versions of node prior to v20.6.0,** "--loader" command line arguments must be used with `esmock` as demonstrated [in the wiki.][4] Current versions of node do not require "--loader"._
 
+_**Note: due to --loader issues at node v22,** support for `ava` and `jest` are dropped._
+
 `esmock` has the below signature
 ```js
 await esmock(

@@ -1,5 +1,5 @@
-import chai from 'chai'
-import chaiHttp from 'chai-http'
+import * as chai from 'chai'
+import {default as chaiHttp, request} from 'chai-http'
 import esmock from 'esmock'
 
 chai.use(chaiHttp)
@@ -14,8 +14,8 @@ const app = await esmock('../src/app.js', {
 describe('/', () => {
   it('should work', done => {
     try {
-      chai
-        .request(app.default)
+      request
+        .execute(app)
         .get('/')
         .end((err, res) => {
           app.close()

@@ -6,12 +6,12 @@
     "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "mocha": "^10.2.0",
-    "chai": "^4.3.7",
-    "chai-http": "^4.4.0",
+    "mocha": "^10.7.3",
+    "chai": "^5.1.1",
+    "chai-http": "^5.1.1",
     "esmock": "file:..",
-    "express": "^4.18.2",
-    "passport": "^0.6.0"
+    "express": "^4.21.1",
+    "passport": "^0.7.0"
   },
   "scripts": {
     "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",
