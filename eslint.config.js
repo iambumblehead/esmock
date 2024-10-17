@@ -17,6 +17,7 @@ export default [
     rules: {
       "@typescript-eslint/no-unused-expressions": 0,
       "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/no-unused-vars": 0,
       "comma-dangle": "off"
     }
   },
@@ -47,6 +48,7 @@ export default [
       "no-unused-vars": ["error", {
         "vars": "all",
         "args": "after-used",
+        "varsIgnorePattern": "log",
         "ignoreRestSiblings": false
       }],
       "global-require": 0,
