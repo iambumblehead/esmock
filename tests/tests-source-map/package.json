@@ -7,13 +7,13 @@
   },
   "dependencies": {
     "esmock": "file:..",
-    "@ava/typescript": "^4.1.0",
+    "@ava/typescript": "^5.0.0",
     "@tsconfig/node16": "^16.1.0",
-    "@types/node": "^20.4.5",
-    "ava": "^5.3.1",
+    "@types/node": "^22.7.6",
+    "ava": "^6.1.3",
     "cross-env": "^7.0.3",
-    "rimraf": "^5.0.1",
-    "typescript": "^5.1.6"
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
   },
   "scripts": {
     "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",

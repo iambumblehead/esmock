@@ -16,6 +16,6 @@
     "test": "npm run isloaderavailable && npm run test:loader || npm run test:current"
   },
   "devDependencies": {
-    "@types/node": "^20.14.2"
+    "@types/node": "^22.7.6"
   }
 }
