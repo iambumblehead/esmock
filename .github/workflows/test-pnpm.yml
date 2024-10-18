@@ -1,4 +1,4 @@
-name: test
+name: test-pnpm
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  test-pnpm:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 12
     strategy:
