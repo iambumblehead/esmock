@@ -25,9 +25,14 @@ const isnotfoundRe = /isfound=false/
 const iscommonjsmoduleRe = /^(commonjs|module)$/
 const isstrict3 = /strict=3/
 const hashbangRe = /^(#![^\n]*\n)/
+
+// escape '+' char, pnpm generates long pathnames serialized with these
+const moduleIdEsc = str =>
+  str.indexOf('+') >= 0 ? str.replace(/(?!\\)\+/g, '\\+') : str
+
 // returned regexp will match embedded moduleid w/ treeid
 const moduleIdReCreate = (moduleid, treeid) => new RegExp(
-  `.*(${moduleid}(\\?${treeid}(?:(?!#-#).)*)).*`)
+  `.*(${moduleIdEsc(moduleid)}(\\?${treeid}(?:(?!#-#).)*)).*`)
 
 // node v12.0-v18.x, global
 const mockKeys = global.mockKeys = (global.mockKeys || {})

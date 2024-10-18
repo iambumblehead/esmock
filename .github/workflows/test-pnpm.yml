@@ -1,0 +1,28 @@
+name: test-pnpm
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-pnpm:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22.x]
+        os: [ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}      
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 9
+    - run: npm install
+    - run: npm run build --if-present
+    - run: npm run test-ci-pnpm

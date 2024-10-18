@@ -1,0 +1,30 @@
+{
+  "name": "scoped-package-mock",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iambumblehead/esmock.git"
+  },
+  "description": "careful using this and rm -rf. pnpm does not support local file install :|",
+  "scripts": {
+    "test-tsimp": "TSIMP_PROJECT=./test/tsconfig.json node --import tsimp/import --test-reporter spec --test 'test/example.test.ts'",
+    "test-tsx": "TSX_TSCONFIG_PATH=./test/tsconfig.json node --import tsx --test-reporter spec --test 'test/example.test.ts'",
+    "test-tsnode": "TS_NODE_PROJECT=./test/tsconfig.json node --import ./ts-node.register.mjs --test-reporter spec --test 'test/example.test.ts'",
+    "node_modules-esmock:rm": "rm -r node_modules/esmock",
+    "node_modules-esmock:link": "ln -s ../../ node_modules/esmock",
+    "node_modules-esmock": "npm run node_modules-esmock:rm && npm run node_modules-esmock:link",
+    "test": "npm run node_modules-esmock && npm run test-tsnode"
+  },
+  "dependencies": {
+    "@nestjs/core": "^10.3.8",
+    "@nestjs/platform-express": "^10.3.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "ts-node": "^10.9.2",
+    "tsimp": "^2.0.11",
+    "esmock": "latest",
+    "tsx": "^4.9.3",
+    "typescript": "^5.4.5"
+  }
+}
