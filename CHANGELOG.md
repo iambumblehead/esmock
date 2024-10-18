@@ -1,6 +1,7 @@
 # changelog
 
  * 2.6.8 _Oct.17.2024_
+   * [added pnpm unit-test,](https://github.com/iambumblehead/esmock/pull/315) thanks @darcyrush
    * [resolve issue for pnpm](https://github.com/iambumblehead/esmock/pull/315) by escaping '+' char in regexp
    * [add log utility function](https://github.com/iambumblehead/esmock/pull/314) for debugging loader
    * [dropped ava and jest](https://github.com/iambumblehead/esmock/pull/314) from test sequence, node v22 --loader issues
