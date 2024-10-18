@@ -13,7 +13,7 @@
     "node_modules-esmock:rm": "rm -r node_modules/esmock",
     "node_modules-esmock:link": "ln -s ../../ node_modules/esmock",
     "node_modules-esmock": "npm run node_modules-esmock:rm && npm run node_modules-esmock:link",
-    "test": "nm run npm node_modules-esmock && run test-tsnode"
+    "test": "npm run node_modules-esmock && npm run test-tsnode"
   },
   "dependencies": {
     "@nestjs/core": "^10.3.8",
