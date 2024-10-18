@@ -1,5 +1,8 @@
 # changelog
 
+ * 2.6.9 _Oct.18.2024_
+   * [added node v23 to test matrix](https://github.com/iambumblehead/esmock/pull/316)
+   * [resolve v23-related error](https://github.com/iambumblehead/esmock/pull/316) when `module.exports` is exported
  * 2.6.8 _Oct.17.2024_
    * [added pnpm unit-test,](https://github.com/iambumblehead/esmock/pull/315) thanks @darcyrush
    * [resolve issue for pnpm](https://github.com/iambumblehead/esmock/pull/315) by escaping '+' char in regexp
