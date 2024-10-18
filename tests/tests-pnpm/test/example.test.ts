@@ -16,8 +16,6 @@ describe("Example", async () => {
       }
     )
 
-    await example()
-
-    equal(1,1)
+    equal(await example(), 'mocked')
   })
 })
