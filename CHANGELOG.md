@@ -1,6 +1,7 @@
 # changelog
 
  * 2.6.9 _Oct.18.2024_
+   * [added --glob option for rimraf](https://github.com/iambumblehead/esmock/pull/317) usage removing un-used sources
    * [added node v23 to test matrix](https://github.com/iambumblehead/esmock/pull/316)
    * [resolve v23-related error](https://github.com/iambumblehead/esmock/pull/316) when `module.exports` is exported
  * 2.6.8 _Oct.17.2024_
