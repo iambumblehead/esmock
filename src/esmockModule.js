@@ -24,7 +24,7 @@ const isJSONExtnRe = /\.json$/i
 
 // https://github.com/iambumblehead/esmock/issues/284
 // older applications may export names that are reserved in newer runtimes
-const reservedKeywordsFoundInWild = /(^|,)static($|,)/g
+const reservedKeywordsFoundInWild = /(^|,)(static|module\.exports)($|,)/g
 
 // assigning the object to its own prototypal inheritor can error, eg
 //   'Cannot assign to read only property \'F_OK\' of object \'#<Object>\''
