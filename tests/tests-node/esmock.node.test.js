@@ -622,3 +622,15 @@ test('mocks express, exports disallowed keyword "static"', async () => {
     }
   }))
 })
+
+test('mocks openai, busy package.json exports', async () => {
+  const openai = await esmock('../local/importsopenai.js', import.meta.url, {
+    openai: class {
+      constructor () {
+        this.istest = true
+      }
+    }
+  })
+
+  assert.ok(openai.analyze().istest)
+})

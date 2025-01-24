@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "express": "^4.18.2",
+    "openai": "^4.80.0",
     "@aws-sdk/client-s3": "^3.408.0",
     "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault",
     "eslint": "^8.54.0",
