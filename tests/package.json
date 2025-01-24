@@ -53,7 +53,7 @@
     "test:test-mocha": "cd tests-mocha && npm test",
     "test-dropped:test-ava": "cd tests-ava && npm test",
     "test:test-tsx": "cd tests-tsx && npm test",
-    "test:test-swc": "cd tests-swc && npm test",
+    "test-dropped:test-swc": "cd tests-swc && npm test",
     "test:node19-tsm": " cd tests-tsm && npm test",
     "test:node18-test-tsm": "npm run isnodenight || npm run test:node19-tsm",
     "test:node18-test-tsx": "cd tests-tsx && npm run test",
