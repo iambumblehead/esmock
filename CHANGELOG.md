@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.7.0 _Jan.24.2025_
+   * [update resolver](https://github.com/iambumblehead/esmock/pull/322) to correctly resolve openai package
  * 2.6.9 _Oct.18.2024_
    * [added --glob option for rimraf](https://github.com/iambumblehead/esmock/pull/317) usage removing un-used sources
    * [added node v23 to test matrix](https://github.com/iambumblehead/esmock/pull/316)
