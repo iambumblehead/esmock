@@ -8,8 +8,8 @@
   "dependencies": {
     "esmock": "file:..",
     "typescript": "^5.5.3",
-    "@swc-node/register": "^1.10.8",
-    "@swc/core": "^1.6.13"
+    "@swc-node/register": "^1.10.9",
+    "@swc/core": "^1.10.9"
   },
   "scripts": {
     "isloaderavailable": "node -e \"(([mj, mn]) => (+mj < 18 || (+mj === 20 && +mn < 6) || (+mj === 18 && +mn < 19)))(process.versions.node.split('.')) || process.exit(1)\"",
