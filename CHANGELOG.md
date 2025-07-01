@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.7.1 _Jul.01.2025_
+   * [added node v24 to test matrix](https://github.com/iambumblehead/esmock/pull/324)
  * 2.7.0 _Jan.24.2025_
    * [update resolver](https://github.com/iambumblehead/esmock/pull/322) to correctly resolve openai package
    * [update typescript-eslint](https://github.com/iambumblehead/esmock/pull/323)
