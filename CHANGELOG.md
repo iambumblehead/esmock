@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.1.8 _Sep.01.2025_
+   * [increment resolvewithplus,](https://github.com/iambumblehead/esmock/pull/325) match [exact export paths,](https://github.com/iambumblehead/resolvewithplus/pull/71) thanks @matz3
  * 2.7.1 _Jul.01.2025_
    * [added node v24 to test matrix](https://github.com/iambumblehead/esmock/pull/324)
  * 2.7.0 _Jan.24.2025_
