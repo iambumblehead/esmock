@@ -19,11 +19,11 @@
     "openai": "^4.80.0",
     "@aws-sdk/client-s3": "^3.408.0",
     "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault",
-    "eslint": "^8.54.0",
+    "eslint": "^9.34.0",
     "form-urlencoded": "^6.0.7",
     "meow": "12.0.1",
     "npm-run-all": "^4.1.5",
-    "pg": "^8.7.3",
+    "pg": "^8.16.3",
     "run-script-os": "^1.1.6",
     "sinon": "^12.0.1"
   },
