@@ -12,6 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        node-version: 20
+        node-version: 24
     - run: npm install
     - run: npm run lint
