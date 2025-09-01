@@ -16,8 +16,8 @@
     "test": "npm run node_modules-esmock && npm run test-tsnode"
   },
   "dependencies": {
-    "@nestjs/core": "^10.3.8",
-    "@nestjs/platform-express": "^10.3.8"
+    "@nestjs/core": "^11.1.6",
+    "@nestjs/platform-express": "^11.1.6"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",

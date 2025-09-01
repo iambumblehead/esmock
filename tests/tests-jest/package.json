@@ -6,8 +6,8 @@
     "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "jest": "^29.6.2",
-    "jest-light-runner": "0.6.0",
+    "jest": "^30.1.2",
+    "jest-light-runner": "0.7.9",
     "run-script-os": "^1.1.6",
     "esmock": "file:..",
     "sinon": "file:../node_modules/sinon",

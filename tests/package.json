@@ -15,17 +15,17 @@
     "#sub": "./local/subpath.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "openai": "^4.80.0",
-    "@aws-sdk/client-s3": "^3.408.0",
+    "express": "^5.1.0",
+    "openai": "^5.16.0",
+    "@aws-sdk/client-s3": "^3.879.0",
     "babelGeneratedDoubleDefault": "file:./local/babelGeneratedDoubleDefault",
-    "eslint": "^8.54.0",
+    "eslint": "^9.34.0",
     "form-urlencoded": "^6.0.7",
     "meow": "12.0.1",
     "npm-run-all": "^4.1.5",
-    "pg": "^8.7.3",
+    "pg": "^8.16.3",
     "run-script-os": "^1.1.6",
-    "sinon": "^12.0.1"
+    "sinon": "^21.0.0"
   },
   "scripts": {
     "mini:esmock": "cd .. && cd src && npx esbuild esmock.js --minify --bundle --allow-overwrite --platform=node --format=esm --external:pnpapi --outfile=esmock.js",

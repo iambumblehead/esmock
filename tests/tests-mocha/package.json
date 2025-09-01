@@ -6,11 +6,11 @@
     "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "mocha": "^10.7.3",
-    "chai": "^5.1.1",
-    "chai-http": "^5.1.1",
+    "mocha": "^11.7.1",
+    "chai": "^6.0.1",
+    "chai-http": "^5.1.2",
     "esmock": "file:..",
-    "express": "^4.21.1",
+    "express": "^5.1.0",
     "passport": "^0.7.0"
   },
   "scripts": {
