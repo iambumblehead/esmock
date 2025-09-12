@@ -1,6 +1,6 @@
 # changelog
 
- * 2.7.3 _???.??.2025_
+ * 2.7.3 _Sep.12.2025_
    * drop node version [18 and 20 from tests.](https://github.com/iambumblehead/esmock/pull/326)
    * increment some dependencies [and reduce audit warnings.](https://github.com/iambumblehead/esmock/pull/327)
    * restore [ava and all other disabled test-runner tests](https://github.com/iambumblehead/esmock/pull/328)
