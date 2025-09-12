@@ -366,8 +366,10 @@ test('should have small querystring in stacktrace filename, deep2', async t => {
     causeDeepErrorParent()
   } catch (e) {
     // newer versions auto-strip querystring from subsequent paths
-    if (' 18.  2' < process.versions.node.split('.')
-      .slice(0, 2).map(s => s.padStart(3)).join('.')) {
+    const [major, minor] = process.versions.node
+      .split('.').map(it => +it)
+    const isLT1812 = major < 18 || (major === 18 && minor < 2)
+    if (isLT1812) {
       t.true(
         e.stack.split('\n')
           .every(line => !line.includes('?') || /\?esmk=\d/.test(line)))
