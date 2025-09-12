@@ -3,7 +3,7 @@
  * 2.7.3 _???.??.2025_
    * drop node version [18 and 20 from tests.](https://github.com/iambumblehead/esmock/pull/326)
    * increment some dependencies [and reduce audit warnings.](https://github.com/iambumblehead/esmock/pull/327)
-   * restore [ava and swc tests and support](https://github.com/iambumblehead/esmock/pull/328)
+   * restore [ava and all other disabled test-runner tests](https://github.com/iambumblehead/esmock/pull/328)
  * 2.7.2 _Sep.01.2025_
    * [increment resolvewithplus,](https://github.com/iambumblehead/esmock/pull/325) match [exact export paths,](https://github.com/iambumblehead/resolvewithplus/pull/71) thanks @matz3
  * 2.7.1 _Jul.01.2025_
