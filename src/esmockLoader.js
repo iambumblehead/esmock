@@ -22,7 +22,7 @@ const exportNamesRe = /.*exportNames=(.*)/
 const withHashRe = /.*#-#/
 const isesmRe = /isesm=true/
 const isnotfoundRe = /isfound=false/
-const iscommonjsmoduleRe = /^(commonjs|module)$/
+const iscommonjsmoduleRe = /^(commonjs|commonjs-typescript|module|module-typescript)$/
 const isstrict3 = /strict=3/
 const hashbangRe = /^(#![^\n]*\n)/
 
