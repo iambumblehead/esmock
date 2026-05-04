@@ -5,6 +5,25 @@ import esmock from 'esmock'
 import sinon from 'sinon'
 import esmockCache from '../../src/esmockCache.js'
 
+// https://github.com/iambumblehead/esmock/issues/312
+/* req: "changelog-parser": "^3.0.1",
+test('should mock changelog-parser', {
+  only: false,
+  skip: true
+}, async () => {
+  const parseChangelog = await esmock(
+    '../local/importsChangelogParser.js', {}, {
+      'node:fs': {
+        open: test.mock.fn(),
+        close: test.mock.fn(),
+        read: test.mock.fn(() => 'content')
+      }
+    })
+
+  assert.strictEqual(await parseChangelog({ filePath: 'fake' }), 'content')
+})
+*/
+
 test('should mock node:process', async () => {
   // has direct and in-direct calls to `process.cwd()`
   const thingBeingTested = await esmock('../local/usesNodeProcess.js', {}, {
