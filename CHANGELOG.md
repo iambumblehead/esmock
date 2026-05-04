@@ -3,6 +3,7 @@
  * 2.7.4 _May.04.2026_
    * [update tests](https://github.com/iambumblehead/esmock/pull/330) to resolve tests that began to fail,
    * [add suuport for typescript modules,](https://github.com/iambumblehead/esmock/pull/329) no tests,
+   * [add node 25.x](https://github.com/iambumblehead/esmock/pull/332) to test matrix,
    * [disable tests using node-ts](https://github.com/iambumblehead/esmock/pull/332) (seems un-maintained),
    * windows tests are disabled for "tests-node", lacking windows env to resolve
  * 2.7.3 _Sep.12.2025_
