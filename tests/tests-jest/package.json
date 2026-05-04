@@ -23,7 +23,6 @@
     "test:default": "NODE_OPTIONS=--loader=esmock jest",
     "test:win32": "set NODE_OPTIONS=--loader=esmock && jest",
     "test:current": "jest",
-    "test_old": "run-script-os && npm run isnodelt20_6 || npm run test:current",
-    "test": "echo disabled"
+    "test": "run-script-os && npm run isnodelt20_6 || npm run test:current"
   }
 }
