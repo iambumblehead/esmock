@@ -9,6 +9,6 @@
     "ts-a": "^0.0.0"
   },
   "devDependencies": {
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.2"
   }
 }
