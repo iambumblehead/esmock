@@ -18,6 +18,6 @@
     "test:current": "node --loader=ts-node/esm --test esmock.node-ts.test.ts esmock.node-ts.importing.test.ts",
     "test:loader": "node --loader=ts-node/esm --loader=esmock --test esmock.node-ts.test.ts esmock.node-ts.importing.test.ts",
     "test_old": "npm run test:loader && npm run isnodelt20_6 || npm run test:current",
-    "test": "echo disabled"
+    "test": "echo disabled, ts-node un-maintained"
   }
 }

@@ -2,7 +2,8 @@
 
  * 2.7.4 _May.04.2026_
    * [update tests](https://github.com/iambumblehead/esmock/pull/330) to resolve tests that began to fail,
-   * [add suuport for typescript modules,](https://github.com/iambumblehead/esmock/pull/329) no tests
+   * [add suuport for typescript modules,](https://github.com/iambumblehead/esmock/pull/329) no tests,
+   * [disable tests using node-ts](https://github.com/iambumblehead/esmock/pull/332) (seems un-maintained)
  * 2.7.3 _Sep.12.2025_
    * drop node version [18 and 20 from tests.](https://github.com/iambumblehead/esmock/pull/326)
    * increment some dependencies [and reduce audit warnings.](https://github.com/iambumblehead/esmock/pull/327)
