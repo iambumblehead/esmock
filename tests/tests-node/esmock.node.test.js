@@ -7,7 +7,7 @@ import esmockCache from '../../src/esmockCache.js'
 
 // https://github.com/iambumblehead/esmock/issues/312
 test('should mock changelog-parser', {
-  only: true,
+  only: false,
   skip: true
 }, async () => {
   const parseChangelog = await esmock(
