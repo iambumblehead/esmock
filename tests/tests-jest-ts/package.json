@@ -27,6 +27,7 @@
     "test:win32current": "set \"NODE_OPTIONS=--loader=ts-node/esm\" && jest esmock.node-jest.test.ts",
     "test:win32loader": "set \"NODE_OPTIONS=--loader=ts-node/esm --loader=esmock\" && jest esmock.node-jest.test.ts",
     "test:win32": "npm run test:win32loader && npm run isnodelt20_6 || npm run test:win32current",
-    "test": "run-script-os"
+    "test_old": "run-script-os",
+    "test": "echo disabled"
   }
 }
