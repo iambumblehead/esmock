@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "ts-node": "^10.9.1",
-    "jest": "^30.1.2",
-    "jest-light-runner": "0.7.9",
+    "jest": "^30.3.0",
+    "jest-light-runner": "0.7.11",
     "run-script-os": "^1.1.6",
     "esmock": "file:..",
     "sinon": "file:../node_modules/sinon",
