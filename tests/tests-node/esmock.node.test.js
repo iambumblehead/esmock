@@ -6,6 +6,7 @@ import sinon from 'sinon'
 import esmockCache from '../../src/esmockCache.js'
 
 // https://github.com/iambumblehead/esmock/issues/312
+/* req: "changelog-parser": "^3.0.1",
 test('should mock changelog-parser', {
   only: false,
   skip: true
@@ -21,6 +22,7 @@ test('should mock changelog-parser', {
 
   assert.strictEqual(await parseChangelog({ filePath: 'fake' }), 'content')
 })
+*/
 
 test('should mock node:process', async () => {
   // has direct and in-direct calls to `process.cwd()`
