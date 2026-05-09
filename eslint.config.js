@@ -1,5 +1,5 @@
 import js from '@eslint/js'
-import markdown from 'eslint-plugin-markdown'
+import markdown from "@eslint/markdown"
 import tseslint from 'typescript-eslint'
 
 export default [
@@ -10,7 +10,11 @@ export default [
       "tests/local/importsJSONfile.assert.legacy.js"
     ]
   },
-  js.configs.recommended,
+  {
+    files: ['**/*.ts', '**/*.js'],
+    ...js.configs.recommended
+  },
+  // js.configs.recommended,
   ...tseslint.configs.recommended,
   {
     files: ["**/*.ts", "**/*.js"],
@@ -21,8 +25,13 @@ export default [
       "comma-dangle": "off"
     }
   },
-  ...markdown.configs.recommended,
   {
+    files: ["*.md", "*.md/*.js"],
+    language: "markdown/gfm",
+    plugins: {markdown}
+  },
+  {
+    files: ['**/*.ts', '**/*.js'],
     ignores: [
       "src/esmock.d.ts"
     ],

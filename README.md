@@ -23,7 +23,7 @@ await esmock(
 
 `esmock` examples
 ```js
-import test from 'node:test'
+import test from 'node:test'SHOULDERROR
 import assert from 'node:assert'
 import esmock from 'esmock'
 
