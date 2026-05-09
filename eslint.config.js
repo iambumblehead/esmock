@@ -11,10 +11,9 @@ export default [
     ]
   },
   {
-    files: ['**/*.ts', '**/*.js'],
+    files: ['**/*.ts', '**/*.js', '*.md/*.js', '**.md/*.js'],
     ...js.configs.recommended
   },
-  // js.configs.recommended,
   ...tseslint.configs.recommended,
   {
     files: ["**/*.ts", "**/*.js"],
@@ -26,12 +25,12 @@ export default [
     }
   },
   {
-    files: ["*.md", "*.md/*.js"],
+    files: ["*.md", "*.md/*.js", '**.md/*.js'],
     language: "markdown/gfm",
     plugins: {markdown}
   },
   {
-    files: ['**/*.ts', '**/*.js'],
+    files: ['**/*.ts', '**/*.js', '*.md/*.js', '**.md/*.js'],
     ignores: [
       "src/esmock.d.ts"
     ],
