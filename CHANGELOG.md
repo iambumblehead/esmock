@@ -1,8 +1,9 @@
 # changelog
 
- * 2.7.5 _???_
+ * 2.7.5 _May.09.2026_
    * [migrate to eslint 10](https://github.com/iambumblehead/esmock/pull/333)
    * [migrate to @eslint/markdown](https://github.com/iambumblehead/esmock/pull/334)
+   * [remove c8 test-coverage package,](https://github.com/iambumblehead/esmock/pull/335) use node's --test-cover
  * 2.7.4 _May.04.2026_
    * [update tests](https://github.com/iambumblehead/esmock/pull/330) to resolve tests that began to fail,
    * [add suuport for typescript modules,](https://github.com/iambumblehead/esmock/pull/329) no tests, thanks @mbrevda,
