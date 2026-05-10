@@ -21,6 +21,7 @@
     "test_old": "npm run test:loader && npm run isnodelt20_6 || npm run test:current",
     "test:win32": "echo disabled",
     "test:default": "npm run test:loader && npm run isnodelt20_6 || npm run test:current",
+    "test-cover": "node --experimental-test-coverage --test-coverage-include=../../src/* --test-coverage-exclude=../../src/esmockLoader.js --test",
     "test": "run-script-os"
   }
 }
