@@ -2,6 +2,7 @@
 
  * 2.7.5 _???_
    * [migrate to eslint 10](https://github.com/iambumblehead/esmock/pull/333)
+   * [migrate to @eslint/markdown](https://github.com/iambumblehead/esmock/pull/334)
  * 2.7.4 _May.04.2026_
    * [update tests](https://github.com/iambumblehead/esmock/pull/330) to resolve tests that began to fail,
    * [add suuport for typescript modules,](https://github.com/iambumblehead/esmock/pull/329) no tests, thanks @mbrevda,
