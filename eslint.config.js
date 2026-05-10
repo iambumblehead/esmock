@@ -10,8 +10,14 @@ export default [
       "tests/local/importsJSONfile.assert.legacy.js"
     ]
   },
+  ...markdown.configs.processor,
   {
-    files: ['**/*.ts', '**/*.js', '*.md/*.js', '**.md/*.js'],
+    files: ["*.md"],
+    language: "markdown/gfm",
+    plugins: {markdown}
+  },
+  {
+    files: ['**/*.js', '*.md/*.js'],
     ...js.configs.recommended
   },
   ...tseslint.configs.recommended,
@@ -25,12 +31,17 @@ export default [
     }
   },
   {
-    files: ["*.md", "*.md/*.js", '**.md/*.js'],
-    language: "markdown/gfm",
-    plugins: {markdown}
+    files: ["*.md/*js"],
+    languageOptions: {
+      globals: {
+        esmock: true,
+        childmocks: true,
+        globalmocks: true
+      }
+    }
   },
   {
-    files: ['**/*.ts', '**/*.js', '*.md/*.js', '**.md/*.js'],
+    files: ['**/*.js', '*.md/*.js', '**/*.ts'],
     ignores: [
       "src/esmock.d.ts"
     ],
