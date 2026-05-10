@@ -77,7 +77,7 @@
     "test": "npm run test:all",
     "test-ci-pnpm": "cd tests && cd tests-pnpm && pnpm i && npm run test",
     "test-ci": "npm run test:install && npm run test:all-ci",
-    "test-cover": "npm run test:install && npm run test:all && cd tests && && cd tests-node && npm run test-cover",
+    "test-cover": "npm run test:install && npm run test:all && cd tests && cd tests-node && npm run test-cover",
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
     "mini:pkg": "npm pkg delete scripts devDependencies dependencies",
