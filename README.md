@@ -98,6 +98,6 @@ test('esmock.strict mocks', async () => {
 [5]: https://packagephobia.now.sh/result?p=esmock
 [6]: https://packagephobia.now.sh/badge?p=esmock
 [7]: https://www.npmjs.com/package/esmock
-[8]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iambumblehead/166d927bd0089d7bfdee4e98a537712c/raw/esmock__heads_master.json
+[8]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iambumblehead/166d927bd0089d7bfdee4e98a537712c/raw/esmock__heads_main.json
 [9]: https://img.shields.io/npm/v/esmock
 [10]: https://badgen.now.sh/npm/dm/esmock
