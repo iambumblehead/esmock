@@ -1,5 +1,8 @@
 # changelog
 
+ * 2.7.6 _???_
+   * [update test-coverage badge](https://github.com/iambumblehead/esmock/pull/336) to reference "main" branch,
+   * [specify node v24](https://github.com/iambumblehead/esmock/pull/337) at build+publish ci-job
  * 2.7.5 _May.09.2026_
    * [migrate to eslint 10](https://github.com/iambumblehead/esmock/pull/333)
    * [migrate to @eslint/markdown](https://github.com/iambumblehead/esmock/pull/334)
