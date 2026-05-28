@@ -4,7 +4,7 @@
    * [update test-coverage badge](https://github.com/iambumblehead/esmock/pull/336) to reference "main" branch,
    * [specify node v24](https://github.com/iambumblehead/esmock/pull/337) at build+publish ci-job
    * [increment eslint](https://github.com/iambumblehead/esmock/pull/338) and lint-related
-   * [increment resolvewithplus,](https://github.com/iambumblehead/esmock/pull/338) resolves wildcard-export-related issue. see https://github.com/iambumblehead/resolvewithplus/issues/76
+   * [increment resolvewithplus,](https://github.com/iambumblehead/esmock/pull/339) resolves wildcard-export-related issue. see https://github.com/iambumblehead/resolvewithplus/issues/76
  * 2.7.5 _May.09.2026_
    * [migrate to eslint 10](https://github.com/iambumblehead/esmock/pull/333)
    * [migrate to @eslint/markdown](https://github.com/iambumblehead/esmock/pull/334)
