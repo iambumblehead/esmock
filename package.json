@@ -63,12 +63,12 @@
     "resolvewithplus": "^2.1.7"
   },
   "devDependencies": {
-    "eslint": "^10.3.0",
+    "eslint": "^10.4.0",
     "@eslint/js": "^10.0.1",
-    "@eslint/markdown": "^8.0.1",
-    "typescript-eslint": "^8.59.2",
-    "@typescript-eslint/parser": "^8.59.2",
-    "@typescript-eslint/eslint-plugin": "^8.59.2"
+    "@eslint/markdown": "^8.0.2",
+    "typescript-eslint": "^8.60.0",
+    "@typescript-eslint/parser": "^8.60.0",
+    "@typescript-eslint/eslint-plugin": "^8.60.0"
   },
   "scripts": {
     "test:install": "cd tests && npm run install:all",
