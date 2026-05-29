@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.7.7 _???_
+   * [update github ci actions](https://github.com/iambumblehead/esmock/pull/341)
  * 2.7.6 _May.27.2026_
    * [update test-coverage badge](https://github.com/iambumblehead/esmock/pull/336) to reference "main" branch,
    * [specify node v24](https://github.com/iambumblehead/esmock/pull/337) at build+publish ci-job
