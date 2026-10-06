@@ -41,6 +41,6 @@ export {esmock as default, strict, strictest}
 // for newer node versions 20.6+, exporting hook definitions here causes
 // problems when --loader is used w/ module.register
 const hooksFinal = (
-  module.registerHooks && module.register) ? {} : hooksDeprecated
+  module.registerHooks || module.register) ? {} : hooksDeprecated
 const { load, resolve, getSource, initialize, globalPreload } = hooksFinal
 export { load, resolve, getSource, initialize, globalPreload }

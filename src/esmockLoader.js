@@ -1,6 +1,4 @@
 import fs from 'node:fs'
-import module from 'node:module'
-import process from 'process'
 import esmockErr from './esmockErr.js'
 
 // ex, file:///path/to/esmockLoader.js,
@@ -38,17 +36,6 @@ const mockKeysSource = global.mockKeysSource = (global.mockKeysSource || {})
 // use fs when logging from hooks, console.log async unpredictable
 const log = (...args) => (
   fs.writeSync(1, JSON.stringify(args, null, '  ').slice(2, -1)))
-
-// node v20.6-current
-const initialize = module.registerHooks && (data => {
-  if (data && data.port) {
-    data.port.on('message', msg => {
-      msg.keysource
-        ? mockKeysSource[msg.keysource] = msg.source
-        : mockKeys[msg.key] = msg.keylong
-    })
-  }
-})
 
 const parseImports = defstr => {
   const [specifier, imports] = (defstr.match(esmkImportRe) || [])
@@ -217,6 +204,5 @@ const load = (url, context, nextLoad) => {
 export {
   load,
   resolve,
-  initialize,
   loaderIsVerified as default
 }
