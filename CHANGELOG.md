@@ -2,7 +2,7 @@
 
  * 2.7.7 _Oct.06.2026_
    * [update github ci actions](https://github.com/iambumblehead/esmock/pull/341)
-   * [use module.registerHooks](https://github.com/iambumblehead/esmock/pull/342) when defined, resolves module.register deprecation warning
+   * [use module.registerHooks](https://github.com/iambumblehead/esmock/pull/343) when defined, resolves module.register deprecation warning
  * 2.7.6 _May.27.2026_
    * [update test-coverage badge](https://github.com/iambumblehead/esmock/pull/336) to reference "main" branch,
    * [specify node v24](https://github.com/iambumblehead/esmock/pull/337) at build+publish ci-job
