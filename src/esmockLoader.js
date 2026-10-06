@@ -3,9 +3,6 @@ import module from 'node:module'
 import process from 'process'
 import esmockErr from './esmockErr.js'
 
-const [major, minor] = process.versions.node.split('.').map(it => +it)
-const isLT1612 = major < 16 || (major === 16 && minor < 12)
-
 // ex, file:///path/to/esmockLoader.js,
 //     file:///c:/path/to/esmockLoader.js
 const urlDummy = import.meta.url
@@ -77,27 +74,11 @@ const parseImportsTree = treeidspec => {
 const treeidspecFromUrl = url => esmkIdRe.test(url)
   && mockKeys[url.match(esmkIdRe)[0].split('=')[1]]
 
-// new versions of node: when multiple loaders are used and context
-// is passed to nextResolve, the process crashes in a recursive call
-// see: /esmock/issues/#48
-//
-// old versions of node: if context.parentURL is defined, and context
-// is not passed to nextResolve, the tests fail
-//
-// later versions of node v16 include 'node-addons'
-const nextResolveCall = (nextResolve, specifier, context) => (
-  context.parentURL &&
-    (context.conditions.slice(-1)[0] === 'node-addons'
-     || context.importAssertions || isLT1612)
-    ? nextResolve(specifier, context)
-    : nextResolve(specifier))
-
 const resolve = (specifier, context, nextResolve) => {
-  // throw new Error('no resolve')
   const { parentURL } = context
   const treeidspec = treeidspecFromUrl(parentURL) || parentURL
   if (!esmkTreeIdRe.test(treeidspec))
-    return nextResolveCall(nextResolve, specifier, context)
+    return nextResolve(specifier, context)
 
   const [treeid] = String(treeidspec).match(esmkTreeIdRe)
   const [url, defs] = treeidspec.split(esmkdefsRe)
@@ -122,7 +103,7 @@ const resolve = (specifier, context, nextResolve) => {
     }
   }
 
-  const resolved = nextResolveCall(nextResolve, specifier, context)
+  const resolved = nextResolve(specifier, context)
   const moduleIdRe = moduleIdReCreate(resolved.url, treeid)
   const moduleId =
     moduleIdRe.test(defs) && defs.replace(moduleIdRe, '$1') ||
@@ -147,7 +128,6 @@ const loaderVerifyUrl = urlDummy + '?esmock-loader=true'
 const loaderIsVerified = (memo => async () => memo = memo || (
   (await import(loaderVerifyUrl)).default === true))()
 const load = (url, context, nextLoad) => {
-  // throw new Error('no load')
   if (url === loaderVerifyUrl) {
     return {
       format: 'module',
