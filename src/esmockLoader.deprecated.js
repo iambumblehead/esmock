@@ -1,5 +1,10 @@
 import fs from 'node:fs'
+import module from 'node:module'
+import process from 'process'
 import esmockErr from './esmockErr.js'
+
+const [major, minor] = process.versions.node.split('.').map(it => +it)
+const isLT1612 = major < 16 || (major === 16 && minor < 12)
 
 // ex, file:///path/to/esmockLoader.js,
 //     file:///c:/path/to/esmockLoader.js
@@ -37,6 +42,27 @@ const mockKeysSource = global.mockKeysSource = (global.mockKeysSource || {})
 const log = (...args) => (
   fs.writeSync(1, JSON.stringify(args, null, '  ').slice(2, -1)))
 
+// node v20.0-v20.6
+const globalPreload = !module.register && (({ port }) => (
+  port.addEventListener('message', ev => (
+    ev.data.keysource
+      ? mockKeysSource[ev.data.keysource] = ev.data.source
+      : mockKeys[ev.data.key] = ev.data.keylong)),
+  port.unref(),
+  'global.postMessageEsmk = d => port.postMessage(d)'
+))
+
+// node v20.6-current
+const initialize = module.register && (data => {
+  if (data && data.port) {
+    data.port.on('message', msg => {
+      msg.keysource
+        ? mockKeysSource[msg.keysource] = msg.source
+        : mockKeys[msg.key] = msg.keylong
+    })
+  }
+})
+
 const parseImports = defstr => {
   const [specifier, imports] = (defstr.match(esmkImportRe) || [])
 
@@ -61,11 +87,26 @@ const parseImportsTree = treeidspec => {
 const treeidspecFromUrl = url => esmkIdRe.test(url)
   && mockKeys[url.match(esmkIdRe)[0].split('=')[1]]
 
-const resolve = (specifier, context, nextResolve) => {
+// new versions of node: when multiple loaders are used and context
+// is passed to nextResolve, the process crashes in a recursive call
+// see: /esmock/issues/#48
+//
+// old versions of node: if context.parentURL is defined, and context
+// is not passed to nextResolve, the tests fail
+//
+// later versions of node v16 include 'node-addons'
+const nextResolveCall = async (nextResolve, specifier, context) => (
+  context.parentURL &&
+    (context.conditions.slice(-1)[0] === 'node-addons'
+     || context.importAssertions || isLT1612)
+    ? nextResolve(specifier, context)
+    : nextResolve(specifier))
+
+const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context
   const treeidspec = treeidspecFromUrl(parentURL) || parentURL
   if (!esmkTreeIdRe.test(treeidspec))
-    return nextResolve(specifier, context)
+    return nextResolveCall(nextResolve, specifier, context)
 
   const [treeid] = String(treeidspec).match(esmkTreeIdRe)
   const [url, defs] = treeidspec.split(esmkdefsRe)
@@ -90,7 +131,7 @@ const resolve = (specifier, context, nextResolve) => {
     }
   }
 
-  const resolved = nextResolve(specifier, context)
+  const resolved = await nextResolveCall(nextResolve, specifier, context)
   const moduleIdRe = moduleIdReCreate(resolved.url, treeid)
   const moduleId =
     moduleIdRe.test(defs) && defs.replace(moduleIdRe, '$1') ||
@@ -114,7 +155,7 @@ const resolve = (specifier, context, nextResolve) => {
 const loaderVerifyUrl = urlDummy + '?esmock-loader=true'
 const loaderIsVerified = (memo => async () => memo = memo || (
   (await import(loaderVerifyUrl)).default === true))()
-const load = (url, context, nextLoad) => {
+const load = async (url, context, nextLoad) => {
   if (url === loaderVerifyUrl) {
     return {
       format: 'module',
@@ -130,7 +171,7 @@ const load = (url, context, nextLoad) => {
   if (treeid) {
     const [specifier, importedNames] = parseImportsTree(treeidspec)
     if (importedNames && importedNames.length) {
-      const nextLoadRes = nextLoad(url, context)
+      const nextLoadRes = await nextLoad(url, context)
       if (!iscommonjsmoduleRe.test(nextLoadRes.format))
         return nextLoadRes
 
@@ -201,8 +242,14 @@ const load = (url, context, nextLoad) => {
   return nextLoad(url, context)
 }
 
+// node lt 16.12 require getSource, node gte 16.12 warn remove getSource
+const getSource = isLT1612 && load
+
 export {
   load,
   resolve,
+  getSource,
+  initialize,
+  globalPreload,
   loaderIsVerified as default
 }
