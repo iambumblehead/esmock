@@ -1,6 +1,7 @@
 # changelog
 
  * 2.7.8 _Oct.08.2026_
+   * unpublished version 2.7.7
    * [include esmockLoader.deprecated.js](https://github.com/iambumblehead/esmock/issues/345) in published src directory
  * 2.7.7 _Oct.06.2026_
    * [update github ci actions](https://github.com/iambumblehead/esmock/pull/341)
