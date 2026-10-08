@@ -1,7 +1,7 @@
 {
   "name": "esmock",
   "type": "module",
-  "version": "2.7.7",
+  "version": "2.7.8",
   "license": "ISC",
   "readmeFilename": "README.md",
   "description": "provides native ESM import and globals mocking for unit tests",
@@ -81,7 +81,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
     "mini:pkg": "npm pkg delete scripts devDependencies dependencies",
-    "mini:src": "cd src && npx rimraf --glob \"!(esmock|esmockLoader).js\"",
+    "mini:src": "cd src && npx rimraf --glob \"!(esmock|esmockLoader|esmockLoader.deprecated).js\"",
     "mini": "npm run mini:src && npm run mini:pkg",
     "prepublishOnly": "npm run lint && npm run test-ci && npm run mini"
   }
