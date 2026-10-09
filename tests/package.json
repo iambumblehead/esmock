@@ -30,7 +30,8 @@
   "scripts": {
     "mini:esmock": "cd .. && cd src && npx esbuild esmock.js --minify --bundle --allow-overwrite --platform=node --format=esm --external:pnpapi --outfile=esmock.js",
     "mini:esmockLoader": "cd .. && cd src && npx esbuild esmockLoader.js --minify --bundle --allow-overwrite --platform=node --format=esm --outfile=esmockLoader.js",
-    "mini": "npm run mini:esmock && npm run mini:esmockLoader",
+    "mini:esmockLoaderd": "cd .. && cd src && npx esbuild esmockLoader.deprecated.js --minify --bundle --allow-overwrite --platform=node --format=esm --outfile=esmockLoader.deprecated.js",
+    "mini": "npm run mini:esmock && npm run mini:esmockLoader && npm run mini:esmockLoaderd",
     "isnodelt18": "node -e \"+process.versions.node.split('.')[0] < 18 || process.exit(1)\"",
     "isnodegt19": "node -e \"+process.versions.node.split('.')[0] > 19 || process.exit(1)\"",
     "isnodenight": "node -e \"process.versions.node.includes('night') || process.exit(1)\"",
