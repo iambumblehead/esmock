@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.7.9 _Oct.08.2026_
+   * [include esmockLoader.deprecated.js](https://github.com/iambumblehead/esmock/issues/345) in published src directory as esbuild output to provide full import tree for that module
  * 2.7.8 _Oct.08.2026_
    * unpublished version 2.7.7
    * [include esmockLoader.deprecated.js](https://github.com/iambumblehead/esmock/issues/345) in published src directory
