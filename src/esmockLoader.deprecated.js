@@ -26,13 +26,19 @@ const iscommonjsmoduleRe = /^(commonjs|module)(-typescript)?$/
 const isstrict3 = /strict=3/
 const hashbangRe = /^(#![^\n]*\n)/
 
-// escape '+' char, pnpm generates long pathnames serialized with these
-const moduleIdEsc = str =>
-  str.indexOf('+') >= 0 ? str.replace(/(?!\\)\+/g, '\\+') : str
+// returns embedded moduleid w/ treeid, the last one found in defs, up to
+// the next '#-#' separator. a literal search: a regexp built from the url
+// would need every special path char escaped, and its unanchored leading
+// '.*' makes each failed lookup quadratic in the length of defs
+const moduleIdFind = (moduleid, treeid, defs) => {
+  const start = typeof defs === 'string'
+    ? defs.lastIndexOf(`${moduleid}?${treeid}`) : -1
+  if (start === -1)
+    return false
 
-// returned regexp will match embedded moduleid w/ treeid
-const moduleIdReCreate = (moduleid, treeid) => new RegExp(
-  `.*(${moduleIdEsc(moduleid)}(\\?${treeid}(?:(?!#-#).)*)).*`)
+  const end = defs.indexOf('#-#', start)
+  return end === -1 ? defs.slice(start) : defs.slice(start, end)
+}
 
 // node v12.0-v18.x, global
 const mockKeys = global.mockKeys = (global.mockKeys || {})
@@ -113,9 +119,11 @@ const resolve = async (specifier, context, nextResolve) => {
   const gdefs = url && url.replace(esmkgdefsAndBeforeRe, '')
   // do not call 'nextResolve' for notfound modules
   if (treeidspec.includes(`esmkModuleId=${specifier}&isfound=false`)) {
-    const moduleIdRe = moduleIdReCreate(`file:///${specifier}`, treeid)
-    const moduleId = (
-      gdefs.match(moduleIdRe) || defs.match(moduleIdRe) || [])[2]
+    const moduleUrl = `file:///${specifier}`
+    const moduleIdUrl =
+      moduleIdFind(moduleUrl, treeid, gdefs) ||
+      moduleIdFind(moduleUrl, treeid, defs)
+    const moduleId = moduleIdUrl && moduleIdUrl.slice(moduleUrl.length)
     if (moduleId) {
       return {
         shortCircuit: true,
@@ -132,10 +140,9 @@ const resolve = async (specifier, context, nextResolve) => {
   }
 
   const resolved = await nextResolveCall(nextResolve, specifier, context)
-  const moduleIdRe = moduleIdReCreate(resolved.url, treeid)
   const moduleId =
-    moduleIdRe.test(defs) && defs.replace(moduleIdRe, '$1') ||
-    moduleIdRe.test(gdefs) && gdefs.replace(moduleIdRe, '$1')
+    moduleIdFind(resolved.url, treeid, defs) ||
+    moduleIdFind(resolved.url, treeid, gdefs)
   if (moduleId) {
     resolved.url = isesmRe.test(moduleId)
       ? moduleId
