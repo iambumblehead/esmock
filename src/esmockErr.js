@@ -4,17 +4,15 @@ const errModuleIdNotFound = (moduleId, parent) =>
 const errModuleIdNotMocked = (moduleId, parent) =>
   new Error(`un-mocked moduleId: "${moduleId}" (used by ${parent})`)
 
-const errMissingLoader = () =>
-  new Error('For versions of node prior to v20.6.0, '
-    + 'the loader chain process must include esmock. '
-    + 'start the process using --loader=esmock.')
+const errMissingRegisterHook = () =>
+  new Error('missing module.registerHooks, defined at node v20.6.0 or greater.')
 
 const errModuleIdNoDefs = (moduleId, parent) =>
   new Error(`no mocks provided for module: "${moduleId}" (used by ${parent})`)
 
-export default {
+export {
   errModuleIdNotFound,
   errModuleIdNotMocked,
-  errMissingLoader,
+  errMissingRegisterHook,
   errModuleIdNoDefs
 }

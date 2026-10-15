@@ -1,7 +1,7 @@
 import fs from 'fs'
 import url from 'url'
 import resolvewith from 'resolvewithplus'
-import esmockErr from './esmockErr.js'
+import {errModuleIdNotFound,errModuleIdNoDefs} from './esmockErr.js'
 import esmockIsESMRe from './esmockIsESMRe.js'
 
 import {
@@ -83,9 +83,12 @@ const esmockModuleIsESM = (fileURL, isesm) => {
 // does not need to lookup default as in "esmockedValue.default"
 const esmockModuleImportedSanitize = (imported, esmkTreeId) => {
   const importedDefault = isDefaultIn(imported) && imported.default
+  const importedDefaultType = typeof importedDefault
 
-  if (/boolean|string|number/.test(typeof importedDefault))
-    return imported
+  if (importedDefaultType === 'boolean'
+    || importedDefaultType === 'string'
+    || importedDefaultType === 'number'
+  ) return imported
 
   // ex, non-extensible "[object Module]": import * as fs from 'fs'; export fs;
   return Object.isExtensible(importedDefault)
@@ -138,7 +141,7 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 
   const fileURL = opt.resolver(id, parent)
   if (!fileURL && opt.isModuleNotFoundError !== false && id !== 'import')
-    throw esmockErr.errModuleIdNotFound(id, parent)
+    throw errModuleIdNotFound(id, parent)
 
   mocks.push(await esmockModuleCreate(treeid, defs[id], id, fileURL, opt))
 
@@ -148,12 +151,12 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
 const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
   const moduleFileURL = opt.resolver(moduleId, parent)
   if (!moduleFileURL)
-    throw esmockErr.errModuleIdNotFound(moduleId, parent)
+    throw errModuleIdNotFound(moduleId, parent)
 
   const gkeys = gdefs ? Object.keys(gdefs) : []
   const dkeys = defs ? Object.keys(defs) : []
   if (opt.strict === 3 && !gkeys.length && !dkeys.length)
-    throw esmockErr.errModuleIdNoDefs(moduleId, parent)
+    throw errModuleIdNoDefs(moduleId, parent)
 
   const treeid = typeof opt.id === 'number' ? opt.id : nextId()
   const treeidspec = `${moduleFileURL}?key=${treeid}&strict=${opt.strict}?` + [
