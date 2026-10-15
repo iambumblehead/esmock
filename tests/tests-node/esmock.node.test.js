@@ -421,6 +421,16 @@ test('should not error when mocked file has space in path', async () => {
   assert.strictEqual(main.wild, 'tamed')
 })
 
+test('should mock file that has parentheses in path', async () => {
+  const main = await esmock('../local/usesParensPath.js', {
+    '../local/(parens) in path/parens-file.js': {
+      default: 'tamed'
+    }
+  })
+
+  assert.strictEqual(main.parens, 'tamed')
+})
+
 test('should partial mock by default, strict mock optional', async () => {
   const wildfile = await import('../local/space in path/wild-file.js')
   const mainstrict = await esmock.strict('../local/main.js', {
