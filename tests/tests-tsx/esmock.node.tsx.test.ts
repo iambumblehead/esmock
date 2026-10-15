@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'assert'
 import esmock from 'esmock'
 
-test('should mock js when using tsx', async () => {
+test('should mock js when using tsx, with js', async () => {
   const main = await esmock('../local/main.js', {
     path: {
       basename: () => 'hellow'
@@ -12,7 +12,7 @@ test('should mock js when using tsx', async () => {
   assert.strictEqual(main.pathbasenamewrap(), 'hellow')
 })
 
-test('should mock ts when using tsx', async () => {
+test('should mock ts when using tsx, with ts', async () => {
   const main = await esmock('../local/main-ts.ts', {
     path: {
       basename: () => 'hellow'

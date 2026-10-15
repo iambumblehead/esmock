@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "node --loader=ts-node/esm --test test.ts"
+    "test": "node --import=tsx/esm --test test.ts"
   },
   "dependencies": {
-    "ts-a": "^0.0.0"
+    "tsx": "^4.23.15"
   },
   "devDependencies": {
     "ts-node": "^10.9.2"

@@ -6,8 +6,7 @@
     "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "ava": "^6.4.1",
-    "run-script-os": "^1.1.6",
+    "ava": "^8.0.1",
     "esmock": "file:..",
     "sinon": "file:../node_modules/sinon",
     "eslint": "file:../node_modules/eslint",
@@ -15,10 +14,6 @@
     "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
   },
   "scripts": {
-    "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",
-    "test:default": "NODE_OPTIONS=--loader=esmock ava",
-    "test:win32": "set \"NODE_OPTIONS=--loader=esmock\" && ava",
-    "test:current": "ava",
-    "test": "run-script-os && npm run isnodelt20_6 || npm run test:current"
+    "test": "ava"
   }
 }
