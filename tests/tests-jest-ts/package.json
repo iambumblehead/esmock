@@ -6,10 +6,9 @@
     "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "ts-node": "^10.9.1",
-    "jest": "^30.3.0",
-    "jest-light-runner": "0.7.11",
-    "run-script-os": "^1.1.6",
+    "tsx": "^4.20.5",
+    "jest": "^30.3.2",
+    "jest-light-runner": "0.8.2",
     "esmock": "file:..",
     "sinon": "file:../node_modules/sinon",
     "eslint": "file:../node_modules/eslint",
@@ -20,14 +19,6 @@
     "runner": "jest-light-runner"
   },
   "scripts": {
-    "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",
-    "test:defaultcurrent": "NODE_OPTIONS=\"--loader=ts-node/esm\" jest esmock.node-jest.test.ts",
-    "test:defaultloader": "NODE_OPTIONS=\"--loader=ts-node/esm --loader=esmock\" jest esmock.node-jest.test.ts",
-    "test:default": "npm run test:defaultloader && npm run isnodelt20_6 || npm run test:defaultcurrent",
-    "test:win32current": "set \"NODE_OPTIONS=--loader=ts-node/esm\" && jest esmock.node-jest.test.ts",
-    "test:win32loader": "set \"NODE_OPTIONS=--loader=ts-node/esm --loader=esmock\" && jest esmock.node-jest.test.ts",
-    "test:win32": "npm run test:win32loader && npm run isnodelt20_6 || npm run test:win32current",
-    "test_old": "run-script-os",
-    "test": "echo disabled, ts-node un-maintained"
+    "test": "set \"NODE_OPTIONS=--import=tsx/esm\" && jest esmock.node-jest.test.ts"
   }
 }

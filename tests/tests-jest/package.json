@@ -6,9 +6,8 @@
     "url": "git+https://github.com/iambumblehead/esmock.git"
   },
   "dependencies": {
-    "jest": "^30.1.2",
-    "jest-light-runner": "0.7.9",
-    "run-script-os": "^1.1.6",
+    "jest": "^30.5.2",
+    "jest-light-runner": "0.8.2",
     "esmock": "file:..",
     "sinon": "file:../node_modules/sinon",
     "eslint": "file:../node_modules/eslint",
@@ -19,10 +18,6 @@
     "runner": "jest-light-runner"
   },
   "scripts": {
-    "isnodelt20_6": "node -e \"(([mj, mn]) => (+mj < 20 || (+mj === 20 && +mn < 6)))(process.versions.node.split('.')) || process.exit(1)\"",
-    "test:default": "NODE_OPTIONS=--loader=esmock jest",
-    "test:win32": "set NODE_OPTIONS=--loader=esmock && jest",
-    "test:current": "jest",
-    "test": "run-script-os && npm run isnodelt20_6 || npm run test:current"
+    "test": "jest"
   }
 }

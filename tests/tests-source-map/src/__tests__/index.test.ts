@@ -18,7 +18,7 @@ test("using absolute path", async t => {
   t.is(getHostname(), expectedHostname)
 })
 
-test("using relative path", async t => {
+test("using relative path with import.meta.url", async t => {
   const indexModule = await esmock("../index.js", import.meta.url, {
     os: {
       hostname: () => expectedHostname
