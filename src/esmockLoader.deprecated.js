@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import module from 'node:module'
 import process from 'process'
-import esmockErr from './esmockErr.js'
+import {errModuleIdNotMocked} from './esmockErr.js'
 
 const [major, minor] = process.versions.node.split('.').map(it => +it)
 const isLT1612 = major < 16 || (major === 16 && minor < 12)
@@ -154,7 +154,7 @@ const resolve = async (specifier, context, nextResolve) => {
   }
 
   if (isstrict3.test(treeidspec) && !moduleId)
-    throw esmockErr.errModuleIdNotMocked(resolved.url, treeidspec.split('?')[0])
+    throw errModuleIdNotMocked(resolved.url, treeidspec.split('?')[0])
 
   return resolved
 }

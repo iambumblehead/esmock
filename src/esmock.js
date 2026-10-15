@@ -1,15 +1,12 @@
 import module from 'node:module'
-import * as hooksDeprecated from './esmockLoader.deprecated.js'
-import esmockLoaderDeprecated from './esmockLoader.deprecated.js'
 import esmockModule from './esmockModule.js'
 import esmockArgs from './esmockArgs.js'
-import esmockErr from './esmockErr.js'
+import {errMissingRegisterHook} from './esmockErr.js'
 
 const esmockGo = opts => async (...args) => {
   const [moduleId, parent, defs, gdefs, opt] = esmockArgs(args, opts)
-  if (!module.registerHooks
-    && (!module.register && !await esmockLoaderDeprecated()))
-    throw esmockErr.errMissingLoader()
+  if (!module.registerHooks && !module.register)
+    throw errMissingRegisterHook()
 
   const fileURLKey = await esmockModule(moduleId, parent, defs, gdefs, opt)
   const importedModule = await import(fileURLKey)
@@ -34,13 +31,3 @@ const esmock = Object.assign(esmockGo(), {
   purge, p: esmockGo({ purge: false }), strict, strictest })
 
 export {esmock as default, strict, strictest}
-
-// for older node versions, to support "--loader=esmock" rather than
-// "--loader=esmock/loader", esmock.js exported loader hook definitions here
-//
-// for newer node versions 20.6+, exporting hook definitions here causes
-// problems when --loader is used w/ module.register
-const hooksFinal = (
-  module.registerHooks || module.register) ? {} : hooksDeprecated
-const { load, resolve, getSource, initialize, globalPreload } = hooksFinal
-export { load, resolve, getSource, initialize, globalPreload }

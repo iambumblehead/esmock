@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import esmockErr from './esmockErr.js'
+import {errModuleIdNotMocked} from './esmockErr.js'
 
 // ex, file:///path/to/esmockLoader.js,
 //     file:///c:/path/to/esmockLoader.js
@@ -113,7 +113,7 @@ const resolve = (specifier, context, nextResolve) => {
   }
 
   if (isstrict3.test(treeidspec) && !moduleId)
-    throw esmockErr.errModuleIdNotMocked(resolved.url, treeidspec.split('?')[0])
+    throw errModuleIdNotMocked(resolved.url, treeidspec.split('?')[0])
 
   return resolved
 }
