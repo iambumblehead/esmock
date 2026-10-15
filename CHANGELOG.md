@@ -1,5 +1,8 @@
 # changelog
 
+ * 2.8.0 _Oct.14.2026_
+   * [performance improvement](https://github.com/iambumblehead/esmock/pull/349) that replaces regexp parsing with (faster) string operations, credit @ekremney
+   * [correctness improvement](https://github.com/iambumblehead/esmock/pull/349) allows moduleIds with parens in the path to be mocked, eg `app/(marketing)/file.js`, credit @ekremney
  * 2.7.9 _Oct.08.2026_
    * [include esmockLoader.deprecated.js](https://github.com/iambumblehead/esmock/issues/345) in published src directory as esbuild output to provide full import tree for that module
  * 2.7.8 _Oct.08.2026_
