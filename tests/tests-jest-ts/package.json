@@ -19,6 +19,6 @@
     "runner": "jest-light-runner"
   },
   "scripts": {
-    "test": "set \"NODE_OPTIONS=--loader=tsx/esm\" && jest esmock.node-jest.test.ts"
+    "test": "set \"NODE_OPTIONS=--import=tsx/esm\" && jest esmock.node-jest.test.ts"
   }
 }

@@ -17,7 +17,7 @@
   },
   "scripts": {
     "test": "rimraf dist && tsc && cross-env NODE_NO_WARNINGS=1 ava",
-    "test-no-maps": "rimraf dist && tsc --sourceMap false && cross-env NODE_OPTIONS=--loader=esmock NODE_NO_WARNINGS=1 ava"
+    "test-no-maps": "rimraf dist && tsc --sourceMap false && cross-env NODE_OPTIONS=--import=esmock NODE_NO_WARNINGS=1 ava"
   },
   "ava": {
     "typescript": {
