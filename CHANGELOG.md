@@ -1,5 +1,7 @@
 # changelog
 
+ * 2.8.1 _???.??.2026_
+   * [streamline and update test-suite.](https://github.com/iambumblehead/esmock/pull/351) remove logic to run "--loader" and non-"--loader" specific tests. remove logic to run or skip tests for specific (older) versions of node. remove logic to run or skip tests depending upon windows or linux environment. remove un-maintained testing-tools from the test suite: ts-node, tsm and uvu. **greatly simplifies the tests**
  * 2.8.0 _Oct.14.2026_
    * [performance improvement](https://github.com/iambumblehead/esmock/pull/349) that replaces regexp parsing with (faster) string operations, credit @ekremney
    * [correctness improvement](https://github.com/iambumblehead/esmock/pull/349) allows moduleIds with parens in the path to be mocked, eg `app/(marketing)/file.js`, credit @ekremney
