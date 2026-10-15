@@ -94,7 +94,7 @@ test('esmock.strict mocks', async () => {
 [3]: https://github.com/iambumblehead/esmock/tree/main/tests "tests"
 [4]: https://github.com/iambumblehead/esmock/wiki
 [5]: https://packagephobia.now.sh/result?p=esmock
-[6]: https://packagephobia.now.sh/badge?p=esmock
+[6]: https://img.shields.io/badge/install_size-31.3_Kb-blue
 [7]: https://www.npmjs.com/package/esmock
 [8]: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/iambumblehead/166d927bd0089d7bfdee4e98a537712c/raw/esmock__heads_main.json
 [9]: https://img.shields.io/npm/v/esmock
