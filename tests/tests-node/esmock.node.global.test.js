@@ -27,17 +27,44 @@ test('should import mock objects, global', async () => {
     import: {
       Date: { now: () => 123456789098 },
       setTimeout: fn => fn(),
-      fetch: () => ({ res: 404 })
+      fetch: () => ({ res: 200 })
     }
   })
 
   assert.strictEqual(hostObjects.dateWrapper.now(), 123456789098)
   assert.strictEqual(hostObjects.setTimeoutWrapper(() => ':)'), ':)')
+  assert.strictEqual(hostObjects.fetchWrapper().res, 200)
+
+  assert.strictEqual(hostObjects.child.dateWrapper.now(), 123456789098)
+  assert.strictEqual(hostObjects.child.setTimeoutWrapper(() => ':)'), ':)')
+  assert.strictEqual(hostObjects.child.fetchWrapper().res, 200)
+  assert.strictEqual(hostObjects.child.otherimport(), 'other import')
+})
+
+test('should import separate mock objects for local and global', async () => {
+  const hostObjects = await esmock('../local/usesImportObjects.js', {
+    '../local/exampleMJS.mjs': () => 'second mocked',
+    import: {
+      Date: { now: () => 123456789012 },
+      setTimeout: fn => fn(),
+      fetch: () => ({ res: 404 })
+    }
+  }, {
+    '../local/exampleMJS.mjs': () => 'other import',
+    import: {
+      Date: { now: () => 123456789098 },
+      setTimeout: fn => fn(),
+      fetch: () => ({ res: 200 })
+    }
+  })
+
+  assert.strictEqual(hostObjects.dateWrapper.now(), 123456789012)
+  assert.strictEqual(hostObjects.setTimeoutWrapper(() => ':)'), ':)')
   assert.strictEqual(hostObjects.fetchWrapper().res, 404)
 
   assert.strictEqual(hostObjects.child.dateWrapper.now(), 123456789098)
   assert.strictEqual(hostObjects.child.setTimeoutWrapper(() => ':)'), ':)')
-  assert.strictEqual(hostObjects.child.fetchWrapper().res, 404)
+  assert.strictEqual(hostObjects.child.fetchWrapper().res, 200)
   assert.strictEqual(hostObjects.child.otherimport(), 'other import')
 })
 
