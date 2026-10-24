@@ -1,7 +1,8 @@
 import test from 'ava'
 import esmock from 'esmock'
 import sinon from 'sinon'
-import esmockCache from '../../../src/esmockCache.js'
+
+const esmockCache = globalThis.esmockCache
 
 test('should not error when handling non-extensible object', async t => {
   // if esmock tries to simulate babel and define default.default
