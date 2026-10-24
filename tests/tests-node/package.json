@@ -1,16 +1,15 @@
 {
+  "private": true,
+  "name": "esmock-test-node",
   "type": "module",
   "description": "esmock unit tests, node native runner",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iambumblehead/esmock.git"
-  },
   "dependencies": {
-    "esmock": "file:..",
-    "sinon": "file:../node_modules/sinon",
-    "eslint": "file:../node_modules/eslint",
-    "form-urlencoded": "file:../node_modules/form-urlencoded",
-    "changelog-parser": "file:../node_modules/changelog-parser",
+    "esmock": "*",
+    "sinon": "*",
+    "eslint": "*",
+    "form-urlencoded": "*",
+    "changelog-parser": "*",
+    "resolvewithplus": "*",
     "babelGeneratedDoubleDefault": "file:../local/babelGeneratedDoubleDefault"
   },
   "scripts": {

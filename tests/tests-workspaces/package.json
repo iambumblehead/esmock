@@ -1,9 +1,10 @@
 {
-  "name": "esmock unit tests, workspaces",
+  "private": true,
+  "name": "esmock-test-workspaces",
   "workspaces": [
     "workspaces-js/*",
     "workspaces-ts/*"
-  ],  
+  ],
   "scripts": {
     "test-workspaces-js": "npm --prefix workspaces-js/js-b test",
     "test-workspaces-ts": "npm --prefix workspaces-ts/ts-b test",

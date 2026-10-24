@@ -1,12 +1,10 @@
 {
+  "private": true,
+  "name": "esmock-test-tsx",
   "type": "module",
   "description": "esmock unit tests, tsx with node",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iambumblehead/esmock.git"
-  },
   "dependencies": {
-    "esmock": "file:..",
+    "esmock": "*",
     "tsx": "^4.23.15"
   },
   "scripts": {
