@@ -21,14 +21,14 @@ export {default} from '../src/esmock.js'
 //
 // together, these allow child folder tests to,
 //  * import "esmock" rather than  "../../src/esmock.js"
-//  * use "--loader=esmock" rather than "../../src/esmockLoader.js"
+//  * use "--import=esmock" rather than "../../src/esmockLoader.js"
 //
 // Previously, there existed only one test folder and package.json,
 // and during that time the package.json only needed to define
 // the esmock dependency as a local file eg "esmock": "file:.."
 //
 // When subdirectories were introduced, "esmock": "file:../.." did not
-// work with "--loader=esmock". The loader ignored the longer path and
+// work with "--import=esmock". The loader ignored the longer path and
 // threw an error message, creating need for this file.
 //
 //   Error [ERR_MODULE_NOT_FOUND]: Cannot find package \

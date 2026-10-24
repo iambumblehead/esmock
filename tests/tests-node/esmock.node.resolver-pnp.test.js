@@ -1,6 +1,5 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import module from 'node:module'
 import { fileURLToPath } from 'node:url'
 import resolvewithplus from 'resolvewithplus'
 import '../local/pnp/enable.js'
@@ -18,9 +17,6 @@ test.beforeEach(() => {
 })
 
 test('should work with pnp resolver', async ({ mock }) => {
-  if (!module.register)
-    return assert.ok('skip test')
-
   pnpapi.resolveRequest = mock.fn(resolver)
 
   const main = await esmock('../local/main.js', {

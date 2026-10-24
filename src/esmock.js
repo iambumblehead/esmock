@@ -1,12 +1,17 @@
 import module from 'node:module'
 import esmockModule from './esmockModule.js'
 import esmockArgs from './esmockArgs.js'
-import {errMissingRegisterHook} from './esmockErr.js'
+import { load, resolve } from './esmockLoader.js'
+
+let isRegistered = false
 
 const esmockGo = opts => async (...args) => {
   const [moduleId, parent, defs, gdefs, opt] = esmockArgs(args, opts)
-  if (!module.registerHooks && !module.register)
-    throw errMissingRegisterHook()
+
+  if (!isRegistered) {
+    module.registerHooks({ load, resolve })
+    isRegistered = true
+  }
 
   const fileURLKey = await esmockModule(moduleId, parent, defs, gdefs, opt)
   const importedModule = await import(fileURLKey)

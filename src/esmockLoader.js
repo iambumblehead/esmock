@@ -35,13 +35,8 @@ const moduleIdFind = (moduleid, treeid, defs) => {
   return end === -1 ? defs.slice(start) : defs.slice(start, end)
 }
 
-// node v12.0-v18.x, global
-const mockKeys = global.mockKeys = (global.mockKeys || {})
-const mockKeysSource = global.mockKeysSource = (global.mockKeysSource || {})
-
-// use fs when logging from hooks, console.log async unpredictable
-const log = (...args) => (
-  fs.writeSync(1, JSON.stringify(args, null, '  ').slice(2, -1)))
+const mockKeys = globalThis.mockKeys ||= {}
+const mockKeysSource = globalThis.mockKeysSource ||= {}
 
 const parseImports = defstr => {
   const [specifier, imports] = (defstr.match(esmkImportRe) || [])
@@ -118,19 +113,7 @@ const resolve = (specifier, context, nextResolve) => {
   return resolved
 }
 
-const loaderVerifyUrl = urlDummy + '?esmock-loader=true'
-const loaderIsVerified = (memo => async () => memo = memo || (
-  (await import(loaderVerifyUrl)).default === true))()
 const load = (url, context, nextLoad) => {
-  if (url === loaderVerifyUrl) {
-    return {
-      format: 'module',
-      shortCircuit: true,
-      responseURL: url,
-      source: 'export default true'
-    }
-  }
-
   const treeidspec = treeidspecFromUrl(url) || url
   const treeid = treeidspec &&
     (treeidspec.match(esmkTreeIdRe) || [])[0]
@@ -210,6 +193,5 @@ const load = (url, context, nextLoad) => {
 
 export {
   load,
-  resolve,
-  loaderIsVerified as default
+  resolve
 }

@@ -57,7 +57,7 @@
     "mock fetch"
   ],
   "engines": {
-    "node": ">=14.16.0"
+    "node": "^22.15 || ^24 || >=26"
   },
   "dependencies": {
     "resolvewithplus": "^2.1.8"
@@ -81,7 +81,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
     "mini:pkg": "npm pkg delete scripts devDependencies dependencies",
-    "mini:src": "cd src && npx rimraf --glob \"!(esmock|esmockLoader|esmockLoader.deprecated).js\"",
+    "mini:src": "cd src && npx rimraf --glob \"!(esmock|esmockLoader).js\"",
     "mini": "npm run mini:src && npm run mini:pkg",
     "prepublishOnly": "npm run lint && npm run test-ci && npm run mini"
   }
