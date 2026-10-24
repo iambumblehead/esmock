@@ -3,7 +3,8 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import esmock from 'esmock'
 import sinon from 'sinon'
-import esmockCache from '../../src/esmockCache.js'
+
+const esmockCache = globalThis.esmockCache
 
 // https://github.com/iambumblehead/esmock/issues/312
 /* req: "changelog-parser": "^3.0.1",
