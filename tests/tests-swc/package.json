@@ -1,12 +1,10 @@
 {
+  "private": true,
+  "name": "esmock-test-swc",
   "type": "module",
   "description": "esmock unit tests, swc with node native runner",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iambumblehead/esmock.git"
-  },
   "dependencies": {
-    "esmock": "file:..",
+    "esmock": "*",
     "typescript": "^6.0.3",
     "@swc-node/register": "^1.12.1",
     "@swc/core": "^1.16.18"
