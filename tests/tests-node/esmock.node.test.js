@@ -579,10 +579,7 @@ test('should mock an exported array', async () => {
 })
 
 test('should mock imported json', async () => {
-  const importsJSONPath = 20 <= +process.versions.node.split('.')[0]
-    ? '../local/importsJSONfile.with.js'
-    : '../local/importsJSONfile.assert.legacy.js'
-  const importsJSON = await esmock(importsJSONPath, {
+  const importsJSON = await esmock('../local/importsJSONfile.with.js', {
     '../local/example.json': {
       'test-example': 'test-json-a'
     }
@@ -595,10 +592,7 @@ test('should mock imported json', async () => {
 })
 
 test('should mock imported json (strict)', async () => {
-  const importsJSONPath = 20 <= +process.versions.node.split('.')[0]
-    ? '../local/importsJSONfile.with.js'
-    : '../local/importsJSONfile.assert.legacy.js'
-  const importsJSON = await esmock.strict(importsJSONPath, {
+  const importsJSON = await esmock.strict('../local/importsJSONfile.with.js', {
     '../local/example.json': {
       'test-example': 'test-json-b'
     }

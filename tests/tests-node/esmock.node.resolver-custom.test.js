@@ -22,22 +22,16 @@ function resolverCustom (moduleId, parent) {
   ).replace(/\/tests-node\/\.\./, '')
 }
 
-async function resolve (specifier, context, next) {
+function resolve (specifier, context, next) {
   return next(
     specifier === 'RESOLVECUSTOM'
       ? resolverCustom(specifier, context.parentURL)
       : specifier, context)
 }
 
-module.register && module.register(`
-data:text/javascript,
-${encodeURIComponent(resolverCustom)}
-export ${encodeURIComponent(resolve)}`.slice(1))
+module.registerHooks({ resolve })
 
 test('should use custom resolver', async () => {
-  if (!module.register)
-    return assert.ok('skip test')
-
   const customResolverParent = await esmock(
     '../local/customResolverParent.js', {}, {
       RESOLVECUSTOM: ({ isMocked: true })
@@ -50,9 +44,6 @@ test('should use custom resolver', async () => {
 })
 
 test('should not call custom resover with builtin moduleIds', async () => {
-  if (!module.register)
-    return assert.ok('skip test')
-
   const customResolverParent = await esmock(
     '../local/customResolverParent.js', {}, {
       RESOLVECUSTOM: ({ isMocked: true }),
