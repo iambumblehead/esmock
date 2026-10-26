@@ -9,9 +9,6 @@ const esmockCache = {
 const esmockModuleIdSourceSet = (keysource, source) => (
   global.mockKeysSource[String(keysource)] = source)
 
-const esmockModuleIdSourceGet = keysource => (
-  global.mockKeysSource[String(keysource)])
-
 const esmockTreeIdSet = (key, keylong) => (
   global.mockKeys[String(key)] = keylong)
 
@@ -45,7 +42,6 @@ export {
   esmockTreeIdSet,
   esmockTreeIdGet,
   esmockModuleIdSourceSet,
-  esmockModuleIdSourceGet,
   esmockCacheResolvedPathIsESMGet,
   esmockCacheResolvedPathIsESMSet
 }

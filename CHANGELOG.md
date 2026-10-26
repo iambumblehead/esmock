@@ -4,7 +4,8 @@
    * [streamline and update test-suite.](https://github.com/iambumblehead/esmock/pull/351) remove logic to run "--loader" and non-"--loader" specific tests. remove logic to run or skip tests for specific (older) versions of node. remove logic to run or skip tests depending upon windows or linux environment. remove un-maintained testing-tools from the test suite: ts-node, tsm and uvu. **greatly simplifies the tests**
    * [drop support for pre-v20 node --loader](https://github.com/iambumblehead/esmock/pull/352) behaviour. removal of some code that was un-usual and un-intuitive. removes mention of "--loader" from README.md for slightly smaller README.md,
    * [drop all support for node v20 and earlier,](https://github.com/iambumblehead/esmock/pull/356) credit @tommy-mitchell
-   * [publish a single minified file.](https://github.com/iambumblehead/esmock/pull/358) previous versions published separate loader and loader.deprecated files. `npm publish --dry-run` shows smaller package-size @v3.0.0 **8.4 kB** (was @v2.8.0 **10.3 kB**)
+   * [publish a single minified file.](https://github.com/iambumblehead/esmock/pull/358) previous versions published separate loader and loader.deprecated files. `npm publish --dry-run` shows smaller package-size @v3.0.0 **8.4 kB** (was @v2.8.0 **10.3 kB**),
+   * [support simultanaeous local and global import mocks.](https://github.com/iambumblehead/esmock/pull/360) Previously, local and global import mocks sharing the same name would resolve the global variant. credit @tommy-mitchell, thank you
  * 2.8.0 _Oct.14.2026_
    * [performance improvement](https://github.com/iambumblehead/esmock/pull/349) that replaces regexp parsing with (faster) string operations, credit @ekremney
    * [correctness improvement](https://github.com/iambumblehead/esmock/pull/349) allows moduleIds with parens in the path to be mocked, eg `app/(marketing)/file.js`, credit @ekremney

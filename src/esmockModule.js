@@ -109,7 +109,7 @@ const esmockImport = async fileURL => isJSONExtnRe.test(fileURL)
   ? JSON.parse(fs.readFileSync(new url.URL(fileURL), 'utf-8'))
   : import(fileURL)
 
-const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
+const esmockModuleCreate = async (treeid, def, id, fileURL, opt, scope) => {
   def = esmockModuleApply(
     opt.strict || !fileURL || await esmockImport(fileURL), def, fileURL)
 
@@ -118,10 +118,12 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
     'esmkModuleId=' + id,
     'isfound=' + Boolean(fileURL),
     'isesm=' + esmockModuleIsESM(fileURL),
+    // distinguishes global mocks from local mocks of the same specifier
+    scope === 'global' ? 'esmkScope=g' : '',
     'exportNames=' + Object.keys(def).sort().join()
       .replace(reservedKeywordsFoundInWild, a => (
         a.startsWith(',') && a.endsWith(',') ? ',' : ''))
-  ].join('&')
+  ].filter(Boolean).join('&')
 
   if (isJSONExtnRe.test(fileURL)) {
     esmockModuleIdSourceSet(mockModuleKey, JSON.stringify(def))
@@ -132,7 +134,9 @@ const esmockModuleCreate = async (treeid, def, id, fileURL, opt) => {
   return mockModuleKey
 }
 
-const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
+const esmockModuleId = async (
+  parent, treeid, defs, ids, opt, scope, mocks, id
+) => {
   ids = ids || Object.keys(defs)
   id = ids[0]
   mocks = mocks || []
@@ -143,15 +147,20 @@ const esmockModuleId = async (parent, treeid, defs, ids, opt, mocks, id) => {
   if (!fileURL && opt.isModuleNotFoundError !== false && id !== 'import')
     throw errModuleIdNotFound(id, parent)
 
-  mocks.push(await esmockModuleCreate(treeid, defs[id], id, fileURL, opt))
+  mocks.push(
+    await esmockModuleCreate(treeid, defs[id], id, fileURL, opt, scope)
+  )
 
-  return esmockModuleId(parent, treeid, defs, ids.slice(1), opt, mocks)
+  return esmockModuleId(parent, treeid, defs, ids.slice(1), opt, scope, mocks)
 }
 
 const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
   const moduleFileURL = opt.resolver(moduleId, parent)
   if (!moduleFileURL)
     throw errModuleIdNotFound(moduleId, parent)
+
+  if (isObj(defs?.import) && isObj(gdefs?.import))
+    defs.import = Object.assign({}, gdefs.import, defs.import)
 
   const gkeys = gdefs ? Object.keys(gdefs) : []
   const dkeys = defs ? Object.keys(defs) : []
@@ -161,7 +170,7 @@ const esmockModule = async (moduleId, parent, defs, gdefs, opt) => {
   const treeid = typeof opt.id === 'number' ? opt.id : nextId()
   const treeidspec = `${moduleFileURL}?key=${treeid}&strict=${opt.strict}?` + [
     'esmkgdefs=' + (gkeys.length && (await esmockModuleId(
-      parent, treeid, gdefs, gkeys, opt)).join('#-#') || 0),
+      parent, treeid, gdefs, gkeys, opt, "global")).join('#-#') || 0),
     'esmkdefs=', (dkeys.length && (await esmockModuleId(
       parent, treeid, defs, dkeys, opt)).join('#-#') || 0)
   ].join('#-#')

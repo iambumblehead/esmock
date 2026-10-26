@@ -124,10 +124,7 @@ const load = (url, context, nextLoad) => {
       if (!iscommonjsmoduleRe.test(nextLoadRes.format))
         return nextLoadRes
 
-      // nextLoadRes.source sometimes 'undefined' and other times 'null' :(
-      const sourceIsNullLike = (
-        nextLoadRes.source === null || nextLoadRes.source === undefined)
-      const source = sourceIsNullLike
+      const source = nextLoadRes.source == null
         ? String(fs.readFileSync(new URL(url)))
         : String(nextLoadRes.source)
       const hbang = (source.match(hashbangRe) || [])[0] || ''
